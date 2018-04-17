@@ -1,0 +1,33 @@
+@primary-color: #FDDB00;
+@link-color: #FDDB00;
+@link-hover-color: tint(@link-color, 20%);
+@link-active-color: shade(@link-color, 5%);
+@link-shadow-color: lighten(@link-color, 5%);
+@selected-color: fade(@primary-color, 90%);
+html body {
+  background-color: #fff;
+  max-width: 10rem;
+  margin: 0 auto;
+}
+.split-box{
+    width: 100%;
+    height: .2rem;
+    background: #f4f4f4;
+}
+/*全局控制 富文本内图片样式*/
+#summary p {
+    padding: 0 .3rem;
+    font-size: 14px;
+}
+#summary p[data-pimg="has-editor-img"] {
+    padding: 0;
+    margin: 6px 0;
+}
+
+/*自定义文字文本颜色*/
+.dp-text-color {
+    color: @primary-color;
+}
+.dp-border-show {
+    border: 1px solid @primary-color;
+}
