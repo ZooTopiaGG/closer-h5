@@ -1,4 +1,4 @@
-# awesome-nuxt
+# Closer-h5
 
 > Nuxt.js project
 
@@ -8,7 +8,7 @@
 # install dependencies
 $ npm install # Or yarn install
 
-# serve with hot reload at localhost:3000
+# serve with hot reload at localhost:3000 byself
 $ npm run dev
 
 # build for production and launch server
