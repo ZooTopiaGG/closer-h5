@@ -6,5 +6,5 @@ MAINTAINER lichong <lichong@umscloud.com>
 RUN mkdir /apps/closer-h5
 COPY . /apps/closer-h5/
 WORKDIR /apps/closer-h5
-EXPOSE 3600
+EXPOSE 3601
 CMD npm run start
