@@ -6,6 +6,11 @@ MAINTAINER lichong <lichong@umscloud.com>
 RUN mkdir /apps/closer-h5
 COPY . /apps/closer-h5/
 WORKDIR /apps/closer-h5
+
+RUN npm install
+
+RUN npm run build
+
 EXPOSE 3601
-CMD npm run build
-CMD npm run start
+
+CMD ["npm", "start" ]
