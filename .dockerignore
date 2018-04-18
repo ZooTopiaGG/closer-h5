@@ -1,0 +1,22 @@
+# dependencies
+# node_modules
+
+# logs
+npm-debug.log
+
+# Nuxt build
+.nuxt
+
+# Nuxt generate
+dist
+
+# json
+package-lock.json
+
+*.tar
+*.md
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
