@@ -3,8 +3,8 @@ MAINTAINER lichong <lichong@umscloud.com>
 
 #COPY conf/closer-admin.conf /etc/nginx/conf.d/grouk-dashboard.conf
 
-RUN mkdir /apps/closer-web-new
-COPY . /apps/closer-web-new/
-WORKDIR /apps/closer-web-new
+RUN mkdir /apps/closer-h5
+COPY . /apps/closer-h5/
+WORKDIR /apps/closer-h5
 EXPOSE 3000
 CMD npm run start
