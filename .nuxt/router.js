@@ -3,9 +3,8 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const _5f2e39d4 = () => import('../pages/report/index.vue' /* webpackChunkName: "pages/report/index" */).then(m => m.default || m)
-const _ea3c21b0 = () => import('../pages/feed/_id.vue' /* webpackChunkName: "pages/feed/_id" */).then(m => m.default || m)
 const _d43e9a04 = () => import('../pages/report/_id.vue' /* webpackChunkName: "pages/report/_id" */).then(m => m.default || m)
+const _ea3c21b0 = () => import('../pages/feed/_id.vue' /* webpackChunkName: "pages/feed/_id" */).then(m => m.default || m)
 const _0c14a6fa = () => import('../pages/index.vue' /* webpackChunkName: "pages/index" */).then(m => m.default || m)
 const _b77a5e02 = () => import('../pages/_flag/index.vue' /* webpackChunkName: "pages/_flag/index" */).then(m => m.default || m)
 
@@ -30,19 +29,14 @@ export function createRouter () {
     scrollBehavior,
     routes: [
 		{
-			path: "/report",
-			component: _5f2e39d4,
-			name: "report"
+			path: "/report/:id?",
+			component: _d43e9a04,
+			name: "report-id"
 		},
 		{
 			path: "/feed/:id?",
 			component: _ea3c21b0,
 			name: "feed-id"
-		},
-		{
-			path: "/report/:id",
-			component: _d43e9a04,
-			name: "report-id"
 		},
 		{
 			path: "/",
