@@ -116,7 +116,13 @@
                             <li class="feeder-comments-cell dp-border-show" v-for="(item, index) in content.discuss" :key="index">
                                 <div v-if="item.type === 0" class="feeder-comment">{{ item.text }}</div>
                                 <div v-else-if="item.type === 1" class="feeder-comment">
-                                    <img v-if="$store.state.GET_MESSAGE_STATE" class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" :src="$com.makeFileUrl(item.image.link, 'src')">
+                                    <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
+                                        <img class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" :src="$com.makeFileUrl(item.image.link, 'src')">
+                                        <span 
+                                        class="gif"
+                                        v-if= "item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1"
+                                        >GIF图</span>
+                                    </div>
                                     <img v-else class="feeder-comment-img" :src="$com.makeFileUrl(item.image.link, 'src')">
                                 </div>
                                 <div class="feeder-comment-info flex flex-align-center flex-pack-end">
@@ -134,7 +140,7 @@
                 <div>
                     <div class="feed-messagebord-type flex flex-align-center" v-if="res.int_category === 1">
                         <span>投稿类型：</span>
-                        <span><span>{{ postType }}</span> <span class="dp-text-color">/</span> <span>{{ $com.createTime(res.long_update_time, '年/月/日') }}截止</span></span>
+                        <span><span>{{ postType }} </span> <span class="dp-text-color">/</span> <span> {{ $com.createTime(res.long_update_time, '年/月/日') }}截止</span></span>
                     </div>
                     <div class="feed-messagebord flex flex-align-center flex-pack-justify">
                         <span class="feed-messagebord-left" v-if="res.int_category === 1">投稿 {{ res.commentNumber }}</span>
@@ -223,14 +229,27 @@ export default {
                 // 在前端处理
                 // let htmls = self.$com.regexImg(options)
             }
-            
+        }
+        // 投稿类型
+        var postType = ''
+        switch (res.data.result.int_post_limit) {
+            case 0: postType = '图片';
+            break;
+            case 1: postType = '视频';
+            break;
+            case 2: postType = '长图文';
+            break;
+            case 3: postType = '全部';
+            break;
+            default: postType = '全部'
         }
         // 返回在渲染页面之前得结果
         return {
             res: res.data.result,
             content: content,
             messagelist: messagelist.data.result,
-            options: options
+            options: options,
+            postType: postType
         }
     },
     computed: {
