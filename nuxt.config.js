@@ -19,7 +19,7 @@ module.exports = {
       { src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js' },
     ]
   },
-  // 路由配置
+  // 路由配置 
   router: {
     base: '/',
     mode: 'history',

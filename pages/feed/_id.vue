@@ -3,11 +3,11 @@
         <lg-preview></lg-preview>
         <div v-if="exist">
             <div class="feed-1">
-                <div v-if="GET_MESSAGE_STATE && res.blogo" class="feeder-cover">
+                <div v-if="$store.state.GET_MESSAGE_STATE && res.blogo" class="feeder-cover">
                     <img class="access-not" :src="$com.makeFileUrl(res.blogo, 'src')">
                 </div>
                 <!-- 发帖者信息 -->
-                <div v-if="GET_MESSAGE_STATE" class="feeder-info">
+                <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-info">
                     <span v-if="res.double_latitude != -999">{{ res.className }}</span>
                     <span v-else>官方出品</span>
                     <span>@{{ res.username }}出品</span> <span class="dp-text-color"> / </span> <span>{{ $com.getCommonTime(res.long_update_time, 'yy-mm-dd hh:MM') }}</span>
@@ -17,8 +17,8 @@
                 <div class="feed-doc" v-if="res.int_type === 0">
                     <div class="feeder-title">{{ content.text }}</div>
                     <!--  判断是否在app de预览 -->
-                    <!-- 图片排列  需判断GIF-->
-                    <div v-if="GET_MESSAGE_STATE">
+                    <!-- 图片排列  需判断GIF -->
+                    <div v-if="$store.state.GET_MESSAGE_STATE">
                         <div class="feeder-img flex flex-pack-justify" v-if="content.images.length == 1">
                             <div class="feeder-img-list" v-for="(img, index) in content.images" style="width: 100%;height:100%;" :key="index">
                                 <img class="feed-cover-list" v-preview="$com.makeFileUrl(img.link)" :src="$com.makeFileUrl(img.link, 'src')">
@@ -102,10 +102,10 @@
                 </div>
                 <!-- 长图文。int_category=== 3神议论 1是征稿 -->
                 <div class="feed-doc" v-else-if="res.int_type === 2">
-                    <div v-if="GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div>
+                    <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div>
                     <div class="feeder-img" v-if="res.cover">
                         <!--  判断是否在app 内 需要预览 -->
-                        <img v-if="GET_MESSAGE_STATE" class="feed-cover" style="width: 100%" v-preview="$com.makeFileUrl(res.cover)" :src="$com.makeFileUrl(res.cover)">
+                        <img v-if="$store.state.GET_MESSAGE_STATE" class="feed-cover" style="width: 100%" v-preview="$com.makeFileUrl(res.cover)" :src="$com.makeFileUrl(res.cover)">
                         <img v-else class="feed-cover" style="width: 100%" :src="$com.makeFileUrl(res.cover, 'src')">
                     </div>
                     <div class="feeder-content">
@@ -122,10 +122,10 @@
                     </div>
                 </div>
             </div>
-            <div v-if="GET_MESSAGE_STATE" class="split-box"></div>
+            <div v-if="$store.state.GET_MESSAGE_STATE" class="split-box"></div>
             <!-- 留言板 -->
             <div class="feed-2">
-                <div v-if="GET_MESSAGE_STATE">
+                <div v-if="$store.state.GET_MESSAGE_STATE">
                     <div class="feed-messagebord-type flex flex-align-center" v-if="res.int_category === 1">
                         <span>投稿类型：</span>
                         <span><span>{{ postType }}</span> <span class="dp-text-color">/</span> <span>{{ $com.createTime(res.long_update_time, '年/月/日') }}截止</span></span>
@@ -243,7 +243,7 @@ export default {
             exist: true,
             // 投稿类型
             postType: '',
-            GET_MESSAGE_STATE: true,
+            // GET_MESSAGE_STATE: true,
             options: {}
         }
     },
@@ -271,6 +271,7 @@ export default {
         },
     },
     mounted() {
+        this.$store.commit('getUserAgent')
         // 在前端执行播放视频 先判断 只能在mounted中执行
         if (this.res.int_type === 1) {
             axios.get(`${api.base}${api.command.videos}`)
