@@ -37,8 +37,8 @@
                                 >GIF图</span>
                             </div>
                         </div>
-                        <div class="feeder-img flex flex-pack-justify" v-else-if="content.images.length == 3 || content.images.length > 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
+                        <div class="feeder-img flex" v-else-if="content.images.length == 3 || content.images.length > 4" >
+                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
                                 <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)">
                                 <span 
                                 class="gif"
@@ -56,6 +56,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 在app内   -->
                     <div v-else>
                         <div class="feeder-img flex flex-pack-justify" v-if="content.images.length == 1">
                             <div class="feeder-img-list" v-for="(img, index) in content.images" style="width: 100%;height:100%;" :key="index">
@@ -75,8 +76,8 @@
                                 >GIF图</span>
                             </div>
                         </div>
-                        <div class="feeder-img flex flex-pack-justify" v-else-if="content.images.length == 3 || content.images.length > 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
+                        <div class="feeder-img flex" v-else-if="content.images.length == 3 || content.images.length > 4" >
+                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
                                 <img class="feeder-cover-list">
                                 <span 
                                 class="gif"
@@ -112,7 +113,10 @@
                         <div class="summary" id="summary" v-html="htmls"></div>
                         <ul class="feeder-comments" v-if="res.int_category === 3">
                             <li class="feeder-comments-cell dp-border-show" v-for="(item, index) in content.discuss" :key="index">
-                                <div class="feeder-comment">{{ item.text }}</div>
+                                <div v-if="item.type === 0" class="feeder-comment">{{ item.text }}</div>
+                                <div v-else-if="item.type === 1" class="feeder-comment">
+                                    <img class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" :src="$com.makeFileUrl(item.image.link, 'src')">
+                                </div>
                                 <div class="feeder-comment-info flex flex-align-center flex-pack-end">
                                     <i :style="{ backgroundImage: 'url('+item.avatar+')', backgroundSize: 'cover' }"></i>
                                     <span>{{ item.nickname }}</span>
@@ -184,6 +188,12 @@ export default {
     //         'GET_MESSAGE_STATE'
     //     ])
     // },
+    head() {
+        return {
+            // 可以使用this
+            title: this.content.text || this.res.title
+        }
+    },
     async asyncData({ params }) {
         // 获取详情
         let para = {
@@ -271,7 +281,6 @@ export default {
         },
     },
     mounted() {
-        this.$store.commit('getUserAgent')
         // 在前端执行播放视频 先判断 只能在mounted中执行
         if (this.res.int_type === 1) {
             axios.get(`${api.base}${api.command.videos}`)
@@ -304,7 +313,9 @@ export default {
         border-top: 2px solid #333 !important;
         border-left: 2px solid #333 !important;
     }
+
     .feeder-comments .dp-border-show {
+        border-left: 1px solid #FDDB00;
         border-right: 0;
         border-top: 0;
         border-bottom: 0;
@@ -388,6 +399,9 @@ export default {
         position:relative; 
         overflow:hidden;
     }
+    .feeder-img-list:nth-child(3n){
+        margin-right: 0 !important;
+    }
     .feed-cover-list {
         width: 100%;
         display: block;
@@ -415,6 +429,7 @@ export default {
     }
     .feeder-comment-info {
         margin-top: .1rem;
+        line-height: 1
     }
     .feeder-comment-info>i {
         margin-right: .1rem;
@@ -436,5 +451,8 @@ export default {
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+    }
+    .feeder-comment-img {
+        max-width: 2.4rem;
     }
 </style>

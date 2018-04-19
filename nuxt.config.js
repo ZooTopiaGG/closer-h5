@@ -4,11 +4,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'awesome-nuxt',
+    title: '贴近Closer',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
+      { hid: 'description', name: 'description', content: '贴近Closer' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -16,13 +16,27 @@ module.exports = {
     ],
     // 可使用外链形式 引入第三方库
     script: [
+      { 
+        innerHTML: `(function() {
+            if (typeof window !== 'undefined') {
+                let deviceWidth = document.documentElement.clientWidth
+                if (deviceWidth > 768) deviceWidth = 768
+                document.documentElement.style.fontSize = deviceWidth / 7.5 + "px"
+            } else {
+                console.log('Do not use window in server')
+            }
+        })();`,
+        type: 'text/javascript', charset: 'utf-8'},
       { src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js' },
-    ]
+    ],
+    __dangerouslyDisableSanitizers: ['script']
   },
   // 路由配置 
   router: {
     base: '/',
     mode: 'history',
+    // 中间件 在路由之前判断浏览器内核
+    middleware: 'user-agent',
     scrollBehavior (to, from, savedPosition) {
       // return 期望滚动到哪个的位置
       if(savedPosition){
@@ -94,7 +108,6 @@ module.exports = {
   },
   // 插件
   plugins: [
-    {src: '~/plugins/device.js', ssr: false},
     '~/plugins/api.js',
     '~/plugins/utils.js',
     '~/plugins/iview.js',
