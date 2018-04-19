@@ -104,10 +104,11 @@
                 <!-- 长图文。int_category=== 3神议论 1是征稿 -->
                 <div class="feed-doc" v-else-if="res.int_type === 2">
                     <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div>
-                    <div class="feeder-img" v-if="res.cover">
+                    <div class="feeder-img" style="position:relative;" v-if="res.cover">
                         <!--  判断是否在app 内 需要预览 -->
-                        <img v-if="$store.state.GET_MESSAGE_STATE" class="feed-cover" style="width: 100%" v-preview="$com.makeFileUrl(res.cover)" :src="$com.makeFileUrl(res.cover)">
-                        <img v-else class="feed-cover" style="width: 100%" :src="$com.makeFileUrl(res.cover, 'src')">
+                        <img v-if="$store.state.GET_MESSAGE_STATE" class="feed-cover" style="width: 100%;display:block;" v-preview="$com.makeFileUrl(res.cover)" :src="$com.makeFileUrl(res.cover)">
+                        <img v-else class="feed-cover" style="width: 100%; display:block;" :src="$com.makeFileUrl(res.cover, 'src')">
+                        <div v-if="!$store.state.GET_MESSAGE_STATE" class="hide-over"></div>
                     </div>
                     <div class="feeder-content">
                         <div class="summary" id="summary" v-html="htmls"></div>
@@ -115,7 +116,8 @@
                             <li class="feeder-comments-cell dp-border-show" v-for="(item, index) in content.discuss" :key="index">
                                 <div v-if="item.type === 0" class="feeder-comment">{{ item.text }}</div>
                                 <div v-else-if="item.type === 1" class="feeder-comment">
-                                    <img class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" :src="$com.makeFileUrl(item.image.link, 'src')">
+                                    <img v-if="$store.state.GET_MESSAGE_STATE" class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" :src="$com.makeFileUrl(item.image.link, 'src')">
+                                    <img v-else class="feeder-comment-img" :src="$com.makeFileUrl(item.image.link, 'src')">
                                 </div>
                                 <div class="feeder-comment-info flex flex-align-center flex-pack-end">
                                     <i :style="{ backgroundImage: 'url('+item.avatar+')', backgroundSize: 'cover' }"></i>
@@ -128,8 +130,8 @@
             </div>
             <div v-if="$store.state.GET_MESSAGE_STATE" class="split-box"></div>
             <!-- 留言板 -->
-            <div class="feed-2">
-                <div v-if="$store.state.GET_MESSAGE_STATE">
+            <div class="feed-2" v-if="$store.state.GET_MESSAGE_STATE">
+                <div>
                     <div class="feed-messagebord-type flex flex-align-center" v-if="res.int_category === 1">
                         <span>投稿类型：</span>
                         <span><span>{{ postType }}</span> <span class="dp-text-color">/</span> <span>{{ $com.createTime(res.long_update_time, '年/月/日') }}截止</span></span>
@@ -356,6 +358,16 @@ export default {
     .feeder-img{
         width: 100%;
         flex-wrap: wrap;
+        margin-bottom: 0.2rem;
+    }
+    .hide-over {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9;
+        background:linear-gradient(180deg,rgba(0,0,0,0.5),rgba(0,0,0,0));
     }
     .messager-info > img{
         width: .48rem;
