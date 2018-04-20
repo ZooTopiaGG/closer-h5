@@ -101,7 +101,7 @@
                     <div class="feeder-title">{{ content.text }}</div>
                     <div class="prism-player" id="J_prismPlayer" :vid="content.videos[0].vid" :cover="content.videos[0].cover"></div>
                 </div>
-                <!-- 长图文。int_category=== 3神议论 1是征稿 -->
+                <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
                 <div class="feed-doc" v-else-if="res.int_type === 2">
                     <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div>
                     <div class="feeder-img" style="position:relative;" v-if="res.cover">
@@ -190,12 +190,6 @@ import axios from 'axios'
 import qs from 'qs'
 export default {
     name: 'Feed',
-    // computed: {
-    //     ...mapGetters([
-    //         // true 显示 ，false 不显示
-    //         'GET_MESSAGE_STATE'
-    //     ])
-    // },
     head() {
         return {
             // 可以使用this
@@ -252,16 +246,6 @@ export default {
             postType: postType
         }
     },
-    computed: {
-        htmls() {
-            let options = {
-                str: this.content.html,
-                flg: 'class="flex flex-pack-center" data-pimg="has-editor-img"',
-                splitStr1: 'p', // 分割img父级标签 没有则 不填
-            }
-           return this.$com.regexImg(options)
-        }
-    },
     data() {
         return {
             loading: 1, // 按钮执行状态
@@ -270,7 +254,7 @@ export default {
             content: {},
             messagelist: {},
             isActive: true,
-            // htmls: '',
+            htmls: '',
             exist: true,
             // 投稿类型
             postType: '',
@@ -321,7 +305,60 @@ export default {
                     console.log('播放器创建好了。')
                 })
             })
-            
+        }
+        // 判断是否是长图文
+        if (this.res.int_type === 2) {
+            let self = this
+            let options = {
+                str: self.content.html,
+                flg: 'class="flex flex-pack-center" data-pimg="has-editor-img"',
+                splitStr1: 'p', // 分割img父级标签 没有则 不填,
+            };
+            self.content.html = self.$com.regexImg(options);
+            const regexVideo = /<p><video.*?(?:>|\/>|<\/video>)/gi
+            var pVideo = self.content.html.match(regexVideo)
+            // console.log('pVideo = ', pVideo)
+            if (pVideo) {
+                // 正则替换富文本内 img标签 待发布（npm）
+                const regexUrl = /imageurl=[\'\"]?([^\'\"]*)[\'\"]?/i;
+                const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i
+                // console.log('pVideo=', pVideo)
+                // let imgMatchArray = self.content.html.match(regexImg)
+                for (let i=0; i<pVideo.length; i++) {
+                    // 匹配imageurl属性下的值
+                    let urlArray = pVideo[i].match(regexUrl)
+                    // 匹配vid属性下的值
+                    let vidArray = pVideo[i].match(regexVid)
+                    // 替换插入需要的值flg
+                    let temp = pVideo[i].split('<p>')
+                    let flg = `<div id="J_prismPlayer_${vidArray[1]}" class="prism-player video-player" vid="${vidArray[1]}" cover="${urlArray[1]}"></div>`
+                    let v = `<p> ${flg}</p>`
+                    // console.log('v=', v)
+                    new Promise((resolve, reject) => {
+                        self.htmls = self.content.html.replace(regexVideo, v);
+                        // console.log('htmls = ', self.htmls)
+                        resolve(self.htmls)
+                    }).then(r => {
+                        axios.get(`${api.base}${api.command.videos}`)
+                        .then(res => {
+                            let player = new Aliplayer({
+                                id: `J_prismPlayer_${vidArray[1]}`,
+                                width: '100%',
+                                autoplay: false,
+                                prismType: 2,
+                                vid : vidArray[1],
+                                playauth : '',
+                                cover: urlArray[1],
+                                accessKeyId: res.data.result.accessKeyId,
+                                securityToken: res.data.result.securityToken,
+                                accessKeySecret: res.data.result.accessKeySecret
+                            }, function(player){
+                                console.log('播放器创建好了。')
+                           })
+                        })
+                    })
+                }   
+            }
         }
     }
 }
@@ -340,6 +377,9 @@ export default {
         border-right: 0;
         border-top: 0;
         border-bottom: 0;
+    }
+    .video-player {
+        margin: 0.2rem 0;
     }
 </style>
 <style scoped>

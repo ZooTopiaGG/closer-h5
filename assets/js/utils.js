@@ -142,7 +142,7 @@ export default {
       let newstr="";
       let tmp1=str.split(splitStr1);
       let tmp2 = tmp1[1].split(splitStr2);
-      newstr = `${splitStr1}${tmp1[0]} ${flg} ${tmp2[0]}${splitStr2}${url} style="max-width:100%">`;
+      newstr = `${splitStr1}${tmp1[0]} ${flg} ${tmp2[0]}${splitStr2}${url} style="width:100%;height:100%">`;
       // newstr1 = tmp[0]+' '+flg+' '+ splitStr + url + ' style="max-width:100%">';
       return newstr;
   },
