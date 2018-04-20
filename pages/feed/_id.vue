@@ -315,29 +315,29 @@ export default {
                 splitStr1: 'p', // 分割img父级标签 没有则 不填,
             };
             self.content.html = self.$com.regexImg(options);
-            const regexVideo = /<p><video.*?(?:>|\/>|<\/video>)/gi
-            var pVideo = self.content.html.match(regexVideo)
+            const regexVideo = /<p><video.*?(?:>|\/>|<\/video>)/gi;
+            var pVideo = self.content.html.match(regexVideo);
             // console.log('pVideo = ', pVideo)
             if (pVideo) {
                 // 正则替换富文本内 img标签 待发布（npm）
                 const regexUrl = /imageurl=[\'\"]?([^\'\"]*)[\'\"]?/i;
-                const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i
+                const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
                 // console.log('pVideo=', pVideo)
                 // let imgMatchArray = self.content.html.match(regexImg)
                 for (let i=0; i<pVideo.length; i++) {
                     // 匹配imageurl属性下的值
-                    let urlArray = pVideo[i].match(regexUrl)
+                    let urlArray = pVideo[i].match(regexUrl);
                     // 匹配vid属性下的值
-                    let vidArray = pVideo[i].match(regexVid)
+                    let vidArray = pVideo[i].match(regexVid);
                     // 替换插入需要的值flg
-                    let temp = pVideo[i].split('<p>')
-                    let flg = `<div id="J_prismPlayer_${vidArray[1]}" class="prism-player video-player" vid="${vidArray[1]}" cover="${urlArray[1]}"></div>`
-                    let v = `<p> ${flg}</p>`
+                    let temp = pVideo[i].split('<p>');
+                    let flg = `<div id="J_prismPlayer_${vidArray[1]}" class="prism-player video-player" vid="${vidArray[1]}" cover="${urlArray[1]}"></div>`;
+                    let v = `<p> ${flg}</p>`;
                     // console.log('v=', v)
                     new Promise((resolve, reject) => {
                         self.htmls = self.content.html.replace(regexVideo, v);
                         // console.log('htmls = ', self.htmls)
-                        resolve(self.htmls)
+                        resolve(self.htmls);
                     }).then(r => {
                         axios.get(`${api.base}${api.command.videos}`)
                         .then(res => {
@@ -346,6 +346,7 @@ export default {
                                 width: '100%',
                                 autoplay: false,
                                 prismType: 2,
+                                playsinline: true, //app内播放设置
                                 vid : vidArray[1],
                                 playauth : '',
                                 cover: urlArray[1],
@@ -358,6 +359,8 @@ export default {
                         })
                     })
                 }   
+            } else {
+                self.htmls = self.content.html;
             }
         }
     }
