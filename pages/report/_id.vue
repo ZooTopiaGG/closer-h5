@@ -1,16 +1,19 @@
 <template>
     <div id="report">
         <div class="report">
-            <div class="title">举报 <span class="dp-text-color" v-if="res.double_latitude !== -999">{{ res.className }}</span><span class="dp-text-color" v-else>{{ res.communityName }}</span> 的贴子：</div>
-            <div class="desc flex flex-align-start" v-if="content.text">
-                <!-- <div class="imgbox flex flex-pack-center" v-if="res.content.images" >
-                    <img :src="res.content.images[0].link">
-                </div> -->
+            <div class="title">
+                举报 
+                <span v-if="res.double_latitude !== -999">{{ res.className }}</span>
+                <span v-else>{{ res.communityName }}</span> 
+                的贴子： 
+                <span v-if="res.title" style="color:#94928E">{{ res.title }}</span>
+            </div>
+            <!-- <div class="desc flex flex-align-start" v-if="res.title">
                 <div>
                     <span class="dp-text-color" v-if="res.communityName">{{ res.communityName }}</span>：
-                    <span>{{ content.text }}</span>
+                    <span>{{ res.title }}</span>
                 </div>
-            </div>
+            </div> -->
             <RadioGroup v-model="reportinfo" @on-change="reportChange" class="radio-group flex">
                 <Radio label="垃圾营销">
                     <span>垃圾营销</span>
@@ -37,6 +40,9 @@
                     <span>违规有奖活动</span>
                 </Radio>
             </RadioGroup>
+            <div>
+                <textarea name="reportcon" rows="4" class="reportcon" v-model="reportcon" placeholder="如果你有更多信息，会帮助我们加速处理哦"></textarea>
+            </div>
         </div>
         <div class="btn">
             <Button type="primary" :loading="loading===2" @click="repo" :disabled="disabled" long>
@@ -77,7 +83,8 @@ export default {
             loading: 1, // 按钮执行状态
             disabled: false, // 按钮可用状态
             // res: {},
-            reportinfo: ''
+            reportinfo: '',
+            reportcon: ''
         }
     },
     methods: {
@@ -153,5 +160,28 @@ export default {
     .btn {
         padding:  0.2rem;
         margin-top: .3rem;
+    }
+    .reportcon {
+        vertical-align: bottom;
+        background: #f4f4f4;
+        display: inline-block;
+        width: 100%;
+        line-height: 1.5;
+        padding: 4px 7px;
+        font-size: 12px;
+        border: 1px solid #dddee1;
+        border-radius: 4px;
+        color: #495060;
+        background-image: none;
+        position: relative;
+        cursor: text;
+        transition: border .2s ease-in-out,background .2s ease-in-out,box-shadow .2s ease-in-out;
+    }
+    .reportcon:focus{
+        outline: 0;
+        box-shadow: 0 0 0 2px rgba(253,219,0,.2);
+    }
+    .reportcon:focus, .reportcon:hover {
+        border-color: #FDDB00;
     }
 </style>

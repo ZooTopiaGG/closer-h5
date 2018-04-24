@@ -5,6 +5,7 @@ Vue.use(Router)
 
 const _b2aba5c2 = () => import('../pages/report/_id.vue' /* webpackChunkName: "pages/report/_id" */).then(m => m.default || m)
 const _ab5504ee = () => import('../pages/feed/_id.vue' /* webpackChunkName: "pages/feed/_id" */).then(m => m.default || m)
+const _61214e28 = () => import('../pages/about/_id.vue' /* webpackChunkName: "pages/about/_id" */).then(m => m.default || m)
 const _0cfea1c2 = () => import('../pages/index.vue' /* webpackChunkName: "pages/index" */).then(m => m.default || m)
 const _a6aeca04 = () => import('../pages/_flag/index.vue' /* webpackChunkName: "pages/_flag/index" */).then(m => m.default || m)
 
@@ -37,6 +38,11 @@ export function createRouter () {
 			path: "/feed/:id?",
 			component: _ab5504ee,
 			name: "feed-id"
+		},
+		{
+			path: "/about/:id?",
+			component: _61214e28,
+			name: "about-id"
 		},
 		{
 			path: "/",
