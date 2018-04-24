@@ -274,24 +274,28 @@ export default {
     },
     computed: {
         _discuss() {
-            this.discuss.map((x, index) => {
-                if (x.text) {
-                    let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
-                    let res = x.text.match(reg)
-                    if (res) {
-                        this.$set(x, 'weblink', true)
-                        res.map(y => {
-                            // 正则替换文本
-                            let tag = `<a href="${y}" target="_blank">${y}</a>`
-                            let newtag = x.text.replace(reg, tag)
-                            this.$set(x, 'newText', newtag)
-                        })
-                    } else {
-                        this.$set(x, 'weblink', false)
+            if(this.discuss) {
+                this.discuss.map((x, index) => {
+                    if (x.text) {
+                        let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
+                        let res = x.text.match(reg)
+                        if (res) {
+                            this.$set(x, 'weblink', true)
+                            res.map(y => {
+                                // 正则替换文本
+                                let tag = `<a href="${y}" target="_blank">${y}</a>`
+                                let newtag = x.text.replace(reg, tag)
+                                this.$set(x, 'newText', newtag)
+                            })
+                        } else {
+                            this.$set(x, 'weblink', false)
+                        }
                     }
-                }
-            })
-            return this.discuss
+                })
+                return this.discuss
+            } else {
+                return false
+            }
         }
     },
     data() {
