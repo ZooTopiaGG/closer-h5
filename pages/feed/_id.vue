@@ -112,23 +112,45 @@
                     </div>
                     <div class="feeder-content">
                         <div class="summary" id="summary" v-html="htmls"></div>
+                        <!-- 神议论列表 -->
                         <ul class="feeder-comments" v-if="res.int_category === 3">
-                            <li class="feeder-comments-cell dp-border-show" v-for="(item, index) in content.discuss" :key="index">
-                                <div v-if="item.type === 0" class="feeder-comment">{{ item.text }}</div>
-                                <div v-else-if="item.type === 1" class="feeder-comment">
-                                    <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
-                                        <img class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" :src="$com.makeFileUrl(item.image.link, 'src')">
-                                        <span 
-                                        class="gif"
-                                        v-if= "item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1"
-                                        >GIF图</span>
-                                    </div>
-                                    <img v-else class="feeder-comment-img" :src="$com.makeFileUrl(item.image.link, 'src')">
-                                </div>
+                            <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in _discuss" :key="index">
                                 <div class="feeder-comment-info flex flex-align-center flex-pack-end">
-                                    <i :style="{ backgroundImage: 'url('+item.avatar+')', backgroundSize: 'cover' }"></i>
-                                    <span>{{ item.nickname }}</span>
+                                    <i :style="{ backgroundImage: 'url('+$com.makeFileUrl(item.avatar, 'src')+')', backgroundSize: 'cover' }"></i>
                                 </div>
+                                <div class="flex-1">
+                                    <div class="feeder-comment-nickname flex flex-pack-justify">
+                                        <span>{{ item.nickname }}</span>
+                                        <span>{{ $com.getCommonTime(item.createTime, 'yy/mm/dd') }}</span>
+                                    </div>
+                                    <!-- 纯文本 link text-->
+                                    <div v-if="item.type === 0" class="feeder-comment">
+                                        <span v-if="item.weblink" v-html="item.newText"></span>
+                                        <span v-else>{{ item.text }}</span>
+                                    </div>
+                                    <!-- 包含图片 -->
+                                    <div v-else-if="item.type === 1" class="feeder-comment">
+                                        <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
+                                            <img class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" :src="$com.makeFileUrl(item.image.link, 'src')">
+                                            <span 
+                                            class="gif"
+                                            v-if= "item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1"
+                                            >GIF图</span>
+                                        </div>
+                                        <img v-else class="feeder-comment-img" :src="$com.makeFileUrl(item.image.link, 'src')">
+                                    </div>
+                                    <!-- 包含贴子 -->
+                                    <div v-else-if="item.type === 3" class="feeder-comment flex flex-align-center feeder-comment-3">
+                                        <div class="feeder-comment-3-cover flex">
+                                            <i v-if="item.feed.imageUrl" :style="{ backgroundImage: 'url('+$com.makeFileUrl(item.feed.imageUrl, 'src')+')', backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
+                                        </div>
+                                        <div>
+                                            <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
+                                            <div class="feeder-comment-3-summary">{{ item.feed.summary }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </li>
                         </ul>
                     </div>
@@ -214,6 +236,9 @@ export default {
         // 获取视频密钥等
         if (res.data.result.content) {
             var content = JSON.parse(res.data.result.content)
+            if (content.discuss) {
+                var discuss = content.discuss
+            }
             if (res.data.result.int_type === 2) {
                 var options = {
                     str: content.html,
@@ -243,7 +268,28 @@ export default {
             content: content,
             messagelist: messagelist.data.result,
             options: options,
-            postType: postType
+            postType: postType,
+            discuss: discuss
+        }
+    },
+    computed: {
+        _discuss() {
+            this.discuss.map((x, index) => {
+                let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
+                let res = x.text.match(reg)
+                if (res) {
+                    this.$set(x, 'weblink', true)
+                    res.map(y => {
+                        // 正则替换文本
+                        let tag = `<a href="${y}" target="_blank">${y}</a>`
+                        let newtag = x.text.replace(reg, tag)
+                        this.$set(x, 'newText', newtag)
+                    })
+                } else {
+                    this.$set(x, 'weblink', false)
+                }
+            })
+            return this.discuss
         }
     },
     data() {
@@ -286,6 +332,7 @@ export default {
         },
     },
     mounted() {
+        console.log(this._discuss)
         // 在前端执行播放视频 先判断 只能在mounted中执行
         if (this.res.int_type === 1) {
             axios.get(`${api.base}${api.command.videos}`)
@@ -297,6 +344,8 @@ export default {
                     prismType: 2,
                     vid : this.content.videos[0].vid,
                     playauth : '',
+                    playsinline: true, //app内播放设置
+                    qualitySort: 'desc', //清晰度切换
                     cover: this.content.videos[0].imageUrl,
                     accessKeyId: res.data.result.accessKeyId,
                     securityToken: res.data.result.securityToken,
@@ -347,6 +396,7 @@ export default {
                                 autoplay: false,
                                 prismType: 2,
                                 playsinline: true, //app内播放设置
+                                qualitySort: 'desc', //清晰度切换
                                 vid : vidArray[1],
                                 playauth : '',
                                 cover: urlArray[1],
@@ -367,6 +417,65 @@ export default {
 }
 </script>
 <style>
+    /*播放器 样式调整*/
+    .prism-volume{
+        margin-left: 10px;
+    }
+    .prism-player .prism-controlbar{
+        height: 40px;
+    }
+    .prism-player .prism-big-play-btn{
+        width: 48px;
+        height: 48px;
+    }
+    .prism-player .prism-liveshift-progress, .prism-player .prism-progress{
+        height: 2px;
+    }
+    .prism-player .prism-progress:hover{
+        height: 2px;
+    }
+    .prism-player .prism-liveshift-progress .prism-progress-cursor, .prism-player .prism-progress .prism-progress-cursor{
+        top:-4px;
+        border: 6px solid #00c1de;
+    }
+    .prism-player .prism-controlbar .prism-controlbar-bg{
+        height: 36px;
+    }
+    .prism-progress{
+        bottom: 36px !important;
+    }
+    .prism-player .prism-play-btn{
+        height: 24px;
+        line-height: 24px;
+    }
+    .prism-player .prism-time-display{
+        height: 32px;
+        line-height: 32px;
+    }
+    .prism-player .prism-fullscreen-btn
+    {
+        height: 24px;
+        width: 24px;
+    }
+    .prism-player .prism-volume .volume-control-icon, .prism-player .prism-volume .volume-icon{
+        height: 24px
+    }
+    .prism-player .prism-volume .volume-control{
+        bottom: 32px;
+        left: -9px;
+        width: 34px;
+    }
+    .prism-player .prism-volume .hover .volume-range{
+        width: 2px;
+    }
+    .prism-player .prism-volume .hover .volume-cursor{
+        left: -6px;
+    }
+    .prism-stream-selector,
+    .prism-speed-selector{
+        font-size: 13px;
+        line-height: 24px;
+    }
     .learn-more.ivu-btn-text:focus{
         box-shadow: none;
     }
@@ -374,7 +483,9 @@ export default {
         border-top: 2px solid #333 !important;
         border-left: 2px solid #333 !important;
     }
-
+    .prism-stream-selector .current-stream-selector{
+        width: 45px;
+    }
     .feeder-comments .dp-border-show {
         border-left: 1px solid #FDDB00;
         border-right: 0;
@@ -417,19 +528,12 @@ export default {
         width: 1.64rem;
         height: .64rem;
     }
+    .feeder-content {
+        margin-top: .4rem
+    }
     .feeder-img{
         width: 100%;
         flex-wrap: wrap;
-        margin-bottom: 0.2rem;
-    }
-    .hide-over {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9;
-        background:linear-gradient(180deg,rgba(0,0,0,0.5),rgba(0,0,0,0));
     }
     .messager-info > img{
         width: .48rem;
@@ -473,9 +577,6 @@ export default {
         position:relative; 
         overflow:hidden;
     }
-    .feeder-img-list:nth-child(3n){
-        margin-right: 0 !important;
-    }
     .feed-cover-list {
         width: 100%;
         display: block;
@@ -493,23 +594,53 @@ export default {
         font-size: 12px;
     }
     .feeder-comments {
-        margin-top: .2rem;
+        margin-top: .4rem;
     }
     .feeder-comments-cell {
         box-sizing: border-box;
-        background-color: #f4f4f4;
+        border-bottom: 1px solid rgb(243,243,243);
         margin-bottom: .2rem;
         padding: .2rem;
     }
     .feeder-comment-info {
-        margin-top: .1rem;
-        line-height: 1
+        margin-top: .05rem;
     }
     .feeder-comment-info>i {
-        margin-right: .1rem;
-        width: 16px;
-        height: 16px;
+        margin-right: .2rem;
+        width: 0.68rem;
+        height: 0.68rem;
         border-radius: 100%;
+    }
+    .feeder-comment-3 {
+        height: 1.24rem;
+        box-sizing: border-box;
+        padding: .2rem;
+        border-radius: .1rem;
+        border: 1px solid #D7D7D9;
+    }
+    .feeder-comment-3-cover>i {
+        display: block;
+        margin-right: .2rem;
+        width: 0.86rem;
+        height: 0.86rem;
+        border-radius: 0.1rem;
+    }
+    .feeder-comment-3-title{
+        font-size: 16px;
+    }
+    .feeder-comment-3-summary{
+        font-size: 12px;
+        color:rgba(148,146,142,1); 
+    }
+    .feeder-comment-nickname{
+        font-size: 12px;
+        color:rgba(148,146,142,1);
+        margin-bottom: .18rem;
+        line-height: 1
+    }
+    .feeder-comment-img {
+        width: 100%;
+        border-radius: 0.06rem;
     }
     .messager-comments {
         padding: .1rem .2rem;
@@ -525,8 +656,5 @@ export default {
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-    }
-    .feeder-comment-img {
-        max-width: 2.4rem;
     }
 </style>
