@@ -8,6 +8,9 @@ let api = {
         comments: 'command/closer_reply.comments',
         // 获取video播放密钥
         videos: 'command/ali_vod.accessInfo'
+    },
+    community: {
+        show: 'command/closer_community.show'
     }
 }
 

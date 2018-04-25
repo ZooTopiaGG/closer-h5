@@ -3,10 +3,16 @@
         <div class="report">
             <div class="title">
                 举报 
-                <span v-if="res.double_latitude !== -999">{{ res.className }}</span>
-                <span v-else>{{ res.communityName }}</span> 
-                
-                <span v-if="res.title" style="color:#94928E">{{ res.title }}</span>
+                <span v-if="$route.params.type==='f'">
+                    <span v-if="res.double_latitude !== -999">{{ res.className }}</span>
+                    <span v-else>{{ res.communityName }}</span> 
+                    的帖子：
+                    <span v-if="res.title" style="color:#94928E">{{ res.title }}</span>
+                </span>
+                <span v-else>
+                    <span>{{ res.name }}</span>
+                    的栏目：
+                </span>
             </div>
             <!-- <div class="desc flex flex-align-start" v-if="res.title">
                 <div>
@@ -65,13 +71,30 @@ export default {
         }
     },
     async asyncData ({ params }) {
-        let para = {
-            subjectid: params.id
+        // 举报栏目
+        if (params.type === 'c') {
+            let para = {
+                communityid: params.id
+            }
+            let { data } = await axios.post(
+                `${api.base}${api.community.show}`, 
+                qs.stringify(para))
+            console.log(data)
+            return { 
+                res: data.result
+            }
+        }else {
+        // 举报贴子
+            let para = {
+                subjectid: params.id
+            }
+            let { data } = await axios.post(
+                `${api.base}${api.command.show}`, 
+                qs.stringify(para))
+            return { 
+                res: data.result
+            }
         }
-        let { data } = await axios.post(
-            `http://api-sandbox.tiejin.cn/command/closer_subject.show`, 
-            qs.stringify(para))
-        return { res: data.result }
     },    
     computed: {
         content() {
@@ -111,7 +134,9 @@ export default {
             }, 3000)
         }
     },
-    mounted() {}
+    mounted() {
+        console.log(this.res)
+    }
 }
 </script>
 <style type="text/css">
