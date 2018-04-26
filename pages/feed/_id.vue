@@ -632,6 +632,7 @@ export default {
         padding: .2rem;
         border-radius: .1rem;
         border: 1px solid #D7D7D9;
+        background: #f6f6f6;
     }
     .feeder-comment-3-cover>i {
         display: block;
