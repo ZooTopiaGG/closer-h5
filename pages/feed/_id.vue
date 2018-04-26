@@ -541,6 +541,15 @@ export default {
         width: 100%;
         flex-wrap: wrap;
     }
+    .hide-over{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background:linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,0.3));
+        z-index: 9999;
+    }
     .messager-info > img{
         width: .48rem;
         height: .48rem;
