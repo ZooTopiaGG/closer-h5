@@ -1,6 +1,6 @@
 let api = {
     // 接口地址
-    base: 'http://api-sandbox.tiejin.cn/',
+    base: '//api-sandbox.tiejin.cn/',
     command: {
         // 贴子详情
         show: 'command/closer_subject.show',

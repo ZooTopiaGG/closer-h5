@@ -8,12 +8,6 @@
                 
                 <span v-if="res.title" style="color:#94928E">{{ res.title }}</span>
             </div>
-            <!-- <div class="desc flex flex-align-start" v-if="res.title">
-                <div>
-                    <span class="dp-text-color" v-if="res.communityName">{{ res.communityName }}</span>：
-                    <span>{{ res.title }}</span>
-                </div>
-            </div> -->
             <RadioGroup v-model="reportinfo" @on-change="reportChange" class="radio-group flex">
                 <Radio label="垃圾营销">
                     <span>垃圾营销</span>
@@ -147,16 +141,6 @@ export default {
         padding: 0.2rem 0.1rem;
         margin: 0 0 0.6rem;
     }
-    /*.imgbox {
-        width: 2.0rem;
-        height: 1.125rem;
-        margin-right: 0.1rem;
-        box-sizing: border-box;
-    }
-    .imgbox>img{
-        width: 100%;
-        height: 100%;
-    }*/
     .btn {
         padding:  0.2rem;
         margin-top: .3rem;
