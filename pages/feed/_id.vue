@@ -592,6 +592,9 @@ export default {
         position:relative; 
         overflow:hidden;
     }
+    .feeder-img-list:nth-child(3n){
+        margin-right: 0 !important;
+    }
     .feed-cover-list {
         width: 100%;
         display: block;

@@ -102,6 +102,10 @@ a,input,button{
     padding: 0 .3rem;
     font-size: 14px;
 }
+#summary p img {
+    max-width: 100%;
+    height: 100%;
+}
 #summary p[data-pimg="has-editor-img"] {
     padding: 0;
     margin: 6px 0;
