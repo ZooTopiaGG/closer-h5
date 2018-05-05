@@ -13,7 +13,7 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css' }
+      { rel: 'stylesheet', type: 'text/css', href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css' },
     ],
     // 可使用外链形式 引入第三方库
     script: [
@@ -58,11 +58,19 @@ module.exports = {
   },
   // 全局CSS配置
   css: [
+    { src: '~/assets/fonts/iconfont.css' },
     { src: '~/assets/css/common.css' },
     { src: '~/assets/css/reset.css' },
-    // { src: '~/assets/css/theme.less' },
     // { src: '~/assets/css/index.less' },
   ],
+  modules: [
+    '@nuxtjs/axios',
+  ],
+  axios: {
+    retry: { retries: 3 },
+    baseURL: 'http://api-sandbox.tiejin.cn/command/',
+    debug: true, // 添加拦截器
+  },
   /*
   ** Customize the progress bar color
   */
@@ -112,6 +120,7 @@ module.exports = {
     '~/plugins/api.js',
     '~/plugins/utils.js',
     '~/plugins/iview.js',
+    '~/plugins/axios',
     '~/plugins/picture-view.js',
   ]
 }

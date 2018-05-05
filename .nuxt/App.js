@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import NuxtLoading from './components/nuxt-loading.vue'
 
+import '../assets/fonts/iconfont.css'
+
 import '../assets/css/common.css'
 
 import '../assets/css/reset.css'
@@ -8,7 +10,9 @@ import '../assets/css/reset.css'
 
 let layouts = {
 
-  "_default": () => import('../layouts/default.vue'  /* webpackChunkName: "layouts/default" */).then(m => m.default || m)
+  "_default": () => import('../layouts/default.vue'  /* webpackChunkName: "layouts/default" */).then(m => m.default || m),
+
+  "_group": () => import('../layouts/group.vue'  /* webpackChunkName: "layouts/group" */).then(m => m.default || m)
 
 }
 

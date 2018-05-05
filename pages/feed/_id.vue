@@ -1,26 +1,17 @@
 <template>
-    <div id="feed">
+    <div id="scroller">
         <lg-preview></lg-preview>
-        <div v-if="exist">
+        <div>
             <div class="feed-1">
-                <div v-if="$store.state.GET_MESSAGE_STATE && res.blogo" class="feeder-cover">
-                    <img class="access-not" :src="$com.makeFileUrl(res.blogo, 'src')">
-                </div>
-                <!-- 发帖者信息 -->
-                <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-info">
-                    <span v-if="res.double_latitude != -999">{{ res.className }}</span>
-                    <span v-else>官方出品</span>
-                    <span>@{{ res.username }}出品</span> <span class="dp-text-color"> / </span> <span>{{ $com.getCommonTime(res.long_update_time, 'yy-mm-dd hh:MM') }}</span>
-                </div>
                 <!-- 帖子内容 -->
                 <!-- 图片 -->
-                <div class="feed-doc" v-if="res.int_type === 0">
-                    <div class="feeder-title">{{ content.text }}</div>
+                <div class="feed-doc" v-if="$store.state.res.int_type === 0">
+                    <div class="feeder-title">{{ $store.state.content.text }}</div>
                     <!--  判断是否在app de预览 -->
                     <!-- 图片排列  需判断GIF -->
                     <div v-if="$store.state.GET_MESSAGE_STATE">
-                        <div class="feeder-img flex flex-pack-justify" v-if="content.images.length == 1">
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" style="width: 100%;height:100%;" :key="index">
+                        <div class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images.length == 1">
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" style="width: 100%;height:100%;" :key="index">
                                 <img class="feed-cover-list" v-preview="$com.makeFileUrl(img.link)" :src="$com.makeFileUrl(img.link, 'src')">
                                 <span 
                                 class="gif"
@@ -28,8 +19,8 @@
                                 >GIF图</span>
                             </div>
                         </div>
-                        <div class="feeder-img flex flex-pack-justify" v-else-if="content.images.length == 2" >
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}" :key="index">
+                        <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images.length == 2" >
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}" :key="index">
                                 <img class="feeder-cover-list " v-preview="$com.makeFileUrl(img.link)">
                                 <span 
                                 class="gif"
@@ -37,8 +28,8 @@
                                 >GIF图</span>
                             </div>
                         </div>
-                        <div class="feeder-img flex" v-else-if="content.images.length == 3 || content.images.length > 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
+                        <div class="feeder-img flex" v-else-if="$store.state.content.images.length == 3 || $store.state.content.images.length > 4" >
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
                                 <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)">
                                 <span 
                                 class="gif"
@@ -46,8 +37,8 @@
                                 >GIF图</span>
                             </div>
                         </div>
-                        <div class="feeder-img flex flex-pack-justify" v-else-if="content.images.length == 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
+                        <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images.length == 4" >
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
                                 <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)" >
                                 <span 
                                 class="gif"
@@ -58,8 +49,8 @@
                     </div>
                     <!-- 在app内   -->
                     <div v-else>
-                        <div class="feeder-img flex flex-pack-justify" v-if="content.images.length == 1">
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" style="width: 100%;height:100%;" :key="index">
+                        <div class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images.length == 1">
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" style="width: 100%;height:100%;" :key="index">
                                 <img class="feed-cover" :src="$com.makeFileUrl(img.link, 'src')">
                                 <span 
                                 class="gif"
@@ -67,8 +58,8 @@
                                 >GIF图</span>
                             </div>
                         </div>
-                        <div class="feeder-img flex flex-pack-justify" v-else-if="content.images.length == 2" >
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}" :key="index">
+                        <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images.length == 2" >
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}" :key="index">
                                 <img class="feeder-cover-list">
                                 <span 
                                 class="gif"
@@ -76,8 +67,8 @@
                                 >GIF图</span>
                             </div>
                         </div>
-                        <div class="feeder-img flex" v-else-if="content.images.length == 3 || content.images.length > 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
+                        <div class="feeder-img flex" v-else-if="$store.state.content.images.length == 3 || $store.state.content.images.length > 4" >
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
                                 <img class="feeder-cover-list">
                                 <span 
                                 class="gif"
@@ -85,8 +76,8 @@
                                 >GIF图</span>
                             </div>
                         </div>
-                        <div class="feeder-img flex flex-pack-justify" v-else-if="content.images.length == 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
+                        <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images.length == 4" >
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
                                 <img class="feeder-cover-list">
                                 <span 
                                 class="gif"
@@ -97,24 +88,28 @@
                     </div>
                 </div>
                 <!-- 视频 -->
-                <div class="feed-doc" v-else-if="res.int_type === 1">
-                    <div class="feeder-title">{{ content.text }}</div>
-                    <div class="prism-player" id="J_prismPlayer" :vid="content.videos[0].vid" :cover="content.videos[0].cover"></div>
+                <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
+                    <div class="feeder-title">{{ $store.state.content.text }}</div>
+                    <div class="prism-player" id="J_prismPlayer" :vid="$store.state.content.videos[0].vid" :cover="$store.state.content.videos[0].cover"></div>
                 </div>
                 <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
-                <div class="feed-doc" v-else-if="res.int_type === 2">
-                    <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div>
-                    <div class="feeder-img" style="position:relative;" v-if="res.cover">
+                <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
+                    <!-- <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div> -->
+                    <div class="feeder-img" style="position:relative;" v-if="$store.state.res.cover">
                         <!--  判断是否在app 内 需要预览 -->
-                        <img v-if="$store.state.GET_MESSAGE_STATE" class="feed-cover" style="width: 100%;display:block;" v-preview="$com.makeFileUrl(res.cover)" :src="$com.makeFileUrl(res.cover)">
-                        <img v-else class="feed-cover" style="width: 100%; display:block;" :src="$com.makeFileUrl(res.cover, 'src')">
+                        <img v-if="$store.state.GET_MESSAGE_STATE" class="feed-cover" style="width: 100%;display:block;" v-preview="$com.makeFileUrl($store.state.res.cover)" :src="$com.makeFileUrl($store.state.res.cover)">
+                        <img v-else class="feed-cover" style="width: 100%; display:block;" :src="$com.makeFileUrl($store.state.res.cover, 'src')">
                         <div v-if="!$store.state.GET_MESSAGE_STATE" class="hide-over"></div>
                     </div>
                     <div class="feeder-content">
+                        <!-- 标题 -->
+                        <div class="feeder-title"> {{ $store.state.res.title }} </div>
+                        <!-- 阅读量 -->
+                        <!-- <div class="read-num">阅读  1929</div> -->
                         <div class="summary" id="summary" v-html="htmls"></div>
                         <!-- 神议论列表 -->
-                        <ul class="feeder-comments" v-if="res.int_category === 3">
-                            <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in _discuss" :key="index">
+                        <ul class="feeder-comments" v-if="$store.state.res.int_category === 3">
+                            <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in $store.state.discuss" :key="index">
                                 <div class="feeder-comment-info flex flex-align-center flex-pack-end">
                                     <i :style="{ backgroundImage: 'url('+$com.makeFileUrl(item.avatar, 'src')+')', backgroundSize: 'cover' }"></i>
                                 </div>
@@ -155,30 +150,49 @@
                         </ul>
                     </div>
                 </div>
+                <!-- 发帖者信息 -->
+                <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-info flex flex-pack-justify flex-align-center">
+                    <span>
+                        <span v-if="$store.state.res.double_latitude != -999">{{ $store.state.res.className }}</span>
+                        <span v-else>官方出品 </span>
+                        <span>@{{ $store.state.res.username }} 出品</span>
+                    </span>
+                    <span>{{ $com.getCommonTime($store.state.res.long_update_time, 'yy-mm-dd hh:MM') }}</span>
+                </div>
             </div>
+            <!-- 分割线 -->
             <div v-if="$store.state.GET_MESSAGE_STATE" class="split-box"></div>
             <!-- 留言板 -->
             <div class="feed-2" v-if="$store.state.GET_MESSAGE_STATE">
                 <div>
-                    <div class="feed-messagebord-type flex flex-align-center" v-if="res.int_category === 1">
+                    <div class="feed-messagebord-type flex flex-align-center" v-if="$store.state.res.int_category === 1">
                         <span>投稿类型：</span>
-                        <span><span>{{ postType }} </span> <span class="dp-text-color">/</span> <span> {{ $com.createTime(res.long_update_time, '年/月/日') }}截止</span></span>
+                        <span><span>{{ $store.state.postType }} </span> <span class="dp-text-color">/</span> <span> {{ $com.createTime($store.state.res.long_update_time, '年/月/日') }}截止</span></span>
                     </div>
                     <div class="feed-messagebord flex flex-align-center flex-pack-justify">
-                        <span class="feed-messagebord-left" v-if="res.int_category === 1">投稿 {{ res.commentNumber }}</span>
+                        <span class="feed-messagebord-left" v-if="$store.state.res.int_category === 1">投稿 {{ $store.state.res.commentNumber }}</span>
                         <!-- <span class="feed-messagebord-left" v-else-if="res.int_category === 0 || res.int_category === 5|| res.int_category === 3">留言 {{ res.commentNumber }}</span> -->
-                        <span class="feed-messagebord-left" v-else>留言 {{ res.commentNumber }}</span>
-                        <span>赞 {{ res.like }}</span>
+                        <span class="feed-messagebord-left" v-else>{{ $store.state.res.commentNumber || 0 }}条留言</span>
+                        <span>赞 {{ $store.state.res.like }}</span>
                     </div>
                 </div>
                 <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
                 <!-- <div v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
-                <div v-if="res.int_category != 1 ">
+                <div v-if="$store.state.res.int_category != 1 ">
                     <ul class="feed-messagebord-list" >
-                        <li class="feed-messagebord-list-cell" v-for="(item, index) in messagelist.data" :key="index">
-                            <div class="messager-info flex flex-align-center">
-                                <img :src="$com.makeFileUrl(item.user.avatar)">
-                                <span>{{ item.user.fullname }}</span>
+                        <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
+                            <div class="messager-info flex flex-align-center flex-pack-justify">
+                                <div class="messager-info-div flex flex-align-center">
+                                    <img :src="$com.makeFileUrl(item.user.avatar)">
+                                    <div class="flex flex-v">
+                                        <span>{{ item.user.fullname }}</span>
+                                        <span class="messager-time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
+                                    </div>
+                                </div>
+                                <div class="icon-group">
+                                    <span class="icon icon-font icon-pinglun"></span>
+                                    <span class="icon icon-font icon-dianzan1"></span>
+                                </div>
                             </div>
                             <div class="messager-content">{{ item.content }}</div>
                             <!-- 评论列表 -->
@@ -192,17 +206,14 @@
                                     <li class="messager-comments-cell" style="color: #5E97CD">{{ item.replyNumber }}条回复</li>
                                 </ul>
                             </div>
-                            <div class="messager-time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</div>
+                            
                         </li>
                     </ul>
-                    <Button v-if="messagelist.count>1" type="text" :loading="loading===2" long @click="learnMore" class="learn-more">
+                    <Button v-if="$store.state.messagelist.count>1" type="text" :loading="loading===2" long @click="learnMore" class="learn-more">
                         查看更多留言
                     </Button>
                 </div>
             </div>
-        </div>
-        <div class="not-exist" v-else>
-            <span>贴子已经被删除</span>
         </div>
     </div>
 </template>
@@ -212,90 +223,11 @@ import axios from 'axios'
 import qs from 'qs'
 export default {
     name: 'Feed',
+    middleware: 'get_feed_details',
     head() {
         return {
             // 可以使用this
-            title: this.content.text || this.res.title
-        }
-    },
-    async asyncData({ params }) {
-        // 获取详情
-        let para = {
-            subjectid: params.id
-        }
-        // 获取留言列表
-        let para1 = {
-            subjectid: params.id,
-            pagenum: 1,
-            pagesize: 5
-        }
-        let [res, messagelist] = await Promise.all([
-            axios.post(`${api.base}${api.command.show}`, qs.stringify(para)),
-            axios.post(`${api.base}${api.command.comments}`, qs.stringify(para1))
-        ])
-        // 获取视频密钥等
-        if (res.data.result.content) {
-            var content = JSON.parse(res.data.result.content)
-            if (content.discuss) {
-                var discuss = content.discuss
-            }
-            if (res.data.result.int_type === 2) {
-                var options = {
-                    str: content.html,
-                    flg: 'class="flex flex-pack-center" data-pimg="has-editor-img"',
-                    splitStr1: 'p', // 分割img父级标签 没有则 不填
-                };
-                // 在前端处理
-                // let htmls = self.$com.regexImg(options)
-            }
-        }
-        // 投稿类型
-        var postType = ''
-        switch (res.data.result.int_post_limit) {
-            case 0: postType = '图片';
-            break;
-            case 1: postType = '视频';
-            break;
-            case 2: postType = '长图文';
-            break;
-            case 3: postType = '全部';
-            break;
-            default: postType = '全部'
-        }
-        // 返回在渲染页面之前得结果
-        return {
-            res: res.data.result,
-            content: content,
-            messagelist: messagelist.data.result,
-            options: options,
-            postType: postType,
-            discuss: discuss
-        }
-    },
-    computed: {
-        _discuss() {
-            if(this.discuss) {
-                this.discuss.map((x, index) => {
-                    if (x.text) {
-                        let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
-                        let res = x.text.match(reg)
-                        if (res) {
-                            this.$set(x, 'weblink', true)
-                            res.map(y => {
-                                // 正则替换文本
-                                let tag = `<a href="${y}" target="_blank">${y}</a>`
-                                let newtag = x.text.replace(reg, tag)
-                                this.$set(x, 'newText', newtag)
-                            })
-                        } else {
-                            this.$set(x, 'weblink', false)
-                        }
-                    }
-                })
-                return this.discuss
-            } else {
-                return false
-            }
+            title: this.$store.state.res.title
         }
     },
     data() {
@@ -310,7 +242,6 @@ export default {
             exist: true,
             // 投稿类型
             postType: '',
-            // GET_MESSAGE_STATE: true,
             options: {}
         }
     },
@@ -338,37 +269,42 @@ export default {
         },
     },
     mounted() {
-        console.log(this._discuss)
+        // console.log('sadsadadasda ==== ',this.$store.state)
         // 在前端执行播放视频 先判断 只能在mounted中执行
-        if (this.res.int_type === 1) {
-            axios.get(`${api.base}${api.command.videos}`)
+        if (this.$store.state.res.int_type === 1) {
+            let res = this.$axios.$get(`${api.command.videos}`)
             .then(res => {
+                // console.log('ressss===', this.$store.state.content.videos[0].vid)
                 let player = new Aliplayer({
                     id: 'J_prismPlayer',
                     width: '100%',
                     autoplay: false,
                     prismType: 2,
-                    vid : this.content.videos[0].vid,
+                    vid : this.$store.state.content.videos[0].vid,
                     playauth : '',
                     playsinline: true, //app内播放设置
                     qualitySort: 'desc', //清晰度切换
-                    cover: this.content.videos[0].imageUrl,
-                    accessKeyId: res.data.result.accessKeyId,
-                    securityToken: res.data.result.securityToken,
-                    accessKeySecret: res.data.result.accessKeySecret
+                    cover: this.$store.state.content.videos[0].imageUrl,
+                    accessKeyId: res.result.accessKeyId,
+                    securityToken: res.result.securityToken,
+                    accessKeySecret: res.result.accessKeySecret
                 }, function(player){
                     console.log('播放器创建好了。')
                 })
             })
+            .catch(err => {
+                console.log(err)
+            })
         }
         // 判断是否是长图文
-        if (this.res.int_type === 2) {
+        if (this.$store.state.res.int_type === 2) {
             let self = this
             let options = {
-                str: self.content.html,
+                str: self.$store.state.content.html,
                 flg: 'class="flex flex-pack-center" data-pimg="has-editor-img"',
                 splitStr1: 'p', // 分割img父级标签 没有则 不填,
             };
+            // self.$store.state.content.html 复制到self.content.html
             self.content.html = self.$com.regexImg(options);
             const regexVideo = /<p><video.*?(?:>|\/>|<\/video>)/gi;
             var pVideo = self.content.html.match(regexVideo);
@@ -378,7 +314,6 @@ export default {
                 const regexUrl = /imageurl=[\'\"]?([^\'\"]*)[\'\"]?/i;
                 const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
                 // console.log('pVideo=', pVideo)
-                // let imgMatchArray = self.content.html.match(regexImg)
                 for (let i=0; i<pVideo.length; i++) {
                     // 匹配imageurl属性下的值
                     let urlArray = pVideo[i].match(regexUrl);
@@ -394,7 +329,7 @@ export default {
                         // console.log('htmls = ', self.htmls)
                         resolve(self.htmls);
                     }).then(r => {
-                        axios.get(`${api.base}${api.command.videos}`)
+                        let res = this.$axios.$get(`${api.command.videos}`)
                         .then(res => {
                             let player = new Aliplayer({
                                 id: `J_prismPlayer_${vidArray[1]}`,
@@ -406,9 +341,9 @@ export default {
                                 vid : vidArray[1],
                                 playauth : '',
                                 cover: urlArray[1],
-                                accessKeyId: res.data.result.accessKeyId,
-                                securityToken: res.data.result.securityToken,
-                                accessKeySecret: res.data.result.accessKeySecret
+                                accessKeyId: res.result.accessKeyId,
+                                securityToken: res.result.securityToken,
+                                accessKeySecret: res.result.accessKeySecret
                             }, function(player){
                                 console.log('播放器创建好了。')
                            })
@@ -503,7 +438,7 @@ export default {
     }
 </style>
 <style scoped>
-    #feed{
+    #feed, #scroller{
         padding: 0 0 .3rem;
         box-sizing: border-box;
         font-size: 13px;
@@ -520,7 +455,7 @@ export default {
         padding: 0 0.3rem;
     }
     .feeder-title {
-        font-size: 15px;
+        font-size: 18px;
         margin-bottom: .2rem;
         font-weight: bold;
     }
@@ -550,11 +485,12 @@ export default {
         background:linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,0.3));
         z-index: 9999;
     }
-    .messager-info > img{
-        width: .48rem;
-        height: .48rem;
+    .messager-info-div > img{
+        width: .68rem;
+        height: .68rem;
         border-radius: 100%;
         margin-right: 0.1rem;
+        margin-bottom: 3px;
     }
     .feeder-info, .prism-player{
         margin: .2rem 0;
@@ -579,7 +515,7 @@ export default {
     }
     .feed-messagebord-list-cell{
         border-bottom: 1px solid #eee;
-        padding: .2rem 0;
+        padding: .2rem 0 0;
     }
     .messager-content{
         margin: .2rem 0;
@@ -612,7 +548,7 @@ export default {
         font-size: 12px;
     }
     .feeder-comments {
-        margin-top: .4rem;
+        margin-top: .25rem;
     }
     .feeder-comments-cell {
         box-sizing: border-box;
@@ -669,11 +605,5 @@ export default {
     .messager-comments-cell {
         box-sizing: border-box;
         padding: .05rem 0;
-    }
-    .not-exist {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
     }
 </style>

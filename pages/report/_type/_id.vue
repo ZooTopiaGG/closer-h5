@@ -1,27 +1,25 @@
 <template>
     <div id="report">
         <div class="report">
+            <div>{{ res.token }}</div>
             <div class="title">
                 举报 
                 <span v-if="$route.params.type==='f'">
-                    <span v-if="res.double_latitude !== -999">{{ res.className }}</span>
-                    <span v-else>{{ res.communityName }}</span> 
+                    <span v-if="res.data.double_latitude !== -999">{{ res.data.className }}</span>
+                    <span v-else>{{ res.data.communityName }}</span> 
                     的帖子：
-                    <span v-if="res.title" style="color:#94928E">{{ res.title }}</span>
+                    <span v-if="res.data.title" style="color:#94928E">{{ res.data.title }}</span>
                 </span>
                 <span v-else>
-                    <span>{{ res.name }}</span>
+                    <span>{{ res.data.name }}</span>
                     的栏目：
                 </span>
             </div>
-            <!-- <div class="desc flex flex-align-start" v-if="res.title">
-                <div>
-                    <span class="dp-text-color" v-if="res.communityName">{{ res.communityName }}</span>：
-                    <span>{{ res.title }}</span>
-                </div>
-            </div> -->
             <RadioGroup v-model="reportinfo" @on-change="reportChange" class="radio-group flex">
-                <Radio label="垃圾营销">
+                <Radio v-for="(item, index) in res.list" :label="item.reportTypeId" :key="index">
+                    <span>{{ item.reportContents }}</span>
+                </Radio>
+                <!-- <Radio label="垃圾营销">
                     <span>垃圾营销</span>
                 </Radio>
                 <Radio label="不实信息">
@@ -44,7 +42,7 @@
                 </Radio>
                 <Radio label="违规有奖活动">
                     <span>违规有奖活动</span>
-                </Radio>
+                </Radio> -->
             </RadioGroup>
             <div>
                 <textarea name="reportcon" rows="4" class="reportcon" v-model="reportcon" placeholder="如果你有更多信息，会帮助我们加速处理哦"></textarea>
@@ -52,7 +50,7 @@
         </div>
         <div class="btn">
             <Button type="primary" :loading="loading===2" @click="repo" :disabled="disabled" long>
-                <span v-if="loading===1">举报</span>
+                <span v-if="loading===1">举 报</span>
                 <span v-else-if="loading===2">正在举报</span>
                 <span v-else>已举报，受理中</span>
             </Button>
@@ -70,30 +68,62 @@ export default {
             title: '举报'
         }
     },
-    async asyncData ({ params }) {
-        // 举报栏目
-        if (params.type === 'c') {
-            let para = {
-                communityid: params.id
+    async asyncData ({ params, error, app, store }) {
+        try {
+            // let head = await app.$axios.$head()
+            // 举报栏目
+            if (params.type === 'c') {
+                let para = {
+                    communityid: params.id
+                }
+                let para1 = {
+                    reportType: "community"
+                }
+                let [ list, data ] = await Promise.all([
+                    app.$axios.$post(`${api.command.reportType}`, para1),
+                    app.$axios.$post(`${api.command.show}`, para)
+                ])
+                // console.log(';data ===', data)
+                if (list.code === 0) {
+                    // console.log(';list===', list)
+                } else {
+                    error({ message: `错误代码:${list.code}, ${list.result}` })
+                }
+                return { 
+                    res: {
+                        data: data.result,
+                        list: list.result.data,
+                        token: store.state.GET_APP_TOKEN || '不存在'
+                    }
+                }
+            }else {
+                // 举报贴子
+                let para = {
+                    subjectid: params.id
+                }
+                let para1 = {
+                    reportType: "subject"
+                }
+                let [ list, data ] = await Promise.all([
+                    app.$axios.$post(`${api.command.reportType}`, para1),
+                    app.$axios.$post(`${api.command.show}`, para)
+                ])
+                // console.log(';data ===', data)
+                if (list.code === 0) {
+                    // console.log(';list===', list)
+                } else {
+                    error({ message: `错误代码:${list.code}, ${list.result}` })
+                }
+                return { 
+                    res: {
+                        data: data.result,
+                        list: list.result.data,
+                        token: store.state.GET_APP_TOKEN || '不存在'
+                    }
+                }
             }
-            let { data } = await axios.post(
-                `${api.base}${api.community.show}`, 
-                qs.stringify(para))
-            console.log(data)
-            return { 
-                res: data.result
-            }
-        }else {
-        // 举报贴子
-            let para = {
-                subjectid: params.id
-            }
-            let { data } = await axios.post(
-                `${api.base}${api.command.show}`, 
-                qs.stringify(para))
-            return { 
-                res: data.result
-            }
+        } catch(err) {
+            error({ message: `${err}` })
         }
     },    
     computed: {
@@ -112,13 +142,14 @@ export default {
     },
     methods: {
         // 点击单选按钮时变化
-        reportChange() {
+        reportChange(item) {
+            console.log(item)
             // 监听按钮状态
             this.disabled = false;
             this.loading = 1;
         },
         // 举报
-        repo() {
+        async repo() {
             let self = this;
             self.$loadingbar.start();
             if (!self.reportinfo) {
@@ -127,11 +158,26 @@ export default {
                 return
             }
             self.loading = 2;
-            setTimeout(() => {
-                self.disabled = true;
-                self.loading = 3;
-                self.$loadingbar.finish()
-            }, 3000)
+            try{
+                let para = {
+                    reportType: self.$route.params.type === 'f' ? 'subject' : 'community',
+                    reportCode: self.reportinfo,
+                    objectId: self.$route.params.id,
+                    comments: ''
+                }
+                let data = await self.$axios.$post(`${api.command.report}`, para)
+                if (data.code === 0) {
+                    self.disabled = true;
+                    self.loading = 3;
+                    self.$loadingbar.finish()
+                }else {
+                    self.$loadingbar.error();
+                    self.$message.error(data.result)
+                }
+            } catch(err) {
+                self.$message.error(err)
+                self.$loadingbar.error();
+            }
         }
     },
     mounted() {

@@ -108,5 +108,27 @@ a,input,button{
 }
 #summary p[data-pimg="has-editor-img"] {
     padding: 0;
-    margin: 6px 0;
+    margin: 10px 0;
+}
+
+html body {
+  background-color: #fff;
+  max-width: 10rem;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.split-box{
+    width: 100%;
+    height: .2rem;
+    background: #f4f4f4;
+}
+.ivu-btn-primary{
+  color: #333 !important;
+}
+.footer {
+  text-align: center;
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translate(-50%, -50%)
 }
