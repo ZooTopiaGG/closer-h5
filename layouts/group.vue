@@ -163,7 +163,7 @@
 <style scoped>
     #group {
         height: 100vh;
-        overflow: auto;
+        overflow-y: scroll;
     }
     .member, .intro{
         padding: 0 0.2rem 0.2rem;

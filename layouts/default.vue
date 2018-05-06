@@ -99,7 +99,7 @@ nav .communityName {
 .nuxts{
   margin-top: 0.98rem;
   height: calc(100vh-0.98rem);
-  overflow: auto;
+  overflow-y: scroll;
 }
 /*app内*/
 nav.appnav {
