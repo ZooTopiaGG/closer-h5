@@ -2,7 +2,7 @@
 
 //全局url域配置
 //测试环境
-let fileBase = 'http://file-sandbox.tiejin.cn'
+let fileBase = '//file-sandbox.tiejin.cn'
 let options = {
   str: '', // 文本字符串
   flg: '', // 需要插入的值 可为空

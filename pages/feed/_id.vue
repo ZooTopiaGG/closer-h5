@@ -1,5 +1,5 @@
 <template>
-    <div id="scroller">
+    <div id="feed">
         <lg-preview></lg-preview>
         <div>
             <div class="feed-1">
@@ -99,7 +99,7 @@
                         <!--  判断是否在app 内 需要预览 -->
                         <img v-if="$store.state.GET_MESSAGE_STATE" class="feed-cover" style="width: 100%;display:block;" v-preview="$com.makeFileUrl($store.state.res.cover)" :src="$com.makeFileUrl($store.state.res.cover)">
                         <img v-else class="feed-cover" style="width: 100%; display:block;" :src="$com.makeFileUrl($store.state.res.cover, 'src')">
-                        <div v-if="!$store.state.GET_MESSAGE_STATE" class="hide-over"></div>
+                        <div class="hide-over"></div>
                     </div>
                     <div class="feeder-content">
                         <!-- 标题 -->
@@ -438,7 +438,7 @@ export default {
     }
 </style>
 <style scoped>
-    #feed, #scroller{
+    #feed{
         padding: 0 0 .3rem;
         box-sizing: border-box;
         font-size: 13px;
@@ -483,7 +483,7 @@ export default {
         width: 100%;
         height: 100%;
         background:linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,0.3));
-        z-index: 9999;
+        z-index: 900;
     }
     .messager-info-div > img{
         width: .68rem;
