@@ -163,7 +163,8 @@
 <style scoped>
     #group {
         height: 100vh;
-        overflow-y: scroll;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
     .member, .intro{
         padding: 0 0.2rem 0.2rem;

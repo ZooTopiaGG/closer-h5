@@ -100,6 +100,7 @@ nav .communityName {
   margin-top: 0.98rem;
   height: calc(100vh-0.98rem);
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 /*app内*/
 nav.appnav {
