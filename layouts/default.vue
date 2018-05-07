@@ -19,7 +19,7 @@
             </div>
         </div>
       </nav>
-      <div id="wrapper" :class="{nuxts:true, appnuxts: !$store.state.GET_MESSAGE_STATE }">
+      <div id="wrapper" :class="{ 'web-class': $store.state.GET_MESSAGE_STATE, nuxts:true, appnuxts: !$store.state.GET_MESSAGE_STATE }">
         <nuxt/>
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE" class="footer">
@@ -99,8 +99,6 @@ nav .communityName {
 .nuxts{
   margin-top: 0.98rem;
   height: calc(100vh-0.98rem);
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 /*app内*/
 nav.appnav {

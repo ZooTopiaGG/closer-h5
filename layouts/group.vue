@@ -1,5 +1,5 @@
 <template>
-    <div id="group">
+    <div id="group" :class="{ 'web-class': $store.state.GET_MESSAGE_STATE }">
         <div class="member">
             <div class="title">群组成员 10</div>
             <ul class="group flex flex-align-center">
@@ -163,8 +163,6 @@
 <style scoped>
     #group {
         height: 100vh;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
     }
     .member, .intro{
         padding: 0 0.2rem 0.2rem;
