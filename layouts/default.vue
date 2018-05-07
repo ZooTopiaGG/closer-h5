@@ -10,7 +10,8 @@
         }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
             <div class="flex flex-align-center">
-              <img class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg">
+              <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg">
+              <img v-else class="access-not" :src="$store.state.res.blogo">
               <span class="communityName">{{ $store.state.res.communityName }}</span>
             </div>
             <div class="flex flex-align-center">
@@ -98,7 +99,7 @@ nav .communityName {
 }
 .nuxts{
   margin-top: 0.98rem;
-  height: calc(100vh-0.98rem);
+  /*height: calc(100vh-0.98rem);*/
 }
 /*app内*/
 nav.appnav {
@@ -126,12 +127,13 @@ nav.appnav~.nuxts{
 }
 .appnuxts{
   margin-top: 0;
-  height: 100vh;
+  /*height: 100vh;*/
 }
 .access-not {
   width: 1.64rem;
   height: .64rem;
-  margin-right: .2rem
+  margin-right: .2rem;
+  border-radius: 0 3px 3px 0;
 }
 .icon-ios-more {
   font-size: 28px;

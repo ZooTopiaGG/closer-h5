@@ -16,7 +16,9 @@ let api = {
         show: 'closer_community.show'
     },
     group: {
-        show: 'closer_class.show'
+        show: 'closer_class.show',
+        group_subject_list: 'closer_subject.class_subject_list_index',
+        share_group: 'closer_share.outer_group'
     }
 }
 

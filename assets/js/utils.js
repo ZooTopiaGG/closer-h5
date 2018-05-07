@@ -110,14 +110,15 @@ export default {
 	   return theRequest;
 	},
   // 图片地址处理
-  makeFileUrl(url, type) {
+  makeFileUrl(url, type, size) {
+    let sizes = size ? size : 500
     if (type === 'src') {
-      return (url.indexOf('://') !== -1) ? url+'?s=500' : fileBase + url + '?s=500';
+      return (url.indexOf('://') !== -1) ? url+'?s='+sizes : fileBase + url + '?s='+sizes;
     } else {
       if (url.indexOf('.gif') > -1 || url.indexOf('.GIF') > -1) {
         return (url.indexOf('://') !== -1) ? url : fileBase + url;
       } else {
-        return (url.indexOf('://') !== -1) ? url+ '?s=500' : fileBase + url + '?s=500';
+        return (url.indexOf('://') !== -1) ? url+ '?s='+sizes : fileBase + url + '?s='+sizes;
       }
     }
   },

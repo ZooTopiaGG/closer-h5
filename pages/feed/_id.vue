@@ -95,10 +95,14 @@
                 <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
                 <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
                     <!-- <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div> -->
-                    <div class="feeder-img" style="position:relative;" v-if="$store.state.res.cover">
+                    <div class="feeder-img" style="position:relative;" v-if="$store.state.res.bigcover">
                         <!--  判断是否在app 内 需要预览 -->
-                        <img v-if="$store.state.GET_MESSAGE_STATE" class="feed-cover" style="width: 100%;display:block;" v-preview="$com.makeFileUrl($store.state.res.cover)" :src="$com.makeFileUrl($store.state.res.cover)">
-                        <img v-else class="feed-cover" style="width: 100%; display:block;" :src="$com.makeFileUrl($store.state.res.cover, 'src')">
+                        <img class="feed-cover" style="width: 100%; display:block;" :src="$com.makeFileUrl($store.state.res.bigcover, 'src', 465)">
+                        <div class="hide-over"></div>
+                    </div>
+                    <div class="feeder-img" style="position:relative;" v-else>
+                        <!--  判断是否在app 内 需要预览 -->
+                        <img class="feed-cover" style="width: 100%; display:block;" :src="$com.makeFileUrl($store.state.res.cover, 'src', 375)">
                         <div class="hide-over"></div>
                     </div>
                     <div class="feeder-content">
@@ -153,8 +157,8 @@
                 <!-- 发帖者信息 -->
                 <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-info flex flex-pack-justify flex-align-center">
                     <span>
-                        <span v-if="$store.state.res.double_latitude != -999">{{ $store.state.res.className }}</span>
-                        <span v-else>官方出品 </span>
+                        <!-- <span v-if="$store.state.res.double_latitude != -999">{{ $store.state.res.className }}</span>
+                        <span v-else>官方出品 </span> -->
                         <span>@{{ $store.state.res.username }} 出品</span>
                     </span>
                     <span>{{ $com.getCommonTime($store.state.res.long_update_time, 'yy-mm-dd hh:MM') }}</span>
@@ -269,7 +273,7 @@ export default {
         },
     },
     mounted() {
-        // console.log('sadsadadasda ==== ',this.$store.state)
+        console.log('sadsadadasda ==== ',this.$store.state)
         // 在前端执行播放视频 先判断 只能在mounted中执行
         if (this.$store.state.res.int_type === 1) {
             let res = this.$axios.$get(`${api.command.videos}`)
@@ -581,11 +585,16 @@ export default {
         border-radius: 0.1rem;
     }
     .feeder-comment-3-title{
-        font-size: 16px;
+        font-size: 15px;
+        height: 22px;
+        overflow: hidden;
+        margin-bottom: 5px;
     }
     .feeder-comment-3-summary{
         font-size: 12px;
-        color:rgba(148,146,142,1); 
+        color:rgba(148,146,142,1);
+        height: 20px;
+        overflow: hidden;
     }
     .feeder-comment-nickname{
         font-size: 12px;

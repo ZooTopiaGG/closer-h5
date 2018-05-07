@@ -1,32 +1,34 @@
 export default async function ({ params, store, app, error}) {
     let para = {
-        regionid: '-1',
-        longitude: '0.0',
-        latitude: '0.0'
+      flag: 1,
+      classid: params.id || '8W0DxbAa0V',
+      index: '',
+      pagesize: 5
     }
-    let para1 = {
-      classid: '8W0Ya9qZ0a'
+    let para2 = {
+      groupId: params.id || '8W0DxbAa0V'
     }
     try {
-        let data = await app.$axios.$post('closer_subject.list_index', para)
+        let data = await app.$axios.$post(`${api.group.group_subject_list}`, para)
         if (data.code === 0) {
           let arr = await data.result.data.map(x => {
             x.content = JSON.parse(x.content)
             return x
           })
-          // console.log('arr ====', arr)
-          // return {
-          //     res: arr
-          // }
           store.commit('SET_GROUP_RES', arr)
         } else {
           error({ message: `错误代码:${data.code}, ${data.result}` })
         }
-        let data1 = await app.$axios.$post(`${api.group.show}`, para1)
-        console.log('data1=====', data1)
-    } catch(error){
+        let data2 = await app.$axios.$post(`${api.group.share_group}`, para2)
+        console.log('data2== ==', data2.result)
+        if (data2.code === 0) {
+          store.commit('SET_GROUP_INFO', data2.result)
+        } else {
+          error({ message: `错误代码:${data2.code}, ${data2.result}` })
+        }
+    } catch(err){
       // console.log(error)
-      error({ message: `${error}` })
+      error({ message: `${err}` })
         // app.$loading.fail()
     }
 }

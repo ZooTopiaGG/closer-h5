@@ -8,7 +8,8 @@ export const state = () => ({
     discuss: {},
     options: {},
     exist: true,
-    group_res: []
+    group_res: [],
+    group_info: {}
 })
 
 export const mutations = {
@@ -44,6 +45,9 @@ export const mutations = {
     },
     SET_GROUP_RES (state, para) {
         state.group_res = para
+    },
+    SET_GROUP_INFO (state, para) {
+        state.group_info = para
     }
 }
 export const actions = {

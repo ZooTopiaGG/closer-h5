@@ -96,7 +96,14 @@ a,input,button{
 .flex-pack-justify{-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;}
 /*距离盒子两边间距相同*/
 .flex-pack-around{-webkit-box-pack:justify;-webkit-justify-content:space-around;-ms-flex-pack:justify;justify-content:space-around;}
-
+/*垂直居中*/
+.nocon{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+}
 /*全局控制 富文本内图片样式*/
 #summary p {
     padding: 0 .3rem;
@@ -134,4 +141,5 @@ html body {
 .web-class {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    height: calc(100vh - 0.98rem);
 }
