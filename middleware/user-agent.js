@@ -11,6 +11,6 @@ export default function ( context ) {
     // 请求先判断Url 是否有token
     // console.log('req====', context.req.headers)
     if (context.req) {
-        context.store.commit('GET_APP_TOKEN', context.req.headers)
+        context.store.commit('GET_APP_TOKEN', context.req.headers['authorization'])
     }
 }

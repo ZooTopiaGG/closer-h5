@@ -1,8 +1,7 @@
 <template>
     <div id="report">
         <div class="report">
-            <div>{{ res.token }}</div>
-           <!--  <div class="title">
+            <div class="title">
                 举报 
                 <span v-if="$route.params.type==='f'">
                     <span v-if="res.data.double_latitude !== -999">{{ res.data.className }}</span>
@@ -16,21 +15,22 @@
                 </span>
             </div>
             <RadioGroup v-model="reportinfo" @on-change="reportChange" class="radio-group flex">
-                <Radio v-for="(item, index) in res.list" :label="item.reportTypeId" :key="index">
+                <Radio v-for="(item, index) in res_list" :label="item.reportTypeId" :key="index">
                     <span>{{ item.reportContents }}</span>
                 </Radio>
+                
             </RadioGroup>
             <div>
                 <textarea name="reportcon" rows="4" class="reportcon" v-model="reportcon" placeholder="如果你有更多信息，会帮助我们加速处理哦"></textarea>
-            </div> -->
+            </div>
         </div>
-        <!-- <div class="btn">
+        <div class="btn">
             <Button type="primary" :loading="loading===2" @click="repo" :disabled="disabled" long>
                 <span v-if="loading===1">举 报</span>
                 <span v-else-if="loading===2">正在举报</span>
                 <span v-else>已举报，受理中</span>
             </Button>
-        </div> -->
+        </div>
     </div>
 </template>
 <script>
@@ -45,75 +45,73 @@ export default {
         }
     },
     async asyncData ({ params, error, app, store }) {
-        return {
-            res: {
-                token: store.state.GET_APP_TOKEN || '不存在'
+        // console.log('token===', store.state.GET_APP_TOKEN)
+        try {
+            // 举报栏目
+            if (params.type === 'c') {
+                let para = {
+                    communityid: params.id
+                }
+                let para1 = {
+                    reportType: "community"
+                }
+                let [ list, data ] = await Promise.all([
+                    app.$axios.$post(`${api.command.reportType}`, para1),
+                    app.$axios.$post(`${api.command.show}`, para)
+                ])
+                // console.log(';data ===', data)
+                if (list.code === 0) {
+                    // console.log(';list===', list)
+                    return { 
+                        res: {
+                            data: data.result,
+                            list: list.result.data,
+                            token: store.state.GET_APP_TOKEN || '不存在'
+                        }
+                    }
+                } else {
+                    error({ message: `错误代码:${list.code}, ${list.result}` })
+                }
+                
+            }else {
+                // 举报贴子
+                let para = {
+                    subjectid: params.id
+                }
+                // let para1 = {
+                //     reportType: "subject"
+                // }
+                // let [ list, data ] = await Promise.all([
+                //     app.$axios.$post(`${api.command.reportType}`, para1),
+                //     app.$axios.$post(`${api.command.show}`, para)
+                // ])
+                let data = await app.$axios.$post(`${api.command.show}`, para)
+
+                // console.log(';data ===', data)
+                if (data.code === 0) {
+                    // console.log(';list===', list)
+                    return {
+                        res: {
+                            data: data.result,
+                            token: store.state.GET_APP_TOKEN || '不存在'
+                        }
+                    }
+                } else {
+                    error({ message: `错误代码:${list.code}, ${list.result}` })
+                }
             }
+        } catch(err) {
+            error({ message: `${err}` })
         }
-        // try {
-        //     // let head = await app.$axios.$head()
-        //     // 举报栏目
-        //     if (params.type === 'c') {
-        //         let para = {
-        //             communityid: params.id
-        //         }
-        //         let para1 = {
-        //             reportType: "community"
-        //         }
-        //         let [ list, data ] = await Promise.all([
-        //             app.$axios.$post(`${api.command.reportType}`, para1),
-        //             app.$axios.$post(`${api.command.show}`, para)
-        //         ])
-        //         // console.log(';data ===', data)
-        //         if (list.code === 0) {
-        //             // console.log(';list===', list)
-        //         } else {
-        //             error({ message: `错误代码:${list.code}, ${list.result}` })
-        //         }
-        //         return { 
-        //             res: {
-        //                 data: data.result,
-        //                 list: list.result.data,
-        //                 token: store.state.GET_APP_TOKEN || '不存在'
-        //             }
-        //         }
-        //     }else {
-        //         // 举报贴子
-        //         let para = {
-        //             subjectid: params.id
-        //         }
-        //         let para1 = {
-        //             reportType: "subject"
-        //         }
-        //         let [ list, data ] = await Promise.all([
-        //             app.$axios.$post(`${api.command.reportType}`, para1),
-        //             app.$axios.$post(`${api.command.show}`, para)
-        //         ])
-        //         // console.log(';data ===', data)
-        //         if (list.code === 0) {
-        //             // console.log(';list===', list)
-        //         } else {
-        //             error({ message: `错误代码:${list.code}, ${list.result}` })
-        //         }
-        //         return { 
-        //             res: {
-        //                 data: data.result,
-        //                 list: list.result.data,
-        //                 token: store.state.GET_APP_TOKEN || '不存在'
-        //             }
-        //         }
-        //     }
-        // } catch(err) {
-        //     error({ message: `${err}` })
-        // }
     },    
     computed: {
-        // content() {
-        //    return JSON.parse(this.res.content)
-        // }
+        content() {
+           return JSON.parse(this.res.content)
+        }
     },
     data() {
         return {
+            res_list: {},
             loading: 1, // 按钮执行状态
             disabled: false, // 按钮可用状态
             // res: {},
@@ -128,6 +126,24 @@ export default {
             // 监听按钮状态
             this.disabled = false;
             this.loading = 1;
+        },
+        async getReportType() {
+            let self = this
+            alert(self.$store.state.GET_APP_TOKEN)
+            try {
+                let para = {
+                    reportType: "subject"
+                }
+                let list = await self.$axios.$post(`${api.command.reportType}`, para)
+                if (list.code === 0) {
+                    self.res_list = list.result.data
+                    console.log('res===', self.res_list)
+                } else {
+                    self.$message.error(list.result)
+                }
+            } catch(err) {
+                self.$message.error(err)
+            }
         },
         // 举报
         async repo() {
@@ -160,6 +176,9 @@ export default {
                 self.$loadingbar.error();
             }
         }
+    },
+    created() {
+        this.getReportType()
     },
     mounted() {
         console.log(this.res)
