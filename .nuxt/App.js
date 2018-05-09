@@ -12,7 +12,9 @@ let layouts = {
 
   "_default": () => import('../layouts/default.vue'  /* webpackChunkName: "layouts/default" */).then(m => m.default || m),
 
-  "_group": () => import('../layouts/group.vue'  /* webpackChunkName: "layouts/group" */).then(m => m.default || m)
+  "_group": () => import('../layouts/group.vue'  /* webpackChunkName: "layouts/group" */).then(m => m.default || m),
+
+  "_signin": () => import('../layouts/signin.vue'  /* webpackChunkName: "layouts/signin" */).then(m => m.default || m)
 
 }
 

@@ -1,6 +1,5 @@
 <template>
     <div id="report">
-        <div>{{ res.token }}</div>
         <div class="report">
             <div class="title">
                 举报 
@@ -15,12 +14,16 @@
                     的栏目：
                 </span>
             </div>
-            <RadioGroup v-model="reportinfo" @on-change="reportChange" class="radio-group flex">
-                <Radio v-for="(item, index) in res_list" :label="item.reportTypeId" :key="index">
-                    <span>{{ item.reportContents }}</span>
-                </Radio>
-                
-            </RadioGroup>
+            <div class="radio-group flex">
+                <dp-radio 
+                style="width: 50%;"
+                v-for="(item, index) in res.list" 
+                :key="index"
+                :on-change="reportChange"
+                :radioValue="item.reportTypeId" 
+                :bname="item.reportContents">
+                </dp-radio>
+            </div>
             <div>
                 <textarea name="reportcon" rows="4" class="reportcon" v-model="reportcon" placeholder="如果你有更多信息，会帮助我们加速处理哦"></textarea>
             </div>
@@ -79,21 +82,20 @@ export default {
                 let para = {
                     subjectid: params.id
                 }
-                // let para1 = {
-                //     reportType: "subject"
-                // }
-                // let [ list, data ] = await Promise.all([
-                //     app.$axios.$post(`${api.command.reportType}`, para1),
-                //     app.$axios.$post(`${api.command.show}`, para)
-                // ])
-                let data = await app.$axios.$post(`${api.command.show}`, para)
-
+                let para1 = {
+                    reportType: "subject"
+                }
+                let [ list, data ] = await Promise.all([
+                    app.$axios.$post(`${api.command.reportType}`, para1),
+                    app.$axios.$post(`${api.command.show}`, para)
+                ])
                 // console.log(';data ===', data)
                 if (data.code === 0) {
                     // console.log(';list===', list)
                     return {
                         res: {
                             data: data.result,
+                            list: list.result.data,
                             token: store.state.GET_APP_TOKEN || '不存在'
                         }
                     }
@@ -112,50 +114,46 @@ export default {
     },
     data() {
         return {
-            res_list: {},
             loading: 1, // 按钮执行状态
             disabled: false, // 按钮可用状态
             // res: {},
-            reportinfo: '',
-            reportcon: ''
+            reportcon: '',
+            reportinfo: null
         }
     },
     methods: {
         // 点击单选按钮时变化
         reportChange(item) {
-            console.log(item)
+            // console.log(item.target.value)
+            this.reportinfo = item.target.value
             // 监听按钮状态
             this.disabled = false;
             this.loading = 1;
         },
-        async getReportType() {
-            let self = this
-            alert(self.$store.state.GET_APP_TOKEN)
-            try {
-                let para = {
-                    reportType: "subject"
-                }
-                let list = await self.$axios.$post(`${api.command.reportType}`, para)
-                if (list.code === 0) {
-                    self.res_list = list.result.data
-                    console.log('res===', self.res_list)
-                } else {
-                    self.$message.error(list.result)
-                }
-            } catch(err) {
-                self.$message.error(err)
-            }
-        },
+        // async getReportType() {
+        //     let self = this
+        //     try {
+        //         let para = {
+        //             reportType: "subject"
+        //         }
+        //         let list = await self.$axios.$post(`${api.command.reportType}`, para)
+        //         if (list.code === 0) {
+        //             self.res_list = list.result.data
+        //             console.log('res===', self.res_list)
+        //         } else {
+        //             self.$message.error(list.result)
+        //         }
+        //     } catch(err) {
+        //         self.$message.error(err)
+        //     }
+        // },
         // 举报
         async repo() {
             let self = this;
-            self.$loadingbar.start();
             if (!self.reportinfo) {
-                self.$loadingbar.error();
                 self.$message.warning('请选择举报信息！');
                 return
             }
-            self.loading = 2;
             try{
                 let para = {
                     reportType: self.$route.params.type === 'f' ? 'subject' : 'community',
@@ -166,20 +164,16 @@ export default {
                 let data = await self.$axios.$post(`${api.command.report}`, para)
                 if (data.code === 0) {
                     self.disabled = true;
-                    self.loading = 3;
-                    self.$loadingbar.finish()
                 }else {
-                    self.$loadingbar.error();
                     self.$message.error(data.result)
                 }
             } catch(err) {
                 self.$message.error(err)
-                self.$loadingbar.error();
             }
         }
     },
     created() {
-        this.getReportType()
+        // this.getReportType()
     },
     mounted() {
         console.log(this.res)
@@ -205,6 +199,10 @@ export default {
     #report {
         font-size: 13px;
         margin-top: .8rem;
+    }
+    .radio-group{
+        flex-wrap: wrap;
+        margin-bottom: .2rem;
     }
     .report {
         padding: 0.2rem;

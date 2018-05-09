@@ -1,19 +1,21 @@
 <template>
-    <div id="group" :class="{ 
-        'web-class': $store.state.GET_MESSAGE_STATE, 
-        flex:true, 
+    <div id="group" :class="{  
+        flex:true,
+        commonbox: true,
         'flex-v':true }">
         <div class="member">
             <div class="title">群组成员 10</div>
             <ul class="group flex flex-align-center">
-                <li class="flex flex-v flex-align-center flex-pack-center">
-                    <img v-if="$store.state.group_info.group_info.group.attributes.monitor.user.avatar" :src="$com.makeFileUrl($store.state.group_info.group_info.group.attributes.monitor.user.avatar, 'src', 60)">
-                    <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500">
+                <li v-if="$store.state.group_info.group_info.group" class="flex flex-v flex-align-center flex-pack-center">
+                    <img v-if="$store.state.group_info.group_info.group.attributes.monitor.user.avatar" 
+                        :src="$com.makeFileUrl($store.state.group_info.group_info.group.attributes.monitor.user.avatar, 'src', 60)" 
+                        :onerror="defaultErrorImg">
+                    <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500" :onerror="defaultErrorImg">
                     <span>{{ $store.state.group_info.group_info.group.attributes.monitor.user.fullname }}</span>
                 </li>
                 <li v-for="(item, index) in $store.state.group_info.group_user_info" :key="index" class="flex flex-v flex-align-center flex-pack-center">
-                    <img v-if="item.props.roster.avatar" :src="$com.makeFileUrl(item.props.roster.avatar, 'src', 60)">
-                    <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500">
+                    <img v-if="item.props.roster.avatar" :src="$com.makeFileUrl(item.props.roster.avatar, 'src', 60)" :onerror="defaultErrorImg">
+                    <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500" :onerror="defaultErrorImg">
                     <span>{{ item.props.roster.name }}</span>
                 </li>
             </ul>
@@ -32,8 +34,8 @@
                     <div class="feed-box">
                         <div class="feed-cell-content">
                             <div class="columnname flex flex-align-center">
-                                <img v-if="item.blogo" :src="item.blogo">
-                                <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500">
+                                <img v-if="item.blogo" :src="item.blogo" :onerror="defaultErrorImg">
+                                <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500" :onerror="defaultErrorImg">
                                 <span class="name flex-1">{{ item.communityName }}</span>
                                 <span class="time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
                             </div>
@@ -86,7 +88,7 @@
                             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
                             <div class="feedmain" v-else-if="item.int_type === 2">
                                 <div v-if="item.cover" class="feedcover flex">
-                                    <img :src="$com.makeFileUrl(item.cover, 'src', 624)">
+                                    <img :src="$com.makeFileUrl(item.cover, 'src', 624)" :onerror="defaultErrorImg">
                                 </div>
                                 <div class="feedtype">
                                     <div v-if="item.title" class="feedtitle">
@@ -129,6 +131,7 @@
         middleware: 'group',
         data() {
             return {
+                defaultErrorImg: 'this.src="' + require('~/assets/images/default.jpeg') + '"',
                 id: ''
             }
         },
@@ -178,9 +181,6 @@
     }
 </script>
 <style scoped>
-    #group {
-        height: 100vh;
-    }
     .member, .intro{
         padding: 0 0.2rem 0.2rem;
     }

@@ -138,6 +138,11 @@ html body {
   left: 50%;
   transform: translate(-50%, -50%)
 }
+.commonbox {
+  height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .web-class {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
