@@ -1,5 +1,6 @@
 <template>
     <div id="report">
+        <div>{{ res.token }}</div>
         <div class="report">
             <div class="title">
                 举报 
