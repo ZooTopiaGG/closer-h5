@@ -141,7 +141,7 @@ export default {
   // 正则表达式处理
   regexImg(options, callback) {
     const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-    const regexPImg =new RegExp("<"+options.splitStr1+".*?><img.*?(?:>|/>)","gi");
+    const regexPImg =new RegExp("<"+options.splitStr1+"><img.*?(?:>|/>)","gi");
     // const regexPImg = /<p><img.*?(?:>|\/>)/gi
     let pImg = options.str.match(regexPImg);
     // 判断 是否匹配到图片

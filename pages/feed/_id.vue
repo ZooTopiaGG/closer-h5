@@ -309,9 +309,10 @@ export default {
             };
             // self.$store.state.content.html 复制到self.content.html
             self.content.html = self.$com.regexImg(options);
-            const regexVideo = /<p.*?><video.*?(?:>|\/>|<\/video>)/gi;
+            const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
             var pVideo = self.content.html.match(regexVideo);
             if (pVideo) {
+                console.log(pVideo)
                 // 正则替换富文本内 img标签 待发布（npm）
                 const regexUrl = /imageurl=[\'\"]?([^\'\"]*)[\'\"]?/i;
                 const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -321,8 +322,8 @@ export default {
                     let urlArray = pVideo[i].match(regexUrl);
                     // 匹配vid属性下的值
                     let vidArray = pVideo[i].match(regexVid);
-                    // 替换插入需要的值flg
-                    let temp = pVideo[i].split('<p>');
+                    // // 替换插入需要的值flg
+                    // let temp = pVideo[i].split('<p>');
                     let flg = `<div id="J_prismPlayer_${vidArray[1]}" class="prism-player video-player" vid="${vidArray[1]}" cover="${urlArray[1]}"></div>`;
                     let v = `<p> ${flg}</p>`;
                     // console.log('v=', v)
