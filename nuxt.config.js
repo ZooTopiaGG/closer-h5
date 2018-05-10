@@ -29,9 +29,6 @@ module.exports = {
                 } else {
                   document.documentElement.style.overflow = "hidden"
                 }
-                console.log('clientHeight==', document.documentElement.clientHeight)
-                console.log('offsetHeight==', document.documentElement.offsetHeight)
-                console.log('scrollHeight==', document.documentElement.scrollHeight)
             } else {
                 console.log('Do not use window in server')
             }

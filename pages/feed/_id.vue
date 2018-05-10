@@ -273,7 +273,6 @@ export default {
         },
     },
     mounted() {
-        console.log('sadsadadasda ==== ',this.$store.state)
         // 在前端执行播放视频 先判断 只能在mounted中执行
         if (this.$store.state.res.int_type === 1) {
             let res = this.$axios.$get(`${api.command.videos}`)
@@ -310,9 +309,8 @@ export default {
             };
             // self.$store.state.content.html 复制到self.content.html
             self.content.html = self.$com.regexImg(options);
-            const regexVideo = /<p><video.*?(?:>|\/>|<\/video>)/gi;
+            const regexVideo = /<p.*?><video.*?(?:>|\/>|<\/video>)/gi;
             var pVideo = self.content.html.match(regexVideo);
-            // console.log('pVideo = ', pVideo)
             if (pVideo) {
                 // 正则替换富文本内 img标签 待发布（npm）
                 const regexUrl = /imageurl=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -330,7 +328,7 @@ export default {
                     // console.log('v=', v)
                     new Promise((resolve, reject) => {
                         self.htmls = self.content.html.replace(regexVideo, v);
-                        // console.log('htmls = ', self.htmls)
+                        console.log('htmls = ', self.htmls)
                         resolve(self.htmls);
                     }).then(r => {
                         let res = this.$axios.$get(`${api.command.videos}`)

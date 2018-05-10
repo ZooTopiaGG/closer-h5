@@ -130,15 +130,6 @@ export default {
     splitStr2 分割字符串2
     url 图片地址
   */
-  // 操作字符串 插入
-  // insert_flg(str, flg, splitStr1, splitStr2, url){
-  //     var newstr="";
-  //     var tmp1=str.split(splitStr1)
-  //     var tmp2 = tmp1[1].split(splitStr2)
-  //     newstr = `${splitStr1}${tmp1[0]} ${flg} ${tmp2[0]}${splitStr2}${url} style="max-width:100%">`;
-  //     // newstr1 = tmp[0]+' '+flg+' '+ splitStr + url + ' style="max-width:100%">';
-  //     return newstr;
-  // },
   insert_flg(str, flg, splitStr1, splitStr2, url){
       let newstr="";
       let tmp1=str.split(splitStr1);
@@ -150,7 +141,7 @@ export default {
   // 正则表达式处理
   regexImg(options, callback) {
     const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-    const regexPImg =new RegExp("<"+options.splitStr1+"><img.*?(?:>|/>)","gi");
+    const regexPImg =new RegExp("<"+options.splitStr1+".*?><img.*?(?:>|/>)","gi");
     // const regexPImg = /<p><img.*?(?:>|\/>)/gi
     let pImg = options.str.match(regexPImg);
     // 判断 是否匹配到图片
