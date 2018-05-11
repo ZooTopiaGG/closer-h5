@@ -1,5 +1,4 @@
 // import wx from 'weixin-js-sdk'
-
 //全局url域配置
 //测试环境
 let fileBase = '//file-sandbox.tiejin.cn'
@@ -7,6 +6,7 @@ let options = {
   str: '', // 文本字符串
   flg: '', // 需要插入的值 可为空
   splitStr1: '', // 需要分割的标签
+  size: ''
 }
 export default {
 	createTime(milliseconds, type){
@@ -115,11 +115,7 @@ export default {
     if (type === 'src') {
       return (url.indexOf('://') !== -1) ? url+'?s='+sizes : fileBase + url + '?s='+sizes;
     } else {
-      if (url.indexOf('.gif') > -1 || url.indexOf('.GIF') > -1) {
-        return (url.indexOf('://') !== -1) ? url : fileBase + url;
-      } else {
-        return (url.indexOf('://') !== -1) ? url+ '?s='+sizes : fileBase + url + '?s='+sizes;
-      }
+      return (url.indexOf('://') !== -1) ? url : fileBase + url;
     }
   },
   /*
@@ -130,34 +126,48 @@ export default {
     splitStr2 分割字符串2
     url 图片地址
   */
-  insert_flg(str, flg, splitStr1, splitStr2, url){
-      let newstr="";
-      let tmp1=str.split(splitStr1);
-      let tmp2 = tmp1[1].split(splitStr2);
-      newstr = `${splitStr1}${tmp1[0]} ${flg} ${tmp2[0]}${splitStr2}${url} style="width:100%;height:100%">`;
-      // newstr1 = tmp[0]+' '+flg+' '+ splitStr + url + ' style="max-width:100%">';
-      return newstr;
-  },
-  // 正则表达式处理
-  regexImg(options, callback) {
-    const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-    const regexPImg =new RegExp("<"+options.splitStr1+"><img.*?(?:>|/>)","gi");
-    // const regexPImg = /<p><img.*?(?:>|\/>)/gi
-    let pImg = options.str.match(regexPImg);
-    // 判断 是否匹配到图片
-    if (pImg) {
-      for (let i=0; i<pImg.length; i++) {
-        let srcArray = pImg[i].match(regexSrc);
-        // 替换插入需要的值
-        let newPimg = this.insert_flg(pImg[i], options.flg, `<${options.splitStr1}`, ' src=', `"${srcArray[1]}?s=500"`);
-        // 正则替换富文本内的img标签
-        let _htmls = options.str.replace(regexPImg, newPimg);
-        return _htmls
-      }
-    } else {
-      return options.str
-    }
-  },
+  // insert_flg(a, b, c, d){
+  //   let newstr = `<img src="${a}?s=${b}" width="${c}" height="${d}"/>`
+  //   return newstr;
+  // },
+  // // 正则表达式处理图片
+  // regexImg(str) {
+  //   const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+  //   const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+  //   const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+  //   const regexPImg =new RegExp("<img.*?(?:>|/>)","gi");
+  //   // const regexPImg = /<p><img.*?(?:>|\/>)/gi
+  //   let pImg = str.match(regexPImg);
+  //   // console.log(pImg)
+  //   // 判断 是否匹配到图片
+  //   let clientWidth = document.documentElement.clientWidth
+  //   let size
+  //   if (pImg) {
+  //     pImg.forEach(async (x, i) => {
+  //       console.log(x)
+  //       let srcArray = x.match(regexSrc);
+  //       console.log('srcArray====', srcArray)
+  //       let widthArray = x.match(regexWidth);
+  //       let heightArray = x.match(regexHeight);
+  //       // console.log(srcArray)
+  //       if (widthArray[1] >= heightArray[1]) {
+  //         size = clientWidth * 2
+  //       } else {
+  //         size = parseInt(clientWidth * heightArray[1] * 2 / widthArray[1]) 
+  //       }
+  //       // 替换插入需要的值
+  //       let flag = await this.insert_flg(srcArray[1], size, clientWidth, parseInt(clientWidth * heightArray[1] / widthArray[1]))
+  //       // let flag = `<img src="${srcArray[1]}?s=${size}" width="${clientWidth}" height="${parseInt(clientWidth * heightArray[1] / widthArray[1])}"/>`
+  //       // 正则替换富文本内的img标签
+  //       console.log('str', str)
+  //       let _htmls = str.replace(regexPImg, flag);
+  //       console.log(_htmls)
+  //       return _htmls
+  //     })
+  //   } else {
+  //     return str
+  //   }
+  // },
   /*判断是否是微信 微博 QQ*/
   isCloserApp(){
     let nvg = navigator.userAgent.toLowerCase();

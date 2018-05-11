@@ -6,10 +6,10 @@ export const state = () => ({
     messagelist: {},
     postType: '',
     discuss: {},
-    options: {},
+    options: false,
     exist: true,
     group_res: [],
-    group_info: {}
+    group_info: {},
 })
 
 export const mutations = {
@@ -49,71 +49,4 @@ export const mutations = {
     SET_GROUP_INFO (state, para) {
         state.group_info = para
     }
-}
-export const actions = {
-    // async getFeedDetails({ commit }, { subjectid }) {
-    //     try {
-    //         let para = {
-    //             subjectid: subjectid
-    //         }
-    //         let para1 = {
-    //             pagesize: 5,
-    //             pagenum: 1,
-    //             subjectid: subjectid
-    //         }
-    //         let [res, messagelist] = await Promise.all([
-    //             this.$axios.$post(`${api.command.show}`, para),
-    //             this.$axios.$post(`${api.command.comments}`, para1)
-    //         ])
-    //         console.log('res???==', res)
-    //         console.log('messagelist?????===', messagelist)
-    //         // 获取迷药
-    //         if (res.result.content) {
-    //             var content = JSON.parse(res.result.content)
-    //             if (content.discuss) {
-    //                 var discuss = content.discuss
-    //             }
-    //             if (res.result.int_type === 2) {
-    //                 var options = {
-    //                     str: content.html,
-    //                     flg: 'class="flex flex-pack-center" data-pimg="has-editor-img"',
-    //                     splitStr1: 'p', // 分割img父级标签 没有则 不填
-    //                 };
-    //                 // 在前端处理
-    //                 // let htmls = self.$com.regexImg(options)
-    //             }
-    //         }
-    //         // 投稿类型
-    //         var postType = ''
-    //         switch (res.result.int_post_limit) {
-    //             case 0: postType = '图片';
-    //             break;
-    //             case 1: postType = '视频';
-    //             break;
-    //             case 2: postType = '长图文';
-    //             break;
-    //             case 3: postType = '全部';
-    //             break;
-    //             default: postType = '全部'
-    //         }
-    //         console.log(';ressssss==sdada')
-    //         // 返回在渲染页面之前得结果
-    //         commit('SET_CONTENT', content)
-    //         commit('SET_RES', res.result)
-    //         commit('SET_MESSAGE', messagelist.result)
-    //         commit('SET_POSTTYPE', postType)
-    //         commit('SET_DISSCUSS', discuss)
-    //         commit('SET_OPTIONS', options)
-    //         // return {
-    //         //     res: res.result,
-    //         //     content: content,
-    //         //     messagelist: messagelist.result,
-    //         //     options: options,
-    //         //     postType: postType,
-    //         //     discuss: discuss
-    //         // }
-    //     } catch(err) {
-    //         throw err
-    //     }
-    // }
 }

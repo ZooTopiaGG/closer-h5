@@ -128,5 +128,6 @@ module.exports = {
     '~/plugins/iview.js',
     '~/plugins/axios',
     '~/plugins/picture-view.js',
+    {src: '~/plugins/device.js', ssr: false}
   ]
 }

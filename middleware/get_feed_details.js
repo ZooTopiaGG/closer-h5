@@ -1,8 +1,4 @@
-export default async function ({ params, store, app}) {
-  // console.log('store===', store)
-  // console.log('params===', params.id)
-  // let isClient = process.client;
-  // let isServer = process.server;
+export default async function ({ params, store, app, req }) {
   try {
       let para = {
           subjectid: params.id
@@ -16,13 +12,17 @@ export default async function ({ params, store, app}) {
           app.$axios.$post(`${api.command.show}`, para),
           app.$axios.$post(`${api.command.comments}`, para1)
       ])
-      // console.log('res???==', res)
-      // console.log('messagelist?????===', messagelist)
+      console.log('res???==', res)
       // 获取迷药
       if (res.code != 0) {
         // console.log('ssss?S???????')
         store.commit('GET_EXIST_STATUS', false)
       } else {
+        // if (res.result.bigCover) {
+        //   let wh = {
+        //     height: 
+        //   }
+        // }
         if (res.result.content) {
           var content = JSON.parse(res.result.content)
           if (content.discuss) {
@@ -48,14 +48,15 @@ export default async function ({ params, store, app}) {
               }
               return x
             })
-            // console.log('discuss=====', discuss)
           }
           if (res.result.int_type === 2) {
-              var options = {
-                  str: content.html,
-                  flg: 'class="flex flex-pack-center" data-pimg="has-editor-img"',
-                  splitStr1: 'p', // 分割img父级标签 没有则 不填
-              };
+              const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+              let pVideo = content.html.match(regexVideo);
+              if (pVideo && pVideo.length > 0) {
+                store.commit('SET_OPTIONS', true)
+              } else {
+                store.commit('SET_OPTIONS', false)
+              }
               // 在前端处理
               // let htmls = self.$com.regexImg(options)
           }
@@ -80,7 +81,7 @@ export default async function ({ params, store, app}) {
         store.commit('SET_MESSAGE', messagelist.result)
         store.commit('SET_POSTTYPE', postType)
         store.commit('SET_DISSCUSS', discuss)
-        store.commit('SET_OPTIONS', options)
+        // store.commit('SET_OPTIONS', options)
       }
   } catch(err) {
       store.commit('GET_EXIST_STATUS', false)
