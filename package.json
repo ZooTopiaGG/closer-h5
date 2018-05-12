@@ -20,10 +20,8 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",
-    "axios": "^0.18.0",
-    "iview": "^2.13.0",
+    "mint-ui": "^2.2.13",
     "nuxt": "^1.0.0",
-    "qs": "^6.5.1",
     "vue-picture-preview2": "^1.0.0"
   },
   "devDependencies": {

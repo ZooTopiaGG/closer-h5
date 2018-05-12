@@ -13,6 +13,8 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/mint-ui/lib/style.css'},
+      {rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_663941_vo6osb9ywm81714i.css'},
       { rel: 'stylesheet', type: 'text/css', href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css' },
     ],
     // 可使用外链形式 引入第三方库
@@ -64,10 +66,9 @@ module.exports = {
   },
   // 全局CSS配置
   css: [
-    { src: '~/assets/fonts/iconfont.css' },
+    { src: '~/assets/css/style.css' },
     { src: '~/assets/css/common.css' },
     { src: '~/assets/css/reset.css' },
-    // { src: '~/assets/css/index.less' },
   ],
   modules: [
     '@nuxtjs/axios',
@@ -93,7 +94,7 @@ module.exports = {
     // 发布路径 只需设置为根路径
     // publicPath: 'http://h5-sandbox.tiejin.cn:3000',
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
-    vendor: ['axios', 'qs', 'iview', 'vue-picture-preview2'],
+    vendor: ['axios', 'vue-picture-preview2', 'mint-ui'],
     /*
     ** Run ESLint on save
     */
@@ -125,7 +126,8 @@ module.exports = {
   plugins: [
     '~/plugins/api.js',
     '~/plugins/utils.js',
-    '~/plugins/iview.js',
+    '~/plugins/components.js',
+    '~/plugins/mintui.js',
     '~/plugins/axios',
     '~/plugins/picture-view.js',
     {src: '~/plugins/device.js', ssr: false}

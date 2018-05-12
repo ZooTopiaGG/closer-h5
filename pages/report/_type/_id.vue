@@ -29,17 +29,18 @@
             </div>
         </div>
         <div class="btn">
-            <Button type="primary" :loading="loading===2" @click="repo" :disabled="disabled" long>
+            <mt-button type="primary" class="margin-bottom-80 tj-btn" @click="repo" :disabled="disabled">
                 <span v-if="loading===1">举 报</span>
-                <span v-else-if="loading===2">正在举报</span>
+                <span v-else-if="loading===2" class="flex flex-align-center flex-pack-center">
+                    <span>正在举报</span>
+                    <mt-spinner :size="16" type="triple-bounce" color="#495060" style="margin-left:5px"></mt-spinner>
+                </span>
                 <span v-else>已举报，受理中</span>
-            </Button>
+            </mt-button>
         </div>
     </div>
 </template>
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default {
     name: 'report-id',
     // 设置title
@@ -130,28 +131,14 @@ export default {
             this.disabled = false;
             this.loading = 1;
         },
-        // async getReportType() {
-        //     let self = this
-        //     try {
-        //         let para = {
-        //             reportType: "subject"
-        //         }
-        //         let list = await self.$axios.$post(`${api.command.reportType}`, para)
-        //         if (list.code === 0) {
-        //             self.res_list = list.result.data
-        //             console.log('res===', self.res_list)
-        //         } else {
-        //             self.$message.error(list.result)
-        //         }
-        //     } catch(err) {
-        //         self.$message.error(err)
-        //     }
-        // },
         // 举报
         async repo() {
             let self = this;
             if (!self.reportinfo) {
-                self.$message.warning('请选择举报信息！');
+                self.$toast({
+                    message: '请选择举报信息！',
+                    position: 'top',
+                })
                 return
             }
             try{
@@ -164,11 +151,20 @@ export default {
                 let data = await self.$axios.$post(`${api.command.report}`, para)
                 if (data.code === 0) {
                     self.disabled = true;
+                    self.loading = 3;
                 }else {
-                    self.$message.error(data.result)
+                    self.$toast({
+                        message: data.result,
+                        position: 'top',
+                    })
+                    self.loading = 1;
                 }
             } catch(err) {
-                self.$message.error(err)
+                self.$toast({
+                    message: err,
+                    position: 'top',
+                })
+                self.loading = 1;
             }
         }
     },
@@ -227,6 +223,10 @@ export default {
         width: 100%;
         height: 100%;
     }*/
+    .tj-btn{
+        width: 100%;
+        font-size: 14px;
+    }
     .btn {
         padding:  0.2rem;
         margin-top: .3rem;

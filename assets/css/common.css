@@ -39,6 +39,8 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
+  font-size: 12px;
+  color: #495060;
 }
 ul,ol{
     list-style: none;
@@ -112,10 +114,7 @@ a,input,button{
 #summary p img {
     max-width: 100%;
     height: auto;
-}
-#summary p[data-pimg="has-editor-img"] {
-    padding: 0;
-    margin: 10px 0;
+    margin: 8px 0;
 }
 
 html body {
@@ -127,9 +126,6 @@ html body {
     width: 100%;
     height: .2rem;
     background: #f4f4f4;
-}
-.ivu-btn-primary{
-  color: #333 !important;
 }
 .footer {
   text-align: center;

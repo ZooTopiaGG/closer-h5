@@ -1,0 +1,35 @@
+.mint-button--primary {
+    background-color: #FDDB00;
+    color: #4B4945;
+}
+.mint-cell-wrapper {
+    background-position: bottom left;
+    padding: 0;
+}
+.mint-button--small{
+    font-weight: bold;
+    height: 30px;
+}
+.mint-toast {
+    padding: 5px 10px !important;
+}
+/*公用样式*/
+.margin-bottom-80 {
+    margin-bottom: .8rem;
+}
+.text-align {
+    text-align: center;
+}
+.icon-font {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.circle-btn {
+    padding: 6px 15px 7px 15px;
+    font-size: 14px;
+    border-radius: 36px;
+    height: 36px;
+}

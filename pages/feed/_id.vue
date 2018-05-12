@@ -211,9 +211,15 @@
                                         <span class="messager-time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
                                     </div>
                                 </div>
-                                <div class="icon-group">
-                                    <span class="icon icon-font icon-pinglun"></span>
-                                    <span class="icon icon-font icon-dianzan1"></span>
+                                <div class="icon-group flex">
+                                    <p class="flex flex-align-center" style="margin-right:5px">
+                                        <span class="icon-font icon-message"></span>
+                                        <span>20</span>
+                                    </p>
+                                    <p class="flex flex-align-center">
+                                        <span class="icon-font icon-dianzan2"></span>
+                                        <span>9.9k</span>
+                                    </p>
                                 </div>
                             </div>
                             <div class="messager-content">{{ item.content }}</div>
@@ -231,9 +237,16 @@
                             
                         </li>
                     </ul>
-                    <Button v-if="$store.state.messagelist.count>1" type="text" :loading="loading===2" long @click="learnMore" class="learn-more">
-                        查看更多留言
-                    </Button>
+                    <div class="learn-more" v-if="$store.state.messagelist.count>1" >
+                        <span @click="learnMore" class="flex flex-align-center flex-pack-center">
+                            <span v-if="loading === 1">查看更多留言</span>
+                            <span v-else-if="loading===2" class="flex flex-align-center">
+                                <span>正在加载</span>
+                                <mt-spinner :size="16" type="triple-bounce" color="#495060" style="margin-left:5px"></mt-spinner>
+                            </span>
+                            <span v-else>到底了，没有更多了</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -285,7 +298,7 @@ export default {
         learnMore() {
             this.loading = 2;
             setTimeout(() => {
-                this.loading = 1;
+                this.loading = 3;
                 this.isActive = false;
             }, 3000)
         },
@@ -441,8 +454,8 @@ export default {
         font-size: 13px;
         line-height: 24px;
     }
-    .learn-more.ivu-btn-text:focus{
-        box-shadow: none;
+    .learn-more {
+        margin: 8px 0;
     }
     .lg-preview-nav-arrow{
         border-top: 2px solid #333 !important;

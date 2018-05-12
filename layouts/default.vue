@@ -10,13 +10,17 @@
         }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
             <div class="flex flex-align-center">
-              <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg">
-              <img v-else class="access-not" :src="$store.state.res.blogo">
+              <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg" :onerror="defaultErrorImg">
+              <img v-else class="access-not" :src="$store.state.res.blogo" :onerror="defaultErrorImg">
               <span class="communityName">{{ $store.state.res.communityName }}</span>
             </div>
             <div class="flex flex-align-center">
-              <Button type="primary" icon="plus">关注</Button>
-              <Icon type="ios-more" class="icon-ios-more"></Icon>
+              <mt-button type="primary" size="small">
+                <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span> 
+                <span>关注</span>
+              </mt-button>
+              <!-- <Icon type="ios-more" class="icon-ios-more"></Icon> -->
+              <span class="icon icon-font icon-iconfontmore icon-ios-more"></span>
             </div>
         </div>
       </nav>
@@ -24,7 +28,9 @@
         <nuxt/>
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE" class="footer">
-        <Button type="primary" shape="circle" size="large">App内打开</Button>
+        <mt-button type="primary" size="small" class="circle-btn">
+            App内打开
+          </mt-button>
       </div>
     </div>
     <div class="not-exist" v-else>
@@ -36,6 +42,7 @@
   export default {
     data() {
       return {
+        defaultErrorImg: 'this.src="' + require('~/assets/images/default.jpeg') + '"',
         col: '#333',
         scrollnav: false,
         exist: true

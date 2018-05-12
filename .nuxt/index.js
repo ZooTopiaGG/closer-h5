@@ -15,7 +15,8 @@ import { createStore } from './store.js'
 import nuxt_plugin_axios_21a4219c from 'nuxt_plugin_axios_21a4219c' // Source: ./axios.js
 import nuxt_plugin_api_785206da from 'nuxt_plugin_api_785206da' // Source: ../plugins/api.js
 import nuxt_plugin_utils_1ea7651c from 'nuxt_plugin_utils_1ea7651c' // Source: ../plugins/utils.js
-import nuxt_plugin_iview_acf623c2 from 'nuxt_plugin_iview_acf623c2' // Source: ../plugins/iview.js
+import nuxt_plugin_components_50cb0b6b from 'nuxt_plugin_components_50cb0b6b' // Source: ../plugins/components.js
+import nuxt_plugin_mintui_985e35ea from 'nuxt_plugin_mintui_985e35ea' // Source: ../plugins/mintui.js
 import nuxt_plugin_axios_3566aa80 from 'nuxt_plugin_axios_3566aa80' // Source: ../plugins/axios
 import nuxt_plugin_pictureview_b22525a6 from 'nuxt_plugin_pictureview_b22525a6' // Source: ../plugins/picture-view.js
 import nuxt_plugin_device_71515d2b from 'nuxt_plugin_device_71515d2b' // Source: ../plugins/device.js (ssr: false)
@@ -160,7 +161,8 @@ async function createApp (ssrContext) {
   if (typeof nuxt_plugin_axios_21a4219c === 'function') await nuxt_plugin_axios_21a4219c(app.context, inject)
   if (typeof nuxt_plugin_api_785206da === 'function') await nuxt_plugin_api_785206da(app.context, inject)
   if (typeof nuxt_plugin_utils_1ea7651c === 'function') await nuxt_plugin_utils_1ea7651c(app.context, inject)
-  if (typeof nuxt_plugin_iview_acf623c2 === 'function') await nuxt_plugin_iview_acf623c2(app.context, inject)
+  if (typeof nuxt_plugin_components_50cb0b6b === 'function') await nuxt_plugin_components_50cb0b6b(app.context, inject)
+  if (typeof nuxt_plugin_mintui_985e35ea === 'function') await nuxt_plugin_mintui_985e35ea(app.context, inject)
   if (typeof nuxt_plugin_axios_3566aa80 === 'function') await nuxt_plugin_axios_3566aa80(app.context, inject)
   if (typeof nuxt_plugin_pictureview_b22525a6 === 'function') await nuxt_plugin_pictureview_b22525a6(app.context, inject)
   
