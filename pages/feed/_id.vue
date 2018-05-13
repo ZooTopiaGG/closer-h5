@@ -298,22 +298,31 @@ export default {
                 const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
                 const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
                 const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-                let size
+                let size, flag
+                console.log('pImg===', pImg)
                 pImg.forEach((x, i) => {
                 // console.log(`第${i}个x====`, x)
                 let srcArray = x.match(regexSrc);
                 let widthArray = x.match(regexWidth);
                 let heightArray = x.match(regexHeight);
-                // console.log(srcArray)
-                if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
-                  size = self.$deviceWidth
-                } else {
-                  size = parseInt(self.$deviceWidth * heightArray[1] / widthArray[1])
-                }
-                // 替换插入需要的值
-                let flag = `<div class="imgbox" width="${self.$deviceWidth}" height="${parseInt(self.$deviceWidth * heightArray[1] / widthArray[1])}">
+                console.log(`${widthArray} ---- ${heightArray}`)
+                if(widthArray && heightArray) {
+                    if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
+                      size = self.$deviceWidth
+                    } else {
+                      size = parseInt(self.$deviceWidth * heightArray[1] / widthArray[1])
+                    }
+                    flag = `<div class="imgbox" width="${self.$deviceWidth}" height="${parseInt(self.$deviceWidth * heightArray[1] / widthArray[1])}">
                     <img src="${srcArray[1]}?s=${size}" width="${self.$deviceWidth}" height="${parseInt(self.$deviceWidth * heightArray[1] / widthArray[1])}"/>
                     </div>`
+                } else {
+                    size = '500'
+                    flag = `<div class="imgbox" width="7.5rem" height="4.18rem" style="background-color: #eee">
+                    <img src="${srcArray[1]}?s=${size}" width="${self.$deviceWidth}" height="auto"/>
+                    </div>`
+                }
+                // 替换插入需要的值
+                
                 // console.log(`第${i}个flag====`, flag)
                 // 正则替换富文本内的img标签
                 // 替换不同文本

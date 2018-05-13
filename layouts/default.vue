@@ -16,7 +16,7 @@
               <span class="communityName">{{ $store.state.res.communityName }}</span>
             </div>
             <div class="flex flex-align-center">
-              <mt-button type="primary" size="small">
+              <mt-button type="primary" size="small" class="flex tj-focus-btn" >
                 <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span> 
                 <span>关注</span>
               </mt-button>
@@ -69,7 +69,7 @@
           wrp.addEventListener('scroll', this.handleScroll)
         }
       })
-      console.log('this.$store===', this.$store.state)
+      // console.log('this.$store===', this.$store.state)
     }
   }
 </script>
@@ -103,7 +103,9 @@ nav .icon-ios-more {
 }
 nav .communityName {
   color: #495060;
-  font-size: 16px;
+  font-size: 15px;
+  height: 19px;
+  overflow-y: hidden;
 }
 .nuxts{
   margin-top: 0.98rem;
@@ -154,5 +156,9 @@ nav.appnav~.nuxts{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+.tj-focus-btn {
+  width: 70px;
+  box-sizing: border-box;
 }
 </style>
