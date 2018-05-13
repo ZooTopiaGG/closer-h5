@@ -106,6 +106,7 @@ nav .communityName {
 }
 .nuxts{
   margin-top: 0.98rem;
+  overflow-x: hidden;
   /*height: calc(100vh-0.98rem);*/
 }
 /*app内*/

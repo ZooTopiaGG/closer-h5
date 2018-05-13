@@ -14,7 +14,7 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/mint-ui/lib/style.css'},
-      {rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_663941_vo6osb9ywm81714i.css'},
+      {rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_663941_gnf7qlh5o59ltyb9.css'},
       { rel: 'stylesheet', type: 'text/css', href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css' },
     ],
     // 可使用外链形式 引入第三方库
@@ -54,15 +54,6 @@ module.exports = {
         return { x:0,y:0 }
       }
     },
-    // 自定义路由路线
-    // extendRoutes (routes, resolve) {
-    //   console.log(routes)
-    //   routes.push({
-    //     name: 'report-index',
-    //     path: '/',
-    //     component: resolve(__dirname, 'pages/report/index.vue')
-    //   })
-    // }
   },
   // 全局CSS配置
   css: [

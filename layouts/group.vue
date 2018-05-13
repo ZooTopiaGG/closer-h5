@@ -4,8 +4,13 @@
         commonbox: true,
         'flex-v':true }">
         <div class="member">
-            <div class="title">群组成员 10</div>
-            <ul class="group flex flex-align-center">
+            <div class="title">群组成员 {{ $store.state.group_info.group_user_info.length + 1 }}</div>
+            <ul :class="{
+                group: true, 
+                flex: true, 
+                'flex-align-center': true,
+                lookGroup: loadingmore
+            }">
                 <li v-if="$store.state.group_info.group_info.group" class="flex flex-v flex-align-center flex-pack-center">
                     <img v-if="$store.state.group_info.group_info.group.attributes.monitor.user.avatar" 
                         :src="$com.makeFileUrl($store.state.group_info.group_info.group.attributes.monitor.user.avatar, 'src', 60)" 
@@ -19,6 +24,11 @@
                     <span>{{ item.props.roster.name }}</span>
                 </li>
             </ul>
+            <div class="more flex flex-align-center flex-pack-center" @click="lookmore">
+                <span>所有群成员</span>
+                <span v-if="!loadingmore" class="iconfont icon-ICONbiaozhun_fuzhi-"></span>
+                <span v-else class="iconfont icon-ICONbiaozhun_fuzhi-1"></span>
+            </div>
         </div>
         <div class="intro">
             <div class="title">群简介</div>
@@ -122,7 +132,9 @@
             </div>
         </div>
         <div class="footer">
-            <Button type="primary" shape="circle" size="large">打开贴近群组</Button>
+            <mt-button type="primary" size="small" class="circle-btn">
+                打开贴近群组
+            </mt-button>
         </div>
     </div>
 </template>
@@ -132,13 +144,17 @@
         data() {
             return {
                 defaultErrorImg: 'this.src="' + require('~/assets/images/default.jpeg') + '"',
-                id: ''
+                id: '',
+                loadingmore: false
             }
         },
         methods: {
             tofeeddetails(item) {
                 // console.log(item.subjectid)
                 this.$router.push( { path: `/feed/${item.subjectid}` } )
+            },
+            lookmore() {
+                this.loadingmore = !this.loadingmore
             }
         },
         mounted() {
@@ -207,17 +223,35 @@
     }
     .group {
         flex-wrap: wrap;
+        height: 4rem;
+        overflow: hidden;
+    }
+    .lookGroup {
+        height: auto;
+        overflow-y: auto;
     }
     .group li {
         width: 20%;
         margin-bottom: 0.15rem;
+        height: 2rem;
+        box-sizing: border-box;
     }
     .group li>img {
-        width: 60px;
-        height: 60px;
+        max-width: 1.2rem;
+        max-height: 1.2rem;
+        width: 100%;
+        height: auto;
         display: block;
         border-radius: 100%;
         margin-bottom: .1rem
+    }
+    .group li span{
+        height: 24px;
+        line-height: 24px;
+        overflow: hidden;
+    }
+    .more {
+        margin: .3rem 0 0.2rem
     }
     /*feed流*/
     .feed-list-cell {
@@ -271,9 +305,5 @@
     }
     .prism-player {
         margin-bottom: .3rem;
-    }
-    .group li span{
-        height: 18px;
-        overflow: hidden;
     }
 </style>
