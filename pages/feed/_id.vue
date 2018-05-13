@@ -12,7 +12,7 @@
                     <div v-if="$store.state.GET_MESSAGE_STATE">
                         <div class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images.length == 1">
                             <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" style="width: 100%;height:100%;" :key="index">
-                                <img class="feed-cover-list" v-preview="$com.makeFileUrl(img.link)" :src="$com.makeFileUrl(img.link, 'src')" :onerror="defaultErrorImg">
+                                <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)" :onerror="defaultErrorImg">
                                 <span 
                                 class="gif"
                                 v-if= "img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1"
@@ -20,7 +20,9 @@
                             </div>
                         </div>
                         <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images.length == 2" >
-                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}" :key="index">
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" 
+                                v-lazy:background-image="$com.makeFileUrl(img.link)" 
+                                :style="{width: '50%',height:'0',paddingBottom:'50%',  backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}" :key="index">
                                 <img class="feeder-cover-list " v-preview="$com.makeFileUrl(img.link)" :onerror="defaultErrorImg">
                                 <span 
                                 class="gif"
@@ -29,7 +31,10 @@
                             </div>
                         </div>
                         <div class="feeder-img flex" v-else-if="$store.state.content.images.length == 3 || $store.state.content.images.length > 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images"
+                                v-lazy:background-image="$com.makeFileUrl(img.link)" 
+                                :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" 
+                                :key="index">
                                 <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)" :onerror="defaultErrorImg">
                                 <span 
                                 class="gif"
@@ -38,47 +43,10 @@
                             </div>
                         </div>
                         <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images.length == 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
+                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images"
+                                v-lazy:background-image="$com.makeFileUrl(img.link)" 
+                                :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
                                 <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)" :onerror="defaultErrorImg">
-                                <span 
-                                class="gif"
-                                v-if= "img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1"
-                                >GIF图</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 在app内   不会在appnei-->
-                    <div v-else>
-                        <div class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images.length == 1">
-                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" style="width: 100%;height:100%;" :key="index">
-                                <img class="feed-cover" :onerror="defaultErrorImg" :src="$com.makeFileUrl(img.link, 'src')">
-                                <span 
-                                class="gif"
-                                v-if= "img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1"
-                                >GIF图</span>
-                            </div>
-                        </div>
-                        <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images.length == 2" >
-                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}" :key="index">
-                                <img class="feeder-cover-list">
-                                <span 
-                                class="gif"
-                                v-if= "img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1"
-                                >GIF图</span>
-                            </div>
-                        </div>
-                        <div class="feeder-img flex" v-else-if="$store.state.content.images.length == 3 || $store.state.content.images.length > 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
-                                <img class="feeder-cover-list">
-                                <span 
-                                class="gif"
-                                v-if= "img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1"
-                                >GIF图</span>
-                            </div>
-                        </div>
-                        <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images.length == 4" >
-                            <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }" :key="index">
-                                <img class="feeder-cover-list">
                                 <span 
                                 class="gif"
                                 v-if= "img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1"
@@ -105,7 +73,7 @@
                         position:'relative', 
                         width: $deviceWidth+'px',
                         height: ($deviceWidth * 465 / 375 )+'px'}" 
-                        :src="$com.makeFileUrl($store.state.res.bigcover, 'src', parseInt($deviceWidth * 465 / 375))"
+                        v-lazy="$com.makeFileUrl($store.state.res.bigcover)"
                         :onerror="defaultErrorImg">
                         <div class="hide-over"></div>
                     </div>
@@ -119,7 +87,7 @@
                         position:'relative', 
                         width: $deviceWidth+'px',
                         height: ($deviceWidth * 209 / 375 )+'px'}"
-                        :src="$com.makeFileUrl($store.state.res.cover, 'src', 375)"
+                        v-lazy="$com.makeFileUrl($store.state.res.cover)"
                         :onerror="defaultErrorImg">
                         <div class="hide-over"></div>
                     </div>
@@ -133,7 +101,9 @@
                         <ul class="feeder-comments" v-if="$store.state.res.int_category === 3">
                             <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in $store.state.discuss" :key="index">
                                 <div class="feeder-comment-info flex flex-align-center flex-pack-end">
-                                    <i :style="{ backgroundImage: 'url('+$com.makeFileUrl(item.avatar, 'src')+')', backgroundSize: 'cover' }"></i>
+                                    <i 
+                                    v-lazy:background-image="$com.makeFileUrl(item.avatar)" 
+                                    :style="{ backgroundSize: 'cover' }"></i>
                                 </div>
                                 <div class="flex-1">
                                     <div class="feeder-comment-nickname flex flex-pack-justify">
@@ -148,18 +118,25 @@
                                     <!-- 包含图片 -->
                                     <div v-else-if="item.type === 1" class="feeder-comment">
                                         <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
-                                            <img class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" :src="$com.makeFileUrl(item.image.link, 'src')" :onerror="defaultErrorImg">
+                                            <img class="feeder-comment-img" 
+                                            v-preview="$com.makeFileUrl(item.image.link)"
+                                            v-lazy="$com.makeFileUrl(item.image.link)"
+                                            :onerror="defaultErrorImg">
                                             <span 
                                             class="gif"
                                             v-if= "item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1"
                                             >GIF图</span>
                                         </div>
-                                        <img v-else class="feeder-comment-img" :src="$com.makeFileUrl(item.image.link, 'src')" :onerror="defaultErrorImg">
+                                        <img v-else class="feeder-comment-img" 
+                                        v-lazy="$com.makeFileUrl(item.image.link)"
+                                        :onerror="defaultErrorImg">
                                     </div>
                                     <!-- 包含贴子 -->
                                     <div v-else-if="item.type === 3" class="feeder-comment flex flex-align-center feeder-comment-3">
                                         <div class="feeder-comment-3-cover flex">
-                                            <i v-if="item.feed.imageUrl" :style="{ backgroundImage: 'url('+$com.makeFileUrl(item.feed.imageUrl, 'src')+')', backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
+                                            <i v-if="item.feed.imageUrl" 
+                                            v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)" 
+                                            :style="{backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
                                         </div>
                                         <div>
                                             <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
@@ -205,7 +182,9 @@
                         <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
                             <div class="messager-info flex flex-align-center flex-pack-justify">
                                 <div class="messager-info-div flex flex-align-center">
-                                    <img :src="$com.makeFileUrl(item.user.avatar)" :onerror="defaultErrorImg">
+                                    <img 
+                                    v-lazy="$com.makeFileUrl(item.user.avatar)"
+                                    :onerror="defaultErrorImg">
                                     <div class="flex flex-v">
                                         <span>{{ item.user.fullname }}</span>
                                         <span class="messager-time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
@@ -308,8 +287,85 @@ export default {
             this.disabled = false;
             this.loading = 1;
         },
+        // 替换文本中图片和视频字符串
+        async parseLongGraphic() {
+            let self = this
+            // self.$store.state.content.html 复制到self.content.html
+            self.content.html = self.$store.state.content.html;
+            const regexImg = /<img.*?(?:>|\/>)/gi;
+            let pImg = self.content.html.match(regexImg);
+            if (pImg) {
+                const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+                const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+                const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+                let size
+                pImg.forEach((x, i) => {
+                // console.log(`第${i}个x====`, x)
+                let srcArray = x.match(regexSrc);
+                let widthArray = x.match(regexWidth);
+                let heightArray = x.match(regexHeight);
+                // console.log(srcArray)
+                if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
+                  size = self.$deviceWidth
+                } else {
+                  size = parseInt(self.$deviceWidth * heightArray[1] / widthArray[1])
+                }
+                // 替换插入需要的值
+                let flag = `<div class="imgbox" width="${self.$deviceWidth}" height="${parseInt(self.$deviceWidth * heightArray[1] / widthArray[1])}">
+                    <img src="${srcArray[1]}?s=${size}" width="${self.$deviceWidth}" height="${parseInt(self.$deviceWidth * heightArray[1] / widthArray[1])}"/>
+                    </div>`
+                // console.log(`第${i}个flag====`, flag)
+                // 正则替换富文本内的img标签
+                // 替换不同文本
+                const regexPImg =new RegExp(x);
+                self.content.html = self.content.html.replace(regexPImg, flag);
+              })
+              // console.log('sssss=====', self.content.html)
+            }
+            const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+            var pVideo = await self.content.html.match(regexVideo);
+            if (pVideo) {
+                // 正则替换富文本内 img标签 待发布（npm）
+                const regexUrl = /imageurl=[\'\"]?([^\'\"]*)[\'\"]?/i;
+                const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
+                // console.log('pVideo=', pVideo)
+                for (let i=0; i<pVideo.length; i++) {
+                    // 匹配imageurl属性下的值
+                    let urlArray = pVideo[i].match(regexUrl);
+                    // 匹配vid属性下的值
+                    let vidArray = pVideo[i].match(regexVid);
+                    // // 替换插入需要的值flg
+                    // let temp = pVideo[i].split('<p>');
+                    let flg = `<div id="J_prismPlayer_${vidArray[1]}" class="prism-player video-player" vid="${vidArray[1]}" cover="${urlArray[1]}"></div>`;
+                    let v = `<p> ${flg}</p>`;
+                    // console.log('v=', v)
+                    self.htmls = await self.content.html.replace(regexVideo, v);
+                    let res = await this.$axios.$get(`${api.command.videos}`)
+                    console.log('res====', res)
+                    let player = new Aliplayer({
+                        id: `J_prismPlayer_${vidArray[1]}`,
+                        width: '100%',
+                        autoplay: false,
+                        prismType: 2,
+                        playsinline: true, //app内播放设置
+                        qualitySort: 'desc', //清晰度切换
+                        vid : vidArray[1],
+                        playauth : '',
+                        cover: urlArray[1],
+                        accessKeyId: res.result.accessKeyId,
+                        securityToken: res.result.securityToken,
+                        accessKeySecret: res.result.accessKeySecret
+                    }, function(player){
+                        console.log('播放器创建好了。')
+                   })
+                }   
+            } else {
+                self.htmls = self.content.html;
+            }
+        },
     },
-    mounted() {      
+    mounted() {
+        console.log('$deviceWidth===', this.$deviceWidth)      
         // 在前端执行播放视频 先判断 只能在mounted中执行
         if (this.$store.state.res.int_type === 1) {
             let res = this.$axios.$get(`${api.command.videos}`)
@@ -339,55 +395,7 @@ export default {
         // 判断是否是长图文
         if (this.$store.state.res.int_type === 2) {
             if (this.$store.state.options) {
-                let self = this
-                // self.$store.state.content.html 复制到self.content.html
-                self.content.html = self.$store.state.content.html;
-                const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
-                var pVideo = self.content.html.match(regexVideo);
-                if (pVideo) {
-                    // 正则替换富文本内 img标签 待发布（npm）
-                    const regexUrl = /imageurl=[\'\"]?([^\'\"]*)[\'\"]?/i;
-                    const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
-                    // console.log('pVideo=', pVideo)
-                    for (let i=0; i<pVideo.length; i++) {
-                        // 匹配imageurl属性下的值
-                        let urlArray = pVideo[i].match(regexUrl);
-                        // 匹配vid属性下的值
-                        let vidArray = pVideo[i].match(regexVid);
-                        // // 替换插入需要的值flg
-                        // let temp = pVideo[i].split('<p>');
-                        let flg = `<div id="J_prismPlayer_${vidArray[1]}" class="prism-player video-player" vid="${vidArray[1]}" cover="${urlArray[1]}"></div>`;
-                        let v = `<p> ${flg}</p>`;
-                        // console.log('v=', v)
-                        new Promise((resolve, reject) => {
-                            self.htmls = self.content.html.replace(regexVideo, v);
-                            // console.log('htmls = ', self.htmls)
-                            resolve(self.htmls);
-                        }).then(r => {
-                            let res = this.$axios.$get(`${api.command.videos}`)
-                            .then(res => {
-                                let player = new Aliplayer({
-                                    id: `J_prismPlayer_${vidArray[1]}`,
-                                    width: '100%',
-                                    autoplay: false,
-                                    prismType: 2,
-                                    playsinline: true, //app内播放设置
-                                    qualitySort: 'desc', //清晰度切换
-                                    vid : vidArray[1],
-                                    playauth : '',
-                                    cover: urlArray[1],
-                                    accessKeyId: res.result.accessKeyId,
-                                    securityToken: res.result.securityToken,
-                                    accessKeySecret: res.result.accessKeySecret
-                                }, function(player){
-                                    console.log('播放器创建好了。')
-                               })
-                            })
-                        })
-                    }   
-                } else {
-                    self.htmls = self.content.html;
-                }
+                this.parseLongGraphic()
             }
             
         } 

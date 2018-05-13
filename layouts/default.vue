@@ -10,8 +10,9 @@
         }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
             <div class="flex flex-align-center">
-              <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg" :onerror="defaultErrorImg">
-              <img v-else class="access-not" :src="$store.state.res.blogo" :onerror="defaultErrorImg">
+              <!-- <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg" :onerror="defaultErrorImg">
+              <img v-else class="access-not" :src="$store.state.res.blogo" :onerror="defaultErrorImg"> -->
+              <img class="access-not" v-lazy="$store.state.res.blogo">
               <span class="communityName">{{ $store.state.res.communityName }}</span>
             </div>
             <div class="flex flex-align-center">
@@ -68,7 +69,7 @@
           wrp.addEventListener('scroll', this.handleScroll)
         }
       })
-      // console.log('this.$store===', this.$store.state)
+      console.log('this.$store===', this.$store.state)
     }
   }
 </script>

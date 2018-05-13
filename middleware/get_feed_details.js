@@ -18,11 +18,6 @@ export default async function ({ params, store, app, req }) {
         // console.log('ssss?S???????')
         store.commit('GET_EXIST_STATUS', false)
       } else {
-        // if (res.result.bigCover) {
-        //   let wh = {
-        //     height: 
-        //   }
-        // }
         if (res.result.content) {
           var content = JSON.parse(res.result.content)
           if (content.discuss) {
@@ -51,8 +46,10 @@ export default async function ({ params, store, app, req }) {
           }
           if (res.result.int_type === 2) {
               const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+              const regexImg = /<img.*?(?:>|\/>)/gi;
+              let pImg = content.html.match(regexImg);
               let pVideo = content.html.match(regexVideo);
-              if (pVideo && pVideo.length > 0) {
+              if ((pVideo && pVideo.length > 0) || (pImg && pImg.length > 0)) {
                 store.commit('SET_OPTIONS', true)
               } else {
                 store.commit('SET_OPTIONS', false)

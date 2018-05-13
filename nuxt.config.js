@@ -13,7 +13,7 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/mint-ui/lib/style.css'},
+      {rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/mint-ui@2.2.13/lib/style.css'},
       {rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_663941_gnf7qlh5o59ltyb9.css'},
       { rel: 'stylesheet', type: 'text/css', href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css' },
     ],
@@ -37,6 +37,7 @@ module.exports = {
         })();`,
         type: 'text/javascript', charset: 'utf-8'},
       { src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js' },
+      { src: 'https://unpkg.com/vue-lazyload@1.2.3/vue-lazyload.js' },
     ],
     __dangerouslyDisableSanitizers: ['script']
   },
@@ -121,6 +122,7 @@ module.exports = {
     '~/plugins/mintui.js',
     '~/plugins/axios',
     '~/plugins/picture-view.js',
-    {src: '~/plugins/device.js', ssr: false}
+    {src: '~/plugins/device.js', ssr: false},
+    {src: '~/plugins/lazyload.js', ssr: false}
   ]
 }

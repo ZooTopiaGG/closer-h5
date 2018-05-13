@@ -116,7 +116,9 @@ a,input,button{
     height: auto;
     margin: 8px 0;
 }
-
+#summary .imgbox {
+  margin: .2rem 0
+}
 html body {
   background-color: #fff;
   max-width: 10rem;

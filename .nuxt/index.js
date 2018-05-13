@@ -20,6 +20,7 @@ import nuxt_plugin_mintui_985e35ea from 'nuxt_plugin_mintui_985e35ea' // Source:
 import nuxt_plugin_axios_3566aa80 from 'nuxt_plugin_axios_3566aa80' // Source: ../plugins/axios
 import nuxt_plugin_pictureview_b22525a6 from 'nuxt_plugin_pictureview_b22525a6' // Source: ../plugins/picture-view.js
 import nuxt_plugin_device_71515d2b from 'nuxt_plugin_device_71515d2b' // Source: ../plugins/device.js (ssr: false)
+import nuxt_plugin_lazyload_10f2b7b2 from 'nuxt_plugin_lazyload_10f2b7b2' // Source: ../plugins/lazyload.js (ssr: false)
 
 
 // Component: <no-ssr>
@@ -168,6 +169,7 @@ async function createApp (ssrContext) {
   
   if (process.browser) { 
     if (typeof nuxt_plugin_device_71515d2b === 'function') await nuxt_plugin_device_71515d2b(app.context, inject)
+    if (typeof nuxt_plugin_lazyload_10f2b7b2 === 'function') await nuxt_plugin_lazyload_10f2b7b2(app.context, inject)
   }
 
   // If server-side, wait for async component to be resolved first
