@@ -1,28 +1,27 @@
 <template>
   <div>
     <div v-if="$store.state.exist">
-      <nav v-if="$store.state.GET_MESSAGE_STATE" 
-        :class="{ appnav: $store.state.res.int_type === 2,
+      <nav v-if="$store.state.GET_MESSAGE_STATE" :class="{ appnav: $store.state.res.int_type === 2,
           scrollnav: scrollnav,
           flex: true,
           'flex-v': true,
           'flex-pack-center': true
         }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
-            <div class="flex flex-align-center">
-              <!-- <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg" :onerror="defaultErrorImg">
+          <div class="flex flex-align-center">
+            <!-- <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg" :onerror="defaultErrorImg">
               <img v-else class="access-not" :src="$store.state.res.blogo" :onerror="defaultErrorImg"> -->
-              <img class="access-not" v-lazy="$store.state.res.blogo">
-              <span class="communityName">{{ $store.state.res.communityName }}</span>
-            </div>
-            <div class="flex flex-align-center">
-              <mt-button type="primary" size="small" class="flex tj-focus-btn" >
-                <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span> 
-                <span>关注</span>
-              </mt-button>
-              <!-- <Icon type="ios-more" class="icon-ios-more"></Icon> -->
-              <span class="icon icon-font icon-iconfontmore icon-ios-more"></span>
-            </div>
+            <img class="access-not" v-lazy="$store.state.res.blogo">
+            <span class="communityName">{{ $store.state.res.communityName }}</span>
+          </div>
+          <div class="flex flex-align-center">
+            <mt-button type="primary" size="small" class="flex tj-focus-btn">
+              <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
+              <span>关注</span>
+            </mt-button>
+            <!-- <Icon type="ios-more" class="icon-ios-more"></Icon> -->
+            <span class="icon icon-font icon-iconfontmore icon-ios-more"></span>
+          </div>
         </div>
       </nav>
       <div id="wrapper" :class="{ 'web-class': $store.state.GET_MESSAGE_STATE, nuxts:true, appnuxts: !$store.state.GET_MESSAGE_STATE }">
@@ -30,8 +29,8 @@
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE" class="footer">
         <mt-button type="primary" size="small" class="circle-btn">
-            App内打开
-          </mt-button>
+          App内打开
+        </mt-button>
       </div>
     </div>
     <div class="not-exist" v-else>
@@ -40,42 +39,47 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        defaultErrorImg: 'this.src="' + require('~/assets/images/default.jpeg') + '"',
-        col: '#333',
-        scrollnav: false,
-        exist: true
-      }
-    },
-    methods: {
-      handleScroll (e) {
-        if (this.$route.path.indexOf('feed/') > -1 && this.$store.state.res.int_type === 2) {
-          if(e.target.scrollTop>= 80){
-            this.scrollnav = true
-          } else {
-            this.scrollnav = false
-          }
+export default {
+  data() {
+    return {
+      defaultErrorImg:
+        'this.src="' + require("~/assets/images/default.jpeg") + '"',
+      col: "#333",
+      scrollnav: false,
+      exist: true
+    };
+  },
+  methods: {
+    handleScroll(e) {
+      if (
+        this.$route.path.indexOf("feed/") > -1 &&
+        this.$store.state.res.int_type === 2
+      ) {
+        if (e.target.scrollTop >= 80) {
+          this.scrollnav = true;
         } else {
-          console.log('不是长图文类型')
+          this.scrollnav = false;
         }
+      } else {
+        console.log("不是长图文类型");
       }
-    },
-    mounted() {
-      this.$nextTick ( () => {
-        let wrp = document.getElementById('wrapper')
-        if (wrp) {
-          wrp.addEventListener('scroll', this.handleScroll)
-        }
-      })
-      // console.log('this.$store===', this.$store.state)
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      let wrp = document.getElementById("wrapper");
+      if (wrp) {
+        wrp.addEventListener("scroll", this.handleScroll);
+      }
+    });
+    // console.log('this.$store===', this.$store.state)
   }
+};
 </script>
 <style>
 html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -85,78 +89,97 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   margin: 0;
 }
+
 nav {
   width: 100%;
   height: 0.98rem;
   position: fixed;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   background: #fff;
   z-index: 999;
 }
+
 nav .icon-ios-more {
   color: #495060;
 }
+
 nav .communityName {
   color: #495060;
   font-size: 15px;
   height: 19px;
   overflow-y: hidden;
 }
-.nuxts{
+
+.nuxts {
   margin-top: 0.98rem;
   overflow-x: hidden;
   /*height: calc(100vh-0.98rem);*/
 }
+
 /*app内*/
+
 nav.appnav {
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
 }
+
 nav.appnav .icon-ios-more {
   color: #fff;
 }
+
 nav.appnav .communityName {
   color: #fff;
 }
-nav.scrollnav{
+
+nav.scrollnav {
   background: #fff;
   /*padding-top: 0;*/
 }
+
 nav.scrollnav .icon-ios-more {
   color: #495060;
 }
+
 nav.scrollnav .communityName {
   color: #495060;
 }
-nav.appnav~.nuxts{
+
+nav.appnav ~ .nuxts {
   margin-top: 0;
   height: 100vh;
 }
-.appnuxts{
+
+.appnuxts {
   margin-top: 0;
   /*height: 100vh;*/
 }
+
 .access-not {
   width: 1.64rem;
-  height: .64rem;
-  margin-right: .2rem;
+  height: 0.64rem;
+  margin-right: 0.2rem;
   border-radius: 0 3px 3px 0;
 }
+
 .icon-ios-more {
   font-size: 28px;
-  margin-left: .4rem;
-  margin-right: .2rem;
+  margin-left: 0.4rem;
+  margin-right: 0.2rem;
 }
+
 .not-exist {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
+
 .tj-focus-btn {
   width: 70px;
   box-sizing: border-box;
