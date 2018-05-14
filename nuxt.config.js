@@ -1,25 +1,50 @@
 const nodeExternals = require('webpack-node-externals')
 module.exports = {
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: '贴近Closer',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
-      { name: 'format-detection', content:"telephone=no" },
-      { hid: 'description', name: 'description', content: '贴近Closer' }
+    meta: [{
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1, user-scalable=no'
+      },
+      {
+        name: 'format-detection',
+        content: "telephone=no"
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: '贴近Closer'
+      }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/mint-ui@2.2.13/lib/style.css'},
-      {rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_663941_gnf7qlh5o59ltyb9.css'},
-      { rel: 'stylesheet', type: 'text/css', href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css' },
+    link: [{
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: 'https://unpkg.com/mint-ui@2.2.13/lib/style.css'
+      },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: '//at.alicdn.com/t/font_663941_gnf7qlh5o59ltyb9.css'
+      },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css'
+      },
     ],
     // 可使用外链形式 引入第三方库
-    script: [
-      { 
+    script: [{
         innerHTML: `(function() {
             if (typeof window !== 'undefined') {
                 let deviceWidth = document.documentElement.clientWidth
@@ -35,9 +60,15 @@ module.exports = {
                 console.log('Do not use window in server')
             }
         })();`,
-        type: 'text/javascript', charset: 'utf-8'},
-      { src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js' },
-      { src: 'https://unpkg.com/vue-lazyload@1.2.3/vue-lazyload.js' },
+        type: 'text/javascript',
+        charset: 'utf-8'
+      },
+      {
+        src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
+      },
+      {
+        src: 'https://unpkg.com/vue-lazyload@1.2.3/vue-lazyload.js'
+      },
     ],
     __dangerouslyDisableSanitizers: ['script']
   },
@@ -47,36 +78,49 @@ module.exports = {
     mode: 'history',
     // 中间件 在路由之前判断浏览器内核
     middleware: 'user-agent',
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
       // return 期望滚动到哪个的位置
-      if(savedPosition){
+      if (savedPosition) {
         return savedPosition
-      }else{
-        return { x:0,y:0 }
+      } else {
+        return {
+          x: 0,
+          y: 0
+        }
       }
     },
   },
   // 全局CSS配置
-  css: [
-    { src: '~/assets/css/style.css' },
-    { src: '~/assets/css/common.css' },
-    { src: '~/assets/css/reset.css' },
+  css: [{
+      src: '~/assets/css/style.css'
+    },
+    {
+      src: '~/assets/css/common.css'
+    },
+    {
+      src: '~/assets/css/reset.css'
+    },
   ],
   modules: [
     '@nuxtjs/axios',
   ],
   axios: {
-    retry: { retries: 3 },
-    baseURL: 'http://api-sandbox.tiejin.cn/command/',
+    retry: {
+      retries: 3
+    },
+    baseURL: 'https://api-sandbox.tiejin.cn/command/',
     debug: true, // 添加拦截器
   },
   /*
-  ** Customize the progress bar color
-  */
-  loading: { color: '#FDDB00', height: '2px' },
+   ** Customize the progress bar color
+   */
+  loading: {
+    color: '#FDDB00',
+    height: '2px'
+  },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     analyze: true,
     // or
@@ -88,9 +132,13 @@ module.exports = {
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
     vendor: ['axios', 'vue-picture-preview2', 'mint-ui'],
     /*
-    ** Run ESLint on save
-    */
-    extend (config, { isDev, isClient, isServer }) {
+     ** Run ESLint on save
+     */
+    extend(config, {
+      isDev,
+      isClient,
+      isServer
+    }) {
       config.externals = {
         'Aliplayer': 'Aliplayer'
       }
@@ -122,7 +170,13 @@ module.exports = {
     '~/plugins/mintui.js',
     '~/plugins/axios',
     '~/plugins/picture-view.js',
-    {src: '~/plugins/device.js', ssr: false},
-    {src: '~/plugins/lazyload.js', ssr: false}
+    {
+      src: '~/plugins/device.js',
+      ssr: false
+    },
+    {
+      src: '~/plugins/lazyload.js',
+      ssr: false
+    }
   ]
 }

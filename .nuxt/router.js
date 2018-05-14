@@ -15,10 +15,13 @@ const _a6aeca04 = () => import('../pages/_flag/index.vue' /* webpackChunkName: "
 
 const scrollBehavior = function(to, from, savedPosition) {
       // return 期望滚动到哪个的位置
-      if(savedPosition){
+      if (savedPosition) {
         return savedPosition
-      }else{
-        return { x:0,y:0 }
+      } else {
+        return {
+          x: 0,
+          y: 0
+        }
       }
     }
 

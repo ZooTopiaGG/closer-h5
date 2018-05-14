@@ -15,7 +15,7 @@
             <span class="communityName">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
-            <mt-button type="primary" size="small" class="flex tj-focus-btn">
+            <mt-button type="primary" size="small" class="flex tj-focus-btn" @click="tjFocus">
               <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
               <span>关注</span>
             </mt-button>
@@ -62,6 +62,31 @@ export default {
         }
       } else {
         console.log("不是长图文类型");
+      }
+    },
+    // 关注
+    async tjFocus() {
+      let self = this;
+      try {
+        let para = {
+          path: "https://h5-sandbox.tiejin.cn/feed/weUNHRmp7D8t"
+        };
+        let data = await self.$axios.$post(`${api.admin.get_auth_path}`, para);
+        console.log(data);
+        if (data.code === 0) {
+          console.log("data===", data);
+          location.href = data.result;
+        } else {
+          self.$toast({
+            message: data.result,
+            position: "top"
+          });
+        }
+      } catch (err) {
+        self.$toast({
+          message: err,
+          position: "top"
+        });
       }
     }
   },
