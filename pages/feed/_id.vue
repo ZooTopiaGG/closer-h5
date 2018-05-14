@@ -412,7 +412,6 @@ export default {
 }
 </script>
 <style>
-    /*播放器 样式调整*/
     .prism-volume{
         margin-left: 10px;
     }
