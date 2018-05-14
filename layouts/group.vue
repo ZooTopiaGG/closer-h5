@@ -12,18 +12,19 @@
                 lookGroup: loadingmore
             }">
         <li v-if="$store.state.group_info.group_info.group" class="flex flex-v flex-align-center flex-pack-center">
-          <img v-if="$store.state.group_info.group_info.group.attributes.monitor.user.avatar" :src="$com.makeFileUrl($store.state.group_info.group_info.group.attributes.monitor.user.avatar, 'src', 60)"
+          <img 
+            v-lazy="$com.makeFileUrl($store.state.group_info.group_info.group.attributes.monitor.user.avatar)"
             :onerror="defaultErrorImg">
-          <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500" :onerror="defaultErrorImg">
           <span>{{ $store.state.group_info.group_info.group.attributes.monitor.user.fullname }}</span>
         </li>
         <li v-for="(item, index) in $store.state.group_info.group_user_info" :key="index" class="flex flex-v flex-align-center flex-pack-center">
-          <img v-if="item.props.roster.avatar" :src="$com.makeFileUrl(item.props.roster.avatar, 'src', 60)" :onerror="defaultErrorImg">
-          <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500" :onerror="defaultErrorImg">
+          <img
+            v-lazy="$com.makeFileUrl(item.props.roster.avatar)" 
+            :onerror="defaultErrorImg">
           <span>{{ item.props.roster.name }}</span>
         </li>
       </ul>
-      <div class="more flex flex-align-center flex-pack-center" @click="lookmore">
+      <div v-if="$store.state.group_info.group_user_info.length > 10" class="more flex flex-align-center flex-pack-center" @click="lookmore">
         <span>所有群成员</span>
         <span v-if="!loadingmore" class="iconfont icon-ICONbiaozhun_fuzhi-"></span>
         <span v-else class="iconfont icon-ICONbiaozhun_fuzhi-1"></span>
@@ -43,8 +44,9 @@
           <div class="feed-box">
             <div class="feed-cell-content">
               <div class="columnname flex flex-align-center">
-                <img v-if="item.blogo" :src="item.blogo" :onerror="defaultErrorImg">
-                <img v-else src="http://file-sandbox.tiejin.cn/avatar/u/8Vrm1jbf4B?v=1525248878082?s=500" :onerror="defaultErrorImg">
+                <img
+                  v-lazy="item.blogo" 
+                  :onerror="defaultErrorImg">
                 <span class="name flex-1">{{ item.communityName }}</span>
                 <span class="time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
               </div>
@@ -55,28 +57,37 @@
                   {{ item.content.text }}
                 </div>
                 <div v-if="item.content.images.length == 1" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                  <div 
+                    class="feeder-img-list" 
+                    v-for="(img, index) in item.content.images" 
+                    v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '100%',height:'0',paddingBottom:'56.25%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images.length == 2" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                  <div class="feeder-img-list" 
+                    v-for="(img, index) in item.content.images" 
+                    v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images.length == 3 || item.content.images.length > 4" class="flex feedimgcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                  <div class="feeder-img-list" 
+                    v-for="(img, index) in item.content.images" 
+                    v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%',backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images === 4" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                  <div class="feeder-img-list" 
+                    v-for="(img, index) in item.content.images" 
+                    v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
 
@@ -86,14 +97,18 @@
               </div>
               <!-- 视频贴 int_type == 1-->
               <div class="feedmain" v-else-if="item.int_type === 1">
-                <div class="prism-player" id="J_prismPlayer" :vid="item.content.videos[0].vid" :cover="item.content.videos[0].cover">
+                <div class="prism-player" id="J_prismPlayer" 
+                  :vid="item.content.videos[0].vid" 
+                  :cover="item.content.videos[0].cover">
                 </div>
                 <div v-if="item.content.text" class="feedtitle">{{ item.content.text }}</div>
               </div>
               <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
               <div class="feedmain" v-else-if="item.int_type === 2">
                 <div v-if="item.cover" class="feedcover flex">
-                  <img v-lazy="$com.makeFileUrl(item.cover)" :src="$com.makeFileUrl(item.cover, 'src', 624)" :onerror="defaultErrorImg">
+                  <img 
+                    v-lazy="$com.makeFileUrl(item.cover)" 
+                    :onerror="defaultErrorImg">
                 </div>
                 <div class="feedtype">
                   <div v-if="item.title" class="feedtitle">
@@ -158,8 +173,8 @@ export default {
   mounted() {
     // 在前端执行播放视频 先判断 只能在mounted中执行
     let self = this;
-    console.log("this.group_info====", self.$store.state.group_info);
-    console.log("this.group_res====", self.$store.state.group_res);
+    // console.log("this.group_info====", self.$store.state.group_info);
+    // console.log("this.group_res====", self.$store.state.group_res);
     if (self.$store.state.group_res.length > 0) {
       self.$store.state.group_res.map(x => {
         if (x.int_type === 1) {
@@ -233,7 +248,7 @@ export default {
 
 .group {
   flex-wrap: wrap;
-  height: 4rem;
+  max-height: 4rem;
   overflow: hidden;
 }
 
@@ -272,7 +287,7 @@ export default {
 /*feed流*/
 
 .feed-list-cell {
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid #f1f1f1;
   margin-bottom: 0.4rem;
   padding-bottom: 0.35rem;
 }
