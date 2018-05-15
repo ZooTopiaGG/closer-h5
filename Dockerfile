@@ -1,5 +1,4 @@
-# FROM harbor.tiejin.cn/closer/umscloud-nginx-nodejs
-FROM daocloud.io/library/ubuntu
+FROM harbor.tiejin.cn/closer/umscloud-nginx-nodejs
 
 MAINTAINER dengpeng <peng.deng@tiejin.me>
 
