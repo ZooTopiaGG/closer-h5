@@ -368,10 +368,18 @@ export default {
         //   paras: Cookie.get("user")
         // });
         console.log(Cookie.get("user"));
+        self.$toast({
+          message: "有token",
+          position: "top"
+        });
         // 进行其他 ajax 操作
         return;
       } else {
         // 通过微信授权 获取code
+        self.$toast({
+          message: "没有token",
+          position: "top"
+        });
         await self.$store.dispatch("get_wx_auth", {
           url: location.href
         });

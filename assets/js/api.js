@@ -1,6 +1,6 @@
 let api = {
   // 接口地址
-  base: 'https://api-sandbox.tiejin.cn/',
+  base: 'http://api-sandbox.tiejin.cn/',
   admin: {
     // 微信授权获取code
     get_auth_path: 'closer_auth.get_auth_path',

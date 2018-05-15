@@ -76,6 +76,7 @@ export default {
         // 进行其他 ajax 操作
         return;
       } else {
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         // 通过微信授权 获取code
         await self.$store.dispatch("get_wx_auth", {
           url: location.href
