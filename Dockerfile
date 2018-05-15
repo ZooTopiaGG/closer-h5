@@ -4,12 +4,16 @@ MAINTAINER lichong <lichong@umscloud.com>
 #COPY conf/closer-admin.conf /etc/nginx/conf.d/grouk-dashboard.conf
 
 RUN mkdir /apps/closer-h5
-COPY . /apps/closer-h5/
-WORKDIR /apps/closer-h5
+# 安装npm模块
+ADD package.json /apps/closer-h5/package.json
 
-RUN npm --registry=https://registry.npm.taobao.org install
+# 使用淘宝的npm镜像
+RUN npm install --production -d --registry=https://registry.npm.taobao.org
 
-RUN npm run build
+# 添加源代码
+ADD . /apps/closer-h5
+
+# RUN npm run build
 
 EXPOSE 3601
 
