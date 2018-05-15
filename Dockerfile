@@ -1,4 +1,6 @@
-FROM harbor.tiejin.cn/closer/umscloud-nginx-nodejs
+# FROM harbor.tiejin.cn/closer/umscloud-nginx-nodejs
+FROM daocloud.io/library/ubuntu
+
 MAINTAINER dengpeng <peng.deng@tiejin.me>
 
 #COPY conf/closer-admin.conf /etc/nginx/conf.d/grouk-dashboard.conf
