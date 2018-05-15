@@ -130,7 +130,7 @@ nav {
   top: 0;
   left: 0;
   background: #fff;
-  z-index: 999;
+  z-index: 100;
 }
 
 nav .icon-ios-more {
