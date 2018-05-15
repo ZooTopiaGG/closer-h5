@@ -74,7 +74,8 @@
             <div class="feeder-title"> {{ $store.state.res.title }} </div>
             <!-- 阅读量 -->
             <!-- <div class="read-num">阅读  1929</div> -->
-            <div class="summary" id="summary" v-html="htmls"></div>
+            <div class="summary" id="summary" v-html="htmls">
+            </div>
             <!-- 神议论列表 -->
             <ul class="feeder-comments" v-if="$store.state.res.int_category === 3">
               <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in $store.state.discuss" :key="index">
@@ -160,11 +161,11 @@
                   </div>
                 </div>
                 <div class="icon-group flex">
-                  <p class="flex flex-align-center" style="margin-right:5px">
+                  <p class="flex flex-align-center" style="margin-right:5px" @click="toMessage">
                     <span class="icon-font icon-message"></span>
                     <span>20</span>
                   </p>
-                  <p class="flex flex-align-center">
+                  <p class="flex flex-align-center" @click="toSupport">
                     <span class="icon-font icon-dianzan2"></span>
                     <span>9.9k</span>
                   </p>
@@ -183,7 +184,6 @@
                   <li class="messager-comments-cell" style="color: #5E97CD">{{ item.replyNumber }}条回复</li>
                 </ul>
               </div>
-
             </li>
           </ul>
           <div class="learn-more" v-if="$store.state.messagelist.count>1">
@@ -202,7 +202,7 @@
   </div>
 </template>
 <script>
-// import { mapGetters } from 'vuex'
+import Cookie from "js-cookie";
 export default {
   name: "Feed",
   middleware: "get_feed_details",
@@ -270,7 +270,7 @@ export default {
         const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
         const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
         let size, flag;
-        console.log("pImg===", pImg);
+        // console.log("pImg===", pImg);
         pImg.forEach((x, i) => {
           // console.log(`第${i}个x====`, x)
           let srcArray = x.match(regexSrc);
@@ -304,8 +304,6 @@ export default {
                     </div>`;
           }
           // 替换插入需要的值
-
-          // console.log(`第${i}个flag====`, flag)
           // 正则替换富文本内的img标签
           // 替换不同文本
           const regexPImg = new RegExp(x);
@@ -360,11 +358,58 @@ export default {
       } else {
         self.htmls = self.content.html;
       }
+    },
+    // 去留言
+    async toMessage() {
+      let self = this;
+      // 渲染页面前 先判断cookies token是否存在
+      if (Cookie.get("token")) {
+        // self.$store.dispatch("get_token_by_login", {
+        //   paras: Cookie.get("user")
+        // });
+        console.log(Cookie.get("user"));
+        // 进行其他 ajax 操作
+        return;
+      } else {
+        // 通过微信授权 获取code
+        await self.$store.dispatch("get_wx_auth", {
+          url: location.href
+        });
+        return;
+      }
+    },
+    // 去点赞
+    async toSupport() {
+      let self = this;
+      // 渲染页面前 先判断cookies token是否存在
+      if (Cookie.get("token")) {
+        // self.$store.dispatch("get_token_by_login", {
+        //   paras: Cookie.get("user")
+        // });
+        // 进行其他 ajax 操作
+        console.log(Cookie.get("user"));
+        return;
+      } else {
+        // 通过微信授权 获取code
+        await self.$store.dispatch("get_wx_auth", {
+          url: location.href
+        });
+        return;
+      }
+    }
+  },
+  beforeMount() {
+    let self = this;
+    // 验证code是否存在
+    if (self.$route.query.code) {
+      self.$store.dispatch("get_code_by_login", {
+        code: self.$route.query.code
+      });
     }
   },
   mounted() {
-    console.log("$deviceWidth===", this.$deviceWidth);
-    // 在前端执行播放视频 先判断 只能在mounted中执行
+    // console.log("$deviceWidth===", this.$deviceWidth);
+    // 在前端执行播放视频 先判断 只能在mounted中执行;
     if (this.$store.state.res.int_type === 1) {
       let res = this.$axios
         .$get(`${api.command.videos}`)

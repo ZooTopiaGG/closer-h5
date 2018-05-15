@@ -3,7 +3,8 @@ let api = {
   base: 'https://api-sandbox.tiejin.cn/',
   admin: {
     // 微信授权获取code
-    get_auth_path: 'closer_auth.get_auth_path'
+    get_auth_path: 'closer_auth.get_auth_path',
+    login_with_wechat: 'closer_auth.login_with_wechat'
   },
   command: {
     // 贴子详情

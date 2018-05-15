@@ -167,6 +167,16 @@ export default {
   //     return str
   //   }
   // },
+  // 获取cookie通过name
+  getCookiebyName(cookie, name) {
+    var pair = cookie.match(new RegExp(name + '=([^;]+)'));
+    return !!pair ? pair[1] : null;
+  },
+  // 正则验证手机号
+  isPhoneNum(str) {
+    let regex = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+    return regex.test(str)
+  },
   /*判断是否是微信 微博 QQ*/
   isCloserApp() {
     let nvg = navigator.userAgent.toLowerCase();

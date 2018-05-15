@@ -61,32 +61,26 @@ export default {
           this.scrollnav = false;
         }
       } else {
-        console.log("不是长图文类型");
+        // console.log("不是长图文类型")
+        return false;
       }
     },
-    // 关注
+    // 需要登录的操作 先判断后执行
     async tjFocus() {
       let self = this;
-      try {
-        let para = {
-          path: "https://h5-sandbox.tiejin.cn/feed/weUNHRmp7D8t"
-        };
-        let data = await self.$axios.$post(`${api.admin.get_auth_path}`, para);
-        console.log(data);
-        if (data.code === 0) {
-          console.log("data===", data);
-          location.href = data.result;
-        } else {
-          self.$toast({
-            message: data.result,
-            position: "top"
-          });
-        }
-      } catch (err) {
-        self.$toast({
-          message: err,
-          position: "top"
+      // 渲染页面前 先判断cookies token是否存在
+      if (Cookie.get("token")) {
+        // self.$store.dispatch("get_token_by_login", {
+        //   paras: Cookie.get("user")
+        // });
+        // 进行其他 ajax 操作
+        return;
+      } else {
+        // 通过微信授权 获取code
+        await self.$store.dispatch("get_wx_auth", {
+          url: location.href
         });
+        return;
       }
     }
   },

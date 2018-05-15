@@ -68,7 +68,7 @@ module.exports = {
       },
       {
         src: 'https://unpkg.com/vue-lazyload@1.2.3/vue-lazyload.js'
-      },
+      }
     ],
     __dangerouslyDisableSanitizers: ['script']
   },
@@ -130,7 +130,7 @@ module.exports = {
     // 发布路径 只需设置为根路径
     // publicPath: 'http://h5-sandbox.tiejin.cn:3000',
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
-    vendor: ['axios', 'vue-picture-preview2', 'mint-ui'],
+    vendor: ['axios', 'vue-picture-preview2', 'mint-ui', 'js-cookie'],
     /*
      ** Run ESLint on save
      */
