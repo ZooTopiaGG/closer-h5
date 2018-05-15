@@ -251,9 +251,16 @@ button {}
 
 /*全局控制 富文本内图片样式*/
 
-#summary p {
+#summary {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+#summary p,
+#summary ol,
+#summary ul {
   padding: 0 .3rem;
-  font-size: 14px;
+  margin-bottom: .4rem;
 }
 
 #summary p img {
