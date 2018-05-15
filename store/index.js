@@ -1,5 +1,9 @@
 import Cookie from 'js-cookie'
 import Coms from '~/assets/js/utils'
+import {
+  Indicator,
+  Toast
+} from 'mint-ui'
 export const state = () => ({
   GET_MESSAGE_STATE: false,
   GET_APP_TOKEN: '',
@@ -13,7 +17,9 @@ export const state = () => ({
   group_res: [],
   group_info: {},
   auth: '',
-  token: ''
+  token: '',
+  visibleLogin: false,
+  visibleMessage: false
 })
 
 export const mutations = {
@@ -55,12 +61,17 @@ export const mutations = {
   },
   // 微信授权信息
   SET_USER(state, para) {
-    console.log('para====', para)
     state.auth = para
   },
   SET_TOKEN(state, para) {
-    console.log('token====', para)
     state.token = para
+  },
+  // 莫太狂状态
+  SET_VISIBLE_LOGIN(state, para) {
+    state.visibleLogin = para
+  },
+  SET_VISIBLE_MESSAGE(state, para) {
+    state.visibleMessage = para
   }
 }
 
@@ -151,8 +162,94 @@ export const actions = {
   async get_token_by_login({
     commit
   }, {
-    paras
+    phone,
+    token
   }) {
     // 点击必须登录的按钮，可获取cookie进行判断 信息
+    try {
+      let self = this
+      let para = {
+        phone: phone,
+        token: token,
+        protocol: 'WEB_SOCKET'
+      }
+      let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)
+      if (data.code === 0) {
+        console.log('data===login===', data)
+        let userInfo = {
+          gender: data.result.user.gender,
+          phones: data.result.user.phones,
+          updateTime: data.result.user.updateTime,
+          avatar: data.result.user.avatar,
+          createTime: data.result.user.createTime,
+          teamID: data.result.user.teamID,
+          // 姓名
+          fullname: data.result.user.fullname,
+          security_signal: data.result.user.security_signal,
+          objectID: data.result.user.objectID,
+          email: data.result.user.email,
+          username: data.result.user.username,
+          status: data.result.user.status
+        };
+        let userToken = data.result.token;
+        // // 存cookies
+        Cookie.set('token', userToken, {
+          expires: 7
+        })
+        Cookie.set('user', userInfo, {
+          expires: 7
+        })
+        // localstorage.setAge(0.1 * 24 * 60 * 60 * 1000).set('wx_user', userInfo).set('wx_token', userToken)
+        commit('SET_USER', userInfo)
+        commit('SET_TOKEN', userToken)
+        Toast({
+          message: '登录成功',
+          position: 'top'
+        })
+      } else {
+        Toast({
+          message: data.result,
+          position: 'top'
+        })
+      }
+    } catch (err) {
+      Toast({
+        message: err,
+        position: 'top'
+      })
+    }
+  },
+  // 获取验证码
+  async get_code_by_phone({
+    commit
+  }, {
+    phone
+  }) {
+    let self = this
+    Toast({
+      message: '发送成功！',
+      position: 'top'
+    })
+    // 点击必须登录的按钮，可获取cookie进行判断 信息
+    try {
+      let para = {
+        phone: phone
+      }
+      let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
+      // console.log('data===', data)
+      if (data.code === 0) {
+        console.log('data===send===', data)
+      } else {
+        Toast({
+          message: data.result,
+          position: 'top'
+        })
+      }
+    } catch (err) {
+      Toast({
+        message: err,
+        position: 'top'
+      })
+    }
   }
 }

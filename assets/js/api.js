@@ -4,7 +4,9 @@ let api = {
   admin: {
     // 微信授权获取code
     get_auth_path: 'closer_auth.get_auth_path',
-    login_with_wechat: 'closer_auth.login_with_wechat'
+    login_with_wechat: 'closer_auth.login_with_wechat',
+    closeruser_regist: 'closer_auth.closeruser_regist',
+    get_code_by_phone: 'closer_account.get_code_by_phone'
   },
   command: {
     // 贴子详情

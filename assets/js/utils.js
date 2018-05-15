@@ -178,9 +178,18 @@ export default {
     return regex.test(str)
   },
   /*判断是否是微信 微博 QQ*/
+  isWeiXin() {
+    var wx = navigator.userAgent.toLowerCase();
+    return wx.indexOf('micromessenger') != -1
+  },
+  isAlipay() {
+    var weibo = navigator.userAgent.toLowerCase();
+    return weibo.indexOf('weibo') != -1
+  },
+  /*判断是否是贴近app*/
   isCloserApp() {
     let nvg = navigator.userAgent.toLowerCase();
-    let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1;
+    let _result = nvg.indexOf('closer-ios') != -1 || nvg.indexOf('closer-android') != -1;
     return _result
   },
   // 回到顶部

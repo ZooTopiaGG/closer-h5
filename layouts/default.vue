@@ -15,12 +15,13 @@
             <span class="communityName">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
-            <mt-button type="primary" size="small" class="flex tj-focus-btn" @click="tjFocus">
-              <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
-              <span>关注</span>
+            <mt-button :type="$store.state.auth ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">
+              <span v-if="$store.state.auth">已关注</span>
+              <span v-else>
+                <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
+                <span>关注</span>
+              </span>
             </mt-button>
-            <!-- <Icon type="ios-more" class="icon-ios-more"></Icon> -->
-            <span class="icon icon-font icon-iconfontmore icon-ios-more"></span>
           </div>
         </div>
       </nav>
@@ -39,6 +40,7 @@
   </div>
 </template>
 <script>
+import Cookie from "js-cookie";
 export default {
   data() {
     return {
@@ -74,14 +76,19 @@ export default {
         //   paras: Cookie.get("user")
         // });
         // 进行其他 ajax 操作
+        console.log(Cookie.get("user"));
         return;
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        // 通过微信授权 获取code
-        await self.$store.dispatch("get_wx_auth", {
-          url: location.href
-        });
-        return;
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          await self.$store.dispatch("get_wx_auth", {
+            url: location.href
+          });
+          return;
+        } else {
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
       }
     }
   },
@@ -201,7 +208,7 @@ nav.appnav ~ .nuxts {
 }
 
 .tj-focus-btn {
-  width: 70px;
   box-sizing: border-box;
+  margin-right: 0.3rem;
 }
 </style>

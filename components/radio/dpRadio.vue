@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: "dpButton",
+  name: "dpRadio",
   props: {
     bname: {
       type: String,

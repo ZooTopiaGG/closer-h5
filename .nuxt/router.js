@@ -3,10 +3,11 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+const _a5125780 = () => import('../pages/sign/index.vue' /* webpackChunkName: "pages/sign/index" */).then(m => m.default || m)
 const _b717ebb8 = () => import('../pages/sign/signin.vue' /* webpackChunkName: "pages/sign/signin" */).then(m => m.default || m)
-const _ab5504ee = () => import('../pages/feed/_id.vue' /* webpackChunkName: "pages/feed/_id" */).then(m => m.default || m)
-const _61214e28 = () => import('../pages/about/_id.vue' /* webpackChunkName: "pages/about/_id" */).then(m => m.default || m)
 const _223c0f1a = () => import('../pages/group/_id.vue' /* webpackChunkName: "pages/group/_id" */).then(m => m.default || m)
+const _61214e28 = () => import('../pages/about/_id.vue' /* webpackChunkName: "pages/about/_id" */).then(m => m.default || m)
+const _ab5504ee = () => import('../pages/feed/_id.vue' /* webpackChunkName: "pages/feed/_id" */).then(m => m.default || m)
 const _210b3b69 = () => import('../pages/report/_type/_id.vue' /* webpackChunkName: "pages/report/_type/_id" */).then(m => m.default || m)
 const _0cfea1c2 = () => import('../pages/index.vue' /* webpackChunkName: "pages/index" */).then(m => m.default || m)
 const _a6aeca04 = () => import('../pages/_flag/index.vue' /* webpackChunkName: "pages/_flag/index" */).then(m => m.default || m)
@@ -35,14 +36,19 @@ export function createRouter () {
     scrollBehavior,
     routes: [
 		{
+			path: "/sign",
+			component: _a5125780,
+			name: "sign"
+		},
+		{
 			path: "/sign/signin",
 			component: _b717ebb8,
 			name: "sign-signin"
 		},
 		{
-			path: "/feed/:id?",
-			component: _ab5504ee,
-			name: "feed-id"
+			path: "/group/:id?",
+			component: _223c0f1a,
+			name: "group-id"
 		},
 		{
 			path: "/about/:id?",
@@ -50,9 +56,9 @@ export function createRouter () {
 			name: "about-id"
 		},
 		{
-			path: "/group/:id?",
-			component: _223c0f1a,
-			name: "group-id"
+			path: "/feed/:id?",
+			component: _ab5504ee,
+			name: "feed-id"
 		},
 		{
 			path: "/report/:type?/:id?",

@@ -199,6 +199,12 @@
         </div>
       </div>
     </div>
+    <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
+      <dp-login></dp-login>
+    </div>
+    <div class="tj-dialog" @click.self="hiddenTextArea" v-if="$store.state.visibleMessage">
+      <dp-text-area></dp-text-area>
+    </div>
   </div>
 </template>
 <script>
@@ -223,6 +229,7 @@ export default {
       defaultErrorImg:
         'this.src="' + require("~/assets/images/default.jpeg") + '"',
       clientWidth: "",
+      visibleLogin: false,
       loading: 1, // 按钮执行状态
       disabled: false, // 按钮可用状态
       res: {},
@@ -368,22 +375,29 @@ export default {
         //   paras: Cookie.get("user")
         // });
         console.log(Cookie.get("user"));
-        self.$toast({
-          message: "有token",
-          position: "top"
-        });
+        self.$store.commit("SET_VISIBLE_MESSAGE", true);
+        // self.$toast({
+        //   message: "有t-oken",
+        //   position: "top"
+        // });
         // 进行其他 ajax 操作
         return;
       } else {
-        // 通过微信授权 获取code
-        self.$toast({
-          message: "没有token",
-          position: "top"
-        });
-        await self.$store.dispatch("get_wx_auth", {
-          url: location.href
-        });
-        return;
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          self.$toast({
+            message: "没有token",
+            position: "top"
+          });
+          await self.$store.dispatch("get_wx_auth", {
+            url: location.href
+          });
+          return;
+        } else {
+          // 显示登录弹窗
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
       }
     },
     // 去点赞
@@ -398,12 +412,27 @@ export default {
         console.log(Cookie.get("user"));
         return;
       } else {
-        // 通过微信授权 获取code
-        await self.$store.dispatch("get_wx_auth", {
-          url: location.href
-        });
-        return;
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          self.$toast({
+            message: "没有token",
+            position: "top"
+          });
+          await self.$store.dispatch("get_wx_auth", {
+            url: location.href
+          });
+          return;
+        } else {
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
       }
+    },
+    hiddenLogin() {
+      this.$store.commit("SET_VISIBLE_LOGIN", false);
+    },
+    hiddenTextArea() {
+      this.$store.commit("SET_VISIBLE_MESSAGE", false);
     }
   },
   beforeMount() {

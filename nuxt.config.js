@@ -169,6 +169,7 @@ module.exports = {
     '~/plugins/components.js',
     '~/plugins/mintui.js',
     '~/plugins/axios',
+    '~/plugins/async',
     '~/plugins/picture-view.js',
     {
       src: '~/plugins/device.js',
