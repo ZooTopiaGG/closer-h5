@@ -17,8 +17,8 @@ WORKDIR /apps/closer-h5
 # RUN rm -rf package-lock.json
 
 # RUN npm cache clean --force
-
-RUN  cd /apps/closer-h5 && npm --registry=http://registry.npm.taobao.org install nuxt -S
+RUN ping www.baidu.com -c 4
+RUN npm --registry=http://registry.npm.taobao.org install nuxt -S
 # RUN npm run dev
 RUN npm run build
 
