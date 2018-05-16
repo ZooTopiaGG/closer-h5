@@ -30,7 +30,7 @@ module.exports = {
       {
         rel: 'stylesheet',
         type: 'text/css',
-        href: 'https://unpkg.com/mint-ui@2.2.13/lib/style.css'
+        href: 'https://cdn.bootcss.com/mint-ui/2.2.13/actionsheet/style.min.css'
       },
       {
         rel: 'stylesheet',
@@ -67,7 +67,7 @@ module.exports = {
         src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
       },
       {
-        src: 'https://unpkg.com/vue-lazyload@1.2.3/vue-lazyload.js'
+        src: 'https://cdn.bootcss.com/vue-lazyload/1.2.3/vue-lazyload.js'
       }
     ],
     __dangerouslyDisableSanitizers: ['script']
