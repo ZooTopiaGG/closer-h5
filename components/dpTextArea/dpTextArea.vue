@@ -38,6 +38,7 @@ export default {
   background: #fff;
   min-height: 180px;
   box-sizing: border-box;
+  padding-top: 0.98rem;
 }
 .tj-btn {
   width: 100%;
