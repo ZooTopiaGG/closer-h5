@@ -75,6 +75,7 @@ export default {
         phone: self.phone,
         token: self.code
       });
+      self.$store.commit("SET_VISIBLE_LOGIN", false);
     }
   }
 };

@@ -17,6 +17,14 @@ let api = {
     videos: 'ali_vod.accessInfo',
     // 举报
     report: 'closer_report.add',
+    // 点赞
+    like: 'closer_reply.like',
+    // 评论以及回复评论
+    add_reply: 'closer_reply.add_reply',
+    // 富评论下的子评论
+    replys: 'closer_reply.replys',
+    // 返回某一主题id下的父评论(包括官方)
+    comments: 'closer_reply.comments',
     reportType: 'closer_report.get_report_types'
   },
   community: {

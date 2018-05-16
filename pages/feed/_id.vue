@@ -73,7 +73,7 @@
             <!-- 标题 -->
             <div class="feeder-title"> {{ $store.state.res.title }} </div>
             <!-- 阅读量 -->
-            <!-- <div class="read-num">阅读  1929</div> -->
+            <div class="read-num">阅读  1929</div>
             <div class="summary" id="summary" v-html="htmls">
             </div>
             <!-- 神议论列表 -->
@@ -99,7 +99,7 @@
                         :onerror="defaultErrorImg">
                       <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
                     </div>
-                    <img v-else class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)" :onerror="defaultErrorImg">
+                    <img v-else class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)" :originSrc="$com.makeFileUrl(item.image.link)" :onerror="defaultErrorImg">
                   </div>
                   <!-- 包含贴子 -->
                   <div v-else-if="item.type === 3" class="feeder-comment flex flex-align-center feeder-comment-3">
@@ -144,7 +144,6 @@
             <span class="feed-messagebord-left" v-if="$store.state.res.int_category === 1">投稿 {{ $store.state.res.commentNumber }}</span>
             <!-- <span class="feed-messagebord-left" v-else-if="res.int_category === 0 || res.int_category === 5|| res.int_category === 3">留言 {{ res.commentNumber }}</span> -->
             <span class="feed-messagebord-left" v-else>{{ $store.state.res.commentNumber || 0 }}条留言</span>
-            <span>赞 {{ $store.state.res.like }}</span>
           </div>
         </div>
         <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
@@ -156,18 +155,18 @@
                 <div class="messager-info-div flex flex-align-center">
                   <img v-lazy="$com.makeFileUrl(item.user.avatar)" :onerror="defaultErrorImg">
                   <div class="flex flex-v">
-                    <span>{{ item.user.fullname }}</span>
+                    <span class="messager-name">{{ item.user.fullname }}</span>
                     <span class="messager-time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
                   </div>
                 </div>
                 <div class="icon-group flex">
                   <p class="flex flex-align-center" style="margin-right:5px" @click="toMessage">
                     <span class="icon-font icon-message"></span>
-                    <span>20</span>
+                    <span>{{ item.replyNumber }}</span>
                   </p>
                   <p class="flex flex-align-center" @click="toSupport">
                     <span class="icon-font icon-dianzan2"></span>
-                    <span>9.9k</span>
+                    <span v-if="item.like>0">{{ item.like }}</span>
                   </p>
                 </div>
               </div>
@@ -298,16 +297,16 @@ export default {
             flag = `<div class="imgbox" width="${
               self.$deviceWidth
             }" height="${nH}">
-                    <img src="${srcArray[1]}?s=${size}" width="${
-              self.$deviceWidth
-            }" height="${nH}"/>
+                    <img src="${srcArray[1]}?s=${size}" originSrc="${
+              srcArray[1]
+            }?s=${size}" width="${self.$deviceWidth}" height="${nH}"/>
                     </div>`;
           } else {
             size = "500";
             flag = `<div class="imgbox" width="7.5rem" height="4.18rem" style="background-color: #eee">
-                    <img src="${srcArray[1]}?s=${size}" width="${
-              self.$deviceWidth
-            }" height="auto"/>
+                    <img src="${srcArray[1]}?s=${size}" originSrc="${
+              srcArray[1]
+            }?s=${size}" width="${self.$deviceWidth}" height="auto"/>
                     </div>`;
           }
           // 替换插入需要的值
@@ -410,6 +409,7 @@ export default {
         // });
         // 进行其他 ajax 操作
         console.log(Cookie.get("user"));
+        // self.support();
         return;
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
@@ -428,6 +428,17 @@ export default {
         }
       }
     },
+    // async suport() {
+    //   let self = this;
+    //   try {
+    //     let para = {
+    //       subjectid: "",
+    //       commentid: "",
+    //       flag: ""
+    //     };
+    //     let data = await self.$axios.$post(`${api.command.like}`, para);
+    //   } catch (err) {}
+    // },
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     },
@@ -446,6 +457,7 @@ export default {
   },
   mounted() {
     // console.log("$deviceWidth===", this.$deviceWidth);
+    console.log("messagelist===", this.$store.state);
     // 在前端执行播放视频 先判断 只能在mounted中执行;
     if (this.$store.state.res.int_type === 1) {
       let res = this.$axios
@@ -563,7 +575,9 @@ export default {
 }
 
 .learn-more {
-  margin: 8px 0;
+  margin-top: 8px;
+  height: 36px;
+  line-height: 36px;
 }
 
 .lg-preview-nav-arrow {
@@ -602,10 +616,14 @@ export default {
 .feed-messagebord,
 .feed-messagebord-list,
 .feeder-title,
+.read-num,
 .feeder-comments {
   padding: 0 0.3rem;
 }
-
+.read-num {
+  margin-bottom: 0.2rem;
+  color: #888;
+}
 .feeder-title {
   font-size: 18px;
   margin-bottom: 0.2rem;
@@ -641,7 +659,7 @@ export default {
   width: 100%;
   height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
-  z-index: 900;
+  z-index: 99;
 }
 
 .messager-info-div > img {
@@ -678,7 +696,9 @@ export default {
   color: #444;
   font-weight: 600;
 }
-
+.messager-name {
+  font-size: 14px;
+}
 .feed-messagebord-list-cell {
   border-bottom: 1px solid #eee;
   padding: 0.2rem 0 0;
@@ -686,6 +706,8 @@ export default {
 
 .messager-content {
   margin: 0.2rem 0;
+  line-height: 1.6;
+  text-align: justify;
 }
 
 .messager-time {

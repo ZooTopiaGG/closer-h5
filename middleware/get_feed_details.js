@@ -17,7 +17,6 @@ export default async function ({
       app.$axios.$post(`${api.command.show}`, para),
       app.$axios.$post(`${api.command.comments}`, para1)
     ])
-    console.log('res???==', res)
     // 获取迷药
     if (res.code != 0) {
       // console.log('ssss?S???????')

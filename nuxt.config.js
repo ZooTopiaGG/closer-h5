@@ -30,7 +30,7 @@ module.exports = {
       {
         rel: 'stylesheet',
         type: 'text/css',
-        href: 'https://cdn.bootcss.com/mint-ui/2.2.13/actionsheet/style.min.css'
+        href: 'https://cdn.bootcss.com/mint-ui/2.2.13/style.min.css'
       },
       {
         rel: 'stylesheet',
