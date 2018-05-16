@@ -18,7 +18,7 @@ WORKDIR /apps/closer-h5
 
 # RUN npm cache clean --force
 
-RUN npm --registry=https://registry.npm.taobao.org install nuxt -S
+RUN  cd /apps/closer-h5 && npm --registry=http://registry.npm.taobao.org install nuxt -S
 # RUN npm run dev
 RUN npm run build
 
