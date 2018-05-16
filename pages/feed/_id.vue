@@ -99,7 +99,7 @@
                         :onerror="defaultErrorImg">
                       <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
                     </div>
-                    <img v-else class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)" :originSrc="$com.makeFileUrl(item.image.link)" :onerror="defaultErrorImg">
+                    <img v-else class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)" :onerror="defaultErrorImg">
                   </div>
                   <!-- 包含贴子 -->
                   <div v-else-if="item.type === 3" class="feeder-comment flex flex-align-center feeder-comment-3">
@@ -297,14 +297,14 @@ export default {
             flag = `<div class="imgbox" width="${
               self.$deviceWidth
             }" height="${nH}">
-                    <img src="${srcArray[1]}?s=${size}" originSrc="${
+                    <img src="${srcArray[1]}?s=${size}" data-src="${
               srcArray[1]
             }?s=${size}" width="${self.$deviceWidth}" height="${nH}"/>
                     </div>`;
           } else {
             size = "500";
             flag = `<div class="imgbox" width="7.5rem" height="4.18rem" style="background-color: #eee">
-                    <img src="${srcArray[1]}?s=${size}" originSrc="${
+                    <img src="${srcArray[1]}?s=${size}" data-src="${
               srcArray[1]
             }?s=${size}" width="${self.$deviceWidth}" height="auto"/>
                     </div>`;
