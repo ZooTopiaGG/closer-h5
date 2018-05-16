@@ -18,7 +18,7 @@ ADD . /apps/closer-h5/
 
 WORKDIR /apps/closer-h5
 
-RUN npm --registry=https://registry.npm.taobao.org install
+RUN npm --registry=http://registry.npm.taobao.org install
 
 RUN npm run build
 
