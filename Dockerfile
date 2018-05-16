@@ -2,7 +2,7 @@ FROM harbor.tiejin.cn/closer/umscloud-nginx-nodejs
 
 MAINTAINER dengpeng <peng.deng@tiejin.me>
 
-#COPY conf/closer-admin.conf /etc/nginx/conf.d/grouk-dashboard.conf
+# COPY conf/closer-admin.conf /etc/nginx/conf.d/grouk-dashboard.conf
 
 RUN mkdir /apps/closer-h5
 
