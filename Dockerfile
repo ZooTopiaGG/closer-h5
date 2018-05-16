@@ -18,7 +18,7 @@ WORKDIR /apps/closer-h5
 
 # RUN npm cache clean --force
 
-RUN npm --registry=114.55.80.225 install nuxt -S
+RUN npm --registry=http://114.55.80.225 install nuxt -S
 # RUN npm run dev
 RUN npm run build
 
