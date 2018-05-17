@@ -73,7 +73,7 @@
             <!-- 标题 -->
             <div class="feeder-title"> {{ $store.state.res.title }} </div>
             <!-- 阅读量 -->
-            <div class="read-num">阅读  1929</div>
+            <div class="read-num">阅读  {{ $store.state.res.view }}</div>
             <div class="summary" id="summary" v-html="htmls">
             </div>
             <!-- 神议论列表 -->

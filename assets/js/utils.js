@@ -110,11 +110,15 @@ export default {
   },
   // 图片地址处理
   makeFileUrl(url, type, size) {
-    let sizes = size ? size : 500
-    if (type === 'src') {
-      return (url.indexOf('://') !== -1) ? url + '?s=' + sizes : fileBase + url + '?s=' + sizes;
+    if (url) {
+      let sizes = size ? size : 500
+      if (type === 'src') {
+        return (url.indexOf('://') !== -1) ? url + '?s=' + sizes : fileBase + url + '?s=' + sizes;
+      } else {
+        return (url.indexOf('://') !== -1) ? url : fileBase + url;
+      }
     } else {
-      return (url.indexOf('://') !== -1) ? url : fileBase + url;
+      return
     }
   },
   /*
