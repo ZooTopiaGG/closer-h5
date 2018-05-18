@@ -77,7 +77,7 @@
               <span> {{ $com.createTime($store.state.res.long_update_time, '年/月/日') }}前截止</span>
               <span>
                 <span class="feed-publication-number">投稿 {{$store.state.res.commentNumber}}</span>
-                <span>赞 0</span>
+                <span>赞 {{ $store.state.res.like }}</span>
               </span>
             </div>
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
@@ -317,7 +317,7 @@ export default {
             }" width="${self.$deviceWidth}" height="${nH}"/>
                     </div>`;
           } else {
-            flag = `<div class="imgbox" style="background-color: #fff; width: 100%; min-height:4.18rem">
+            flag = `<div class="imgbox" style="background-color: #fff; width: 100%; min-height:3.2rem">
                     <img src="${srcArray[1]}" data-src="${
               srcArray[1]
             }" width="${self.$deviceWidth}" height="auto"/>
@@ -884,16 +884,20 @@ export default {
   text-align: center;
   font-size: 15px;
   color: #507caf;
-  background: linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 40%);
+  background: linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%%);
   /* Safari 5.1 - 6.0 */
-  background: -o-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 40%);
+  background: -o-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%%);
   /* Opera 11.1 - 12.0 */
-  background: -moz-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 40%);
+  background: -moz-linear-gradient(
+    -90deg,
+    rgba(255, 255, 255, 0.3),
+    white 65%%
+  );
   /* Firefox 3.6 - 15 */
   background: -webkit-linear-gradient(
     -90deg,
     rgba(255, 255, 255, 0.3),
-    white 40%
+    white 65%%
   );
   /* 标准的语法 */
 }
