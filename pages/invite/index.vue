@@ -1,5 +1,5 @@
 <script>
 export default {
-  layout: "invite/index"
+  layout: "invite"
 };
 </script>

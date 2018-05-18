@@ -270,7 +270,7 @@ export default {
       // self.$store.state.content.html 复制到self.content.html
       self.content.html = self.$store.state.content.html;
       const regexImg = /<img.*?(?:>|\/>)/gi;
-      let pImg = self.content.html.match(regexImg);
+      let pImg = await self.content.html.match(regexImg);
       if (pImg) {
         const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
         const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -294,19 +294,18 @@ export default {
             let nH = parseInt(
               self.$deviceWidth * heightArray[1] / widthArray[1]
             );
-            flag = `<div class="imgbox" width="${
+            flag = `<div class="imgbox" style="background-color: #fff; width: ${
               self.$deviceWidth
-            }" height="${nH}">
-                    <img src="${srcArray[1]}?s=${size}" data-src="${
+            }; min-height: ${nH}">
+                    <img src="${srcArray[1]}" data-src="${
               srcArray[1]
-            }?s=${size}" width="${self.$deviceWidth}" height="${nH}"/>
+            }" width="${self.$deviceWidth}" height="${nH}"/>
                     </div>`;
           } else {
-            size = "500";
-            flag = `<div class="imgbox" width="7.5rem" height="4.18rem" style="background-color: #eee">
-                    <img src="${srcArray[1]}?s=${size}" data-src="${
+            flag = `<div class="imgbox" style="background-color: #fff; width: 100%; min-height:4.18rem">
+                    <img src="${srcArray[1]}" data-src="${
               srcArray[1]
-            }?s=${size}" width="${self.$deviceWidth}" height="auto"/>
+            }" width="${self.$deviceWidth}" height="auto"/>
                     </div>`;
           }
           // 替换插入需要的值
@@ -361,6 +360,25 @@ export default {
             }
           );
         }
+      }
+      const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
+      var piFrame = await self.content.html.match(regexIframe);
+      if (piFrame) {
+        // console.log("piFrame===", piFrame);
+        const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        piFrame.forEach((x, i) => {
+          let widthArray = x.match(regexWidth);
+          let heightArray = x.match(regexHeight);
+          // console.log("widthArray==", widthArray);
+          // console.log("x====", x.split(widthArray[0]));
+          let newsplit = x.split(widthArray[0]);
+          let flag = `<div class="imgbox" style="width:100%; min-height: 4.18rem;">
+            ${newsplit[0]}width="100%"${newsplit[1]}
+          </div>`;
+          // console.log("flag===", flag);
+          self.htmls = self.content.html.replace(regexIframe, flag);
+        });
       } else {
         self.htmls = self.content.html;
       }
@@ -375,10 +393,6 @@ export default {
         // });
         console.log(Cookie.get("user"));
         self.$store.commit("SET_VISIBLE_MESSAGE", true);
-        // self.$toast({
-        //   message: "有t-oken",
-        //   position: "top"
-        // });
         // 进行其他 ajax 操作
         return;
       } else {
@@ -428,17 +442,6 @@ export default {
         }
       }
     },
-    // async suport() {
-    //   let self = this;
-    //   try {
-    //     let para = {
-    //       subjectid: "",
-    //       commentid: "",
-    //       flag: ""
-    //     };
-    //     let data = await self.$axios.$post(`${api.command.like}`, para);
-    //   } catch (err) {}
-    // },
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     },
@@ -456,7 +459,6 @@ export default {
     }
   },
   mounted() {
-    // console.log("$deviceWidth===", this.$deviceWidth);
     console.log("messagelist===", this.$store.state);
     // 在前端执行播放视频 先判断 只能在mounted中执行;
     if (this.$store.state.res.int_type === 1) {

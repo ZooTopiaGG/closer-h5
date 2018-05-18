@@ -273,6 +273,10 @@ button {}
   margin: .2rem 0
 }
 
+#sumary iframe {
+  width: 100% !important;
+}
+
 html body {
   background-color: #fff;
   max-width: 10rem;
