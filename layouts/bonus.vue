@@ -22,14 +22,25 @@
 </template>
 <script>
 export default {
+  // middleware: "bonus",
   data() {
     return {
       openbonus: false
     };
   },
   methods: {
+    // 打开红包
     toopenbonus() {
       this.openbonus = true;
+    }
+  },
+  beforeMount() {
+    console.log(location.href);
+    console.log(this.$com.isWeiXin());
+    if (this.$com.isWeiXin()) {
+      // this.$store.dispatch("get_wx_auth", {
+      //   url: "http://h5-sandbox.tiejin.cn/invite/bonus"
+      // });
     }
   }
 };

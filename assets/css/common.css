@@ -251,29 +251,29 @@ button {}
 
 /*全局控制 富文本内图片样式*/
 
-#summary {
+.summary {
   font-size: 15px;
   line-height: 1.6;
 }
 
-#summary p,
-#summary ol,
-#summary ul {
+.summary p,
+.summary ol,
+.summary ul {
   padding: 0 .3rem;
   margin-bottom: .4rem;
 }
 
-#summary p img {
+.summary p img {
   max-width: 100%;
   height: auto;
   margin: 8px 0;
 }
 
-#summary .imgbox {
+.summary .imgbox {
   margin: .2rem 0
 }
 
-#sumary iframe {
+.sumary iframe {
   width: 100% !important;
 }
 

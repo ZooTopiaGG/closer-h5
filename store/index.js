@@ -96,6 +96,7 @@ export const actions = {
   }, {
     url
   }) {
+    console.log(url)
     let self = this
     let para = {
       path: url
@@ -103,7 +104,7 @@ export const actions = {
     let data = await self.$axios.$post(`${api.admin.get_auth_path}`, para);
     if (data.code === 0) {
       console.log("getcode===", data);
-      location.href = data.result;
+      // location.href = data.result; 
     }
   },
   // 通过code进行登录，如果get_wx_auth被调用， get_code_by_login才会被调用

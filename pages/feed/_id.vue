@@ -73,8 +73,36 @@
             <!-- 标题 -->
             <div class="feeder-title"> {{ $store.state.res.title }} </div>
             <!-- 阅读量 -->
-            <div class="read-num">阅读  {{ $store.state.res.view }}</div>
-            <div class="summary" id="summary" v-html="htmls">
+            <div class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
+              <span> {{ $com.createTime($store.state.res.long_update_time, '年/月/日') }}前截止</span>
+              <span>
+                <span class="feed-publication-number">投稿 {{$store.state.res.commentNumber}}</span>
+                <span>赞 0</span>
+              </span>
+            </div>
+            <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
+            <div v-if="$store.state.res.int_category != 1" class="summary" v-html="htmls"></div>
+            <div v-else :class="{
+                summary2: !$store.state.GET_MESSAGE_STATE,
+                category1: category1
+              }">
+              <div class="summary" v-html="htmls"></div>
+              <div class="feeder-info flex flex-pack-justify flex-align-center">
+                <span>
+                  <span>@{{ $store.state.res.username }} 出品</span>
+                </span>
+                <span>{{ $com.getCommonTime($store.state.res.long_update_time, 'yy-mm-dd hh:MM') }}</span>
+              </div>
+              <div @click="collapses" v-if="!$store.state.GET_MESSAGE_STATE" :class="{
+                collapse:true, 
+                flex:true, 
+                'flex-align-end':true, 
+                'flex-pack-center':true,
+                collapse2: category1
+              }">
+                <span v-if="!category1">展开全文</span>
+                <span v-else>收起全文</span>
+              </div>
             </div>
             <!-- 神议论列表 -->
             <ul class="feeder-comments" v-if="$store.state.res.int_category === 3">
@@ -118,10 +146,8 @@
           </div>
         </div>
         <!-- 发帖者信息 -->
-        <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-info flex flex-pack-justify flex-align-center">
+        <div v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
           <span>
-            <!-- <span v-if="$store.state.res.double_latitude != -999">{{ $store.state.res.className }}</span>
-                        <span v-else>官方出品 </span> -->
             <span>@{{ $store.state.res.username }} 出品</span>
           </span>
           <span>{{ $com.getCommonTime($store.state.res.long_update_time, 'yy-mm-dd hh:MM') }}</span>
@@ -131,21 +157,6 @@
       <div v-if="$store.state.GET_MESSAGE_STATE" class="split-box"></div>
       <!-- 留言板 -->
       <div class="feed-2" v-if="$store.state.GET_MESSAGE_STATE">
-        <div>
-          <div class="feed-messagebord-type flex flex-align-center" v-if="$store.state.res.int_category === 1">
-            <span>投稿类型：</span>
-            <span>
-              <span>{{ $store.state.postType }} </span>
-              <span class="dp-text-color">/</span>
-              <span> {{ $com.createTime($store.state.res.long_update_time, '年/月/日') }}截止</span>
-            </span>
-          </div>
-          <div class="feed-messagebord flex flex-align-center flex-pack-justify">
-            <span class="feed-messagebord-left" v-if="$store.state.res.int_category === 1">投稿 {{ $store.state.res.commentNumber }}</span>
-            <!-- <span class="feed-messagebord-left" v-else-if="res.int_category === 0 || res.int_category === 5|| res.int_category === 3">留言 {{ res.commentNumber }}</span> -->
-            <span class="feed-messagebord-left" v-else>{{ $store.state.res.commentNumber || 0 }}条留言</span>
-          </div>
-        </div>
         <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
         <!-- <div v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
         <div v-if="$store.state.res.int_category != 1 ">
@@ -239,10 +250,14 @@ export default {
       htmls: {},
       // 投稿类型
       postType: "",
-      options: {}
+      options: {},
+      category1: false
     };
   },
   methods: {
+    collapses() {
+      this.category1 = !this.category1;
+    },
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
     // 贴子类型：int_category（判断是否有留言功能）
@@ -330,35 +345,50 @@ export default {
           let vidArray = pVideo[i].match(regexVid);
           // // 替换插入需要的值flg
           // let temp = pVideo[i].split('<p>');
-          let flg = `<div id="J_prismPlayer_${
-            vidArray[1]
-          }" class="prism-player video-player" vid="${vidArray[1]}" cover="${
-            urlArray[1]
-          }"></div>`;
-          let v = `<p> ${flg}</p>`;
-          // console.log('v=', v)
-          self.htmls = await self.content.html.replace(regexVideo, v);
-          let res = await this.$axios.$get(`${api.command.videos}`);
-          console.log("res====", res);
-          let player = new Aliplayer(
-            {
-              id: `J_prismPlayer_${vidArray[1]}`,
-              width: "100%",
-              autoplay: false,
-              prismType: 2,
-              playsinline: true, //app内播放设置
-              qualitySort: "desc", //清晰度切换
-              vid: vidArray[1],
-              playauth: "",
-              cover: urlArray[1],
-              accessKeyId: res.result.accessKeyId,
-              securityToken: res.result.securityToken,
-              accessKeySecret: res.result.accessKeySecret
-            },
-            function(player) {
-              console.log("播放器创建好了。");
-            }
-          );
+          if (self.$store.state.GET_MESSAGE_STATE) {
+            let flg = `<div id="J_prismPlayer_${
+              vidArray[1]
+            }" class="prism-player video-player" vid="${vidArray[1]}" cover="${
+              urlArray[1]
+            }"></div>`;
+            let v = `<p> ${flg}</p>`;
+
+            // console.log('v=', v)
+            self.htmls = await self.content.html.replace(regexVideo, v);
+            let res = await this.$axios.$get(`${api.command.videos}`);
+            console.log("res====", res);
+            let player = new Aliplayer(
+              {
+                id: `J_prismPlayer_${vidArray[1]}`,
+                width: "100%",
+                autoplay: false,
+                prismType: 2,
+                playsinline: true, //app内播放设置
+                qualitySort: "desc", //清晰度切换
+                vid: vidArray[1],
+                playauth: "",
+                cover: urlArray[1],
+                accessKeyId: res.result.accessKeyId,
+                securityToken: res.result.securityToken,
+                accessKeySecret: res.result.accessKeySecret
+              },
+              function(player) {
+                console.log("播放器创建好了。");
+              }
+            );
+          } else {
+            let v = `<div class="imgbox" style="background-color: #fff; width: 100%; min-height:4.18rem; position:relative;">
+              <img src="${urlArray[1]}" width="${
+              self.$deviceWidth
+            }" height="auto"/>
+              <div class="flex flex-align-center flex-pack-center" style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);">
+                <span class="icon-font icon-shipin"></span>
+              </div>
+            </div>`;
+
+            // console.log('v=', v)
+            self.htmls = await self.content.html.replace(regexVideo, v);
+          }
         }
       }
       const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
@@ -622,18 +652,16 @@ export default {
 .feeder-comments {
   padding: 0 0.3rem;
 }
+
 .read-num {
   margin-bottom: 0.2rem;
   color: #888;
 }
+
 .feeder-title {
   font-size: 18px;
   margin-bottom: 0.2rem;
   font-weight: bold;
-}
-
-.summary {
-  text-align: justify;
 }
 
 .feeder-cover {
@@ -684,8 +712,16 @@ export default {
 
 .feed-messagebord-type {
   height: 0.8rem;
-  color: #444;
+  color: #94928e;
   font-weight: bold;
+}
+
+.feeder-title {
+  text-align: justify;
+}
+
+.feed-publication-number {
+  margin-right: 0.2rem;
 }
 
 .feed-messagebord-left {
@@ -698,9 +734,11 @@ export default {
   color: #444;
   font-weight: 600;
 }
+
 .messager-name {
   font-size: 14px;
 }
+
 .feed-messagebord-list-cell {
   border-bottom: 1px solid #eee;
   padding: 0.2rem 0 0;
@@ -819,5 +857,49 @@ export default {
 .messager-comments-cell {
   box-sizing: border-box;
   padding: 0.05rem 0;
+}
+
+.summary {
+  text-align: justify;
+}
+
+.summary2 {
+  height: 4rem;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.5s;
+}
+
+.category1 {
+  height: auto;
+}
+
+.collapse {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1.6rem;
+  line-height: 0.48rem;
+  text-align: center;
+  font-size: 15px;
+  color: #507caf;
+  background: linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 40%);
+  /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 40%);
+  /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 40%);
+  /* Firefox 3.6 - 15 */
+  background: -webkit-linear-gradient(
+    -90deg,
+    rgba(255, 255, 255, 0.3),
+    white 40%
+  );
+  /* 标准的语法 */
+}
+.collapse2 {
+  background: #fff;
+  position: static;
+  height: 0.8rem;
 }
 </style>
