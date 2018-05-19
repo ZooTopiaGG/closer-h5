@@ -18,6 +18,7 @@ export default {
     let d = time.getDate();
     d = d < 10 ? ('0' + d) : d;
     let h = time.getHours();
+    h = h < 10 ? ('0' + h) : h;
     let minute = time.getMinutes();
     minute = minute < 10 ? ('0' + minute) : minute;
     let seconds = time.getSeconds();
@@ -28,6 +29,8 @@ export default {
       return y + '-' + m + '-' + d + ' ' + minute + ':' + seconds;
     } else if (type === '年/月/日') {
       return y + '年' + m + '月' + d + '日';
+    } else if (type === 'yy.mm.dd') {
+      return y + '.' + m + '.' + d;
     } else {
       return y + '-' + m + '-' + d;
     }

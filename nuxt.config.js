@@ -10,7 +10,7 @@ module.exports = {
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1, user-scalable=no'
+        content: 'width=device-width, maximum-scale=1.0 ,initial-scale=1, user-scalable=no'
       },
       {
         name: 'format-detection',
@@ -22,6 +22,32 @@ module.exports = {
         content: '贴近Closer'
       }
     ],
+    // 可使用外链形式 引入第三方库
+    script: [{
+        innerHTML: `if (typeof window !== 'undefined') {
+              let deviceWidth = document.documentElement.clientWidth
+              if (deviceWidth > 768) deviceWidth = 768
+              document.documentElement.style.fontSize = deviceWidth / 7.5 + "px"
+              let nvg = navigator.userAgent.toLowerCase()
+              if (nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1) {
+                document.documentElement.style.overflow = "auto"
+              } else {
+                document.documentElement.style.overflow = "hidden"
+              }
+          } else {
+              console.log('Do not use window in server')
+          }`,
+        type: 'text/javascript',
+        charset: 'utf-8'
+      },
+      {
+        src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
+      },
+      {
+        src: 'https://cdn.bootcss.com/vue-lazyload/1.2.3/vue-lazyload.js'
+      }
+    ],
+    __dangerouslyDisableSanitizers: ['script'],
     link: [{
         rel: 'icon',
         type: 'image/x-icon',
@@ -43,34 +69,7 @@ module.exports = {
         href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css'
       },
     ],
-    // 可使用外链形式 引入第三方库
-    script: [{
-        innerHTML: `(function() {
-            if (typeof window !== 'undefined') {
-                let deviceWidth = document.documentElement.clientWidth
-                if (deviceWidth > 768) deviceWidth = 768
-                document.documentElement.style.fontSize = deviceWidth / 7.5 + "px"
-                let nvg = navigator.userAgent.toLowerCase()
-                if (nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1) {
-                  document.documentElement.style.overflow = "auto"
-                } else {
-                  document.documentElement.style.overflow = "hidden"
-                }
-            } else {
-                console.log('Do not use window in server')
-            }
-        })();`,
-        type: 'text/javascript',
-        charset: 'utf-8'
-      },
-      {
-        src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
-      },
-      {
-        src: 'https://cdn.bootcss.com/vue-lazyload/1.2.3/vue-lazyload.js'
-      }
-    ],
-    __dangerouslyDisableSanitizers: ['script']
+
   },
   // 路由配置 
   router: {
@@ -108,7 +107,7 @@ module.exports = {
     retry: {
       retries: 3
     },
-    baseURL: 'http://api-sandbox.tiejin.cn/command/',
+    baseURL: 'https://api-sandbox.tiejin.cn/command/',
     debug: true, // 添加拦截器
   },
   /*
@@ -149,6 +148,10 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+        // 添加 alias 配置
+        Object.assign(config.resolve.alias, {
+          'vue': 'vue/dist/vue.js'
+        })
         // config.externals = [
         //   { Aliplayer: 'Aliplayer'}
         // ]
@@ -175,6 +178,10 @@ module.exports = {
       src: '~/plugins/device.js',
       ssr: false
     },
+    // {
+    //   src: '~/plugins/device1.js',
+    //   ssr: false
+    // },
     {
       src: '~/plugins/lazyload.js',
       ssr: false

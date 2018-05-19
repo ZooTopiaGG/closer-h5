@@ -119,10 +119,10 @@ export default {
   background-repeat: no-repeat;
 }
 .openbonus {
-  animation: mymove 3s infinite;
-  -moz-animation: mymove 3s infinite; /* Firefox */
-  -webkit-animation: mymove 3s infinite; /* Safari and Chrome */
-  -o-animation: mymove 3s infinite; /* Opera */
+  animation: mymove 2s infinite linear;
+  -moz-animation: mymove 2s infinite linear; /* Firefox */
+  -webkit-animation: mymove 2s infinite linear; /* Safari and Chrome */
+  -o-animation: mymove 2s infinite linear; /* Opera */
 }
 @keyframes mymove {
   from {

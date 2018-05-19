@@ -273,6 +273,10 @@ button {}
   margin: .2rem 0
 }
 
+.summary video {
+  width: 100%;
+}
+
 .sumary iframe {
   width: 100% !important;
 }

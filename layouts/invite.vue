@@ -57,7 +57,7 @@
             <p>4.您推荐的新用户同一手机设备，同一手机号码仅可领取一次。 </p>
             <p>5.现金释放方式根据被邀请用户登陆天数释放。算了，规则复杂别看了，知道分享能赚钱就行。</p>
           </div>
-          <div class="footer-content-collapse" @click="collapse">点击展开</div>
+          <div class="footer-content-collapse" @click="collapse"><i></i>点击展开</div>
         </div>
       </div>
       <div class="bottom"></div>
@@ -130,8 +130,8 @@ export default {
 }
 .bottom {
   position: absolute;
-  width: 3.4rem;
-  height: 3.04rem;
+  width: 170px;
+  height: 152px;
   bottom: 0;
   left: 0;
   background-image: url("~/assets/images/leftbottom@2x.png");
@@ -159,9 +159,9 @@ export default {
   font-size: 0.36rem;
   color: #fff;
   font-weight: bold;
-  width: 4.88rem;
-  height: 0.76rem;
-  line-height: 0.74rem;
+  width: 5.42rem;
+  height: 1.16rem;
+  line-height: 1.12rem;
   text-align: center;
   background-image: url("~/assets/images/Combined-Shape@2x.png");
   background-repeat: no-repeat;
@@ -219,13 +219,14 @@ export default {
 
 .process-list li {
   width: 0.2rem;
-  height: 1rem;
+  height: 1.2rem;
   position: relative;
 }
 
 .process-list li > div {
   width: 0.2rem;
-  height: 0.52rem;
+  height: 26px;
+  min-height: 26px;
   background: #efefef;
   border-radius: 0.1rem;
 }

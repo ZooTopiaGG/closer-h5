@@ -48,19 +48,19 @@ export default async function ({
             return x
           })
         }
-        if (res.result.int_type === 2) {
-          const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
-          const regexImg = /<img.*?(?:>|\/>)/gi;
-          let pImg = content.html.match(regexImg);
-          let pVideo = content.html.match(regexVideo);
-          if ((pVideo && pVideo.length > 0) || (pImg && pImg.length > 0)) {
-            store.commit('SET_OPTIONS', true)
-          } else {
-            store.commit('SET_OPTIONS', false)
-          }
-          // 在前端处理
-          // let htmls = self.$com.regexImg(options)
-        }
+        // if (res.result.int_type === 2) {
+        //   const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+        //   const regexImg = /<img.*?(?:>|\/>)/gi;
+        //   let pImg = content.html.match(regexImg);
+        //   let pVideo = content.html.match(regexVideo);
+        //   if ((pVideo && pVideo.length > 0) || (pImg && pImg.length > 0)) {
+        //     store.commit('SET_OPTIONS', true)
+        //   } else {
+        //     store.commit('SET_OPTIONS', false)
+        //   }
+        //   // 在前端处理
+        //   // let htmls = self.$com.regexImg(options)
+        // }
       }
       // 投稿类型
       var postType = ''

@@ -23,7 +23,6 @@
     "js-cookie": "^2.2.0",
     "mint-ui": "^2.2.13",
     "nuxt": "^1.0.0",
-    "progressive-image": "^1.2.0",
     "vue-picture-preview2": "^1.0.0"
   },
   "devDependencies": {
