@@ -150,7 +150,7 @@ module.exports = {
         })
         // 添加 alias 配置
         Object.assign(config.resolve.alias, {
-          'vue': 'vue/dist/vue.js'
+          'vue': 'vue/dist/vue.esm.js'
         })
         // config.externals = [
         //   { Aliplayer: 'Aliplayer'}
