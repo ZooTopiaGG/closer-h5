@@ -10,7 +10,7 @@ module.exports = {
       },
       {
         name: 'viewport',
-        content: 'width=device-width, maximum-scale=1.0 ,initial-scale=1, user-scalable=no'
+        content: 'width=device-width, initial-scale=1, user-scalable=no'
       },
       {
         name: 'format-detection',
@@ -178,10 +178,6 @@ module.exports = {
       src: '~/plugins/device.js',
       ssr: false
     },
-    // {
-    //   src: '~/plugins/device1.js',
-    //   ssr: false
-    // },
     {
       src: '~/plugins/lazyload.js',
       ssr: false
