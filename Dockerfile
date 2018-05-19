@@ -10,13 +10,14 @@ COPY . /apps/closer-h5/
 
 WORKDIR /apps/closer-h5
 
-# RUN rm -rf node_modules
+RUN rm -rf node_modules
 
-# RUN rm -rf package.json
+RUN rm -rf package.json
 
-# RUN rm -rf package-lock.json
+RUN rm -rf package-lock.json
 
-# RUN npm cache clean --force
+RUN npm cache clean --force
+
 RUN ping registry.npm.taobao.org -c 4
 RUN npm --registry=http://registry.npm.taobao.org install nuxt -S
 # RUN npm run dev
