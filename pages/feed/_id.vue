@@ -443,14 +443,21 @@ export default {
           }
         }
       });
+      console.log("Component====", Component);
       // new Component()是将上面构建的组件对象给实例化，
       // $mount()是将实例化的组件进行手动挂载，
       // 将虚拟dom生成出实际渲染的dom，
       // 这里的markedComponent是完成挂载以后的子组件
       const markedComponent = new Component().$mount();
+      console.log("markedComponent====", markedComponent);
+      console.log("markedComponent.$el=====", markedComponent.$el);
       // 将挂载以后的子组件dom插入到父组件中
       // markedComponent.$el就是挂载后生成的渲染dom
-      await self.$refs["markedContent"].appendChild(markedComponent.$el);
+      console.log(
+        'self.$refs["markedContent"]===',
+        self.$refs["markedContent"]
+      );
+      self.$refs["markedContent"].appendChild(markedComponent.$el);
       if (self.$refs["markedContent"].offsetHeight <= 300) {
         self.lessContent = false;
       } else {
