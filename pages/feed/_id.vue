@@ -234,7 +234,8 @@
 </template>
 <script>
 import Cookie from "js-cookie";
-import Vue from "vue";
+import Vue from "vue/dist/vue.js";
+console.log(Vue);
 export default {
   name: "Feed",
   middleware: "get_feed_details",

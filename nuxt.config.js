@@ -24,22 +24,25 @@ module.exports = {
     ],
     // 可使用外链形式 引入第三方库
     script: [{
-        innerHTML: `if (typeof window !== 'undefined') {
-              let deviceWidth = document.documentElement.clientWidth
-              if (deviceWidth > 768) deviceWidth = 768
-              document.documentElement.style.fontSize = deviceWidth / 7.5 + "px"
-              let nvg = navigator.userAgent.toLowerCase()
-              if (nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1) {
-                document.documentElement.style.overflow = "auto"
-              } else {
-                document.documentElement.style.overflow = "hidden"
-              }
-          } else {
-              console.log('Do not use window in server')
-          }`,
-        type: 'text/javascript',
-        charset: 'utf-8'
+        src: '/device1.js'
       },
+      // {
+      //   innerHTML: `if (typeof window !== 'undefined') {
+      //         let deviceWidth = document.documentElement.clientWidth
+      //         if (deviceWidth > 768) deviceWidth = 768
+      //         document.documentElement.style.fontSize = deviceWidth / 7.5 + "px"
+      //         let nvg = navigator.userAgent.toLowerCase()
+      //         if (nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1) {
+      //           document.documentElement.style.overflow = "auto"
+      //         } else {
+      //           document.documentElement.style.overflow = "hidden"
+      //         }
+      //     } else {
+      //         console.log('Do not use window in server')
+      //     }`,
+      //   type: 'text/javascript',
+      //   charset: 'utf-8'
+      // },
       {
         src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
       },
@@ -47,7 +50,7 @@ module.exports = {
         src: 'https://cdn.bootcss.com/vue-lazyload/1.2.3/vue-lazyload.js'
       }
     ],
-    __dangerouslyDisableSanitizers: ['script'],
+    // __dangerouslyDisableSanitizers: ['script'],
     link: [{
         rel: 'icon',
         type: 'image/x-icon',
@@ -149,9 +152,9 @@ module.exports = {
           exclude: /(node_modules)/
         })
         // 添加 alias 配置
-        Object.assign(config.resolve.alias, {
-          'vue$': 'vue/dist/vue.esm.js'
-        })
+        // Object.assign(config.resolve.alias, {
+        //   'vue$': 'vue/dist/vue.esm.js'
+        // })
         // config.externals = [
         //   { Aliplayer: 'Aliplayer'}
         // ]
