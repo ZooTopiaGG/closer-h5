@@ -81,12 +81,12 @@
               </span>
             </div>
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" ref="markedContent" ></div>
+            <div v-if="$store.state.res.int_category != 1" class="summary" id="markedContent" ></div>
             <div v-else :class="{
                 summary2: !$store.state.GET_MESSAGE_STATE && lessContent,
                 category1: category1
               }">
-              <div class="summary" ref="markedContent" ></div>
+              <div class="summary" id="markedContent" ></div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
                   <span>阅读 {{ $store.state.res.view }}</span>
@@ -448,17 +448,17 @@ export default {
       // $mount()是将实例化的组件进行手动挂载，
       // 将虚拟dom生成出实际渲染的dom，
       // 这里的markedComponent是完成挂载以后的子组件
-      const markedComponent = new Component().$mount();
+      const markedComponent = new Component().$mount("#markedContent");
       console.log("markedComponent====", markedComponent);
       console.log("markedComponent.$el=====", markedComponent.$el);
       // 将挂载以后的子组件dom插入到父组件中
       // markedComponent.$el就是挂载后生成的渲染dom
-      console.log(
-        'self.$refs["markedContent"]===',
-        self.$refs["markedContent"]
-      );
-      self.$refs["markedContent"].appendChild(markedComponent.$el);
-      if (self.$refs["markedContent"].offsetHeight <= 300) {
+      // console.log(
+      //   'self.$refs["markedContent"]===',
+      //   self.$refs["markedContent"]
+      // );
+      document.getElementById("markedContent").appendChild(markedComponent.$el);
+      if (document.getElementById("markedContent").offsetHeight <= 300) {
         self.lessContent = false;
       } else {
         self.lessContent = true;
