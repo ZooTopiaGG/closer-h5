@@ -6,7 +6,7 @@
         <!-- 帖子内容 -->
         <!-- 图片 -->
         <div class="feed-doc" v-if="$store.state.res.int_type === 0">
-          <div class="feeder-title">{{ $store.state.content.text }}</div>
+          <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
           <div v-if="$store.state.GET_MESSAGE_STATE">
@@ -44,7 +44,7 @@
         </div>
         <!-- 视频 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
-          <div class="feeder-title">{{ $store.state.content.text }}</div>
+          <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
           <div class="prism-player" id="J_prismPlayer" :vid="$store.state.content.videos[0].vid" :cover="$store.state.content.videos[0].cover"></div>
         </div>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
@@ -81,12 +81,12 @@
               </span>
             </div>
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" ref="markedContent" v-html="content.html"></div>
+            <div v-if="$store.state.res.int_category != 1" class="summary" ref="markedContent" ></div>
             <div v-else :class="{
                 summary2: !$store.state.GET_MESSAGE_STATE && lessContent,
                 category1: category1
               }">
-              <div class="summary" ref="markedContent" v-html="content.html"></div>
+              <div class="summary" ref="markedContent" ></div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
                   <span>阅读 {{ $store.state.res.view }}</span>
@@ -172,7 +172,10 @@
         <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
         <!-- <div v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
         <div v-if="$store.state.res.int_category != 1 ">
-          <ul class="feed-messagebord-list">
+          <div class="message-num">
+            {{ $store.state.res.commentNumber }} 条留言
+          </div>
+          <ul class="feed-messagebord-list" v-if="$store.state.messagelist.data.length > 0">
             <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
               <div class="messager-info flex flex-align-center flex-pack-justify">
                 <div class="messager-info-div flex flex-align-center">
@@ -230,154 +233,153 @@
   </div>
 </template>
 <script>
-  import Cookie from "js-cookie";
-  import Vue from 'vue';
-  export default {
-    name: "Feed",
-    middleware: "get_feed_details",
-    async asyncData({
-      store
-    }) {
-      let htmls = store.state.options ? "" : store.state.content.html;
-      return {
-        htmls: htmls
-      };
-    },
-    head() {
-      return {
-        // 可以使用this
-        title: this.$store.state.res.title
-      };
-    },
-    data() {
-      return {
-        lessContent: true,
-        defaultErrorImg: 'this.src="' + require("~/assets/images/default.jpeg") + '"',
-        clientWidth: "",
-        visibleLogin: false,
-        loading: 1, // 按钮执行状态
-        disabled: false, // 按钮可用状态
-        res: {},
-        content: {
-          html: ''
-        },
-        messagelist: {},
-        isActive: true,
-        exist: true,
-        htmls: {},
-        // 投稿类型
-        postType: "",
-        options: {},
-        vid: '',
-        category1: false
-      };
-    },
-    methods: {
-      collapses() {
-        this.category1 = !this.category1;
+import Cookie from "js-cookie";
+import Vue from "vue";
+export default {
+  name: "Feed",
+  middleware: "get_feed_details",
+  async asyncData({ store }) {
+    let htmls = store.state.options ? "" : store.state.content.html;
+    return {
+      htmls: htmls
+    };
+  },
+  head() {
+    return {
+      // 可以使用this
+      title: this.$store.state.res.title
+    };
+  },
+  data() {
+    return {
+      lessContent: true,
+      defaultErrorImg:
+        'this.src="' + require("~/assets/images/default.jpeg") + '"',
+      clientWidth: "",
+      visibleLogin: false,
+      loading: 1, // 按钮执行状态
+      disabled: false, // 按钮可用状态
+      res: {},
+      content: {
+        html: ""
       },
-      // int_type
-      // 0-图片,1-视频,2-长图文 （判断贴子类型）
-      // 贴子类型：int_category（判断是否有留言功能）
-      // 0 - 普通贴子(用户投到栏目的) 有
-      // 1 - 征稿(栏目运营人员发出) 没有留言功能
-      // 2 - 投稿到征稿(用户投的)
-      // 3 - 神议论(班长合成的)
-      // 5 - 官方普通(栏目运营人员发出的)
-      learnMore() {
-        this.loading = 2;
-        setTimeout(() => {
-          this.loading = 3;
-          this.isActive = false;
-        }, 3000);
-      },
-      // 点击单选按钮时变化
-      reportChange() {
-        // 监听按钮状态
-        this.disabled = false;
-        this.loading = 1;
-      },
-      // 替换文本中图片和视频字符串
-      async parseLongGraphic() {
-        let self = this;
-        // self.$store.state.content.html 复制到self.content.html
-        self.content.html = self.$store.state.content.html;
-        const regexImg = /<img.*?(?:>|\/>)/gi;
-        let pImg = await self.content.html.match(regexImg);
-        if (pImg) {
-          const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-          const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-          const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-          let size, flag;
-          // console.log("pImg===", pImg);
-          pImg.forEach((x, i) => {
-            // console.log(`第${i}个x====`, x)
-            let srcArray = x.match(regexSrc);
-            let widthArray = x.match(regexWidth);
-            let heightArray = x.match(regexHeight);
-            // console.log(`${widthArray} ---- ${heightArray}`)
-            if (widthArray && heightArray) {
-              if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
-                size = self.$deviceWidth;
-              } else {
-                size = parseInt(
-                  self.$deviceWidth * heightArray[1] / widthArray[1]
-                );
-              }
-              let nH = parseInt(
+      messagelist: {},
+      isActive: true,
+      exist: true,
+      htmls: {},
+      // 投稿类型
+      postType: "",
+      options: {},
+      vid: "",
+      category1: false
+    };
+  },
+  methods: {
+    collapses() {
+      this.category1 = !this.category1;
+    },
+    // int_type
+    // 0-图片,1-视频,2-长图文 （判断贴子类型）
+    // 贴子类型：int_category（判断是否有留言功能）
+    // 0 - 普通贴子(用户投到栏目的) 有
+    // 1 - 征稿(栏目运营人员发出) 没有留言功能
+    // 2 - 投稿到征稿(用户投的)
+    // 3 - 神议论(班长合成的)
+    // 5 - 官方普通(栏目运营人员发出的)
+    learnMore() {
+      this.loading = 2;
+      setTimeout(() => {
+        this.loading = 3;
+        this.isActive = false;
+      }, 3000);
+    },
+    // 点击单选按钮时变化
+    reportChange() {
+      // 监听按钮状态
+      this.disabled = false;
+      this.loading = 1;
+    },
+    // 替换文本中图片和视频字符串
+    async parseLongGraphic() {
+      let self = this;
+      // self.$store.state.content.html 复制到self.content.html
+      self.content.html = self.$store.state.content.html;
+      const regexImg = /<img.*?(?:>|\/>)/gi;
+      let pImg = await self.content.html.match(regexImg);
+      if (pImg) {
+        const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        let size, flag;
+        // console.log("pImg===", pImg);
+        pImg.forEach((x, i) => {
+          // console.log(`第${i}个x====`, x)
+          let srcArray = x.match(regexSrc);
+          let widthArray = x.match(regexWidth);
+          let heightArray = x.match(regexHeight);
+          // console.log(`${widthArray} ---- ${heightArray}`)
+          if (widthArray && heightArray) {
+            if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
+              size = self.$deviceWidth;
+            } else {
+              size = parseInt(
                 self.$deviceWidth * heightArray[1] / widthArray[1]
               );
-              flag =
-                `<div class="imgbox" style="background-color: #fff; width: ${
+            }
+            let nH = parseInt(
+              self.$deviceWidth * heightArray[1] / widthArray[1]
+            );
+            flag = `<div class="imgbox" style="background-color: #fff; width: ${
               self.$deviceWidth
             }; min-height: ${nH}">
                     <img src="${srcArray[1]}" data-src="${
               srcArray[1]
             }" width="${self.$deviceWidth}" height="${nH}"/>
                     </div>`;
-            } else {
-              flag =
-                `<div class="imgbox" style="background-color: #fff; width: 100%; min-height:3.2rem">
+          } else {
+            flag = `<div class="imgbox" style="background-color: #fff; width: 100%; min-height:3.2rem">
                     <img src="${srcArray[1]}" data-src="${
               srcArray[1]
             }" width="${self.$deviceWidth}" height="auto"/>
                     </div>`;
-            }
-            // 替换插入需要的值
-            // 正则替换富文本内的img标签
-            // 替换不同文本
-            const regexPImg = new RegExp(x);
-            self.content.html = self.content.html.replace(regexPImg, flag);
-          });
-        }
-        const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
-        var pVideo = await self.content.html.match(regexVideo);
-        if (pVideo) {
-          // 正则替换富文本内 img标签 待发布（npm）
-          const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-          const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
-          const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
-          let flg
-          // console.log('pVideo=', pVideo)
-          for (let i = 0; i < pVideo.length; i++) {
-            // 匹配imageurl属性下的值
-            let urlArray = pVideo[i].match(regexUrl);
-            // 匹配vid属性下的值
-            let vidArray = pVideo[i].match(regexVid);
-            let coverArray = pVideo[i].match(regexCover);
-            // // 替换插入需要的值flg
-            // let temp = pVideo[i].split('<p>');
-            if (self.$store.state.GET_MESSAGE_STATE) {
-              flg =
-                `<div class="video-player">
-                  <video src="${urlArray[1]}" autoplay="autoplay" controls="controls" data-vid="${vidArray[1]}" data-cover="${coverArray[1]}">
+          }
+          // 替换插入需要的值
+          // 正则替换富文本内的img标签
+          // 替换不同文本
+          const regexPImg = new RegExp(x);
+          self.content.html = self.content.html.replace(regexPImg, flag);
+        });
+      }
+      const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+      var pVideo = await self.content.html.match(regexVideo);
+      if (pVideo) {
+        // 正则替换富文本内 img标签 待发布（npm）
+        const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        let flg;
+        // console.log('pVideo=', pVideo)
+        for (let i = 0; i < pVideo.length; i++) {
+          // 匹配imageurl属性下的值
+          let urlArray = pVideo[i].match(regexUrl);
+          // 匹配vid属性下的值
+          let vidArray = pVideo[i].match(regexVid);
+          let coverArray = pVideo[i].match(regexCover);
+          // // 替换插入需要的值flg
+          // let temp = pVideo[i].split('<p>');
+          if (self.$store.state.GET_MESSAGE_STATE) {
+            flg = `<div class="video-player">
+                  <video src="${
+                    urlArray[1]
+                  }" autoplay="autoplay" controls="controls" data-vid="${
+              vidArray[1]
+            }" data-cover="${coverArray[1]}">
                   您的浏览器不支持播放video，请更新浏览器
                   </video>
                 </div>`;
-                // console.log('v=', v)
-            } else {
-              flg =
-                `<div class="imgbox" @click="showVid" style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
+            // console.log('v=', v)
+          } else {
+            flg = `<div class="imgbox" @click="showVid" style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
               <img style="display:block;" src="${coverArray[1]}" width="${
               self.$deviceWidth
             }" height="auto"/>
@@ -385,566 +387,581 @@
                 <span class="icon-font icon-shipin" style="font-size: 60px; color: #ddd;"></span>
               </div>
             </div>`;
-              self.vid = vidArray[1];
-            }
-            self.content.html = self.content.html.replace(regexVideo, flg);
+            self.vid = vidArray[1];
           }
+          self.content.html = self.content.html.replace(regexVideo, flg);
         }
-        const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
-        var piFrame = await self.content.html.match(regexIframe);
-        if (piFrame) {
-          // console.log("piFrame===", piFrame);
-          const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-          const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-          piFrame.forEach((x, i) => {
-            let widthArray = x.match(regexWidth);
-            let heightArray = x.match(regexHeight);
-            let newsplit = x.split(widthArray[0]);
-            let flag =
-              `<div class="imgbox" style="width:100%; min-height: 4.18rem;">
+      }
+      const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
+      var piFrame = await self.content.html.match(regexIframe);
+      if (piFrame) {
+        // console.log("piFrame===", piFrame);
+        const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        piFrame.forEach((x, i) => {
+          let widthArray = x.match(regexWidth);
+          let heightArray = x.match(regexHeight);
+          let newsplit = x.split(widthArray[0]);
+          let flag = `<div class="imgbox" style="width:100%; min-height: 4.18rem;">
             ${newsplit[0]}width="100%"${newsplit[1]}
           </div>`;
-            self.content.html = self.content.html.replace(regexIframe, flag);
-          });
-        } else {
-          return self.content.html;
-        }
-        return self.content.html
-      },
-      // 本质上来讲，这个子组件不是任何组件的子组件，
-      // 它是由vue直接在全局动态生成的一个匿名组件，然后将它插入到当前位置的。
-      // 也正是因此，它才能够完成动态的生成和添加。
-      async compile() {
-        let self = this
-        // 变量html是生成好的vue格式的HTML模板字符串，
-        // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
-        // 比如 v-if, :bind, @click 等。
-        const html = await self.parseLongGraphic();
-        console.log(html)
-        // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
-        // 但是不会注册，类似于js中的createElement，
-        // 创建但是不会添加。
-        // 在这里创建出一个子组件对象构造器。
-        const Component = Vue.extend({
-
-          // 模板文件。由于Markdown解析之后可能会有多个根节点，
-          // 因此需要包裹起来。
-          // 实际的内容是：
-          // `<div><img src="url" @click="showInfo(`图片文字')"></div>`
-          template: `<div> ${html} </div>`,
-          // 这里面写的就是这个动态生成的新组件中的方法了，
-          // 当然你也可加上data、mounted、updated、watch、computed等等。
-          methods: {
-            // 上面模板中将点击事件绑定到了这里，因此点击了之后就会调用这个函数。
-            // 你可以写多个函数在这里，但是这里的函数的作用域只限在这个子组件中。
-            showVid(el) {
-              // console.log(self.vid)
-              location.href = self.vid
-            }
-          },
-        })
-        // new Component()是将上面构建的组件对象给实例化，
-        // $mount()是将实例化的组件进行手动挂载，
-        // 将虚拟dom生成出实际渲染的dom，
-        // 这里的markedComponent是完成挂载以后的子组件
-        const markedComponent = new Component().$mount()
-        // 将挂载以后的子组件dom插入到父组件中
-        // markedComponent.$el就是挂载后生成的渲染dom
-        await self.$refs['markedContent'].appendChild(markedComponent.$el)
-        if (self.$refs['markedContent'].offsetHeight <= 300) {
-          self.lessContent = false
-        } else {
-          self.lessContent = true
-        }
-      },
-      // 去留言
-      async toMessage() {
-        let self = this;
-        // 渲染页面前 先判断cookies token是否存在
-        if (Cookie.get("token")) {
-          // self.$store.dispatch("get_token_by_login", {
-          //   paras: Cookie.get("user")
-          // });
-          console.log(Cookie.get("user"));
-          self.$store.commit("SET_VISIBLE_MESSAGE", true);
-          // 进行其他 ajax 操作
-          return;
-        } else {
-          // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-          if ($async.isWeiXin()) {
-            // 通过微信授权 获取code
-            self.$toast({
-              message: "没有token",
-              position: "top"
-            });
-            await self.$store.dispatch("get_wx_auth", {
-              url: location.href
-            });
-            return;
-          } else {
-            // 显示登录弹窗
-            self.$store.commit("SET_VISIBLE_LOGIN", true);
-          }
-        }
-      },
-      // 去点赞
-      async toSupport() {
-        let self = this;
-        // 渲染页面前 先判断cookies token是否存在
-        if (Cookie.get("token")) {
-          // self.$store.dispatch("get_token_by_login", {
-          //   paras: Cookie.get("user")
-          // });
-          // 进行其他 ajax 操作
-          console.log(Cookie.get("user"));
-          // self.support();
-          return;
-        } else {
-          // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-          if ($async.isWeiXin()) {
-            // 通过微信授权 获取code
-            self.$toast({
-              message: "没有token",
-              position: "top"
-            });
-            await self.$store.dispatch("get_wx_auth", {
-              url: location.href
-            });
-            return;
-          } else {
-            self.$store.commit("SET_VISIBLE_LOGIN", true);
-          }
-        }
-      },
-      hiddenLogin() {
-        this.$store.commit("SET_VISIBLE_LOGIN", false);
-      },
-      hiddenTextArea() {
-        this.$store.commit("SET_VISIBLE_MESSAGE", false);
-      },
-    },
-    beforeMount() {
-      let self = this;
-      // 验证code是否存在
-      if (self.$route.query.code) {
-        self.$store.dispatch("get_code_by_login", {
-          code: self.$route.query.code
+          self.content.html = self.content.html.replace(regexIframe, flag);
         });
+      } else {
+        return self.content.html;
+      }
+      return self.content.html;
+    },
+    // 本质上来讲，这个子组件不是任何组件的子组件，
+    // 它是由vue直接在全局动态生成的一个匿名组件，然后将它插入到当前位置的。
+    // 也正是因此，它才能够完成动态的生成和添加。
+    async compile() {
+      let self = this;
+      // 变量html是生成好的vue格式的HTML模板字符串，
+      // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
+      // 比如 v-if, :bind, @click 等。
+      const html = await self.parseLongGraphic();
+      console.log("html=====", html);
+      // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
+      // 但是不会注册，类似于js中的createElement，
+      // 创建但是不会添加。
+      // 在这里创建出一个子组件对象构造器。
+      const Component = Vue.extend({
+        // 模板文件。由于Markdown解析之后可能会有多个根节点，
+        // 因此需要包裹起来。
+        // 实际的内容是：
+        // `<div><img src="url" @click="showInfo(`图片文字')"></div>`
+        template: `<div> ${html} </div>`,
+        // 这里面写的就是这个动态生成的新组件中的方法了，
+        // 当然你也可加上data、mounted、updated、watch、computed等等。
+        methods: {
+          // 上面模板中将点击事件绑定到了这里，因此点击了之后就会调用这个函数。
+          // 你可以写多个函数在这里，但是这里的函数的作用域只限在这个子组件中。
+          showVid(el) {
+            // console.log(self.vid)
+            location.href = self.vid;
+          }
+        }
+      });
+      // new Component()是将上面构建的组件对象给实例化，
+      // $mount()是将实例化的组件进行手动挂载，
+      // 将虚拟dom生成出实际渲染的dom，
+      // 这里的markedComponent是完成挂载以后的子组件
+      const markedComponent = new Component().$mount();
+      // 将挂载以后的子组件dom插入到父组件中
+      // markedComponent.$el就是挂载后生成的渲染dom
+      await self.$refs["markedContent"].appendChild(markedComponent.$el);
+      if (self.$refs["markedContent"].offsetHeight <= 300) {
+        self.lessContent = false;
+      } else {
+        self.lessContent = true;
       }
     },
-    mounted() {
-      // 判断是否是长图文
-      if (this.$store.state.res.int_type === 2) {
-        // this.compile()
-        // console.log('this.parseLongGraphic()====',this.parseLongGraphic())
-        this.htmls = this.parseLongGraphic()
-        console.log('this.parseLongGraphic(htms)====',this.htmls)
-        console.log(this.$refs['markedContent'].offsetHeight)
-        // if (self.$refs['markedContent'].offsetHeight <= 300) {
-        //   self.lessContent = false
-        // } else {
-        //   self.lessContent = true
-        // }
-      }
-      console.log("messagelist===", this.$store.state);
-      // 在前端执行播放视频 先判断 只能在mounted中执行;
-      if (this.$store.state.res.int_type === 1) {
-        let res = this.$axios
-          .$get(`${api.command.videos}`)
-          .then(res => {
-            let player = new Aliplayer({
-                id: "J_prismPlayer",
-                width: "100%",
-                autoplay: false,
-                prismType: 2,
-                vid: this.$store.state.content.videos[0].vid,
-                playauth: "",
-                playsinline: true, //app内播放设置
-                qualitySort: "desc", //清晰度切换
-                cover: this.$store.state.content.videos[0].imageUrl,
-                accessKeyId: res.result.accessKeyId,
-                securityToken: res.result.securityToken,
-                accessKeySecret: res.result.accessKeySecret
-              },
-              function (player) {
-                console.log("播放器创建好了。");
-              }
-            );
-          })
-          .catch(err => {
-            console.log(err);
+    // 去留言
+    async toMessage() {
+      let self = this;
+      // 渲染页面前 先判断cookies token是否存在
+      if (Cookie.get("token")) {
+        // self.$store.dispatch("get_token_by_login", {
+        //   paras: Cookie.get("user")
+        // });
+        console.log(Cookie.get("user"));
+        self.$store.commit("SET_VISIBLE_MESSAGE", true);
+        // 进行其他 ajax 操作
+        return;
+      } else {
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          self.$toast({
+            message: "没有token",
+            position: "top"
           });
+          await self.$store.dispatch("get_wx_auth", {
+            url: location.href
+          });
+          return;
+        } else {
+          // 显示登录弹窗
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
       }
+    },
+    // 去点赞
+    async toSupport() {
+      let self = this;
+      // 渲染页面前 先判断cookies token是否存在
+      if (Cookie.get("token")) {
+        // self.$store.dispatch("get_token_by_login", {
+        //   paras: Cookie.get("user")
+        // });
+        // 进行其他 ajax 操作
+        console.log(Cookie.get("user"));
+        // self.support();
+        return;
+      } else {
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          self.$toast({
+            message: "没有token",
+            position: "top"
+          });
+          await self.$store.dispatch("get_wx_auth", {
+            url: location.href
+          });
+          return;
+        } else {
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
+      }
+    },
+    hiddenLogin() {
+      this.$store.commit("SET_VISIBLE_LOGIN", false);
+    },
+    hiddenTextArea() {
+      this.$store.commit("SET_VISIBLE_MESSAGE", false);
     }
-  };
-
+  },
+  beforeMount() {
+    let self = this;
+    // 验证code是否存在
+    if (self.$route.query.code) {
+      self.$store.dispatch("get_code_by_login", {
+        code: self.$route.query.code
+      });
+    }
+  },
+  mounted() {
+    // 判断是否是长图文
+    if (this.$store.state.res.int_type === 2) {
+      this.compile();
+      // console.log('this.parseLongGraphic()====',this.parseLongGraphic())
+      // this.htmls = this.parseLongGraphic();
+      // console.log("this.parseLongGraphic(htms)====", this.htmls);
+      // if (self.$refs['markedContent'].offsetHeight <= 300) {
+      //   self.lessContent = false
+      // } else {
+      //   self.lessContent = true
+      // }
+    }
+    console.log("messagelist===", this.$store.state);
+    // 在前端执行播放视频 先判断 只能在mounted中执行;
+    if (this.$store.state.res.int_type === 1) {
+      let res = this.$axios
+        .$get(`${api.command.videos}`)
+        .then(res => {
+          let player = new Aliplayer(
+            {
+              id: "J_prismPlayer",
+              width: "100%",
+              autoplay: false,
+              prismType: 2,
+              vid: this.$store.state.content.videos[0].vid,
+              playauth: "",
+              playsinline: true, //app内播放设置
+              qualitySort: "desc", //清晰度切换
+              cover: this.$store.state.content.videos[0].imageUrl,
+              accessKeyId: res.result.accessKeyId,
+              securityToken: res.result.securityToken,
+              accessKeySecret: res.result.accessKeySecret
+            },
+            function(player) {
+              console.log("播放器创建好了。");
+            }
+          );
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
+};
 </script>
 <style>
-  .prism-volume {
-    margin-left: 10px;
-  }
+.prism-volume {
+  margin-left: 10px;
+}
 
-  .prism-player .prism-controlbar {
-    height: 40px;
-  }
+.prism-player .prism-controlbar {
+  height: 40px;
+}
 
-  .prism-player .prism-big-play-btn {
-    width: 48px;
-    height: 48px;
-  }
+.prism-player .prism-big-play-btn {
+  width: 48px;
+  height: 48px;
+}
 
-  .prism-player .prism-liveshift-progress,
-  .prism-player .prism-progress {
-    height: 2px;
-  }
+.prism-player .prism-liveshift-progress,
+.prism-player .prism-progress {
+  height: 2px;
+}
 
-  .prism-player .prism-progress:hover {
-    height: 2px;
-  }
+.prism-player .prism-progress:hover {
+  height: 2px;
+}
 
-  .prism-player .prism-liveshift-progress .prism-progress-cursor,
-  .prism-player .prism-progress .prism-progress-cursor {
-    top: -4px;
-    border: 6px solid #00c1de;
-  }
+.prism-player .prism-liveshift-progress .prism-progress-cursor,
+.prism-player .prism-progress .prism-progress-cursor {
+  top: -4px;
+  border: 6px solid #00c1de;
+}
 
-  .prism-player .prism-controlbar .prism-controlbar-bg {
-    height: 36px;
-  }
+.prism-player .prism-controlbar .prism-controlbar-bg {
+  height: 36px;
+}
 
-  .prism-progress {
-    bottom: 36px !important;
-  }
+.prism-progress {
+  bottom: 36px !important;
+}
 
-  .prism-player .prism-play-btn {
-    height: 24px;
-    line-height: 24px;
-  }
+.prism-player .prism-play-btn {
+  height: 24px;
+  line-height: 24px;
+}
 
-  .prism-player .prism-time-display {
-    height: 32px;
-    line-height: 32px;
-  }
+.prism-player .prism-time-display {
+  height: 32px;
+  line-height: 32px;
+}
 
-  .prism-player .prism-fullscreen-btn {
-    height: 24px;
-    width: 24px;
-  }
+.prism-player .prism-fullscreen-btn {
+  height: 24px;
+  width: 24px;
+}
 
-  .prism-player .prism-volume .volume-control-icon,
-  .prism-player .prism-volume .volume-icon {
-    height: 24px;
-  }
+.prism-player .prism-volume .volume-control-icon,
+.prism-player .prism-volume .volume-icon {
+  height: 24px;
+}
 
-  .prism-player .prism-volume .volume-control {
-    bottom: 32px;
-    left: -9px;
-    width: 34px;
-  }
+.prism-player .prism-volume .volume-control {
+  bottom: 32px;
+  left: -9px;
+  width: 34px;
+}
 
-  .prism-player .prism-volume .hover .volume-range {
-    width: 2px;
-  }
+.prism-player .prism-volume .hover .volume-range {
+  width: 2px;
+}
 
-  .prism-player .prism-volume .hover .volume-cursor {
-    left: -6px;
-  }
+.prism-player .prism-volume .hover .volume-cursor {
+  left: -6px;
+}
 
-  .prism-stream-selector,
-  .prism-speed-selector {
-    font-size: 13px;
-    line-height: 24px;
-  }
+.prism-stream-selector,
+.prism-speed-selector {
+  font-size: 13px;
+  line-height: 24px;
+}
 
-  .learn-more {
-    margin-top: 8px;
-    height: 36px;
-    line-height: 36px;
-  }
+.learn-more {
+  margin-top: 8px;
+  height: 36px;
+  line-height: 36px;
+}
 
-  .lg-preview-nav-arrow {
-    border-top: 2px solid #333 !important;
-    border-left: 2px solid #333 !important;
-  }
+.lg-preview-nav-arrow {
+  border-top: 2px solid #333 !important;
+  border-left: 2px solid #333 !important;
+}
 
-  .prism-stream-selector .current-stream-selector {
-    width: 45px;
-  }
+.prism-stream-selector .current-stream-selector {
+  width: 45px;
+}
 
-  .feeder-comments .dp-border-show {
-    border-left: 1px solid #fddb00;
-    border-right: 0;
-    border-top: 0;
-    border-bottom: 0;
-  }
+.feeder-comments .dp-border-show {
+  border-left: 1px solid #fddb00;
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 0;
+}
 
-  .video-player {
-    margin: 0.2rem 0;
-  }
-
+.video-player {
+  margin: 0.2rem 0;
+}
 </style>
 <style scoped>
-  #feed {
-    padding: 0 0 0.3rem;
-    box-sizing: border-box;
-    font-size: 13px;
-  }
+#feed {
+  padding: 0 0 0.3rem;
+  box-sizing: border-box;
+  font-size: 13px;
+}
 
-  .feed-doc {
-    padding-bottom: 0.3rem;
-  }
+.feed-doc {
+  padding-bottom: 0.3rem;
+}
 
-  .feeder-info,
-  .feed-messagebord-type,
-  .feed-messagebord,
-  .feed-messagebord-list,
-  .feeder-title,
-  .read-num,
-  .feeder-comments {
-    padding: 0 0.3rem;
-  }
+.feeder-info,
+.feed-messagebord-type,
+.feed-messagebord,
+.feed-messagebord-list,
+.feeder-title,
+.read-num,
+.feeder-comments {
+  padding: 0 0.3rem;
+}
 
-  .read-num {
-    margin-bottom: 0.2rem;
-    color: #888;
-  }
+.read-num {
+  margin-bottom: 0.2rem;
+  color: #888;
+}
 
-  .feeder-title {
-    font-size: 18px;
-    margin-bottom: 0.2rem;
-    font-weight: bold;
-  }
+.feeder-title {
+  font-size: 18px;
+  margin-bottom: 0.2rem;
+  font-weight: bold;
+}
 
-  .feeder-cover {
-    padding: 0.3rem 0.3rem 0;
-  }
+.feeder-title-2 {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0.3rem 0;
+}
 
-  .feeder-cover>img {
-    width: 1.64rem;
-    height: 0.64rem;
-  }
+.feeder-cover {
+  padding: 0.3rem 0.3rem 0;
+}
 
-  .feeder-content {
-    margin-top: 0.4rem;
-  }
+.feeder-cover > img {
+  width: 1.64rem;
+  height: 0.64rem;
+}
 
-  .feeder-img {
-    width: 100%;
-    flex-wrap: wrap;
-  }
+.feeder-content {
+  margin-top: 0.4rem;
+}
 
-  .hide-over {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
-    z-index: 99;
-  }
+.feeder-img {
+  width: 100%;
+  flex-wrap: wrap;
+}
 
-  .messager-info-div>img {
-    width: 0.68rem;
-    height: 0.68rem;
-    border-radius: 100%;
-    margin-right: 0.1rem;
-    margin-bottom: 3px;
-  }
+.hide-over {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+  z-index: 99;
+}
 
-  .feeder-info,
-  .prism-player {
-    margin: 0.2rem 0;
-  }
+.messager-info-div > img {
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: 100%;
+  margin-right: 0.1rem;
+  margin-bottom: 3px;
+}
 
-  .feed-messagebord {
-    height: 0.8rem;
-    border-bottom: 1px solid #eee;
-  }
+.feeder-info,
+.prism-player {
+  margin: 0.2rem 0;
+}
 
-  .feed-messagebord-type {
-    height: 0.8rem;
-    color: #94928e;
-    font-weight: bold;
-  }
+.feed-messagebord {
+  height: 0.8rem;
+  border-bottom: 1px solid #eee;
+}
 
-  .feeder-title {
-    text-align: justify;
-  }
+.feed-messagebord-type {
+  height: 0.8rem;
+  color: #94928e;
+  font-weight: bold;
+}
 
-  .feed-publication-number {
-    margin-right: 0.2rem;
-  }
+.feeder-title {
+  text-align: justify;
+}
 
-  .feed-messagebord-left {
-    font-size: 15px;
-    color: #444;
-    font-weight: 600;
-  }
+.feed-publication-number {
+  margin-right: 0.2rem;
+}
 
-  .messager-comment {
-    color: #444;
-    font-weight: 600;
-  }
+.feed-messagebord-left {
+  font-size: 15px;
+  color: #444;
+  font-weight: 600;
+}
 
-  .messager-name {
-    font-size: 14px;
-  }
+.messager-comment {
+  color: #444;
+  font-weight: 600;
+}
 
-  .feed-messagebord-list-cell {
-    border-bottom: 1px solid #eee;
-    padding: 0.2rem 0 0;
-  }
+.messager-name {
+  font-size: 14px;
+}
 
-  .messager-content {
-    margin: 0.2rem 0;
-    line-height: 1.6;
-    text-align: justify;
-  }
+.feed-messagebord-list-cell {
+  border-bottom: 1px solid #eee;
+  padding: 0.2rem 0 0;
+}
 
-  .messager-time {
-    font-size: 12px;
-    color: #999;
-  }
+.messager-content {
+  margin: 0.2rem 0;
+  line-height: 1.6;
+  text-align: justify;
+}
 
-  .feeder-img-list {
-    position: relative;
-    overflow: hidden;
-  }
+.messager-time {
+  font-size: 12px;
+  color: #999;
+}
 
-  .feeder-img-list:nth-child(3n) {
-    margin-right: 0 !important;
-  }
+.feeder-img-list {
+  position: relative;
+  overflow: hidden;
+}
 
-  .feed-cover-list {
-    width: 100%;
-    display: block;
-  }
+.feeder-img-list:nth-child(3n) {
+  margin-right: 0 !important;
+}
 
-  .feeder-cover-list {
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    display: block;
-  }
+.feed-cover-list {
+  width: 100%;
+  display: block;
+}
 
-  .gif {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    font-size: 12px;
-  }
+.feeder-cover-list {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  display: block;
+}
 
-  .feeder-comments {
-    margin-top: 0.25rem;
-  }
+.gif {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 12px;
+}
 
-  .feeder-comments-cell {
-    box-sizing: border-box;
-    border-bottom: 1px solid rgb(243, 243, 243);
-    margin-bottom: 0.2rem;
-    padding: 0.2rem;
-  }
+.feeder-comments {
+  margin-top: 0.25rem;
+}
 
-  .feeder-comment-info {
-    margin-top: 0.05rem;
-  }
+.feeder-comments-cell {
+  box-sizing: border-box;
+  border-bottom: 1px solid rgb(243, 243, 243);
+  margin-bottom: 0.2rem;
+  padding: 0.2rem;
+}
 
-  .feeder-comment-info>i {
-    margin-right: 0.2rem;
-    width: 0.68rem;
-    height: 0.68rem;
-    border-radius: 100%;
-  }
+.feeder-comment-info {
+  margin-top: 0.05rem;
+}
 
-  .feeder-comment-3 {
-    height: 1.24rem;
-    box-sizing: border-box;
-    padding: 0.2rem;
-    border-radius: 0.1rem;
-    border: 1px solid #d7d7d9;
-    background: #f6f6f6;
-  }
+.feeder-comment-info > i {
+  margin-right: 0.2rem;
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: 100%;
+}
 
-  .feeder-comment-3-cover>i {
-    display: block;
-    margin-right: 0.2rem;
-    width: 0.86rem;
-    height: 0.86rem;
-    border-radius: 0.1rem;
-  }
+.feeder-comment-3 {
+  height: 1.24rem;
+  box-sizing: border-box;
+  padding: 0.2rem;
+  border-radius: 0.1rem;
+  border: 1px solid #d7d7d9;
+  background: #f6f6f6;
+}
 
-  .feeder-comment-3-title {
-    font-size: 15px;
-    height: 22px;
-    overflow: hidden;
-    margin-bottom: 5px;
-  }
+.feeder-comment-3-cover > i {
+  display: block;
+  margin-right: 0.2rem;
+  width: 0.86rem;
+  height: 0.86rem;
+  border-radius: 0.1rem;
+}
 
-  .feeder-comment-3-summary {
-    font-size: 12px;
-    color: rgba(148, 146, 142, 1);
-    height: 20px;
-    overflow: hidden;
-  }
+.feeder-comment-3-title {
+  font-size: 15px;
+  height: 22px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
 
-  .feeder-comment-nickname {
-    font-size: 12px;
-    color: rgba(148, 146, 142, 1);
-    margin-bottom: 0.18rem;
-    line-height: 1;
-  }
+.feeder-comment-3-summary {
+  font-size: 12px;
+  color: rgba(148, 146, 142, 1);
+  height: 20px;
+  overflow: hidden;
+}
 
-  .feeder-comment-img {
-    width: 100%;
-    border-radius: 0.06rem;
-  }
+.feeder-comment-nickname {
+  font-size: 12px;
+  color: rgba(148, 146, 142, 1);
+  margin-bottom: 0.18rem;
+  line-height: 1;
+}
 
-  .messager-comments {
-    padding: 0.1rem 0.2rem;
-    background-color: #f4f4f4;
-    margin-bottom: 0.2rem;
-  }
+.feeder-comment-img {
+  width: 100%;
+  border-radius: 0.06rem;
+}
 
-  .messager-comments-cell {
-    box-sizing: border-box;
-    padding: 0.05rem 0;
-  }
+.messager-comments {
+  padding: 0.1rem 0.2rem;
+  background-color: #f4f4f4;
+  margin-bottom: 0.2rem;
+}
 
-  .summary {
-    text-align: justify;
-  }
+.messager-comments-cell {
+  box-sizing: border-box;
+  padding: 0.05rem 0;
+}
 
-  .summary2 {
-    height: 4rem;
-    position: relative;
-    overflow: hidden;
-    transition: height 0.5s;
-  }
+.summary {
+  text-align: justify;
+}
 
-  .category1 {
-    height: auto;
-  }
+.summary2 {
+  height: 4rem;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.5s;
+}
 
-  .collapse {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1.6rem;
-    line-height: 0.48rem;
-    text-align: center;
-    font-size: 15px;
-    color: #507caf;
-    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
-    background: -o-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
-    background: -moz-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
-    background: -webkit-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
-  }
+.category1 {
+  height: auto;
+}
 
-  .collapse2 {
-    background: #fff;
-    position: static;
-    height: 0.8rem;
-  }
+.collapse {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1.6rem;
+  line-height: 0.48rem;
+  text-align: center;
+  font-size: 15px;
+  color: #507caf;
+  background: linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
+  background: -o-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
+  background: -moz-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
+  background: -webkit-linear-gradient(
+    -90deg,
+    rgba(255, 255, 255, 0.3),
+    white 65%
+  );
+}
 
+.collapse2 {
+  background: #fff;
+  position: static;
+  height: 0.8rem;
+}
+.message-num {
+  height: 0.8rem;
+  line-height: 0.8rem;
+  padding: 0 0.3rem;
+  box-sizing: border-box;
+  font-size: 16px;
+  border-bottom: 1px solid #f5f5f5;
+  margin-bottom: 0.2rem;
+  font-weight: bold;
+}
 </style>
