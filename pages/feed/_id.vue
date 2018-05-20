@@ -376,7 +376,7 @@ export default {
             flg = `<div class="video-player">
                   <video src="${
                     urlArray[1]
-                  }" preload="metadata" controls="controls" data-vid="${
+                  }" preload="auto" controls="controls" data-vid="${
               vidArray[1]
             }" data-cover="${coverArray[1]}">
                   您的浏览器不支持播放video，请更新浏览器
