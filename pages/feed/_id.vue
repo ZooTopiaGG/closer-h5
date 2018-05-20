@@ -394,37 +394,44 @@ export default {
           // // 替换插入需要的值flg
           // let temp = pVideo[i].split('<p>');
           if (self.$store.state.GET_MESSAGE_STATE) {
-            flg = `<div class="imgbox"
-            }"  data-vid="${
-              vidArray[1]
-            }" style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
+            flg = `<div 
+              class="imgbox"
+              data-vid="${vidArray[1]}" 
+              style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
               <video src="${urlArray[1]}" 
-              controls="controls" 
-              preload="none" 
-              webkit-playsinline="true"
-              playsinline="true"
-              x-webkit-airplay="allow"
-              x5-video-player-type="h5"
-              x5-video-player-fullscreen="true"
-              x5-video-orientation="portraint"
-              style="object-fit:fill"
-              poster="${coverArray[1]}" data-cover="${coverArray[1]}">
-                  您的浏览器不支持播放video，请更新浏览器
-                  </video>
-              
+                controls="controls" 
+                preload="none" 
+                webkit-playsinline="true"
+                playsinline="true"
+                x-webkit-airplay="allow"
+                x5-video-player-type="h5"
+                x5-video-player-fullscreen="true"
+                x5-video-orientation="portraint"
+                style="object-fit:fill"
+                poster="${coverArray[1]}" 
+                data-cover="${coverArray[1]}">
+                    您的浏览器不支持播放video，请更新浏览器
+              </video>
             </div>`;
           } else {
-            flg = `<div class="imgbox" @click="showVid" data-vid="${
-              vidArray[1]
-            }" style="background:rgba(0,0,0,.3) url('${coverArray[1]}'); 
-              background-position: 50% 50%;
-              background-repeat: no-repeat; width: 100%; height:4.8rem; position:relative;">
-              <div class="flex flex-align-center flex-pack-center" data-vid="${
-                vidArray[1]
-              }" style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);">
-                <span class="icon-font icon-shipin" data-vid="${
-                  vidArray[1]
-                }" style="font-size: 60px; color: #ddd;"></span>
+            flg = `<div 
+              class="imgbox" 
+              @click="showVid" 
+              data-vid="${vidArray[1]}" 
+              style="background:rgba(0,0,0,.3) url('${coverArray[1]}'); 
+                background-position: 50% 50%;
+                background-repeat: no-repeat; width: 100%; height:4.8rem; position:relative;">
+              <div 
+                class="flex 
+                flex-align-center 
+                flex-pack-center" 
+                data-vid="${vidArray[1]}" 
+                style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);">
+                <span 
+                  class="icon-font icon-shipin" 
+                  data-vid="${vidArray[1]}" 
+                  style="font-size: 60px; color: #ddd;">
+                </span>
               </div>
             </div>`;
           }
