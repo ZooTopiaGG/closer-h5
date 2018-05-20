@@ -81,12 +81,12 @@
               </span>
             </div>
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" ref="markedContent" ></div>
+            <div v-if="$store.state.res.int_category != 1" class="summary" ref="markedContent"></div>
             <div v-else :class="{
                 summary2: !$store.state.GET_MESSAGE_STATE && lessContent,
                 category1: category1
               }">
-              <div class="summary" ref="markedContent" ></div>
+              <div class="summary" ref="markedContent"></div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
                   <span>阅读 {{ $store.state.res.view }}</span>
@@ -137,14 +137,35 @@
                     <img v-else class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)" :onerror="defaultErrorImg">
                   </div>
                   <!-- 包含贴子 -->
-                  <div v-else-if="item.type === 3" class="feeder-comment flex flex-align-center feeder-comment-3">
+                  <div v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
                     <div class="feeder-comment-3-cover flex">
-                      <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)" :style="{backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
+                      <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)" 
+                      :style="{backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
                     </div>
                     <div>
                       <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
                       <div class="feeder-comment-3-summary">{{ item.feed.summary }}</div>
                     </div>
+                  </div>
+                  <!-- 包含视频 -->
+                   <div v-else-if="item.type === 2">
+                      <div class="imgbox" @click="showVid2(item.video.vid)" :data-vid="item.video.vid" 
+                      :style="{
+                        backgroundImage: 'url('+item.video.imageUrl+')',
+                        backgroundPosition: 'center center',
+                        backgroundRepeat: 'no-repeat',
+                        width: '100%',
+                        height:'3.6rem', 
+                        position:'relative'}">
+                        <div 
+                        class="flex flex-align-center flex-pack-center" 
+                        :data-vid="item.video.vid" 
+                        style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);">
+                          <span class="icon-font icon-shipin" 
+                          :data-vid="item.video.vid" 
+                          style="font-size: 60px; color: #ddd;"></span>
+                        </div>
+                      </div>
                   </div>
                 </div>
 
@@ -373,25 +394,37 @@ export default {
           // // 替换插入需要的值flg
           // let temp = pVideo[i].split('<p>');
           if (self.$store.state.GET_MESSAGE_STATE) {
-            flg = `<div class="video-player">
-                  <video src="${
-                    urlArray[1]
-                  }" preload="auto" controls="controls" data-vid="${
+            flg = `<div class="imgbox"
+            }"  data-vid="${
               vidArray[1]
-            }" data-cover="${coverArray[1]}">
+            }" style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
+              <video src="${urlArray[1]}" 
+              controls="controls" 
+              preload="none" 
+              webkit-playsinline="true"
+              playsinline="true"
+              x-webkit-airplay="allow"
+              x5-video-player-type="h5"
+              x5-video-player-fullscreen="true"
+              x5-video-orientation="portraint"
+              style="object-fit:fill"
+              poster="${coverArray[1]}" data-cover="${coverArray[1]}">
                   您的浏览器不支持播放video，请更新浏览器
                   </video>
-                </div>`;
-            // console.log('v=', v)
+              
+            </div>`;
           } else {
             flg = `<div class="imgbox" @click="showVid" data-vid="${
               vidArray[1]
-            }" style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
-              <img style="display:block;" src="${coverArray[1]}" width="${
-              self.$deviceWidth
-            }" height="auto"/>
-              <div class="flex flex-align-center flex-pack-center" style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);">
-                <span class="icon-font icon-shipin" style="font-size: 60px; color: #ddd;"></span>
+            }" style="background:rgba(0,0,0,.3) url('${coverArray[1]}'); 
+              background-position: 50% 50%;
+              background-repeat: no-repeat; width: 100%; height:4.8rem; position:relative;">
+              <div class="flex flex-align-center flex-pack-center" data-vid="${
+                vidArray[1]
+              }" style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);">
+                <span class="icon-font icon-shipin" data-vid="${
+                  vidArray[1]
+                }" style="font-size: 60px; color: #ddd;"></span>
               </div>
             </div>`;
           }
@@ -445,31 +478,35 @@ export default {
           // 上面模板中将点击事件绑定到了这里，因此点击了之后就会调用这个函数。
           // 你可以写多个函数在这里，但是这里的函数的作用域只限在这个子组件中。
           showVid(el) {
-            // console.log(el.target.offsetParent.dataset.vid);
             location.href = `/?vid=${el.target.offsetParent.dataset.vid}`;
           }
+          // showWeb(el) {
+          //   console.log("el", el);
+          //   let _el = el.target.offsetParent.dataset.vid;
+          //   this.$refs[_el].firstChild.play();
+          // }
         }
       });
-      // console.log("Component====", Component);
       // new Component()是将上面构建的组件对象给实例化，
       // $mount()是将实例化的组件进行手动挂载，
       // 将虚拟dom生成出实际渲染的dom，
       // 这里的markedComponent是完成挂载以后的子组件
       const markedComponent = new Component().$mount();
-      // console.log("markedComponent====", markedComponent);
-      // console.log("markedComponent.$el=====", markedComponent.$el);
       // // 将挂载以后的子组件dom插入到父组件中
       // // markedComponent.$el就是挂载后生成的渲染dom
-      // console.log(
-      //   'self.$refs["markedContent"]===',
-      //   self.$refs["markedContent"]
-      // );
       self.$refs["markedContent"].appendChild(markedComponent.$el);
       if (self.$refs["markedContent"].offsetHeight <= 300) {
         self.lessContent = false;
       } else {
         self.lessContent = true;
       }
+    },
+    // vid
+    showVid2(vid) {
+      location.href = `/?vid=${vid}`;
+    },
+    tofeed(fid) {
+      this.$router.push({ path: "/feed/" + fid });
     },
     // 去留言
     async toMessage() {
@@ -968,6 +1005,7 @@ export default {
   position: static;
   height: 0.8rem;
 }
+
 .message-num {
   height: 0.8rem;
   line-height: 0.8rem;
