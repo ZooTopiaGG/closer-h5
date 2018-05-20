@@ -1,8 +1,8 @@
 <template>
-  <div id="bonus">
+  <div id="bonus" class="flex flex-align-center flex-pack-center">
     <div class="bonus-body flex flex-v flex-align-center flex-pack-around">
       <div class="bonus-body-avatar">
-        <img src="~/assets/images/btn_open@2x.png" alt="avatar" srcset="~/assets/images/btn_open@2x.png">
+        <img src="~/assets/images/btn_open@2x.png" alt="avatar">
       </div>
       <div class="bonus-body-desc">
         <p>海哥</p>
@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import Cookie from "js-cookie";
 export default {
   // middleware: "bonus",
   data() {
@@ -30,28 +31,44 @@ export default {
   },
   methods: {
     // 打开红包
-    toopenbonus() {
+    async toopenbonus() {
       this.openbonus = true;
-    }
-  },
-  beforeMount() {
-    console.log(location.href);
-    console.log(this.$com.isWeiXin());
-    if (this.$com.isWeiXin()) {
-      // this.$store.dispatch("get_wx_auth", {
-      //   url: "http://h5-sandbox.tiejin.cn/invite/bonus"
-      // });
+      let self = this;
+      // 渲染页面前 先判断cookies token是否存在
+      console.log(Cookie.get("token"));
+      if (Cookie.get("token")) {
+        // self.$store.dispatch("get_token_by_login", {
+        //   paras: Cookie.get("user")
+        // });
+        // 进行其他 ajax 操作
+        console.log(Cookie.get("user"));
+        // self.support();
+        return;
+      } else {
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          self.$toast({
+            message: "没有token",
+            position: "top"
+          });
+          await self.$store.dispatch("get_wx_auth", {
+            url: "http://h5-sandbox.tiejin.cn/invite/openbonus"
+          });
+          return;
+        } else {
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
+      }
     }
   }
 };
 </script>
 <style>
 #bonus {
-  /* overflow-y: auto; */
+  overflow-y: auto;
   height: 100vh;
   background: brown;
-  padding: 0.2rem;
-  box-sizing: border-box;
 }
 .bonus-body {
   width: 7.12rem;

@@ -6,7 +6,11 @@ let api = {
     get_auth_path: 'closer_auth.get_auth_path',
     login_with_wechat: 'closer_auth.login_with_wechat',
     closeruser_regist: 'closer_auth.closeruser_regist',
-    get_code_by_phone: 'closer_account.get_code_by_phone'
+    get_code_by_phone: 'closer_account.get_code_by_phone',
+    // 用户详情
+    user_show: 'closer_user.show',
+    // 邀请人书
+    invite_counts: 'closer_user.invite_counts'
   },
   command: {
     // 贴子详情

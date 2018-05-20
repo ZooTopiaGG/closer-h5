@@ -1,6 +1,9 @@
 <template>
-  <div class="dpLogin">
-    <div class="title">
+  <div :class="{
+    dpLogin: true,
+    inHtmlLogin: !isAbsolute
+  }">
+    <div class="title" v-if="isAbsolute">
       <span>登录后继续操作</span>
     </div>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
@@ -9,7 +12,10 @@
         <mt-button type="default" class="tj-code-btn" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
       </mt-field>
     </div>
-    <mt-button type="primary" class="margin-top-20 tj-btn" @click="toLogin">登 录</mt-button>
+    <mt-button type="primary" class="margin-top-20 tj-btn" @click="toLogin">
+      <span v-if="isAbsolute">登 录</span>
+      <span v-else>立即下载，提现秒到账</span>
+    </mt-button>
   </div>
 </template>
 <script>
@@ -26,6 +32,12 @@ export default {
       sendName: "发送验证码",
       isdisabled: false
     };
+  },
+  props: {
+    isAbsolute: {
+      type: Boolean,
+      default: true
+    }
   },
   methods: {
     async sendCode() {
@@ -80,7 +92,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
 .dpLogin {
   width: 6.54rem;
   height: 5.44rem;
@@ -90,7 +102,40 @@ export default {
   margin: 15vh auto 0;
   border-radius: 3px;
 }
+.inHtmlLogin {
+  margin: 0 auto;
+  padding: 0;
+  height: auto;
+}
 
+.inHtmlLogin .mint-cell-wrapper {
+  background-image: -webkit-linear-gradient(
+    bottom,
+    rgba(243, 243, 243, 1),
+    rgba(243, 243, 243, 1) 50%,
+    transparent 0
+  );
+  background-image: linear-gradient(
+    0deg,
+    rgba(243, 243, 243, 1),
+    rgba(243, 243, 243, 1) 50%,
+    transparent 0
+  );
+}
+.inHtmlLogin .mint-cell:last-child {
+  background-image: -webkit-linear-gradient(
+    bottom,
+    rgba(243, 243, 243, 1),
+    rgba(243, 243, 243, 1) 50%,
+    transparent 0
+  );
+  background-image: linear-gradient(
+    0deg,
+    rgba(243, 243, 243, 1),
+    rgba(243, 243, 243, 1) 50%,
+    transparent 0
+  );
+}
 .tj-btn {
   width: 100%;
 }

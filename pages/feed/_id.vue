@@ -95,7 +95,7 @@
                   <span style="margin-right: 10px;">
                     <span v-if="$store.state.res.isOffical">官方出品</span>
                     <span v-else>{{ $store.state.res.communityName }}</span>
-                    @{{ $store.state.res.username }}
+                    <!-- @{{ $store.state.res.username }} -->
                   </span>
                   <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
                 </span>
@@ -149,18 +149,40 @@
                   </div>
                   <!-- 包含视频 -->
                    <div v-else-if="item.type === 2">
-                      <div class="imgbox" @click="showVid2(item.video.vid)" :data-vid="item.video.vid" 
+                     <div v-if="$store.state.GET_MESSAGE_STATE">
+                       <div 
+                        class="imgbox"
+                        style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
+                        <video
+                          :src="item.video.src" 
+                          controls="controls" 
+                          preload="none" 
+                          webkit-playsinline="true"
+                          playsinline="true"
+                          x-webkit-airplay="allow"
+                          x5-video-player-type="h5"
+                          x5-video-player-fullscreen="true"
+                          x5-video-orientation="portraint"
+                          style="width: 5.2rem;"
+                          :poster="item.video.imageUrl" 
+                          :data-cover="item.video.imageUrl">
+                              您的浏览器不支持播放video，请更新浏览器
+                        </video>
+                      </div>
+                     </div>
+                    <div v-else class="imgbox" @click="showVid2(item.video.vid)" :data-vid="item.video.vid" 
                       :style="{
                         backgroundImage: 'url('+item.video.imageUrl+')',
                         backgroundPosition: 'center center',
                         backgroundRepeat: 'no-repeat',
                         width: '100%',
                         height:'3.6rem', 
-                        position:'relative'}">
+                        position:'relative',
+                        borderRadius: '3px'}">
                         <div 
                         class="flex flex-align-center flex-pack-center" 
                         :data-vid="item.video.vid" 
-                        style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);">
+                        style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);border-radius:3px;">
                           <span class="icon-font icon-shipin" 
                           :data-vid="item.video.vid" 
                           style="font-size: 60px; color: #ddd;"></span>
@@ -420,7 +442,10 @@ export default {
               data-vid="${vidArray[1]}" 
               style="background:rgba(0,0,0,.3) url('${coverArray[1]}'); 
                 background-position: 50% 50%;
-                background-repeat: no-repeat; width: 100%; height:4.8rem; position:relative;">
+                background-repeat: no-repeat; 
+                width: 100%; 
+                height:4.8rem; 
+                position:relative;">
               <div 
                 class="flex 
                 flex-align-center 
@@ -558,7 +583,7 @@ export default {
         // self.support();
         return;
       } else {
-        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        // 前期仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
           self.$toast({
@@ -826,7 +851,7 @@ export default {
 .feed-messagebord-type {
   height: 0.8rem;
   color: #94928e;
-  font-weight: bold;
+  font-size: 14px;
 }
 
 .feeder-title {
@@ -958,7 +983,7 @@ export default {
 
 .feeder-comment-img {
   width: 100%;
-  border-radius: 0.06rem;
+  border-radius: 3px;
 }
 
 .messager-comments {
