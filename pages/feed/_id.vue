@@ -74,7 +74,7 @@
             <div class="feeder-title"> {{ $store.state.res.title }} </div>
             <!-- 阅读量 -->
             <div class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
-              <span> {{ $com.createTime($store.state.res.long_update_time, 'yy.mm.dd') }}前截止</span>
+              <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
               <span>
                 <span class="feed-publication-number">投稿 {{$store.state.res.commentNumber}}</span>
                 <span>赞 {{ $store.state.res.like }}</span>
@@ -97,7 +97,7 @@
                     <span v-else>{{ $store.state.res.communityName }}</span>
                     @{{ $store.state.res.username }}
                   </span>
-                  <span>{{ $com.getCommonTime($store.state.res.long_update_time, 'yy.mm.dd') }}</span>
+                  <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
                 </span>
               </div>
               <div @click="collapses" v-if="!$store.state.GET_MESSAGE_STATE && lessContent" :class="{
@@ -162,7 +162,7 @@
               @{{ $store.state.res.username }}
             </span>
           </span>
-          <span>{{ $com.getCommonTime($store.state.res.long_update_time, 'yy.mm.dd') }}</span>
+          <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
         </div>
       </div>
       <!-- 分割线 -->
@@ -182,7 +182,7 @@
                   <img v-lazy="$com.makeFileUrl(item.user.avatar)" :onerror="defaultErrorImg">
                   <div class="flex flex-v">
                     <span class="messager-name">{{ item.user.fullname }}</span>
-                    <span class="messager-time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
+                    <span class="messager-time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
                   </div>
                 </div>
                 <div class="icon-group flex">
@@ -235,7 +235,6 @@
 <script>
 import Cookie from "js-cookie";
 import Vue from "vue/dist/vue.js";
-console.log(Vue);
 export default {
   name: "Feed",
   middleware: "get_feed_details",
@@ -314,11 +313,12 @@ export default {
         let size, flag;
         // console.log("pImg===", pImg);
         pImg.forEach((x, i) => {
-          // console.log(`第${i}个x====`, x)
+          // console.log(`第${i}个x====`, x);
           let srcArray = x.match(regexSrc);
           let widthArray = x.match(regexWidth);
           let heightArray = x.match(regexHeight);
           // console.log(`${widthArray} ---- ${heightArray}`)
+          // console.log(`第${i}个srcArray====`, srcArray);
           if (widthArray && heightArray) {
             if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
               size = self.$deviceWidth;
@@ -347,12 +347,16 @@ export default {
           // 替换插入需要的值
           // 正则替换富文本内的img标签
           // 替换不同文本
-          const regexPImg = new RegExp(x);
-          self.content.html = self.content.html.replace(regexPImg, flag);
+          // console.log(`第${i}flag====`, flag);
+          const regexPImg1 = new RegExp(x);
+          // console.log(`第${i}regexPImg1====`, regexPImg1);
+          self.content.html = self.content.html.replace(regexPImg1, flag);
+          // console.log("self.content.html===", self.content.html);
         });
       }
       const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
       var pVideo = await self.content.html.match(regexVideo);
+      // console.log("pVideo====", pVideo);
       if (pVideo) {
         // 正则替换富文本内 img标签 待发布（npm）
         const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -360,12 +364,12 @@ export default {
         const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
         let flg;
         // console.log('pVideo=', pVideo)
-        for (let i = 0; i < pVideo.length; i++) {
+        pVideo.forEach((x, i) => {
           // 匹配imageurl属性下的值
-          let urlArray = pVideo[i].match(regexUrl);
+          let urlArray = x.match(regexUrl);
           // 匹配vid属性下的值
-          let vidArray = pVideo[i].match(regexVid);
-          let coverArray = pVideo[i].match(regexCover);
+          let vidArray = x.match(regexVid);
+          let coverArray = x.match(regexCover);
           // // 替换插入需要的值flg
           // let temp = pVideo[i].split('<p>');
           if (self.$store.state.GET_MESSAGE_STATE) {
@@ -380,7 +384,9 @@ export default {
                 </div>`;
             // console.log('v=', v)
           } else {
-            flg = `<div class="imgbox" @click="showVid" style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
+            flg = `<div class="imgbox" @click="showVid" data-vid="${
+              vidArray[1]
+            }" style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
               <img style="display:block;" src="${coverArray[1]}" width="${
               self.$deviceWidth
             }" height="auto"/>
@@ -388,10 +394,10 @@ export default {
                 <span class="icon-font icon-shipin" style="font-size: 60px; color: #ddd;"></span>
               </div>
             </div>`;
-            self.vid = vidArray[1];
           }
-          self.content.html = self.content.html.replace(regexVideo, flg);
-        }
+          const regexVideo1 = new RegExp(x);
+          self.content.html = self.content.html.replace(regexVideo1, flg);
+        });
       }
       const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
       var piFrame = await self.content.html.match(regexIframe);
@@ -422,7 +428,7 @@ export default {
       // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
       // 比如 v-if, :bind, @click 等。
       const html = await self.parseLongGraphic();
-      console.log("html=====", html);
+      // console.log("html=====", html);
       // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
       // 但是不会注册，类似于js中的createElement，
       // 创建但是不会添加。
@@ -439,25 +445,25 @@ export default {
           // 上面模板中将点击事件绑定到了这里，因此点击了之后就会调用这个函数。
           // 你可以写多个函数在这里，但是这里的函数的作用域只限在这个子组件中。
           showVid(el) {
-            // console.log(self.vid)
-            location.href = self.vid;
+            // console.log(el.target.offsetParent.dataset.vid);
+            location.href = `/?vid=${el.target.offsetParent.dataset.vid}`;
           }
         }
       });
-      console.log("Component====", Component);
+      // console.log("Component====", Component);
       // new Component()是将上面构建的组件对象给实例化，
       // $mount()是将实例化的组件进行手动挂载，
       // 将虚拟dom生成出实际渲染的dom，
       // 这里的markedComponent是完成挂载以后的子组件
       const markedComponent = new Component().$mount();
-      console.log("markedComponent====", markedComponent);
-      console.log("markedComponent.$el=====", markedComponent.$el);
-      // 将挂载以后的子组件dom插入到父组件中
-      // markedComponent.$el就是挂载后生成的渲染dom
-      console.log(
-        'self.$refs["markedContent"]===',
-        self.$refs["markedContent"]
-      );
+      // console.log("markedComponent====", markedComponent);
+      // console.log("markedComponent.$el=====", markedComponent.$el);
+      // // 将挂载以后的子组件dom插入到父组件中
+      // // markedComponent.$el就是挂载后生成的渲染dom
+      // console.log(
+      //   'self.$refs["markedContent"]===',
+      //   self.$refs["markedContent"]
+      // );
       self.$refs["markedContent"].appendChild(markedComponent.$el);
       if (self.$refs["markedContent"].offsetHeight <= 300) {
         self.lessContent = false;
