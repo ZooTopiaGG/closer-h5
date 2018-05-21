@@ -12,9 +12,16 @@
         <mt-button type="default" class="tj-code-btn" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
       </mt-field>
     </div>
-    <mt-button type="primary" class="margin-top-20 tj-btn" @click="toLogin">
-      <span v-if="isAbsolute">登 录</span>
-      <span v-else>立即下载，提现秒到账</span>
+    <mt-button type="primary" :class="{
+      'margin-top-20': true, 
+      'tj-btn': true,
+      notweixin: !isAbsolute
+    }" @click="toLogin">
+      <div class="flex flex-align-center flex-pack-center">
+        <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
+        <span v-if="isAbsolute">登 录</span>
+        <span v-else>立即注册，领红包秒到账</span>
+      </div>
     </mt-button>
   </div>
 </template>
@@ -30,7 +37,8 @@ export default {
       phone: "",
       code: "",
       sendName: "发送验证码",
-      isdisabled: false
+      isdisabled: false,
+      loading: 2
     };
   },
   props: {
@@ -44,6 +52,14 @@ export default {
       let self = this,
         time = 60;
       self.isdisabled = true;
+      if (!$async.isPhoneNum(self.phone)) {
+        self.isdisabled = false;
+        self.$toast({
+          message: "手机号格式错误",
+          position: "top"
+        });
+        return false;
+      }
       let timer = setInterval(() => {
         time--;
         if (time <= 1) {
@@ -54,15 +70,7 @@ export default {
           self.sendName = `正在发送 ${time} s`;
         }
       }, 1000);
-      if (!$async.isPhoneNum(self.phone)) {
-        clearInterval(timer);
-        self.isdisabled = false;
-        self.$toast({
-          message: "手机号格式错误",
-          position: "top"
-        });
-        return false;
-      }
+
       await self.$store.dispatch("get_code_by_phone", {
         phone: self.phone
       });
@@ -83,11 +91,18 @@ export default {
         });
         return false;
       }
+      self.loading = 1;
       await self.$store.dispatch("get_token_by_login", {
         phone: self.phone,
         token: self.code
       });
-      self.$store.commit("SET_VISIBLE_LOGIN", false);
+      // console.log(111111);
+      self.loading = 2;
+      if (!self.isAbsolute) {
+        self.$router.push({ path: "/invite/openbonus" });
+      } else {
+        self.$store.commit("SET_VISIBLE_LOGIN", false);
+      }
     }
   }
 };
@@ -153,5 +168,8 @@ export default {
   font-weight: bold;
   text-align: center;
   margin-bottom: 0.15rem;
+}
+.notweixin {
+  margin-top: 20px;
 }
 </style>

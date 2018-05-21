@@ -1,6 +1,7 @@
 let api = {
   // 接口地址
   base: 'http://api-sandbox.tiejin.cn/',
+  filepath: 'http://file-sandbox.tiejin.cn',
   admin: {
     // 微信授权获取code
     get_auth_path: 'closer_auth.get_auth_path',
@@ -9,6 +10,10 @@ let api = {
     get_code_by_phone: 'closer_account.get_code_by_phone',
     // 用户详情
     user_show: 'closer_user.show',
+    // 点赞
+    like: 'closer_reply.like',
+    // 回复 评论
+    add_reply: 'closer_reply.add_reply',
     // 邀请人书
     invite_counts: 'closer_user.invite_counts'
   },

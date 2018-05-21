@@ -8,15 +8,7 @@ export default async function ({
     let para = {
       subjectid: params.id
     }
-    let para1 = {
-      pagesize: 5,
-      pagenum: 1,
-      subjectid: params.id
-    }
-    let [res, messagelist] = await Promise.all([
-      app.$axios.$post(`${api.command.show}`, para),
-      app.$axios.$post(`${api.command.comments}`, para1)
-    ])
+    let res = await app.$axios.$post(`${api.command.show}`, para)
     // 获取迷药
     if (res.code != 0) {
       // console.log('ssss?S???????')
@@ -48,19 +40,6 @@ export default async function ({
             return x
           })
         }
-        // if (res.result.int_type === 2) {
-        //   const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
-        //   const regexImg = /<img.*?(?:>|\/>)/gi;
-        //   let pImg = content.html.match(regexImg);
-        //   let pVideo = content.html.match(regexVideo);
-        //   if ((pVideo && pVideo.length > 0) || (pImg && pImg.length > 0)) {
-        //     store.commit('SET_OPTIONS', true)
-        //   } else {
-        //     store.commit('SET_OPTIONS', false)
-        //   }
-        //   // 在前端处理
-        //   // let htmls = self.$com.regexImg(options)
-        // }
       }
       // 投稿类型
       var postType = ''
@@ -84,7 +63,6 @@ export default async function ({
       // 返回在渲染页面之前得结果
       store.commit('SET_CONTENT', content)
       store.commit('SET_RES', res.result)
-      store.commit('SET_MESSAGE', messagelist.result)
       store.commit('SET_POSTTYPE', postType)
       store.commit('SET_DISSCUSS', discuss)
       // store.commit('SET_OPTIONS', options)

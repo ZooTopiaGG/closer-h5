@@ -9,7 +9,7 @@ export const state = () => ({
   GET_APP_TOKEN: '',
   content: '',
   res: {},
-  messagelist: {},
+  // messagelist: {},
   postType: '',
   discuss: {},
   options: false,
@@ -24,9 +24,11 @@ export const state = () => ({
 
 export const mutations = {
   GET_USER_AGENT(state, para) {
-    // 通过中间件。判断在路由之前执行
-    let nvg = para.toLowerCase();
-    let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1;
+    // 通过中间件。判断在路由之前执行 判断路由类型
+    // console.log('para===', para)
+    let nvg = para.nvg.toLowerCase();
+    let refer = para.ref
+    let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result
   },
   GET_APP_TOKEN(state, para) {
@@ -38,9 +40,9 @@ export const mutations = {
   SET_RES(state, para) {
     state.res = para
   },
-  SET_MESSAGE(state, para) {
-    state.messagelist = para
-  },
+  // SET_MESSAGE(state, para) {
+  //   state.messagelist = para
+  // },
   SET_POSTTYPE(state, para) {
     state.postType = para
   },
@@ -66,7 +68,7 @@ export const mutations = {
   SET_TOKEN(state, para) {
     state.token = para
   },
-  // 莫太狂状态
+  // 分享feed
   SET_VISIBLE_LOGIN(state, para) {
     state.visibleLogin = para
   },
@@ -96,7 +98,7 @@ export const actions = {
   }, {
     url
   }) {
-    console.log(url)
+    // console.log(url)
     let self = this
     let para = {
       path: url
@@ -120,9 +122,9 @@ export const actions = {
       protocol: "WEB_SOCKET"
     };
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
-    console.log('wxlogindata===', data)
+    // console.log('wxlogindata===', data)
     if (data.code === 0) {
-      console.log("datauser====", data.result.user);
+      // console.log("datauser====", data.result.user);
       // 返回的数据
       let userInfo = {
         gender: data.result.user.gender,
@@ -148,7 +150,7 @@ export const actions = {
         expires: 7
       })
       console.log('usercookies=====', Cookie.get('user'))
-      console.log('tokencookies=====', Cookie.get('token'))
+      // console.log('tokencookies=====', Cookie.get('token'))
       // localstorage.setAge(0.1 * 24 * 60 * 60 * 1000).set('wx_user', userInfo).set('wx_token', userToken)
       commit('SET_USER', userInfo)
       commit('SET_TOKEN', userToken)

@@ -216,8 +216,8 @@
           <div class="message-num">
             {{ $store.state.res.commentNumber }} 条留言
           </div>
-          <ul class="feed-messagebord-list" v-if="$store.state.messagelist.data.length > 0">
-            <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
+          <ul class="feed-messagebord-list" v-if="messagelist.data && messagelist.data.length > 0">
+            <li class="feed-messagebord-list-cell" v-for="(item, index) in messagelist.data" :key="index">
               <div class="messager-info flex flex-align-center flex-pack-justify">
                 <div class="messager-info-div flex flex-align-center">
                   <img v-lazy="$com.makeFileUrl(item.user.avatar)" :onerror="defaultErrorImg">
@@ -226,19 +226,18 @@
                     <span class="messager-time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
                   </div>
                 </div>
-                <div class="icon-group flex">
-                  <p class="flex flex-align-center" style="margin-right:5px" @click="toMessage">
+                <div class="icon-group flex flex-align-center">
+                  <p class="flex flex-align-center" style="margin-right:5px" @click="toMessage(item)">
                     <span class="icon-font icon-message"></span>
                     <span>{{ item.replyNumber }}</span>
                   </p>
-                  <p class="flex flex-align-center" @click="toSupport">
-                    <span class="icon-font icon-dianzan2"></span>
-                    <span v-if="item.like>0">{{ item.like }}</span>
+                  <p class="supports flex flex-align-center" @click="toSupport(item, index)">
+                    <img src="~/assets/images/home_btn_like_n@2x.png" v-if="item.isLike || isLike">
+                    <img src="~/assets/images/home_btn_like_pre@2x.png" v-else>
                   </p>
                 </div>
               </div>
               <div class="messager-content">{{ item.content }}</div>
-              <!-- 评论列表 -->
               <div v-if="item.replyNumber > 0">
                 <ul class="messager-comments" v-if="item.replyNumber <=3">
                   <li class="messager-comments-cell" v-for="(commentItem, commentIndex) in item.sonList" :key="commentIndex">
@@ -252,7 +251,7 @@
               </div>
             </li>
           </ul>
-          <div class="learn-more" v-if="$store.state.messagelist.count>1">
+          <div class="learn-more" v-if="messagelist.count && messagelist.count>1">
             <span @click="learnMore" class="flex flex-align-center flex-pack-center">
               <span v-if="loading === 1">查看更多留言</span>
               <span v-else-if="loading===2" class="flex flex-align-center">
@@ -268,8 +267,14 @@
     <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
     </div>
-    <div class="tj-dialog" @click.self="hiddenTextArea" v-if="$store.state.visibleMessage">
-      <dp-text-area></dp-text-area>
+    <div class="tj-dialog" @click.self="hiddenTextArea" v-if="visibleMessage">
+      <div class="dpTextArea flex flex-v">
+        <mt-field placeholder="写下你的评论" type="textarea" v-model="textarea" rows="5" class="tj-textarea flex-1"></mt-field>
+        <div class="flex flex-align-end flex-pack-end">
+          <mt-button type="default" size="small" class="cancel" @click="cancel">取 消</mt-button>
+          <mt-button type="primary" size="small" class="" @click="sure">确 定</mt-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -293,7 +298,12 @@ export default {
   },
   data() {
     return {
+      textarea: "",
+      item: {},
       lessContent: true,
+      visibleMessage: false,
+      isLike: false,
+      isIndex: 0,
       defaultErrorImg:
         'this.src="' + require("~/assets/images/default.jpeg") + '"',
       clientWidth: "",
@@ -539,15 +549,14 @@ export default {
       this.$router.push({ path: "/feed/" + fid });
     },
     // 去留言
-    async toMessage() {
+    async toMessage(item) {
       let self = this;
+      self.item = item;
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
-        // self.$store.dispatch("get_token_by_login", {
-        //   paras: Cookie.get("user")
-        // });
         console.log(Cookie.get("user"));
-        self.$store.commit("SET_VISIBLE_MESSAGE", true);
+        // self.$store.commit("SET_VISIBLE_MESSAGE", true);
+        self.visibleMessage = true;
         // 进行其他 ajax 操作
         return;
       } else {
@@ -568,17 +577,52 @@ export default {
         }
       }
     },
-    // 去点赞
-    async toSupport() {
+    async sure() {
       let self = this;
+      if (self.textarea == "") {
+        self.$toast({
+          message: "内容不能为空！",
+          position: "top"
+        });
+        return false;
+      }
+      try {
+        let para = {
+          subjectid: self.item.subjectid,
+          content: self.textarea,
+          lastid: self.item.commentid
+        };
+        let data = await self.$axios.$post(`${api.admin.add_reply}`, para);
+        if (data.code === 0) {
+          await self.messageList();
+          self.$toast({
+            message: "留言成功",
+            position: "top"
+          });
+          self.visibleMessage = false;
+        } else {
+          self.$toast({
+            message: data.result,
+            position: "top"
+          });
+        }
+      } catch (err) {
+        self.$toast({
+          message: err,
+          position: "top"
+        });
+      }
+    },
+    cancel() {
+      this.visibleMessage = false;
+    },
+    // 去点赞
+    async toSupport(item, index) {
+      let self = this;
+      self.isIndex = index;
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
-        // self.$store.dispatch("get_token_by_login", {
-        //   paras: Cookie.get("user")
-        // });
-        // 进行其他 ajax 操作
-        console.log(Cookie.get("user"));
-        // self.support();
+        self.support(item);
         return;
       } else {
         // 前期仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
@@ -597,11 +641,62 @@ export default {
         }
       }
     },
+    // 点赞接口 closer_reply.like
+    async support(item) {
+      let self = this;
+      try {
+        let para = {
+          subjectid: item.subjectid,
+          commentid: item.commentid,
+          flag: item.isLike ? 0 : 1
+        };
+        let data = await self.$axios.$post(`${api.admin.like}`, para);
+        if (data.code === 0) {
+          self.$set(item, "isLike", !item.isLike);
+        } else {
+          self.$toast({
+            message: data.result,
+            position: "top"
+          });
+        }
+      } catch (err) {
+        self.$toast({
+          message: err,
+          position: "top"
+        });
+      }
+    },
+    // 留言列表
+    async messageList() {
+      let self = this;
+      try {
+        let para1 = {
+          pagesize: 5,
+          pagenum: 1,
+          subjectid: self.$route.params.id
+        };
+        let data = await self.$axios.$post(`${api.command.comments}`, para1);
+        console.log("messagelisdsat===", data);
+        if (data.code === 0) {
+          self.messagelist = data.result;
+        } else {
+          self.$toast({
+            message: data.result,
+            position: "top"
+          });
+        }
+      } catch (err) {
+        self.$toast({
+          message: err,
+          position: "top"
+        });
+      }
+    },
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     },
     hiddenTextArea() {
-      this.$store.commit("SET_VISIBLE_MESSAGE", false);
+      this.visibleMessage = false;
     }
   },
   beforeMount() {
@@ -614,17 +709,10 @@ export default {
     }
   },
   mounted() {
+    this.messageList();
     // 判断是否是长图文
     if (this.$store.state.res.int_type === 2) {
       this.compile();
-      // console.log('this.parseLongGraphic()====',this.parseLongGraphic())
-      // this.htmls = this.parseLongGraphic();
-      // console.log("this.parseLongGraphic(htms)====", this.htmls);
-      // if (self.$refs['markedContent'].offsetHeight <= 300) {
-      //   self.lessContent = false
-      // } else {
-      //   self.lessContent = true
-      // }
     }
     console.log("messagelist===", this.$store.state);
     // 在前端执行播放视频 先判断 只能在mounted中执行;
@@ -767,6 +855,7 @@ export default {
   padding: 0 0 0.3rem;
   box-sizing: border-box;
   font-size: 13px;
+  padding-bottom: 0;
 }
 
 .feed-doc {
@@ -840,7 +929,9 @@ export default {
 .prism-player {
   margin: 0.2rem 0;
 }
-
+.feeder-info {
+  color: #94928e;
+}
 .feed-messagebord {
   height: 0.8rem;
   border-bottom: 1px solid #eee;
@@ -867,8 +958,7 @@ export default {
 }
 
 .messager-comment {
-  color: #444;
-  font-weight: 600;
+  color: #495060;
 }
 
 .messager-name {
@@ -1045,5 +1135,38 @@ export default {
   border-bottom: 1px solid #f5f5f5;
   margin-bottom: 0.2rem;
   font-weight: bold;
+}
+.supports > img {
+  width: 16px;
+  height: 14px;
+}
+.dpTextArea {
+  width: 100%;
+  padding: 0 0.3rem 0.3rem;
+  background: #fff;
+  min-height: 180px;
+  box-sizing: border-box;
+  padding-top: 0.98rem;
+}
+.tj-btn {
+  width: 100%;
+}
+
+.tj-code-btn {
+  height: 0.52rem;
+  margin: 0 2px 0 5px;
+  font-size: 14px;
+}
+
+.title {
+  height: 0.6rem;
+  line-height: 0.6rem;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.15rem;
+}
+.cancel {
+  margin-right: 0.2rem;
 }
 </style>

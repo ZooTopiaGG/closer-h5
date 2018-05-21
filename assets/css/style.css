@@ -1,3 +1,8 @@
+.mint-button {
+  border-radius: 3px;
+  font-size: 16px;
+}
+
 .mint-button--primary {
   background-color: #FDDB00;
   color: #4B4945;
@@ -12,10 +17,6 @@
   font-weight: bold;
   height: 30px;
   font-size: 14px;
-}
-
-.mint-button {
-  border-radius: 3px;
 }
 
 .mint-toast {
@@ -36,6 +37,10 @@
 }
 
 /* 播放器样式 */
+
+#alttext-image {
+  display: none;
+}
 
 video::-webkit-media-controls-panel {
   background: rgba(255, 255, 255, 0);
