@@ -427,7 +427,7 @@ export default {
                 x5-video-player-type="h5"
                 x5-video-player-fullscreen="true"
                 x5-video-orientation="portraint"
-                style="object-fit:fill; width: 100%; height:4.8rem; "
+                style="width: 100%; height:4.8rem;  overflow:hidden;"
                 poster="${coverArray[1]}" 
                 data-cover="${coverArray[1]}">
                     您的浏览器不支持播放video，请更新浏览器

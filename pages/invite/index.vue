@@ -128,7 +128,7 @@ export default {
 <style>
 #invite {
   /* overflow-y: auto; */
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .tj-invite {
@@ -151,8 +151,8 @@ export default {
 }
 .bottom {
   position: absolute;
-  width: 170px;
-  height: 152px;
+  width: 1.7rem;
+  height: 1.52rem;
   bottom: 0;
   left: 0;
   background-image: url("~/assets/images/leftbottom@2x.png");
