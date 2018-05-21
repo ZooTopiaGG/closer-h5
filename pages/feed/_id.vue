@@ -94,8 +94,7 @@
                 <span>
                   <span style="margin-right: 10px;">
                     <span v-if="$store.state.res.isOffical">官方出品</span>
-                    <span v-else>{{ $store.state.res.communityName }}</span>
-                    <!-- @{{ $store.state.res.username }} -->
+                    <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.username }}</span>
                   </span>
                   <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
                 </span>
@@ -152,7 +151,7 @@
                      <div v-if="$store.state.GET_MESSAGE_STATE">
                        <div 
                         class="imgbox"
-                        style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
+                        style="background-color: rgba(0,0,0,1); width: 100%; height:3.6rem; position:relative; border-radius: 3px;">
                         <video
                           :src="item.video.src" 
                           controls="controls" 
@@ -163,7 +162,7 @@
                           x5-video-player-type="h5"
                           x5-video-player-fullscreen="true"
                           x5-video-orientation="portraint"
-                          style="width: 5.2rem;"
+                          style="width: 100%; height: 3.6rem; overflow:hidden;"
                           :poster="item.video.imageUrl" 
                           :data-cover="item.video.imageUrl">
                               您的浏览器不支持播放video，请更新浏览器
@@ -201,8 +200,7 @@
             <!-- <span>@{{ $store.state.res.username }} 出品</span> -->
             <span style="margin-right: 10px;">
               <span v-if="$store.state.res.isOffical">官方出品</span>
-              <span v-else>{{ $store.state.res.communityName }}</span>
-              @{{ $store.state.res.username }}
+              <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.username }}</span>
             </span>
           </span>
           <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
@@ -406,7 +404,7 @@ export default {
         const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
         const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
         let flg;
-        // console.log('pVideo=', pVideo)
+        // console.log("pVideo=", pVideo);
         pVideo.forEach((x, i) => {
           // 匹配imageurl属性下的值
           let urlArray = x.match(regexUrl);
@@ -419,7 +417,7 @@ export default {
             flg = `<div 
               class="imgbox"
               data-vid="${vidArray[1]}" 
-              style="background-color: #fff; width: 100%; min-height:3.2rem; position:relative;">
+              style="background-color: rgba(0,0,0,1); width: 100%; height:4.8rem; position:relative;">
               <video src="${urlArray[1]}" 
                 controls="controls" 
                 preload="none" 
@@ -429,7 +427,7 @@ export default {
                 x5-video-player-type="h5"
                 x5-video-player-fullscreen="true"
                 x5-video-orientation="portraint"
-                style="object-fit:fill"
+                style="object-fit:fill; width: 100%; height:4.8rem; "
                 poster="${coverArray[1]}" 
                 data-cover="${coverArray[1]}">
                     您的浏览器不支持播放video，请更新浏览器

@@ -35,6 +35,19 @@
   border: 0;
 }
 
+/* 播放器样式 */
+
+video::-webkit-media-controls-panel {
+  background: rgba(255, 255, 255, 0);
+  width: calc(100% + 50px);
+}
+
+video::-webkit-media-controls-mute-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
 /*公用样式*/
 
 .margin-bottom-40 {
