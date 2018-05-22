@@ -92,3 +92,13 @@ video::-webkit-media-controls-mute-button {
   background: rgba(0, 0, 0, 0.3);
   z-index: 999;
 }
+
+.loading-complete {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  background: red;
+  color: #000;
+}

@@ -39,7 +39,9 @@ export default {
     };
   },
   beforeMount() {
-    this.hasInviter = JSON.parse(Cookie.get("inviter"));
+    if ( Cookie.get("inviter")) {
+      this.hasInviter = JSON.parse(Cookie.get("inviter"));
+    }
     // this.isWeiXin = $async.isWeiXin();
     // let self = this;
     // // 验证code是否存在

@@ -33,7 +33,7 @@
     <div class="intro">
       <div class="title">群简介</div>
       <div class="content">
-        <p>{{ $store.state.group_info.group_info.announcement }}</p>
+        <p>{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
       </div>
     </div>
     <div class="split-box"></div>
@@ -173,8 +173,8 @@ export default {
   mounted() {
     // 在前端执行播放视频 先判断 只能在mounted中执行
     let self = this;
-    // console.log("this.group_info====", self.$store.state.group_info);
-    // console.log("this.group_res====", self.$store.state.group_res);
+    console.log("this.group_info====", self.$store.state.group_info);
+    console.log("this.group_res====", self.$store.state.group_res);
     if (self.$store.state.group_res.length > 0) {
       self.$store.state.group_res.map(x => {
         if (x.int_type === 1) {
@@ -265,8 +265,8 @@ export default {
 }
 
 .group li > img {
-  max-width: 1.2rem;
-  max-height: 1.2rem;
+  max-width: 1.0rem;
+  max-height: 1.0rem;
   width: 100%;
   height: auto;
   display: block;

@@ -169,13 +169,17 @@ export const actions = {
     token
   }) {
     // 点击必须登录的按钮，可获取cookie进行判断 信息
+    // 邀新 inviter参数
+    console.log('intver', JSON.parse(Cookie.get('inviter')))
     try {
       let self = this
       let para = {
         phone: phone,
         token: token,
+        inviter: Cookie.get('inviter'),
         protocol: 'WEB_SOCKET'
       }
+      return 
       let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)
       if (data.code === 0) {
         console.log('data===login===', data)

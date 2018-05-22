@@ -31,7 +31,9 @@
   margin-bottom: 0.2rem;
   text-align: justify;
 }
-
+.part a {
+  color: #409eff;
+}
 h3,
 p {
   margin-bottom: 0.2rem;

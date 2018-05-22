@@ -1,7 +1,7 @@
 // import wx from 'weixin-js-sdk'
+import api from './api.js'
 //全局url域配置
 //测试环境
-let fileBase = 'https://file-sandbox.tiejin.cn'
 let options = {
   str: '', // 文本字符串
   flg: '', // 需要插入的值 可为空
@@ -31,6 +31,8 @@ export default {
       return y + '年' + m + '月' + d + '日';
     } else if (type === 'yy.mm.dd') {
       return y + '.' + m + '.' + d;
+    } else if (type === 'yy.mm.dd hh:MM') {
+      return y + '.' + m + '.' + d + ' ' + h + ':' + minute;
     } else {
       return y + '-' + m + '-' + d;
     }
@@ -116,9 +118,9 @@ export default {
     if (url) {
       let sizes = size ? size : 500
       if (type === 'src') {
-        return (url.indexOf('://') !== -1) ? url + '?s=' + sizes : fileBase + url + '?s=' + sizes;
+        return (url.indexOf('://') !== -1) ? url + '?s=' + sizes : api.filePath + url + '?s=' + sizes;
       } else {
-        return (url.indexOf('://') !== -1) ? url : fileBase + url;
+        return (url.indexOf('://') !== -1) ? url : api.filePath + url;
       }
     } else {
       return

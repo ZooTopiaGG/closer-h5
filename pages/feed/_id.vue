@@ -119,7 +119,8 @@
                 <div class="flex-1">
                   <div class="feeder-comment-nickname flex flex-pack-justify">
                     <span>{{ item.nickname }}</span>
-                    <span>{{ $com.getCommonTime(item.createTime, 'yy/mm/dd') }}</span>
+                    <!-- <span>{{ $com.getCommonTime(item.createTime, 'yy/mm/dd') }}</span> -->
+                    <span>{{ item.message_time }}</span>
                   </div>
                   <!-- 纯文本 link text-->
                   <div v-if="item.type === 0" class="feeder-comment">
@@ -196,14 +197,19 @@
         </div>
         <!-- 发帖者信息 -->
         <div v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
-          <span>
-            <!-- <span>@{{ $store.state.res.username }} 出品</span> -->
+          <span v-if="$store.state.res.int_category === 3">
+            <span style="margin-right: 10px;">
+              <!-- <span v-if="$store.state.res.isOffical">官方出品</span> -->
+              <span>{{ $store.state.res.className }} @{{ $store.state.res.user.attributes.roster.name }}</span>
+            </span>
+          </span>
+          <span v-else>
             <span style="margin-right: 10px;">
               <span v-if="$store.state.res.isOffical">官方出品</span>
               <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.username }}</span>
             </span>
           </span>
-          <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
+          <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd hh:MM') }}</span>
         </div>
       </div>
       <!-- 分割线 -->
@@ -231,7 +237,7 @@
                     <span class="icon-font icon-message"></span>
                     <span>{{ item.replyNumber }}</span>
                   </p>
-                  <p class="supports flex flex-align-center" @click="toSupport(item, index)">
+                  <p class="supports" @click="toSupport(item, index)">
                     <img src="~/assets/images/home_btn_like_n@2x.png" v-if="item.isLike || isLike">
                     <img src="~/assets/images/home_btn_like_pre@2x.png" v-else>
                   </p>
@@ -381,18 +387,18 @@ export default {
             let nH = parseInt(
               self.$deviceWidth * heightArray[1] / widthArray[1]
             );
-            flag = `<div class="imgbox" style="background-color: #fff; width: ${
+            flag = `<div class='imgbox' style='background-color: #fff; width: ${
               self.$deviceWidth
-            }; min-height: ${nH}">
-                    <img src="${srcArray[1]}" data-src="${
+            }; min-height: ${nH}'>
+                    <img src='${srcArray[1]}' data-src='${
               srcArray[1]
-            }" width="${self.$deviceWidth}" height="${nH}"/>
+            }' width='${self.$deviceWidth}' height='${nH}'/>
                     </div>`;
           } else {
-            flag = `<div class="imgbox" style="background-color: #fff; width: 100%; min-height:3.2rem">
-                    <img src="${srcArray[1]}" data-src="${
+            flag = `<div class='imgbox' style='background-color: #fff; width: 100%; min-height:3.2rem'>
+                    <img src='${srcArray[1]}' data-src='${
               srcArray[1]
-            }" width="${self.$deviceWidth}" height="auto"/>
+            }' width='${self.$deviceWidth}' height='auto'/>
                     </div>`;
           }
           // 替换插入需要的值
@@ -425,45 +431,45 @@ export default {
           // let temp = pVideo[i].split('<p>');
           if (self.$store.state.GET_MESSAGE_STATE) {
             flg = `<div 
-              class="imgbox"
-              data-vid="${vidArray[1]}" 
-              style="background-color: rgba(0,0,0,1); width: 100%; height:4.8rem; position:relative;">
-              <video src="${urlArray[1]}" 
-                controls="controls" 
-                preload="none" 
-                webkit-playsinline="true"
-                playsinline="true"
-                x-webkit-airplay="allow"
-                x5-video-player-type="h5"
-                x5-video-player-fullscreen="true"
-                x5-video-orientation="portraint"
-                style="width: 100%; height:4.8rem;  overflow:hidden;"
-                poster="${coverArray[1]}" 
-                data-cover="${coverArray[1]}">
+              class='imgbox'
+              data-vid='${vidArray[1]}' 
+              style='background-color: rgba(0,0,0,1); width: 100%; height:4.8rem; position:relative;'>
+              <video src='${urlArray[1]}' 
+                controls='controls' 
+                preload='none' 
+                webkit-playsinline='true'
+                playsinline='true'
+                x-webkit-airplay='allow'
+                x5-video-player-type='h5'
+                x5-video-player-fullscreen='true'
+                x5-video-orientation='portraint'
+                style='width: 100%; height:4.8rem;  overflow:hidden;'
+                poster='${coverArray[1]}' 
+                data-cover='${coverArray[1]}'>
                     您的浏览器不支持播放video，请更新浏览器
               </video>
             </div>`;
           } else {
             flg = `<div 
-              class="imgbox" 
-              @click="showVid" 
-              data-vid="${vidArray[1]}" 
-              style="background:rgba(0,0,0,.3) url('${coverArray[1]}'); 
+              class='imgbox' 
+              @click='showVid' 
+              data-vid='${vidArray[1]}' 
+              style='background:rgba(0,0,0,.3) url("${coverArray[1]}"); 
                 background-position: 50% 50%;
                 background-repeat: no-repeat; 
                 width: 100%; 
                 height:4.8rem; 
-                position:relative;">
+                position:relative;'>
               <div 
-                class="flex 
+                class='flex 
                 flex-align-center 
-                flex-pack-center" 
-                data-vid="${vidArray[1]}" 
-                style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);">
+                flex-pack-center' 
+                data-vid='${vidArray[1]}' 
+                style='position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);'>
                 <span 
-                  class="icon-font icon-shipin" 
-                  data-vid="${vidArray[1]}" 
-                  style="font-size: 60px; color: #ddd;">
+                  class='icon-font icon-shipin' 
+                  data-vid='${vidArray[1]}' 
+                  style='font-size: 60px; color: #ddd;'>
                 </span>
               </div>
             </div>`;
@@ -501,6 +507,7 @@ export default {
       // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
       // 比如 v-if, :bind, @click 等。
       const html = await self.parseLongGraphic();
+      console.log("html====", html);
       // console.log("html=====", html);
       // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
       // 但是不会注册，类似于js中的createElement，
@@ -534,6 +541,7 @@ export default {
       const markedComponent = new Component().$mount();
       // // 将挂载以后的子组件dom插入到父组件中
       // // markedComponent.$el就是挂载后生成的渲染dom
+      console.log('markedComponent.$el===', markedComponent.$el)
       self.$refs["markedContent"].appendChild(markedComponent.$el);
       if (self.$refs["markedContent"].offsetHeight <= 300) {
         self.lessContent = false;

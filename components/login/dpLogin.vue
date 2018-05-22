@@ -96,7 +96,7 @@ export default {
         phone: self.phone,
         token: self.code
       });
-      // console.log(111111);
+      console.log(111111);
       self.loading = 2;
       if (!self.isAbsolute) {
         self.$router.push({ path: "/invite/openbonus" });
