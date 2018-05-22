@@ -2,9 +2,28 @@ export default function ({
   $axios,
   redirect,
   app,
-  store
+  store,
+  req
 }) {
   $axios.onRequest(config => {
+    // console.log('Making request to==', config)
+    let host;
+    if (typeof window != 'undefined') {
+      host = window.location.host;
+      console.log('window===', config.baseURL)      
+    } else {
+      if (req) {
+        host = req.headers.host;
+        console.log('server===', config.baseURL)      
+      }
+    }
+    if (/sandbox.tiejin/.test(host)) {
+      api.filePath = 'http://file-sandbox.tiejin.cn'      
+      config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
+    } else if (/tiejin/.test(host)) {
+      api.filePath = 'http://file.tiejin.cn'      
+      config.baseURL = 'https://api.tiejin.cn/command/'
+    }
     // 线上时
     // console.log('Making request to ' + config.url)
     if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts')) {

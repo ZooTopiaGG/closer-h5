@@ -111,7 +111,7 @@ module.exports = {
       retries: 3
     },
     // baseURL: 'https://api-sandbox.tiejin.cn/command/',
-    baseURL: 'https://api.tiejin.cn/command/',
+    // baseURL: 'https://api.tiejin.cn/command/',
     debug: true, // 添加拦截器
   },
   /*

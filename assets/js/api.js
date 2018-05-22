@@ -3,8 +3,8 @@ let api = {
   // base: 'http://api-sandbox.tiejin.cn/',
   // filepath: 'http://file-sandbox.tiejin.cn',
   // 正式接口地址
-  base: 'http://api.tiejin.cn/',
-  filepath: 'http://file.tiejin.cn',
+  // base: 'http://api.tiejin.cn/',
+  // filepath: 'http://file.tiejin.cn',
   admin: {
     // 微信授权获取code
     get_auth_path: 'closer_auth.get_auth_path',
