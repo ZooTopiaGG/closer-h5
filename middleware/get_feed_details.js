@@ -14,7 +14,7 @@ export default async function ({
       store.commit('GET_EXIST_STATUS', false)
     } else {
       if (res.result.int_type === 1) {
-        store.commit('SET_VIDEO_NAV', false)
+        store.commit('SET_NO_NAV', false)
       }
       if (res.result.content) {
         var content = JSON.parse(res.result.content)

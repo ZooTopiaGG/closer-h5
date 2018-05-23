@@ -250,15 +250,20 @@
               </div>
               <div class="messager-content">{{ item.content }}</div>
               <div v-if="item.replyNumber > 0">
-                <ul class="messager-comments" v-if="item.replyNumber <=3">
-                  <li class="messager-comments-cell" v-for="(commentItem, commentIndex) in item.sonList" :key="commentIndex">
+                <ul class="messager-comments">
+                  <li class="messager-comments-cell" v-for="(commentItem, commentIndex) in item.sonList" v-if=" commentIndex <= 3" :key="commentIndex">
                     <span>{{ commentItem.user.fullname }}：</span>
                     <span class="messager-comment">{{ commentItem.content }}</span>
                   </li>
+                  <li class="messager-comments-cell" style="color: #5e97cd;" v-if="item.replyNumber > 3" @click="morereply">
+                    <span>共{{ item.replyNumber }}条回复</span>
+                  </li>
                 </ul>
-                <ul class="messager-comments" v-else>
-                  <li class="messager-comments-cell" style="color: #5E97CD">{{ item.replyNumber }}条回复</li>
-                </ul>
+                <!-- <ul class="messager-comments" v-if="item.replyNumber <=3">
+                  <li class="messager-comments-cell" v-if="item.replyNumber <=3" style="color: #5E97CD">
+                    <nuxt-link to="/feed/morereply">{{ item.replyNumber }}条回复</nuxt-link>
+                  </li>
+                </ul> -->
               </div>
             </li>
           </ul>
@@ -337,6 +342,9 @@ export default {
     };
   },
   methods: {
+    morereply() {
+      this.$router.push({ path: "/feed/morereply" });
+    },
     // 需要登录的操作 先判断后执行
     async tjFocus() {
       let self = this;
@@ -1141,7 +1149,6 @@ export default {
   box-sizing: border-box;
   padding: 0.05rem 0;
 }
-
 .summary {
   text-align: justify;
 }

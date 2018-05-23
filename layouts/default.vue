@@ -34,7 +34,7 @@
         appnuxts: !$store.state.GET_MESSAGE_STATE }">
         <nuxt/>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE" class="footer">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="footer">
         <mt-button type="primary" size="small" class="circle-btn">
           App内打开
         </mt-button>

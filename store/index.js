@@ -10,6 +10,7 @@ export const state = () => ({
   content: '',
   res: {},
   webNoNav: true,
+  webNoFooter: true,
   // messagelist: {},
   postType: '',
   discuss: {},
@@ -41,8 +42,11 @@ export const mutations = {
   SET_RES(state, para) {
     state.res = para
   },
-  SET_VIDEO_NAV(state, para) {
+  SET_NO_NAV(state, para) {
     state.webNoNav = para
+  },
+  SET_NO_FOOTER(state, para) {
+    state.webNoFooter = para
   },
   SET_POSTTYPE(state, para) {
     state.postType = para
