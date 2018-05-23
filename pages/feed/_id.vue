@@ -44,8 +44,32 @@
         </div>
         <!-- 视频 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
-          <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
-          <div class="prism-player" id="J_prismPlayer" :vid="$store.state.content.videos[0].vid" :cover="$store.state.content.videos[0].cover"></div>
+          <!-- <div class="prism-player" id="J_prismPlayer" :vid="$store.state.content.videos[0].vid" :cover="$store.state.content.videos[0].cover"></div> -->
+          <div style="width:100%; height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;">
+            <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
+              x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint"
+              style="width: 100%; height: 200px; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
+              您的浏览器不支持播放video，请更新浏览器
+            </video>
+          </div>
+
+          <div class="video-doc">
+            <div class="videoNav flex flex-align-center">
+              <img class="access-not" v-lazy="$store.state.res.blogo">
+              <span class="communityName flex-1">{{ $store.state.res.communityName }}</span>
+              <div>
+                <!-- <a href="javasript:;">已关注</a> -->
+                <mt-button :type="$store.state.auth ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">
+                  <span v-if="$store.state.auth">已关注</span>
+                  <span v-else>
+                    <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
+                    <span>关注</span>
+                  </span>
+                </mt-button>
+              </div>
+            </div>
+            <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
+          </div>
         </div>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
@@ -139,8 +163,7 @@
                   <!-- 包含贴子 -->
                   <div v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
                     <div class="feeder-comment-3-cover flex">
-                      <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)" 
-                      :style="{backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
+                      <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)" :style="{backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
                     </div>
                     <div>
                       <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
@@ -148,30 +171,17 @@
                     </div>
                   </div>
                   <!-- 包含视频 -->
-                   <div v-else-if="item.type === 2">
-                     <div v-if="$store.state.GET_MESSAGE_STATE">
-                       <div 
-                        class="imgbox"
-                        style="background-color: rgba(0,0,0,1); width: 100%; height:3.6rem; position:relative; border-radius: 3px;">
-                        <video
-                          :src="item.video.src" 
-                          controls="controls" 
-                          preload="none" 
-                          webkit-playsinline="true"
-                          playsinline="true"
-                          x-webkit-airplay="allow"
-                          x5-video-player-type="h5"
-                          x5-video-player-fullscreen="true"
-                          x5-video-orientation="portraint"
-                          style="width: 100%; height: 3.6rem; overflow:hidden;"
-                          :poster="item.video.imageUrl" 
-                          :data-cover="item.video.imageUrl">
-                              您的浏览器不支持播放video，请更新浏览器
+                  <div v-else-if="item.type === 2">
+                    <div v-if="$store.state.GET_MESSAGE_STATE">
+                      <div class="imgbox" style="background-color: rgba(0,0,0,1); width: 100%; height:3.6rem; position:relative; border-radius: 3px;">
+                        <video :src="item.video.src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
+                          x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint" style="width: 100%; height: 3.6rem; overflow:hidden;"
+                          :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
+                          您的浏览器不支持播放video，请更新浏览器
                         </video>
                       </div>
-                     </div>
-                    <div v-else class="imgbox" @click="showVid2(item.video.vid)" :data-vid="item.video.vid" 
-                      :style="{
+                    </div>
+                    <div v-else class="imgbox" @click="showVid2(item.video.vid)" :data-vid="item.video.vid" :style="{
                         backgroundImage: 'url('+item.video.imageUrl+')',
                         backgroundPosition: 'center center',
                         backgroundRepeat: 'no-repeat',
@@ -179,15 +189,10 @@
                         height:'3.6rem', 
                         position:'relative',
                         borderRadius: '3px'}">
-                        <div 
-                        class="flex flex-align-center flex-pack-center" 
-                        :data-vid="item.video.vid" 
-                        style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);border-radius:3px;">
-                          <span class="icon-font icon-shipin" 
-                          :data-vid="item.video.vid" 
-                          style="font-size: 60px; color: #ddd;"></span>
-                        </div>
+                      <div class="flex flex-align-center flex-pack-center" :data-vid="item.video.vid" style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);border-radius:3px;">
+                        <span class="icon-font icon-shipin" :data-vid="item.video.vid" style="font-size: 60px; color: #ddd;"></span>
                       </div>
+                    </div>
                   </div>
                 </div>
 
@@ -238,7 +243,7 @@
                     <span>{{ item.replyNumber }}</span>
                   </p>
                   <p class="supports" @click="toSupport(item, index)">
-                    <img src="~/assets/images/home_btn_like_n@2x.png" v-if="item.isLike || isLike">
+                    <img src="~/assets/images/home_btn_like_n@2x.png" v-if="!item.isLike">
                     <img src="~/assets/images/home_btn_like_pre@2x.png" v-else>
                   </p>
                 </div>
@@ -332,6 +337,30 @@ export default {
     };
   },
   methods: {
+    // 需要登录的操作 先判断后执行
+    async tjFocus() {
+      let self = this;
+      // 渲染页面前 先判断cookies token是否存在
+      if (Cookie.get("token")) {
+        // self.$store.dispatch("get_token_by_login", {
+        //   paras: Cookie.get("user")
+        // });
+        // 进行其他 ajax 操作
+        console.log(Cookie.get("user"));
+        return;
+      } else {
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          await self.$store.dispatch("get_wx_auth", {
+            url: location.href
+          });
+          return;
+        } else {
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
+      }
+    },
     collapses() {
       this.category1 = !this.category1;
     },
@@ -507,7 +536,7 @@ export default {
       // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
       // 比如 v-if, :bind, @click 等。
       const html = await self.parseLongGraphic();
-      console.log("html====", html);
+      // console.log("html====", html);
       // console.log("html=====", html);
       // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
       // 但是不会注册，类似于js中的createElement，
@@ -541,7 +570,7 @@ export default {
       const markedComponent = new Component().$mount();
       // // 将挂载以后的子组件dom插入到父组件中
       // // markedComponent.$el就是挂载后生成的渲染dom
-      console.log('markedComponent.$el===', markedComponent.$el)
+      // console.log("markedComponent.$el===", markedComponent.$el);
       self.$refs["markedContent"].appendChild(markedComponent.$el);
       if (self.$refs["markedContent"].offsetHeight <= 300) {
         self.lessContent = false;
@@ -554,11 +583,14 @@ export default {
       location.href = `/?vid=${vid}`;
     },
     tofeed(fid) {
-      this.$router.push({ path: "/feed/" + fid });
+      this.$router.push({
+        path: "/feed/" + fid
+      });
     },
     // 去留言
     async toMessage(item) {
       let self = this;
+      console.log("item===", item);
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
@@ -724,34 +756,35 @@ export default {
     }
     console.log("messagelist===", this.$store.state);
     // 在前端执行播放视频 先判断 只能在mounted中执行;
-    if (this.$store.state.res.int_type === 1) {
-      let res = this.$axios
-        .$get(`${api.command.videos}`)
-        .then(res => {
-          let player = new Aliplayer(
-            {
-              id: "J_prismPlayer",
-              width: "100%",
-              autoplay: false,
-              prismType: 2,
-              vid: this.$store.state.content.videos[0].vid,
-              playauth: "",
-              playsinline: true, //app内播放设置
-              qualitySort: "desc", //清晰度切换
-              cover: this.$store.state.content.videos[0].imageUrl,
-              accessKeyId: res.result.accessKeyId,
-              securityToken: res.result.securityToken,
-              accessKeySecret: res.result.accessKeySecret
-            },
-            function(player) {
-              console.log("播放器创建好了。");
-            }
-          );
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    // if (this.$store.state.res.int_type === 1) {
+    //   let res = this.$axios
+    //     .$get(`${api.command.videos}`)
+    //     .then(res => {
+    //       let player = new Aliplayer(
+    //         {
+    //           id: "J_prismPlayer",
+    //           width: "100%",
+    //           autoplay: false,
+    //           prismType: 2,
+    //           vid: this.$store.state.content.videos[0].vid,
+    //           playauth: "",
+    //           playsinline: true, //app内播放设置
+    //           qualitySort: "desc", //清晰度切换
+    //           cover: this.$store.state.content.videos[0].imageUrl,
+    //           accessKeyId: res.result.accessKeyId,
+    //           securityToken: res.result.securityToken,
+    //           accessKeySecret: res.result.accessKeySecret
+    //         },
+    //         function(player) {
+    //           console.log("player", player);
+    //           console.log("播放器创建好了。");
+    //         }
+    //       );
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // }
   }
 };
 </script>
@@ -889,6 +922,8 @@ export default {
   font-size: 18px;
   margin-bottom: 0.2rem;
   font-weight: bold;
+  white-space: pre-line;
+  line-height: 1.6;
 }
 
 .feeder-title-2 {
@@ -933,13 +968,27 @@ export default {
   margin-bottom: 3px;
 }
 
-.feeder-info,
-.prism-player {
+.feeder-info {
   margin: 0.2rem 0;
+}
+
+.prism-player {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.video-doc {
+  margin-top: 200px;
+}
+.videoNav {
+  height: 60px;
 }
 .feeder-info {
   color: #94928e;
 }
+
 .feed-messagebord {
   height: 0.8rem;
   border-bottom: 1px solid #eee;
@@ -1144,10 +1193,12 @@ export default {
   margin-bottom: 0.2rem;
   font-weight: bold;
 }
+
 .supports > img {
   width: 16px;
   height: 14px;
 }
+
 .dpTextArea {
   width: 100%;
   padding: 0 0.3rem 0.3rem;
@@ -1156,6 +1207,7 @@ export default {
   box-sizing: border-box;
   padding-top: 0.98rem;
 }
+
 .tj-btn {
   width: 100%;
 }
@@ -1174,6 +1226,7 @@ export default {
   text-align: center;
   margin-bottom: 0.15rem;
 }
+
 .cancel {
   margin-right: 0.2rem;
 }

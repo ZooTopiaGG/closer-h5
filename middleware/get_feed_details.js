@@ -11,9 +11,11 @@ export default async function ({
     let res = await app.$axios.$post(`${api.command.show}`, para)
     // 获取迷药
     if (res.code != 0) {
-      // console.log('ssss?S???????')
       store.commit('GET_EXIST_STATUS', false)
     } else {
+      if (res.result.int_type === 1) {
+        store.commit('SET_VIDEO_NAV', false)
+      }
       if (res.result.content) {
         var content = JSON.parse(res.result.content)
         if (content.discuss) {

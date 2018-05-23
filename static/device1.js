@@ -24,35 +24,6 @@ window.onload = function () {
   // initPage()
 }
 
-// function initPage() {
-//   var start_time = (new Date()).getTime();
-//   var end_time = "";
-//   console.log('location.href===', location.href)
-//   console.log(document.getElementsByTagName('body')[0])
-
-//   if (document.readyState == "loading") {
-//     console.log('document.readyState==', document.readyState)
-//     let childNode = document.createElement('div')
-//     childNode.innerHTML = '<span>这里是提示信息〜〜</span>'
-//     childNode.setAttribute('class', 'loading-complete flex flex-align-center flex-pack-center')
-//     document.getElementsByTagName('body')[0].appendChild(childNode);
-//   }
-//   var t = setInterval(function () {
-//     // console.log('document.readyState==', document.readyState)
-
-//     if (document.readyState == "complete") {
-//       aa();
-//     }
-//   }, 500)
-
-//   function aa() {
-//     clearInterval(t);
-//     // $('.cbg').fadeOut()
-//     end_time = (new Date()).getTime();
-//     console.log('页面加载时间消耗：', end_time - start_time);
-//   }
-// }
-
 //获取浏览器页面可见高度和宽度  
 var _PageHeight = document.documentElement.clientHeight,
   _PageWidth = document.documentElement.clientWidth;

@@ -313,3 +313,15 @@ html body {
   -webkit-overflow-scrolling: touch;
   height: calc(100vh - 0.98rem);
 }
+
+.webNoNav.web-class {
+  height: 100vh;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  /*文本溢出用"..."表示*/
+  text-overflow: ellipsis;
+  /*适用IE*/
+  -o-text-overflow: ellipsis;
+}

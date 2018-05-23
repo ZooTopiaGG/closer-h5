@@ -9,6 +9,7 @@ export const state = () => ({
   GET_APP_TOKEN: '',
   content: '',
   res: {},
+  webNoNav: true,
   // messagelist: {},
   postType: '',
   discuss: {},
@@ -40,9 +41,9 @@ export const mutations = {
   SET_RES(state, para) {
     state.res = para
   },
-  // SET_MESSAGE(state, para) {
-  //   state.messagelist = para
-  // },
+  SET_VIDEO_NAV(state, para) {
+    state.webNoNav = para
+  },
   SET_POSTTYPE(state, para) {
     state.postType = para
   },
@@ -149,7 +150,7 @@ export const actions = {
       Cookie.set('user', userInfo, {
         expires: 7
       })
-      console.log('usercookies=====', Cookie.get('user'))
+      // console.log('usercookies=====', Cookie.get('user'))
       // console.log('tokencookies=====', Cookie.get('token'))
       // localstorage.setAge(0.1 * 24 * 60 * 60 * 1000).set('wx_user', userInfo).set('wx_token', userToken)
       commit('SET_USER', userInfo)
@@ -170,16 +171,24 @@ export const actions = {
   }) {
     // 点击必须登录的按钮，可获取cookie进行判断 信息
     // 邀新 inviter参数
-    console.log('intver', JSON.parse(Cookie.get('inviter')))
+    // console.log('intver', JSON.parse(Cookie.get('inviter')))
     try {
-      let self = this
-      let para = {
-        phone: phone,
-        token: token,
-        inviter: Cookie.get('inviter'),
-        protocol: 'WEB_SOCKET'
+      let self = this,
+        para
+      if (Cookie.get('inviter')) {
+        para = {
+          phone: phone,
+          token: token,
+          inviter: Cookie.get('inviter'),
+          protocol: 'WEB_SOCKET'
+        }
+      } else {
+        para = {
+          phone: phone,
+          token: token,
+          protocol: 'WEB_SOCKET'
+        }
       }
-      return 
       let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)
       if (data.code === 0) {
         console.log('data===login===', data)
@@ -213,17 +222,20 @@ export const actions = {
           message: '登录成功',
           position: 'top'
         })
+        return true
       } else {
         Toast({
           message: data.result,
           position: 'top'
         })
+        return false
       }
     } catch (err) {
       Toast({
         message: err,
         position: 'top'
       })
+      throw err;
     }
   },
   // 获取验证码

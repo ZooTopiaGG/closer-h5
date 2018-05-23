@@ -12,7 +12,7 @@
         <mt-button type="default" class="tj-code-btn" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
       </mt-field>
     </div>
-    <mt-button type="primary" :class="{
+    <mt-button type="primary" :disabled="loading === 1" :class="{
       'margin-top-20': true, 
       'tj-btn': true,
       notweixin: !isAbsolute
@@ -77,31 +77,40 @@ export default {
     },
     async toLogin() {
       let self = this;
-      if (!$async.isPhoneNum(self.phone)) {
-        self.$toast({
-          message: "手机号格式错误",
-          position: "top"
+      try {
+        self.loading = 1;
+        if (!$async.isPhoneNum(self.phone)) {
+          self.loading = 2;
+          self.$toast({
+            message: "手机号格式错误",
+            position: "top"
+          });
+          return false;
+        }
+        if (!self.code) {
+          self.loading = 2;
+          self.$toast({
+            message: "手机号或验证码错误",
+            position: "top"
+          });
+          return false;
+        }
+        let status = await self.$store.dispatch("get_token_by_login", {
+          phone: self.phone,
+          token: self.code
         });
-        return false;
-      }
-      if (!self.code) {
-        self.$toast({
-          message: "手机号或验证码错误",
-          position: "top"
-        });
-        return false;
-      }
-      self.loading = 1;
-      await self.$store.dispatch("get_token_by_login", {
-        phone: self.phone,
-        token: self.code
-      });
-      console.log(111111);
-      self.loading = 2;
-      if (!self.isAbsolute) {
-        self.$router.push({ path: "/invite/openbonus" });
-      } else {
-        self.$store.commit("SET_VISIBLE_LOGIN", false);
+        if (status) {
+          self.loading = 2;
+          if (!self.isAbsolute) {
+            self.$router.push({ path: "/invite/openbonus" });
+          } else {
+            self.$store.commit("SET_VISIBLE_LOGIN", false);
+          }
+        } else {
+          self.loading = 2;
+        }
+      } catch (err) {
+        self.loading = 2;
       }
     }
   }

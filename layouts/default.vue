@@ -1,8 +1,9 @@
 <template>
   <div>
     <div v-if="$store.state.exist">
-      <nav v-if="$store.state.GET_MESSAGE_STATE" :class="{ appnav: $store.state.res.int_type === 2,
+      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" :class="{ appnav: $store.state.res.int_type === 2,
           scrollnav: scrollnav,
+          webNoNav: !$store.state.webNoNav,
           flex: true,
           'flex-v': true,
           'flex-pack-center': true
@@ -25,7 +26,12 @@
           </div>
         </div>
       </nav>
-      <div id="wrapper" :class="{ 'web-class': $store.state.GET_MESSAGE_STATE, nuxts:true, appnuxts: !$store.state.GET_MESSAGE_STATE }">
+      <div id="wrapper" 
+      :class="{ 
+        'web-class': $store.state.GET_MESSAGE_STATE, 
+        nuxts:true, 
+        webNoNav: !$store.state.webNoNav,
+        appnuxts: !$store.state.GET_MESSAGE_STATE }">
         <nuxt/>
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE" class="footer">
@@ -149,7 +155,9 @@ nav .communityName {
   overflow-x: hidden;
   /*height: calc(100vh-0.98rem);*/
 }
-
+.webNoNav {
+  margin-top: 0;
+}
 /*app内*/
 
 nav.appnav {
