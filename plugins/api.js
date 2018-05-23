@@ -5,3 +5,4 @@ if (typeof window !== 'undefined') {
 } else {
     global.api = _api
 }
+  

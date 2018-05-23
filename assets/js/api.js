@@ -4,7 +4,8 @@ let api = {
   // filepath: 'http://file-sandbox.tiejin.cn',
   // 正式接口地址
   // base: 'http://api.tiejin.cn/',
-  // filepath: 'http://file.tiejin.cn',
+  // filePath: filePath || 'http://file-sandbox.tiejin.cn',
+  file: '/file/upload/public',
   admin: {
     // 微信授权获取code
     get_auth_path: 'closer_auth.get_auth_path',

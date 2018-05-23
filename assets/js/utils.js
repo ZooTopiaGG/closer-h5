@@ -1,7 +1,4 @@
-// import wx from 'weixin-js-sdk'
 import api from './api.js'
-//全局url域配置
-//测试环境
 let options = {
   str: '', // 文本字符串
   flg: '', // 需要插入的值 可为空

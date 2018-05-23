@@ -5,23 +5,34 @@ export default function ({
   store,
   req
 }) {
+  if (req) {
+    let host = req.headers.host;
+    if (/sandbox.tiejin/.test(host)) {
+      api.filePath = 'http://file-sandbox.tiejin.cn'
+    } else if (/tiejin/.test(host)) {
+      api.filePath = 'http://file.tiejin.cn'
+    }
+  } else {
+    let host = window.location.host
+    if (/sandbox.tiejin/.test(host)) {
+      api.filePath = 'http://file-sandbox.tiejin.cn'
+    } else if (/tiejin/.test(host)) {
+      api.filePath = 'http://file.tiejin.cn'
+    }
+  }
   $axios.onRequest(config => {
     // console.log('Making request to==', config)
     let host;
     if (typeof window != 'undefined') {
       host = window.location.host;
-      console.log('window===', config.baseURL)      
     } else {
       if (req) {
         host = req.headers.host;
-        console.log('server===', config.baseURL)      
       }
     }
     if (/sandbox.tiejin/.test(host)) {
-      api.filePath = 'http://file-sandbox.tiejin.cn'      
       config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
     } else if (/tiejin/.test(host)) {
-      api.filePath = 'http://file.tiejin.cn'      
       config.baseURL = 'https://api.tiejin.cn/command/'
     }
     // 线上时
