@@ -100,17 +100,17 @@
             <div class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
               <span>
-                <span class="feed-publication-number">投稿 {{$store.state.res.commentNumber}}</span>
+                <span class="feed-publication-number">投稿 {{$store.state.res.collectionTotalCount}}</span>
                 <span>赞 {{ $store.state.res.like }}</span>
               </span>
             </div>
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" ref="markedContent"></div>
+            <div v-if="$store.state.res.int_category != 1" class="summary" id="tjimg" ref="markedContent"></div>
             <div v-else :class="{
                 summary2: !$store.state.GET_MESSAGE_STATE && lessContent,
                 category1: category1
               }">
-              <div class="summary" ref="markedContent"></div>
+              <div class="summary" id="tjimg" ref="markedContent"></div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
                   <span>阅读 {{ $store.state.res.view }}</span>
@@ -444,13 +444,13 @@ export default {
             flag = `<div class='imgbox' style='background-color: #fff; width: ${
               self.$deviceWidth
             }; min-height: ${nH}'>
-                    <img src='${srcArray[1]}' data-src='${
+                    <img refs="tjimg" src="${srcArray[1]}?s=100" data-src='${
               srcArray[1]
             }' width='${self.$deviceWidth}' height='${nH}'/>
                     </div>`;
           } else {
             flag = `<div class='imgbox' style='background-color: #fff; width: 100%; min-height:3.2rem'>
-                    <img src='${srcArray[1]}' data-src='${
+                    <img refs="tjimg" src="${srcArray[1]}?s=100" data-src='${
               srcArray[1]
             }' width='${self.$deviceWidth}' height='auto'/>
                     </div>`;
@@ -581,11 +581,35 @@ export default {
           showVid(el) {
             location.href = `/?vid=${el.target.offsetParent.dataset.vid}`;
           }
-          // showWeb(el) {
-          //   console.log("el", el);
-          //   let _el = el.target.offsetParent.dataset.vid;
-          //   this.$refs[_el].firstChild.play();
-          // }
+        },
+        beforeCreate() {
+          console.log("创建元素之前");
+        },
+        beforeMount() {
+          console.log("页面挂载之前");
+        },
+        mounted() {
+          this.$nextTick(() => {
+            // console.log("dom渲染完成");
+            // console.log("document.readyState", document.readyState);
+            if (
+              document.readyState == "complete" ||
+              document.readyState == "interactive"
+            ) {
+              let tjimg2 = document
+                .getElementById("tjimg")
+                .getElementsByTagName("img");
+              for (var i = 0; i < tjimg2.length; i++) {
+                // console.log(`${i}个`, tjimg2[i]);
+                tjimg2[i].setAttribute("src", tjimg2[i].dataset.src);
+                // console.log("src===" + i, tjimg2[i]);
+              }
+            }
+          });
+          console.log("页面挂载好了");
+        },
+        beforeUpdate() {
+          console.log("页面更新之前");
         }
       });
       // new Component()是将上面构建的组件对象给实例化，
@@ -595,7 +619,7 @@ export default {
       const markedComponent = new Component().$mount();
       // // 将挂载以后的子组件dom插入到父组件中
       // // markedComponent.$el就是挂载后生成的渲染dom
-      // console.log("markedComponent.$el===", markedComponent.$el);
+
       self.$refs["markedContent"].appendChild(markedComponent.$el);
       if (self.$refs["markedContent"].offsetHeight <= 300) {
         self.lessContent = false;

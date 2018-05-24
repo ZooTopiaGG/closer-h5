@@ -355,6 +355,7 @@ export default {
   transform: rotate(-45deg);
   color: #fff;
   display: block;
+  margin-left: 2px;
 }
 .prism-player {
   margin-bottom: 0.3rem;
