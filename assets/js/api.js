@@ -36,8 +36,6 @@ let api = {
     add_reply: 'closer_reply.add_reply',
     // 富评论下的子评论
     replys: 'closer_reply.replys',
-    // 返回某一主题id下的父评论(包括官方)
-    comments: 'closer_reply.comments',
     reportType: 'closer_report.get_report_types'
   },
   community: {

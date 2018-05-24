@@ -36,14 +36,16 @@ export default function ({
     } else if (/tiejin/.test(host)) {
       config.baseURL = 'https://api.tiejin.cn/command/'
     }
-    console.log('tokenenenen', store.state.token)
+    // console.log('tokenenenen', store.state.token)
     // 线上时
     // console.log('Making request to ' + config.url)
     if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts')) {
       // console.log('ddddddadada==',config.url)
       config.headers.Authorization = store.state.GET_APP_TOKEN
-    } else if (store.state.token) {
-      config.headers.Authorization = store.state.token
+    } else if (store.state.token &&
+      (config.url === 'closer_reply.add_reply' || config.url === 'closer_reply.like' || config.url === 'closer_reply.replys' || config.url === 'closer_reply.comments')) {
+      // 获取贴子详情不需要token验证
+      config.headers.Authorization = `GroukAuth ${store.state.token}`
     } else {
       return
       // config.headers.Authorization = "GroukAuth 1.a2c03ce97d05b3bd41698909590e8d65436c831f1d32ca79cf94897ce0cd82ef"

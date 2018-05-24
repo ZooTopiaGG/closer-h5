@@ -255,7 +255,7 @@
                     <span>{{ commentItem.user.fullname }}：</span>
                     <span class="messager-comment">{{ commentItem.content }}</span>
                   </li>
-                  <li class="messager-comments-cell" style="color: #5e97cd;" v-if="item.replyNumber > 3" @click="morereply">
+                  <li class="messager-comments-cell" style="color: #5e97cd;" v-if="item.replyNumber > 3" @click="morereply(item)">
                     <span>共{{ item.replyNumber }}条回复</span>
                   </li>
                 </ul>
@@ -341,9 +341,26 @@ export default {
       category1: false
     };
   },
+  beforeRouteLeave(to, from, next) {
+    // console.log("to=", to);
+    if (to.path.indexOf("/feed/morereply") > -1) {
+      this.$store.commit("SET_NO_NAV", false);
+    } else {
+      this.$store.commit("SET_NO_NAV", true);
+    }
+    next();
+  },
+  watch: {
+    $router(to) {
+      // console.log("to===", to);
+    }
+  },
   methods: {
-    morereply() {
-      this.$router.push({ path: "/feed/morereply" });
+    morereply(item) {
+      sessionStorage.setItem("item", JSON.stringify(item));
+      this.$router.push({
+        path: "/feed/morereply?sid=" + item.subjectid + "&cid=" + item.commentid
+      });
     },
     // 需要登录的操作 先判断后执行
     async tjFocus() {
@@ -598,7 +615,7 @@ export default {
     // 去留言
     async toMessage(item) {
       let self = this;
-      console.log("item===", item);
+      // console.log("item===", item);
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
