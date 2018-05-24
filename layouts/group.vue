@@ -152,7 +152,7 @@ export default {
     tofeeddetails(item) {
       // console.log(item.subjectid)
       this.$router.push({
-        path: `/feed/${item.subjectid}`
+        path: `/dev/tes/${item.subjectid}`
       });
     },
     lookmore() {
