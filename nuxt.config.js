@@ -80,17 +80,17 @@ module.exports = {
     mode: 'history',
     // 中间件 在路由之前判断浏览器内核
     middleware: 'user-agent',
-    scrollBehavior(to, from, savedPosition) {
-      // return 期望滚动到哪个的位置
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        return {
-          x: 0,
-          y: 0
-        }
-      }
-    },
+    // scrollBehavior(to, from, savedPosition) {
+    //   // return 期望滚动到哪个的位置
+    //   if (savedPosition) {
+    //     return savedPosition
+    //   } else {
+    //     return {
+    //       x: 0,
+    //       y: 0
+    //     }
+    //   }
+    // },
   },
   // 全局CSS配置
   css: [{
