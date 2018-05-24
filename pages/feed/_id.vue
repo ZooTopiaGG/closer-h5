@@ -1,5 +1,5 @@
 <template>
-  <div id="feed">
+  <div id="feed" :class="{ videofeed: $store.state.res.int_type === 1}">
     <lg-preview></lg-preview>
     <div>
       <div class="feed-1">
@@ -45,7 +45,7 @@
         <!-- 视频 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
           <!-- <div class="prism-player" id="J_prismPlayer" :vid="$store.state.content.videos[0].vid" :cover="$store.state.content.videos[0].cover"></div> -->
-          <div style="width:100%; height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;">
+          <div style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;box-shadow: 0 1px 5px #efefef;">
             <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
               x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint"
               style="width: 100%; height: 200px; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
@@ -948,7 +948,14 @@ export default {
   font-size: 13px;
   padding-bottom: 0;
 }
-
+/* 视频特殊处理 */
+.videofeed {
+  height: calc(100vh - 200px);
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 200px;
+}
 .feed-doc {
   padding-bottom: 0.3rem;
 }
@@ -1029,9 +1036,6 @@ export default {
   z-index: 999;
 }
 
-.video-doc {
-  margin-top: 200px;
-}
 .videoNav {
   height: 60px;
 }

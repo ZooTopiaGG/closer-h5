@@ -170,6 +170,7 @@ nav.appnav .icon-ios-more {
 
 nav.appnav .communityName {
   color: #fff;
+  max-width: 4rem;
 }
 
 nav.scrollnav {

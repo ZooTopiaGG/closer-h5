@@ -32,7 +32,7 @@
     <div class="intro">
       <div class="title">群简介</div>
       <div class="content">
-        <p>{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
+        <p class="text-ellipse">{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
       </div>
     </div>
     <div class="split-box"></div>
@@ -135,6 +135,11 @@
 <script>
 export default {
   middleware: "group",
+  header() {
+    return {
+      title: this.$store.state.group_info.group_info.name
+    };
+  },
   data() {
     return {
       defaultErrorImg:
@@ -198,6 +203,9 @@ export default {
 };
 </script>
 <style scoped>
+#group {
+  overflow-x: hidden;
+}
 .member,
 .intro {
   padding: 0 0.2rem 0.2rem;
@@ -334,9 +342,8 @@ export default {
   padding: 0 0.35rem;
 }
 .content p {
+  margin-bottom: 0;
   line-height: 1.6;
-  max-height: 110px;
-  overflow: hidden;
 }
 .group-master {
   width: 0.84rem;
