@@ -355,7 +355,7 @@ export default {
   },
   watch: {
     $router(to) {
-      // console.log("to===", to);
+      console.log("to===", to);
     }
   },
   methods: {
@@ -955,6 +955,9 @@ export default {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   margin-top: 200px;
+}
+.videofeed .feed-doc {
+  background: none;
 }
 .feed-doc {
   padding-bottom: 0.3rem;

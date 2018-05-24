@@ -137,7 +137,9 @@ export default {
   middleware: "group",
   header() {
     return {
-      title: this.$store.state.group_info.group_info.name
+      title: this.$store.state.group_info.group_info
+        ? this.$store.state.group_info.group_info.name
+        : "贴近群组"
     };
   },
   data() {

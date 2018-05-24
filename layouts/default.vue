@@ -32,7 +32,9 @@
         nuxts:true, 
         webNoNav: !$store.state.webNoNav,
         appnuxts: !$store.state.GET_MESSAGE_STATE }">
-        <nuxt/>
+        <keep-alive>
+          <nuxt/>
+        </keep-alive>
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="footer">
         <mt-button type="primary" size="small" class="circle-btn">
