@@ -32,7 +32,7 @@
     <div class="intro">
       <div class="title">群简介</div>
       <div class="content">
-        <p class="text-ellipse">{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
+        <p class="text-ellipse" v-if="$store.state.group_info.group_info && $store.state.group_info.group_info.announcement">{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
       </div>
     </div>
     <div class="split-box"></div>
