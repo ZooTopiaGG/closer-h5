@@ -1,6 +1,13 @@
 <template>
   <div id="feed" :class="{ videofeed: $store.state.res.int_type === 1}">
     <lg-preview></lg-preview>
+    <div style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;box-shadow: 0 1px 5px #efefef;">
+      <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
+        x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint"
+        style="width: 100%; height: 200px; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
+        您的浏览器不支持播放video，请更新浏览器
+      </video>
+    </div>
     <div>
       <div class="feed-1">
         <!-- 帖子内容 -->
@@ -45,14 +52,13 @@
         <!-- 视频 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
           <!-- <div class="prism-player" id="J_prismPlayer" :vid="$store.state.content.videos[0].vid" :cover="$store.state.content.videos[0].cover"></div> -->
-          <div style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;box-shadow: 0 1px 5px #efefef;">
+          <!-- <div style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;box-shadow: 0 1px 5px #efefef;">
             <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
               x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint"
               style="width: 100%; height: 200px; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
               您的浏览器不支持播放video，请更新浏览器
             </video>
-          </div>
-
+          </div> -->
           <div class="video-doc">
             <div class="videoNav flex flex-align-center">
               <img class="access-not" v-lazy="$store.state.res.blogo">
@@ -955,9 +961,6 @@ export default {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   margin-top: 200px;
-}
-.videofeed .feed-doc {
-  background: none;
 }
 .feed-doc {
   padding-bottom: 0.3rem;
