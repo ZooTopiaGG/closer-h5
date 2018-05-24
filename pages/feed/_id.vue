@@ -309,7 +309,10 @@ export default {
   head() {
     return {
       // 可以使用this
-      title: this.$store.state.res.title
+      title:
+        this.$store.state.res.int_type === 2
+          ? this.$store.state.res.title
+          : this.$store.state.content.text.substring(0, 10)
     };
   },
   data() {
@@ -488,7 +491,7 @@ export default {
               class='imgbox'
               data-vid='${vidArray[1]}' 
               style='background-color: rgba(0,0,0,1); width: 100%; height:4.8rem; position:relative;'>
-              <video src='${urlArray[1]}' 
+              <video src='${urlArray[1]}'
                 controls='controls' 
                 preload='none' 
                 webkit-playsinline='true'
@@ -600,9 +603,7 @@ export default {
                 .getElementById("tjimg")
                 .getElementsByTagName("img");
               for (var i = 0; i < tjimg2.length; i++) {
-                // console.log(`${i}个`, tjimg2[i]);
                 tjimg2[i].setAttribute("src", tjimg2[i].dataset.src);
-                // console.log("src===" + i, tjimg2[i]);
               }
             }
           });
