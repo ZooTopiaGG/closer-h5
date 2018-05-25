@@ -44,7 +44,7 @@
             <div class="feed-cell-content">
               <div class="columnname flex flex-align-center">
                 <img v-lazy="item.blogo" :onerror="defaultErrorImg">
-                <span class="name flex-1">{{ item.communityName }}</span>
+                <span class="name flex-1 ellipsis">{{ item.communityName }}</span>
                 <span class="time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
               </div>
               <!-- 贴子详情 -->
@@ -135,13 +135,13 @@
 <script>
 export default {
   middleware: "group",
-  header() {
-    return {
-      title: this.$store.state.group_info.group_info
-        ? this.$store.state.group_info.group_info.name
-        : "贴近群组"
-    };
-  },
+  // header() {
+  //   return {
+  //     title: this.$store.state.group_info.group_info
+  //       ? this.$store.state.group_info.group_info.name
+  //       : "贴近群组"
+  //   };
+  // },
   data() {
     return {
       defaultErrorImg:
@@ -301,9 +301,9 @@ export default {
   margin-bottom: 0.2rem;
 }
 
-.name {
-  font-size: 16px;
-}
+/* .name {
+  font-size: 14px;
+} */
 
 .time {
   color: #808080;

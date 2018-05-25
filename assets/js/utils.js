@@ -34,12 +34,44 @@ export default {
       return y + '-' + m + '-' + d;
     }
   },
+  // getCommonTime(milliseconds, type) {
+  //   let time = new Date(milliseconds),
+  //     time_ = new Date(),
+  //     time1 = time.getTime(time), //发布时间
+  //     time_1 = time_.getTime(time_), //现在时间
+  //     jTime = time_1 - time1,
+  //     days = jTime / 1000 / 60 / 60 / 24,
+  //     daysRound = Math.floor(days),
+  //     hours = jTime / 1000 / 60 / 60 - (24 * daysRound),
+  //     hoursRound = Math.floor(hours),
+  //     minutes = jTime / 1000 / 60 - (24 * 60 * daysRound) - (60 * hoursRound),
+  //     minutesRound = Math.floor(minutes),
+  //     seconds = jTime / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound),
+  //     secondsRound = Math.floor(seconds);
+  //   if (daysRound > 0) {
+  //     return this.createTime(milliseconds, type)
+  //   } else {
+  //     if (hoursRound > 0) {
+  //       return hoursRound + "小时前";
+  //     } else {
+  //       if (minutesRound > 10) {
+  //         return minutesRound + "分钟前";
+  //       } else {
+  //         if (secondsRound > 0) {
+  //           return "刚刚";
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   getCommonTime(milliseconds, type) {
     let time = new Date(milliseconds),
       time_ = new Date(),
       time1 = time.getTime(time), //发布时间
       time_1 = time_.getTime(time_), //现在时间
       jTime = time_1 - time1,
+      month = jTime / 1000 / 60 / 60 / 24 / 30,
+      monthRound = Math.floor(month),
       days = jTime / 1000 / 60 / 60 / 24,
       daysRound = Math.floor(days),
       hours = jTime / 1000 / 60 / 60 - (24 * daysRound),
@@ -48,21 +80,28 @@ export default {
       minutesRound = Math.floor(minutes),
       seconds = jTime / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound),
       secondsRound = Math.floor(seconds);
-    if (daysRound > 0) {
-      return this.createTime(milliseconds, type)
+    // console.log('month===', month)
+    if (monthRound > 1) {
+      return monthRound + '个月前'
     } else {
-      if (hoursRound > 0) {
-        return hoursRound + "小时前";
+      if (daysRound > 0) {
+        // return this.createTime(milliseconds, type)
+        return daysRound + '天前'
       } else {
-        if (minutesRound > 10) {
-          return minutesRound + "分钟前";
+        if (hoursRound > 0) {
+          return hoursRound + "小时前";
         } else {
-          if (secondsRound > 0) {
-            return "刚刚";
+          if (minutesRound > 10) {
+            return minutesRound + "分钟前";
+          } else {
+            if (secondsRound > 0) {
+              return "刚刚";
+            }
           }
         }
       }
     }
+
   },
   //转换音频时长显示
   transTime(time) {

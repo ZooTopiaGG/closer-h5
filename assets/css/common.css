@@ -324,4 +324,5 @@ html body {
   text-overflow: ellipsis;
   /*适用IE*/
   -o-text-overflow: ellipsis;
+  overflow: hidden;
 }

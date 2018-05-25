@@ -13,7 +13,7 @@
             <!-- <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg" :onerror="defaultErrorImg">
               <img v-else class="access-not" :src="$store.state.res.blogo" :onerror="defaultErrorImg"> -->
             <img class="access-not" v-lazy="$store.state.res.blogo">
-            <span class="communityName">{{ $store.state.res.communityName }}</span>
+            <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
             <mt-button :type="$store.state.auth ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">

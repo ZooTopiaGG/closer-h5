@@ -8,7 +8,11 @@ export default async function ({
     let para = {
       subjectid: params.id
     }
-    let res = await app.$axios.$post(`${api.command.show}`, para)
+    // let res = await app.$axios.$post(`${api.command.show}`, para)
+    let [res, incr_view] = await new Promise([
+      app.$axios.$post(`${api.command.show}`, para),
+      app.$axios.$post(`${api.command.incr_view}`, para)
+    ])
     // 获取迷药
     if (res.code != 0) {
       store.commit('GET_EXIST_STATUS', false)

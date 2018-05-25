@@ -24,6 +24,8 @@ let api = {
   command: {
     // 贴子详情
     show: 'closer_subject.show',
+    // 阅读量统计
+    incr_view: 'closer_subject.incr_view',
     // 留言列表
     comments: 'closer_reply.comments',
     // 获取video播放密钥
