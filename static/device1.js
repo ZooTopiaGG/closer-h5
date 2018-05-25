@@ -55,8 +55,9 @@ document.onreadystatechange = completeLoading;
 function completeLoading() {
   if (document.readyState == 'interactive') {
     console.log('interactive')
+    canShowContent()
     try {
-      window.webkit.messageHandlers.canShowContent.postMessage();
+      window.webkit.messageHandlers.canShowContent.postMessage(null);
     } catch (e) {
       console.log(e)
     }

@@ -10,7 +10,7 @@ module.exports = {
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1, user-scalable=no'
+        content: 'width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1'
       },
       {
         name: 'format-detection',
@@ -46,6 +46,9 @@ module.exports = {
       {
         src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
       },
+      // {
+      //   src: 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js'
+      // },
       {
         src: 'https://cdn.bootcss.com/vue-lazyload/1.2.3/vue-lazyload.js'
       }
