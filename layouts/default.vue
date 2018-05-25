@@ -37,7 +37,7 @@
         </keep-alive>
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="footer">
-        <mt-button type="primary" size="small" class="circle-btn">
+        <mt-button type="primary" size="small" @click="openApp" class="circle-btn">
           App内打开
         </mt-button>
       </div>
@@ -60,6 +60,9 @@ export default {
     };
   },
   methods: {
+    openApp() {
+      location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+    },
     handleScroll(e) {
       if (
         this.$route.path.indexOf("feed/") > -1 &&

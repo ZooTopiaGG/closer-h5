@@ -490,6 +490,7 @@ export default {
           // 匹配vid属性下的值
           let vidArray = x.match(regexVid);
           let coverArray = x.match(regexCover);
+          // console.log("vidArray====" + i, vidArray[1]);
           // // 替换插入需要的值flg
           // let temp = pVideo[i].split('<p>');
           if (self.$store.state.GET_MESSAGE_STATE) {

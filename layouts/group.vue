@@ -126,7 +126,7 @@
       </div>
     </div>
     <div class="footer">
-      <mt-button type="primary" size="small" class="circle-btn">
+      <mt-button type="primary" size="small" @click="openApp" class="circle-btn">
         打开贴近群组
       </mt-button>
     </div>
@@ -151,6 +151,9 @@ export default {
     };
   },
   methods: {
+    openApp() {
+      location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+    },
     tofeeddetails(item) {
       // console.log(item.subjectid)
       this.$router.push({
