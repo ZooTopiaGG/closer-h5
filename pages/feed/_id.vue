@@ -47,7 +47,7 @@
           <!-- <div class="prism-player" id="J_prismPlayer" :vid="$store.state.content.videos[0].vid" :cover="$store.state.content.videos[0].cover"></div> -->
           <div style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;box-shadow: 0 1px 5px #efefef;">
             <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
-              x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint"
+              x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint"
               style="width: 100%; height: 200px; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
               您的浏览器不支持播放video，请更新浏览器
             </video>
@@ -175,7 +175,7 @@
                     <div v-if="$store.state.GET_MESSAGE_STATE">
                       <div class="imgbox" style="background-color: rgba(0,0,0,1); width: 100%; height:3.6rem; position:relative; border-radius: 3px;">
                         <video :src="item.video.src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                          x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint" style="width: 100%; height: 3.6rem; overflow:hidden;"
+                          x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 3.6rem; overflow:hidden;"
                           :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
                           您的浏览器不支持播放video，请更新浏览器
                         </video>
@@ -498,7 +498,6 @@ export default {
                 playsinline='true'
                 x-webkit-airplay='allow'
                 x5-video-player-type='h5'
-                x5-video-player-fullscreen='true'
                 x5-video-orientation='portraint'
                 style='width: 100%; height:4.8rem;  overflow:hidden;'
                 poster='${coverArray[1]}' 

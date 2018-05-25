@@ -44,10 +44,24 @@
 
 video::-webkit-media-controls-panel {
   background: rgba(255, 255, 255, 0);
-  width: calc(100% + 50px);
+  width: calc(100% + 70px);
+}
+
+video::-webkit-media-controls-timeline {
+  max-width: calc(100% - 230px);
 }
 
 video::-webkit-media-controls-mute-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+video::-internal-media-controls-download-button {
+  background-image: none !important;
+}
+
+video::-webkit-media-controls-volume-slider {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
