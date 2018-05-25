@@ -55,9 +55,16 @@ document.onreadystatechange = completeLoading;
 function completeLoading() {
   if (document.readyState == 'interactive') {
     console.log('interactive')
-    window.webkit.messageHandlers.canShowContent.postMessage();
+    try {
+      window.webkit.messageHandlers.canShowContent.postMessage();
+    } catch (e) {
+      console.log(e)
+    }
+    console.log('messageHandlers')
   }
   if (document.readyState == "complete") {
     console.log('complete')
   }
 }
+
+function canShowContent() {}
