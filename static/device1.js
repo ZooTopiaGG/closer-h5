@@ -50,3 +50,14 @@ window.onresize = function () {
 //     loadingMask.parentNode.removeChild(loadingMask);
 //   }
 // }
+document.onreadystatechange = completeLoading;
+
+function completeLoading() {
+  if (document.readyState == 'interactive') {
+    console.log('interactive')
+    window.webkit.messageHandlers.canShowContent.postMessage();
+  }
+  if (document.readyState == "complete") {
+    console.log('complete')
+  }
+}
