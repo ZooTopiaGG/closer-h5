@@ -9,7 +9,7 @@ export default async function ({
       subjectid: params.id
     }
     // let res = await app.$axios.$post(`${api.command.show}`, para)
-    let [res, incr_view] = await new Promise([
+    let [res, incr_view] = await Promise.all([
       app.$axios.$post(`${api.command.show}`, para),
       app.$axios.$post(`${api.command.incr_view}`, para)
     ])
