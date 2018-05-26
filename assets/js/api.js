@@ -38,13 +38,19 @@ let api = {
     add_reply: 'closer_reply.add_reply',
     // 富评论下的子评论
     replys: 'closer_reply.replys',
+    // 举报列表
     reportType: 'closer_report.get_report_types'
   },
   community: {
-    show: 'closer_community.show'
+    // 栏目实体
+    show: 'closer_community.show',
+    // 获取栏目下贴子列表
+    community_subject_list_index: 'closer_subject.community_subject_list_index'
   },
   group: {
     show: 'closer_class.show',
+    // 正在招募的群组
+    recruiting: 'closer_class.recruiting',
     group_subject_list: 'closer_subject.class_subject_list_index',
     share_group: 'closer_share.outer_group'
   }

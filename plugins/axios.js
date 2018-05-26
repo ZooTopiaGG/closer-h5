@@ -39,7 +39,7 @@ export default function ({
     // console.log('tokenenenen', store.state.token)
     // 线上时
     // console.log('Making request to ' + config.url)
-    if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts')) {
+    if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts' || config.url === 'closer_report.get_report_types')) {
       // console.log('ddddddadada==',config.url)
       config.headers.Authorization = store.state.GET_APP_TOKEN
     } else if (store.state.token &&

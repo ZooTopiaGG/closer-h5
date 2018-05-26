@@ -98,7 +98,7 @@ export default {
           };
         } else {
           error({
-            message: `错误代码:${list.code}, ${list.result}`
+            message: `错误代码:${data.code}, ${data.result}`
           });
         }
       }
