@@ -1,13 +1,15 @@
 <template>
   <div>
     <div v-if="$store.state.exist">
-      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" :class="{ appnav: $store.state.res.int_type === 2,
-          scrollnav: scrollnav,
-          webNoNav: !$store.state.webNoNav,
-          flex: true,
-          'flex-v': true,
-          'flex-pack-center': true
-        }">
+      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
+      :class="{
+        appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
+        scrollnav: scrollnav,
+        webNoNav: !$store.state.webNoNav,
+        flex: true,
+        'flex-v': true,
+        'flex-pack-center': true
+      }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-align-center">
             <!-- <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg" :onerror="defaultErrorImg">
@@ -65,8 +67,10 @@ export default {
     },
     handleScroll(e) {
       if (
-        this.$route.path.indexOf("feed/") > -1 &&
-        this.$store.state.res.int_type === 2
+        // 判断是否是长图文或者栏目主页
+        (this.$route.path.indexOf("/feed") > -1 &&
+          this.$store.state.res.int_type === 2) ||
+        this.$route.path.indexOf("/community") > -1
       ) {
         if (e.target.scrollTop >= 80) {
           this.scrollnav = true;

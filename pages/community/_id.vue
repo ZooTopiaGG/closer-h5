@@ -2,71 +2,65 @@
   <div id="group" :class="{  
         flex:true,
         'flex-v':true }">
+    <div class="cover">
+      <!-- 如果有置顶贴子封面图就用贴子封面 否则用img， 如果没有img则显示默认图片 750*930-->
+      <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.attributes.bgcover)"  v-if="res.community.attributes.bgcover"></div> 
+      <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.img)"  v-else-if="res.community.img"></div> 
+      <div class="feeder-img" v-lazy:background-image="require('~/assets/images/401527306489_.pic_hd.jpg')"  v-else></div> 
+      <div class="cover-title">{{ res.community.description }}</div> 
+    </div>
     <div class="member">
-      <div class="title">群组成员 {{ $store.state.group_info.group_user_info.length + 1 }}</div>
+      <div class="title">正在招募的群组</div>
       <ul :class="{
                 group: true, 
                 flex: true, 
                 'flex-align-center': true,
-                lookGroup: loadingmore
             }">
-        <li v-if="$store.state.group_info.group_info.group" style="position:relative;" class="flex flex-v flex-align-center flex-pack-center">
-          <img v-lazy="$com.makeFileUrl($store.state.group_info.group_info.group.attributes.monitor.user.avatar)" :onerror="defaultErrorImg">
-          <p class="group-master flex flex-align-center flex-pack-center">
-            <span>群主</span>
-          </p>
-          <span class="ellipsis">{{ $store.state.group_info.group_info.group.attributes.monitor.user.fullname }}</span>
-        </li>
-        <li v-for="(item, index) in $store.state.group_info.group_user_info" :key="index" class="flex flex-v flex-align-center flex-pack-center">
-          <img v-lazy="$com.makeFileUrl(item.props.roster.avatar)" :onerror="defaultErrorImg">
-          <span class="ellipsis">{{ item.props.roster.name }}</span>
+        <li v-for="(item, index) in res.group.data" :key="index" class="flex flex-v flex-align-center flex-pack-center">
+          <img v-lazy="$com.makeFileUrl(item.group.avatar)" :onerror="defaultErrorImg">
+          <span class="ellipsis">{{ item.group.name }}</span>
         </li>
       </ul>
     </div>
-    <div class="intro">
-      <div class="content">
-        <p class="text-ellipse" v-if="$store.state.group_info.group_info &&  $store.state.group_info.group_info.announcement">{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
-      </div>
-    </div>
     <div class="split-box"></div>
     <div class="works flex-1">
-      <ul v-if="$store.state.group_res.length > 0" class="feed-list flex-1">
-        <li class="feed-list-cell" @click="tofeeddetails(item)" v-for="(item, index) in $store.state.group_res" :key="index">
+      <ul v-if="res.feed.data && res.feed.data.length > 0" class="feed-list flex-1">
+        <li class="feed-list-cell" @click="tofeeddetails(item)" v-for="(item, index) in res.feed.data" :key="index">
           <div class="feed-box">
             <div class="feed-cell-content">
               <div class="columnname flex flex-align-center">
                 <img v-lazy="item.blogo" :onerror="defaultErrorImg">
                 <span class="name flex-1 ellipsis">{{ item.communityName }}</span>
-                <span class="time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
+                <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
               </div>
               <!-- 贴子详情 -->
               <!-- 纯图片类型 int_type == 0-->
               <div class="feedmain" v-if="item.int_type === 0">
-                <div v-if="item.content.text" class="feedtitle">
+                <div v-if="item.content.text" class="feedtitle text-ellipse">
                   {{ item.content.text }}
                 </div>
-                <div v-if="item.content.images.length == 1" class="flex flex-pack-justify feedimgcontent">
+                <div v-if="item.content.images && item.content.images.length == 1" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '100%',height:'0',paddingBottom:'56.25%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
-                <div v-if="item.content.images.length == 2" class="flex flex-pack-justify feedimgcontent">
+                <div v-if="item.content.images && item.content.images.length == 2" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
-                <div v-if="item.content.images.length == 3 || item.content.images.length > 4" class="flex feedimgcontent">
+                <div v-if="item.content.images && (item.content.images.length == 3 || item.content.images.length > 4)" class="flex feedimgcontent">
                   <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%',backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
-                <div v-if="item.content.images === 4" class="flex flex-pack-justify feedimgcontent">
+                <div v-if="item.content.images && item.content.images === 4" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
@@ -77,9 +71,11 @@
               </div>
               <!-- 视频贴 int_type == 1-->
               <div class="feedmain" v-else-if="item.int_type === 1">
-                <div class="prism-player" id="J_prismPlayer" :vid="item.content.videos[0].vid" :cover="item.content.videos[0].cover">
-                </div>
-                <div v-if="item.content.text" class="feedtitle">{{ item.content.text }}</div>
+                <video :src="item.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
+                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 3.6rem; overflow:hidden; object-fit: fill;"
+                  :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
+                </video>
+                <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
               </div>
               <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
               <div class="feedmain" v-else-if="item.int_type === 2">
@@ -87,10 +83,10 @@
                   <img v-lazy="$com.makeFileUrl(item.cover)" :onerror="defaultErrorImg">
                 </div>
                 <div class="feedtype">
-                  <div v-if="item.title" class="feedtitle">
+                  <div v-if="item.title" class="feedtitle text-ellipse">
                     {{ item.title }}
                   </div>
-                  <div v-if="item.content.summary" class="feedcontent">
+                  <div v-if="item.content.summary" class="feedcontent text-ellipse">
                     {{ item.content.summary }}
                   </div>
                 </div>
@@ -100,40 +96,60 @@
         </li>
       </ul>
     </div>
+    <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
+      <dp-login></dp-login>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  middleware: "group",
   async asyncData({ app, error, params }) {
     try {
       let [community, feed, group] = await Promise.all([
-        app.$axios.$get(`${api.community.show}?communityid=9d1L3XgccD`),
+        app.$axios.$get(`${api.community.show}?communityid=9d3foyvita`),
         app.$axios.$get(
           `${
             api.community.community_subject_list_index
-          }?communityid=9d1L3XgccD&pagenum=1&pagesize=5`
+          }?communityid=9d3foyvita&pagenum=1&pagesize=5`
         ),
         app.$axios.$get(
-          `${api.group.recruiting}?communityid=9d1L3XgccD&pagenum=1&count=5`
+          `${api.group.recruiting}?communityid=9d3foyvita&pagenum=1&count=5`
         )
       ]);
-      console.log("community====", community);
-      console.log("feed====", feed);
-      console.log("group====", group);
+      console.log("community===", community);
+      console.log("feed===", feed);
+      await feed.result.data.map(x => {
+        if (x.content) {
+          x.content = JSON.parse(x.content);
+        }
+        return x;
+      });
+      console.log("group===", group);
+      return {
+        res: {
+          community: community.result,
+          feed: feed.result,
+          group: group.result
+        }
+      };
     } catch (err) {
       error({ message: `${err}` });
     }
   },
-  // header() {
-  //   return {
-  //     title: this.$store.state.group_info.group_info
-  //       ? this.$store.state.group_info.group_info.name
-  //       : "贴近群组"
-  //   };
-  // },
+  header() {
+    return {
+      title: this.res.community.description
+        ? this.res.community.description
+        : this.res.community.name
+    };
+  },
   data() {
     return {
+      res: {
+        community: {},
+        feed: {},
+        group: {}
+      },
       defaultErrorImg:
         'this.src="' + require("~/assets/images/default.jpeg") + '"',
       id: "",
@@ -150,49 +166,9 @@ export default {
         path: `/feed/${item.subjectid}`
       });
     },
-    lookmore() {
-      this.loadingmore = !this.loadingmore;
-    }
-  },
-  mounted() {
-    // 在前端执行播放视频 先判断 只能在mounted中执行
-    let self = this;
-    console.log("this.group_info====", self.$store.state.group_info);
-    console.log("this.group_res====", self.$store.state.group_res);
-    if (self.$store.state.group_res.length > 0) {
-      self.$store.state.group_res.map(x => {
-        if (x.int_type === 1) {
-          let res = self.$axios
-            .$get(`${api.command.videos}`)
-            .then(res => {
-              self.id = `J_prismPlayer_${x.content.videos[0].vid}`;
-              // console.log('ressss===', this.$store.state.content.videos[0].vid)
-              let player = new Aliplayer(
-                {
-                  // id: self.id,
-                  id: "J_prismPlayer",
-                  width: "100%",
-                  autoplay: false,
-                  prismType: 2,
-                  vid: x.content.videos[0].vid,
-                  playauth: "",
-                  playsinline: true, //app内播放设置
-                  qualitySort: "desc", //清晰度切换
-                  cover: x.content.videos[0].imageUrl,
-                  accessKeyId: res.result.accessKeyId,
-                  securityToken: res.result.securityToken,
-                  accessKeySecret: res.result.accessKeySecret
-                },
-                function(player) {
-                  console.log("播放器创建好了。");
-                }
-              );
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        }
-      });
+    hiddenLogin() {
+      console.log(this.$store.state.visibleLogin);
+      this.$store.commit("SET_VISIBLE_LOGIN", false);
     }
   }
 };
@@ -201,15 +177,15 @@ export default {
 #group {
   overflow-x: hidden;
 }
-.member,
-.intro {
+.member {
   padding: 0 0.2rem 0.2rem;
 }
 
 .title {
   margin-bottom: 0.2rem;
-  font-size: 16px;
-  margin-left: 0.15rem;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
 }
 
 .content {
@@ -220,8 +196,7 @@ export default {
 }
 
 .member,
-.works,
-.intro {
+.works {
   padding-top: 0.4rem;
 }
 
@@ -238,11 +213,6 @@ export default {
   flex-wrap: wrap;
   max-height: 4rem;
   overflow: hidden;
-}
-
-.lookGroup {
-  height: auto;
-  overflow-y: auto;
 }
 
 .group li {
@@ -265,12 +235,8 @@ export default {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 100%;
+  border-radius: 4px;
   margin-bottom: 0.1rem;
-}
-
-.more {
-  margin: 0.3rem 0 0.2rem;
 }
 
 /*feed流*/
@@ -291,7 +257,7 @@ export default {
 .columnname {
   padding-right: 0.35rem;
   box-sizing: border-box;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
 }
 
 /* .name {
@@ -303,7 +269,7 @@ export default {
 }
 
 .feedtype {
-  padding: 0.35rem 0;
+  padding-top: 0.35rem;
 }
 
 .feedcover > img {
@@ -313,18 +279,24 @@ export default {
 
 .feedtitle {
   font-size: 16px;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
+  margin-top: 0.2rem;
+}
+.feedtype .feedtitle {
   font-weight: bold;
-  margin-bottom: 0.2rem;
 }
 
 .feedcontent {
   font-size: 13px;
-  max-height: 75px;
-  overflow: hidden;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
+  margin-top: 0.2rem;
 }
 
 .feedimgcontent {
   flex-wrap: wrap;
+  margin-top: 0.2rem;
 }
 
 .feeder-img-list:nth-child(3n) {
@@ -340,26 +312,25 @@ export default {
   margin-bottom: 0;
   line-height: 1.6;
 }
-.group-master {
-  width: 0.84rem;
-  height: 0.84rem;
+
+/* 调整的 */
+.cover {
+  position: relative;
+}
+.cover-title {
   position: absolute;
-  left: 0;
-  top: 0;
-  background: url("~/assets/images/group_icon_tags_n@2x.png") no-repeat;
-  background-size: cover;
-  margin-left: -2px;
-  margin-top: -2px;
-}
-.group-master > span {
-  font-size: 10px;
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, -50%);
   color: #fff;
-  display: block;
-  margin-left: 2px;
+  width: 80%;
+  text-align: center;
 }
-.prism-player {
-  margin-bottom: 0.3rem;
+.feeder-img {
+  position: relative;
+  width: 7.5rem;
+  height: 9.3rem;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 </style>

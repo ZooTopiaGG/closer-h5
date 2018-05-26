@@ -23,11 +23,6 @@
           <span class="ellipsis">{{ item.props.roster.name }}</span>
         </li>
       </ul>
-      <!-- <div v-if="$store.state.group_info.group_user_info.length > 10" class="more flex flex-align-center flex-pack-center" @click="lookmore">
-        <span>所有群成员</span>
-        <span v-if="!loadingmore" class="iconfont icon-ICONbiaozhun_fuzhi-"></span>
-        <span v-else class="iconfont icon-ICONbiaozhun_fuzhi-1"></span>
-      </div> -->
     </div>
     <div class="intro">
       <div class="title">群简介</div>
@@ -50,7 +45,7 @@
               <!-- 贴子详情 -->
               <!-- 纯图片类型 int_type == 0-->
               <div class="feedmain" v-if="item.int_type === 0">
-                <div v-if="item.content.text" class="feedtitle">
+                <div v-if="item.content.text" class="feedtitle text-ellipse">
                   {{ item.content.text }}
                 </div>
                 <div v-if="item.content.images.length == 1" class="flex flex-pack-justify feedimgcontent">
@@ -85,9 +80,11 @@
               </div>
               <!-- 视频贴 int_type == 1-->
               <div class="feedmain" v-else-if="item.int_type === 1">
-                <div class="prism-player" id="J_prismPlayer" :vid="item.content.videos[0].vid" :cover="item.content.videos[0].cover">
-                </div>
-                <div v-if="item.content.text" class="feedtitle">{{ item.content.text }}</div>
+                <video :src="item.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
+                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 3.6rem; overflow:hidden; object-fit: fill;"
+                  :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
+                </video>
+                <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
               </div>
               <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
               <div class="feedmain" v-else-if="item.int_type === 2">
@@ -95,28 +92,14 @@
                   <img v-lazy="$com.makeFileUrl(item.cover)" :onerror="defaultErrorImg">
                 </div>
                 <div class="feedtype">
-                  <div v-if="item.title" class="feedtitle">
+                  <div v-if="item.title" class="feedtitle text-ellipse">
                     {{ item.title }}
                   </div>
-                  <div v-if="item.content.summary" class="feedcontent">
+                  <div v-if="item.content.summary" class="feedcontent text-ellipse">
                     {{ item.content.summary }}
                   </div>
                 </div>
               </div>
-              <!-- <div class="feeddata flex flex-pack-justify flex-align-center">
-                                <label class="flex flex-align-center">
-                                    <i class="icon iconfont icon-share"></i>
-                                    <span>{{ item.long_share }}</span>
-                                </label>
-                                <label class="flex flex-align-center">
-                                    <i class="icon iconfont icon-message"></i>
-                                    <span>{{ item.commentNumber }}</span>
-                                </label>
-                                <label class="flex flex-align-center">
-                                    <i class="icon iconfont icon-upvote"></i>
-                                    <span>{{ item.like }}</span>
-                                </label>
-                            </div> -->
             </div>
           </div>
         </li>
@@ -146,8 +129,7 @@ export default {
     return {
       defaultErrorImg:
         'this.src="' + require("~/assets/images/default.jpeg") + '"',
-      id: "",
-      loadingmore: false
+      id: ""
     };
   },
   methods: {
@@ -158,50 +140,6 @@ export default {
       // console.log(item.subjectid)
       this.$router.push({
         path: `/feed/${item.subjectid}`
-      });
-    },
-    lookmore() {
-      this.loadingmore = !this.loadingmore;
-    }
-  },
-  mounted() {
-    // 在前端执行播放视频 先判断 只能在mounted中执行
-    let self = this;
-    console.log("this.group_info====", self.$store.state.group_info);
-    console.log("this.group_res====", self.$store.state.group_res);
-    if (self.$store.state.group_res.length > 0) {
-      self.$store.state.group_res.map(x => {
-        if (x.int_type === 1) {
-          let res = self.$axios
-            .$get(`${api.command.videos}`)
-            .then(res => {
-              self.id = `J_prismPlayer_${x.content.videos[0].vid}`;
-              // console.log('ressss===', this.$store.state.content.videos[0].vid)
-              let player = new Aliplayer(
-                {
-                  // id: self.id,
-                  id: "J_prismPlayer",
-                  width: "100%",
-                  autoplay: false,
-                  prismType: 2,
-                  vid: x.content.videos[0].vid,
-                  playauth: "",
-                  playsinline: true, //app内播放设置
-                  qualitySort: "desc", //清晰度切换
-                  cover: x.content.videos[0].imageUrl,
-                  accessKeyId: res.result.accessKeyId,
-                  securityToken: res.result.securityToken,
-                  accessKeySecret: res.result.accessKeySecret
-                },
-                function(player) {
-                  console.log("播放器创建好了。");
-                }
-              );
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        }
       });
     }
   }
@@ -313,9 +251,12 @@ export default {
 }
 
 .feedtype {
-  padding: 0.35rem 0;
+  padding-top: 0.35rem;
 }
-
+.feedtype .feedtitle,
+.feedmain .feedtitle {
+  font-weight: bold;
+}
 .feedcover > img {
   width: 100%;
   height: 100%;
@@ -323,7 +264,6 @@ export default {
 
 .feedtitle {
   font-size: 16px;
-  font-weight: bold;
   margin-bottom: 0.2rem;
 }
 
@@ -345,6 +285,8 @@ export default {
 .feedcontent {
   text-align: justify;
   padding: 0 0.35rem;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
 }
 .content p {
   margin-bottom: 0;
