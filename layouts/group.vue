@@ -81,7 +81,7 @@
               <!-- 视频贴 int_type == 1-->
               <div class="feedmain" v-else-if="item.int_type === 1">
                 <video :src="item.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 3.6rem; overflow:hidden; object-fit: fill;"
+                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 4.8rem; overflow:hidden; object-fit: fill;"
                   :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
                 </video>
                 <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
