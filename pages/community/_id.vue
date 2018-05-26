@@ -106,14 +106,14 @@ export default {
   async asyncData({ app, error, params }) {
     try {
       let [community, feed, group] = await Promise.all([
-        app.$axios.$get(`${api.community.show}?communityid=9d3foyvita`),
+        app.$axios.$get(`${api.community.show}?communityid=${params.id}`),
         app.$axios.$get(
-          `${
-            api.community.community_subject_list_index
-          }?communityid=9d3foyvita&pagenum=1&pagesize=5`
+          `${api.community.community_subject_list_index}?communityid=${
+            params.id
+          }&pagenum=1&pagesize=5`
         ),
         app.$axios.$get(
-          `${api.group.recruiting}?communityid=9d3foyvita&pagenum=1&count=5`
+          `${api.group.recruiting}?communityid=${params.id}&pagenum=1&count=5`
         )
       ]);
       console.log("community===", community);
