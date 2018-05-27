@@ -20,6 +20,16 @@ window.onresize = function () {
   setRem()
 }
 
+window.addEventListener('popstate', function (e) {
+  if (e.state) {
+    //侦测是用户触发的后退操作, dosomething
+    //这里刷新当前url
+    console.log(e)
+    history.pushState(null, null, location.href);
+    // this.location.reload();
+  }
+}, false);
+
 // //获取浏览器页面可见高度和宽度  
 // var _PageHeight = document.documentElement.clientHeight,
 //   _PageWidth = document.documentElement.clientWidth;

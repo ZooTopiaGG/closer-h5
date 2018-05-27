@@ -350,6 +350,8 @@ export default {
       this.$store.commit("SET_NO_NAV", true);
     }
     next();
+    console.log("to===", to);
+    history.pushState(null, null, location.href);
   },
   watch: {
     $router(to) {
