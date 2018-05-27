@@ -352,6 +352,10 @@ export default {
     }
     next();
   },
+  beforeRouteEnter(to, from, next) {
+    document.getElementById("wrapper").scrollTop = 0;
+    next();
+  },
   watch: {
     $router(to) {
       // console.log("to===", to);
