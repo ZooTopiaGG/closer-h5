@@ -21,7 +21,8 @@ export const state = () => ({
   auth: '',
   token: '',
   visibleLogin: false,
-  visibleMessage: false
+  visibleMessage: false,
+  is_follow: false
 })
 
 export const mutations = {
@@ -79,6 +80,10 @@ export const mutations = {
   },
   SET_VISIBLE_MESSAGE(state, para) {
     state.visibleMessage = para
+  },
+  // 关注
+  SET_FOCUS_STAT(state, para) {
+    state.is_follow = para
   }
 }
 
@@ -262,6 +267,41 @@ export const actions = {
       // console.log('data===', data)
       if (data.code === 0) {
         console.log('data===send===', data)
+      } else {
+        Toast({
+          message: data.result,
+          position: 'top'
+        })
+      }
+    } catch (err) {
+      Toast({
+        message: err,
+        position: 'top'
+      })
+    }
+  },
+  // 关注，取消关注
+  async get_focus_stat({
+    commit
+  }, {
+    communityid,
+    flag
+  }) {
+    let self = this
+    // console.log('栏目实体信息或贴子详情', this.$store.state.res)
+    try {
+      let data = await self.$axios.$get(`${api.community.subscription}?communityid=${communityid}&flag=${flag}`)
+      if (data.code === 0) {
+        console.log('data===subscription===', flag)
+        if (flag == 0) {
+          commit('SET_FOCUS_STAT', false)
+        } else {
+          commit('SET_FOCUS_STAT', true)
+          Toast({
+            message: '关注成功',
+            position: 'top'
+          })
+        }
       } else {
         Toast({
           message: data.result,

@@ -4,7 +4,7 @@
         'flex-v':true }">
     <div class="cover">
       <!-- 如果有置顶贴子封面图就用贴子封面 否则用img， 如果没有img则显示默认图片 750*930-->
-      <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.attributes.bgcover)"  v-if="res.community.attributes.bgcover"></div> 
+      <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.attributes.coversubject.bigcover)"  v-if="res.community.attributes.coversubject"></div> 
       <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.img)"  v-else-if="res.community.img"></div> 
       <div class="feeder-img" v-lazy:background-image="require('~/assets/images/401527306489_.pic_hd.jpg')"  v-else></div> 
       <div class="cover-title">{{ res.community.description }}</div> 
@@ -116,16 +116,22 @@ export default {
           `${api.group.recruiting}?communityid=${params.id}&pagenum=1&count=5`
         )
       ]);
-      console.log("community====", community);
+      // console.log("community===", community);
+      // 设置communityid到res状态
+      // 关注状态
+      if (community.result.isFollowed) {
+        store.commit("SET_FOCUS_STAT", community.result.isFollowed);
+      }
+      community.result.communityid = params.id;
       store.commit("SET_RES", community.result);
-      console.log("feed===", feed);
+      // console.log("feed===", feed);
       await feed.result.data.map(x => {
         if (x.content) {
           x.content = JSON.parse(x.content);
         }
         return x;
       });
-      console.log("group===", group);
+      // console.log("group===", group);
       return {
         res: {
           community: community.result,
@@ -176,6 +182,9 @@ export default {
       console.log(this.$store.state.visibleLogin);
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     }
+  },
+  mounted() {
+    console.log("this.$store===", this.$store.state);
   }
 };
 </script>

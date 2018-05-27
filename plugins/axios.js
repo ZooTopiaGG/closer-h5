@@ -42,8 +42,7 @@ export default function ({
     if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts' || config.url === 'closer_report.get_report_types')) {
       // console.log('ddddddadada==',config.url)
       config.headers.Authorization = store.state.GET_APP_TOKEN
-    } else if (store.state.token &&
-      (config.url === 'closer_reply.add_reply' || config.url === 'closer_reply.like' || config.url === 'closer_reply.replys' || config.url === 'closer_reply.comments')) {
+    } else if (store.state.token) {
       // 获取贴子详情不需要token验证
       config.headers.Authorization = `GroukAuth ${store.state.token}`
     } else {

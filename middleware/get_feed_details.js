@@ -20,6 +20,9 @@ export default async function ({
       if (res.result.int_type === 1) {
         store.commit('SET_NO_NAV', false)
       }
+      if (res.result.isFollowed) {
+        store.commit('SET_FOCUS_STAT', res.result.isFollowed)
+      }
       if (res.result.content) {
         var content = JSON.parse(res.result.content)
         if (content.discuss) {

@@ -57,8 +57,8 @@
               <span class="communityName flex-1">{{ $store.state.res.communityName }}</span>
               <div>
                 <!-- <a href="javasript:;">已关注</a> -->
-                <mt-button :type="$store.state.auth ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">
-                  <span v-if="$store.state.auth">已关注</span>
+                <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">
+                  <span v-if="$store.state.is_follow">已关注</span>
                   <span v-else>
                     <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
                     <span>关注</span>
@@ -297,6 +297,7 @@ import Vue from "vue/dist/vue.js";
 export default {
   name: "Feed",
   middleware: "get_feed_details",
+  scrollToTop: true,
   async asyncData({ store }) {
     let htmls = store.state.options ? "" : store.state.content.html;
     return {
@@ -350,8 +351,6 @@ export default {
       this.$store.commit("SET_NO_NAV", true);
     }
     next();
-    console.log("to===", to);
-    history.pushState(null, null, location.href);
   },
   watch: {
     $router(to) {
@@ -374,7 +373,10 @@ export default {
         //   paras: Cookie.get("user")
         // });
         // 进行其他 ajax 操作
-        console.log(Cookie.get("user"));
+        self.$store.dispatch("get_focus_stat", {
+          communityid: self.$store.state.res.communityid,
+          flag: self.$store.state.is_follow ? 0 : 1
+        });
         return;
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录

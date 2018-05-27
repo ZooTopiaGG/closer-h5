@@ -18,8 +18,8 @@
             <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
-            <mt-button :type="$store.state.auth ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">
-              <span v-if="$store.state.auth">已关注</span>
+            <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">
+              <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
                 <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
                 <span>关注</span>
@@ -91,7 +91,12 @@ export default {
         //   paras: Cookie.get("user")
         // });
         // 进行其他 ajax 操作
-        console.log(Cookie.get("user"));
+        // console.log("栏目实体信息或贴子详情", self.$store.state.res);
+        self.$store.dispatch("get_focus_stat", {
+          communityid: self.$store.state.res.communityid,
+          flag: self.$store.state.is_follow ? 0 : 1
+        });
+        // console.log(Cookie.get("user"));
         return;
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
@@ -114,7 +119,7 @@ export default {
         wrp.addEventListener("scroll", this.handleScroll);
       }
     });
-    // console.log('this.$store===', this.$store.state)
+    // console.log("is_follow===", this.$store.state.is_follow);
   }
 };
 </script>

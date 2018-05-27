@@ -45,7 +45,9 @@ let api = {
     // 栏目实体
     show: 'closer_community.show',
     // 获取栏目下贴子列表
-    community_subject_list_index: 'closer_subject.community_subject_list_index'
+    community_subject_list_index: 'closer_subject.community_subject_list_index',
+    // 订阅/取消订阅
+    subscription: 'closer_community.subscription'
   },
   group: {
     show: 'closer_class.show',
