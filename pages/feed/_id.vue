@@ -353,7 +353,9 @@ export default {
     next();
   },
   beforeRouteEnter(to, from, next) {
-    document.getElementById("wrapper").scrollTop = 0;
+    if (typeof window != "undefined") {
+      document.getElementById("wrapper").scrollTop = 0;
+    }
     next();
   },
   watch: {
