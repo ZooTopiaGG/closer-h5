@@ -47,28 +47,28 @@
                 <div v-if="item.content.text" class="feedtitle text-ellipse">
                   {{ item.content.text }}
                 </div>
-                <div v-if="item.content.images.length == 1" class="flex flex-pack-justify feedimgcontent">
+                <div v-if="item.content.images && item.content.images.length == 1" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '100%',height:'0',paddingBottom:'56.25%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
-                <div v-if="item.content.images.length == 2" class="flex flex-pack-justify feedimgcontent">
+                <div v-if="item.content.images && item.content.images.length == 2" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
-                <div v-if="item.content.images.length == 3 || item.content.images.length > 4" class="flex feedimgcontent">
+                <div v-if="item.content.images && item.content.images.length == 3 || item.content.images && item.content.images.length > 4" class="flex feedimgcontent">
                   <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%',backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
-                <div v-if="item.content.images === 4" class="flex flex-pack-justify feedimgcontent">
+                <div v-if="item.content.images && item.content.images === 4" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
