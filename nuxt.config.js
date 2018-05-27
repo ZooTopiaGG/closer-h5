@@ -76,7 +76,7 @@ module.exports = {
   },
   // 路由配置 
   router: {
-    base: '/',
+    // base: '/',
     mode: 'history',
     // 中间件 在路由之前判断浏览器内核
     middleware: 'user-agent',
