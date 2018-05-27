@@ -8,18 +8,17 @@
       <ul :class="{
                 group: true, 
                 flex: true, 
-                'flex-align-center': true,
-                lookGroup: loadingmore
+                'flex-align-center': true
             }">
         <li v-if="$store.state.group_info.group_info.group" style="position:relative;" class="flex flex-v flex-align-center flex-pack-center">
-          <img v-lazy="$com.makeFileUrl($store.state.group_info.group_info.group.attributes.monitor.user.avatar)" :onerror="defaultErrorImg">
+          <img v-lazy="$com.makeFileUrl($store.state.group_info.group_info.group.attributes.monitor.user.avatar)">
           <p class="group-master flex flex-align-center flex-pack-center">
             <span>群主</span>
           </p>
           <span class="ellipsis">{{ $store.state.group_info.group_info.group.attributes.monitor.user.fullname }}</span>
         </li>
         <li v-for="(item, index) in $store.state.group_info.group_user_info" :key="index" class="flex flex-v flex-align-center flex-pack-center">
-          <img v-lazy="$com.makeFileUrl(item.props.roster.avatar)" :onerror="defaultErrorImg">
+          <img v-lazy="$com.makeFileUrl(item.props.roster.avatar)">
           <span class="ellipsis">{{ item.props.roster.name }}</span>
         </li>
       </ul>
@@ -27,7 +26,7 @@
     <div class="intro">
       <div class="title">群简介</div>
       <div class="content">
-        <p class="text-ellipse" v-if="$store.state.group_info.group_info &&  $store.state.group_info.group_info.announcement">{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
+        <p class="text-ellipse" v-if="$store.state.group_info.group_info &&  $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
       </div>
     </div>
     <div class="split-box"></div>
@@ -38,7 +37,7 @@
           <div class="feed-box">
             <div class="feed-cell-content">
               <div class="columnname flex flex-align-center">
-                <img v-lazy="item.blogo" :onerror="defaultErrorImg">
+                <img v-lazy="item.blogo">
                 <span class="name flex-1 ellipsis">{{ item.communityName }}</span>
                 <span class="time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
               </div>
@@ -89,7 +88,7 @@
               <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
               <div class="feedmain" v-else-if="item.int_type === 2">
                 <div v-if="item.cover" class="feedcover flex">
-                  <img v-lazy="$com.makeFileUrl(item.cover)" :onerror="defaultErrorImg">
+                  <img v-lazy="$com.makeFileUrl(item.cover)">
                 </div>
                 <div class="feedtype">
                   <div v-if="item.title" class="feedtitle text-ellipse">
@@ -142,6 +141,9 @@ export default {
         path: `/feed/${item.subjectid}`
       });
     }
+  },
+  mounted() {
+    console.log(this.$store.state.group_info);
   }
 };
 </script>

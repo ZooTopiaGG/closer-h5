@@ -19,7 +19,7 @@
           <div v-if="$store.state.GET_MESSAGE_STATE">
             <div class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images.length == 1">
               <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" style="width: 100%;height:100%;" :key="index">
-                <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)" :onerror="defaultErrorImg">
+                <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </div>
             </div>
@@ -51,15 +51,6 @@
         </div>
         <!-- 视频 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
-          <!-- <div class="prism-player" id="J_prismPlayer" :vid="$store.state.content.videos[0].vid" :cover="$store.state.content.videos[0].cover"></div> -->
-          <!-- <div style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;box-shadow: 0 1px 5px #efefef;">
-            <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
-              x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint"
-              style="width: 100%; height: 200px; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
-              
-            </video>
-          </div> -->
-
           <div class="video-doc">
             <div class="videoNav flex flex-align-center">
               <img class="access-not" v-lazy="$store.state.res.blogo">
@@ -88,7 +79,7 @@
                         position:'relative', 
                         width: $deviceWidth+'px',
                         height: ($deviceWidth * 465 / 375 )+'px'}" v-lazy="$com.makeFileUrl($store.state.res.bigcover)"
-              :onerror="defaultErrorImg">
+            >
             <div class="hide-over"></div>
           </div>
           <div class="feeder-img" style="position:relative; width:100%; width:7.5rem; height: 4.18rem;" v-else>
@@ -97,7 +88,7 @@
                         display:'block',
                         position:'relative', 
                         width: $deviceWidth+'px',
-                        height: ($deviceWidth * 209 / 375 )+'px'}" v-lazy="$com.makeFileUrl($store.state.res.cover)" :onerror="defaultErrorImg">
+                        height: ($deviceWidth * 209 / 375 )+'px'}" v-lazy="$com.makeFileUrl($store.state.res.cover)">
             <div class="hide-over"></div>
           </div>
           <div class="feeder-content">
@@ -162,10 +153,10 @@
                   <div v-else-if="item.type === 1" class="feeder-comment">
                     <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
                       <img class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" v-lazy="$com.makeFileUrl(item.image.link)"
-                        :onerror="defaultErrorImg">
+                      >
                       <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
                     </div>
-                    <img v-else class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)" :onerror="defaultErrorImg">
+                    <img v-else class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)">
                   </div>
                   <!-- 包含贴子 -->
                   <div v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
@@ -237,7 +228,7 @@
             <li class="feed-messagebord-list-cell" v-for="(item, index) in messagelist.data" :key="index">
               <div class="messager-info flex flex-align-center flex-pack-justify">
                 <div class="messager-info-div flex flex-align-center">
-                  <img v-lazy="$com.makeFileUrl(item.user.avatar)" :onerror="defaultErrorImg">
+                  <img v-lazy="$com.makeFileUrl(item.user.avatar)">
                   <div class="flex flex-v">
                     <span class="messager-name">{{ item.user.fullname }}</span>
                     <span class="messager-time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
@@ -424,46 +415,52 @@ export default {
       let self = this;
       // self.$store.state.content.html 复制到self.content.html
       self.content.html = self.$store.state.content.html;
+      // console.log("self.content.html===", self.content.html);
       const regexImg = /<img.*?(?:>|\/>)/gi;
       let pImg = await self.content.html.match(regexImg);
       if (pImg) {
         const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        // const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        // const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
         let size, flag;
         // console.log("pImg===", pImg);
         pImg.forEach((x, i) => {
           // console.log(`第${i}个x====`, x);
           let srcArray = x.match(regexSrc);
-          let widthArray = x.match(regexWidth);
-          let heightArray = x.match(regexHeight);
+          // let widthArray = x.match(regexWidth);
+          // let heightArray = x.match(regexHeight);
           // console.log(`${widthArray} ---- ${heightArray}`)
-          // console.log(`第${i}个srcArray====`, srcArray);
-          if (widthArray && heightArray) {
-            if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
-              size = self.$deviceWidth;
-            } else {
-              size = parseInt(
-                self.$deviceWidth * heightArray[1] / widthArray[1]
-              );
-            }
-            let nH = parseInt(
-              self.$deviceWidth * heightArray[1] / widthArray[1]
-            );
-            flag = `<div class='imgbox' style='background-color: #fff; width: ${
-              self.$deviceWidth
-            }; min-height: ${nH}'>
-                    <img refs="tjimg" src="${srcArray[1]}?s=100" data-src='${
-              srcArray[1]
-            }' width='${self.$deviceWidth}' height='${nH}'/>
+          // console.log(`第${i}个srcArray====`, srcArray[1]);
+          // if (widthArray && heightArray) {
+          //   if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
+          //     size = self.$deviceWidth;
+          //   } else {
+          //     size = parseInt(
+          //       self.$deviceWidth * heightArray[1] / widthArray[1]
+          //     );
+          //   }
+          //   let nH = parseInt(
+          //     self.$deviceWidth * heightArray[1] / widthArray[1]
+          //   );
+          //   flag = `<div class='imgbox' style='background-color: #fff; width: ${
+          //     self.$deviceWidth
+          //   }; min-height: ${nH}'>
+          //           <img refs="tjimg" src="${srcArray[1]}?s=100" data-src='${
+          //     srcArray[1]
+          //   }' width='${self.$deviceWidth}' height='${nH}'/>
+          //           </div>`;
+          // } else {
+          //   flag = `<div class='imgbox' style='background-color: #fff; width: 100%; min-height:3.2rem'>
+          //           <img refs="tjimg" src="${srcArray[1]}?s=100" data-src='${
+          //     srcArray[1]
+          //   }' width='${self.$deviceWidth}' height='auto'/>
+          //           </div>`;
+          // }
+          flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:3.2rem'>
+                    <img src='http://h5.tiejin.cn/_nuxt/img/default.623ab71.jpeg' data-src='${
+                      srcArray[1]
+                    }' width='${self.$deviceWidth}' height='auto'/>
                     </div>`;
-          } else {
-            flag = `<div class='imgbox' style='background-color: #fff; width: 100%; min-height:3.2rem'>
-                    <img refs="tjimg" src="${srcArray[1]}?s=100" data-src='${
-              srcArray[1]
-            }' width='${self.$deviceWidth}' height='auto'/>
-                    </div>`;
-          }
           // 替换插入需要的值
           // 正则替换富文本内的img标签
           // 替换不同文本
@@ -570,7 +567,6 @@ export default {
       // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
       // 比如 v-if, :bind, @click 等。
       const html = await self.parseLongGraphic();
-      // console.log("html====", html);
       // console.log("html=====", html);
       // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
       // 但是不会注册，类似于js中的createElement，
@@ -591,16 +587,8 @@ export default {
             location.href = `/?vid=${el.target.offsetParent.dataset.vid}`;
           }
         },
-        beforeCreate() {
-          console.log("创建元素之前");
-        },
-        beforeMount() {
-          console.log("页面挂载之前");
-        },
         mounted() {
           this.$nextTick(() => {
-            // console.log("dom渲染完成");
-            // console.log("document.readyState", document.readyState);
             if (
               document.readyState == "complete" ||
               document.readyState == "interactive"
@@ -608,15 +596,14 @@ export default {
               let tjimg2 = document
                 .getElementById("tjimg")
                 .getElementsByTagName("img");
-              for (var i = 0; i < tjimg2.length; i++) {
-                tjimg2[i].setAttribute("src", tjimg2[i].dataset.src);
-              }
+              Array.prototype.forEach.call(tjimg2, async function(x, i) {
+                if (x.dataset.src) {
+                  await x.setAttribute("src", x.dataset.src);
+                }
+              });
             }
           });
-          console.log("页面挂载好了");
-        },
-        beforeUpdate() {
-          console.log("页面更新之前");
+          // console.log("页面挂载好了");
         }
       });
       // new Component()是将上面构建的组件对象给实例化，

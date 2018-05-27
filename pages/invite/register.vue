@@ -39,7 +39,7 @@ export default {
     };
   },
   beforeMount() {
-    if ( Cookie.get("inviter")) {
+    if (Cookie.get("inviter")) {
       this.hasInviter = JSON.parse(Cookie.get("inviter"));
     }
     // this.isWeiXin = $async.isWeiXin();

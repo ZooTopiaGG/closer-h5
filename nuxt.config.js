@@ -49,9 +49,6 @@ module.exports = {
       // {
       //   src: 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js'
       // },
-      {
-        src: 'https://cdn.bootcss.com/vue-lazyload/1.2.3/vue-lazyload.js'
-      }
     ],
     // __dangerouslyDisableSanitizers: ['script'],
     link: [{
@@ -183,10 +180,6 @@ module.exports = {
     '~/plugins/picture-view.js',
     {
       src: '~/plugins/device.js',
-      ssr: false
-    },
-    {
-      src: '~/plugins/lazyload.js',
       ssr: false
     }
   ]

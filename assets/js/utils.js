@@ -151,6 +151,7 @@ export default {
   },
   // 图片地址处理
   makeFileUrl(url, type, size) {
+    // console.log(' api.filePath====', api.filePath)
     if (url) {
       let sizes = size ? size : 500
       if (type === 'src') {

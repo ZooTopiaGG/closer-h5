@@ -16,8 +16,8 @@
                 flex: true, 
                 'flex-align-center': true,
             }">
-        <li v-for="(item, index) in res.group.data" :key="index" class="flex flex-v flex-align-center flex-pack-center">
-          <img v-lazy="$com.makeFileUrl(item.group.avatar)" :onerror="defaultErrorImg">
+        <li v-for="(item, index) in res.group.data" :key="index" @click="togroup(item)" class="flex flex-v flex-align-center flex-pack-center">
+          <img v-lazy="$com.makeFileUrl(item.group.avatar)">
           <span class="ellipsis">{{ item.group.name }}</span>
         </li>
       </ul>
@@ -29,7 +29,7 @@
           <div class="feed-box">
             <div class="feed-cell-content">
               <div class="columnname flex flex-align-center">
-                <img v-lazy="item.blogo" :onerror="defaultErrorImg">
+                <img v-lazy="item.blogo">
                 <span class="name flex-1 ellipsis">{{ item.communityName }}</span>
                 <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
               </div>
@@ -80,7 +80,7 @@
               <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
               <div class="feedmain" v-else-if="item.int_type === 2">
                 <div v-if="item.cover" class="feedcover flex">
-                  <img v-lazy="$com.makeFileUrl(item.cover)" :onerror="defaultErrorImg">
+                  <img v-lazy="$com.makeFileUrl(item.cover)">
                 </div>
                 <div class="feedtype">
                   <div v-if="item.title" class="feedtitle text-ellipse">
@@ -103,7 +103,7 @@
 </template>
 <script>
 export default {
-  async asyncData({ app, error, params }) {
+  async asyncData({ app, error, params, store }) {
     try {
       let [community, feed, group] = await Promise.all([
         app.$axios.$get(`${api.community.show}?communityid=${params.id}`),
@@ -116,7 +116,8 @@ export default {
           `${api.group.recruiting}?communityid=${params.id}&pagenum=1&count=5`
         )
       ]);
-      console.log("community===", community);
+      console.log("community====", community);
+      store.commit("SET_RES", community.result);
       console.log("feed===", feed);
       await feed.result.data.map(x => {
         if (x.content) {
@@ -164,6 +165,11 @@ export default {
       // console.log(item.subjectid)
       this.$router.push({
         path: `/feed/${item.subjectid}`
+      });
+    },
+    togroup(item) {
+      this.$router.push({
+        path: `/group/${item.id}`
       });
     },
     hiddenLogin() {
