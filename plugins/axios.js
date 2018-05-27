@@ -43,6 +43,7 @@ export default function ({
       // console.log('ddddddadada==',config.url)
       config.headers.Authorization = store.state.GET_APP_TOKEN
     } else if (store.state.token) {
+      // console.log('store.state.token===', store.state.token)
       // 获取贴子详情不需要token验证
       config.headers.Authorization = `GroukAuth ${store.state.token}`
     } else {

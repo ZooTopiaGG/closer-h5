@@ -296,13 +296,98 @@ import Cookie from "js-cookie";
 import Vue from "vue/dist/vue.js";
 export default {
   name: "Feed",
-  middleware: "get_feed_details",
+  // middleware: "get_feed_details",
   scrollToTop: true,
-  async asyncData({ store }) {
-    let htmls = store.state.options ? "" : store.state.content.html;
-    return {
-      htmls: htmls
-    };
+  async asyncData({ params, store, app }) {
+    try {
+      let para = {
+        subjectid: params.id
+      };
+      let [res, incr_view] = await Promise.all([
+        app.$axios.$post(`${api.command.show}`, para),
+        app.$axios.$post(`${api.command.incr_view}`, para)
+      ]);
+      // 获取迷药
+      if (res.code != 0) {
+        store.commit("GET_EXIST_STATUS", false);
+      } else {
+        if (res.result.int_type === 1) {
+          store.commit("SET_NO_NAV", false);
+        }
+        // 外部分享时调用
+        if (store.state.GET_MESSAGE_STATE) {
+          let communityFocusStat = await app.$axios.$get(
+            `${api.community.show}?communityid=${res.result.communityid}`
+          );
+          if (communityFocusStat.code === 0) {
+            if (communityFocusStat.result.isFollowed) {
+              store.commit(
+                "SET_FOCUS_STAT",
+                communityFocusStat.result.isFollowed
+              );
+            }
+          }
+        }
+        if (res.result.content) {
+          var content = JSON.parse(res.result.content);
+          if (content.discuss) {
+            // var discuss = content.discuss
+            var discuss = await content.discuss.map(x => {
+              if (x.text) {
+                let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+                let res = x.text.match(reg);
+                if (res) {
+                  x.weblink = true;
+                  // this.$set(x, 'weblink', true)
+                  res.map(y => {
+                    // 正则替换文本
+                    let tag = `<a href="${y}" target="_blank">${y}</a>`;
+                    let newtag = x.text.replace(reg, tag);
+                    // this.$set(x, 'newText', newtag)
+                    x.newText = newtag;
+                  });
+                } else {
+                  x.weblink = false;
+                  // this.$set(x, 'weblink', false)
+                }
+              }
+              return x;
+            });
+          }
+          // 投稿类型
+          var postType = "";
+          switch (res.result.int_post_limit) {
+            case 0:
+              postType = "图片";
+              break;
+            case 1:
+              postType = "视频";
+              break;
+            case 2:
+              postType = "长图文";
+              break;
+            case 3:
+              postType = "全部";
+              break;
+            default:
+              postType = "全部";
+          }
+          // console.log(';ressssss==sdada')
+          // 返回在渲染页面之前得结果
+          store.commit("SET_CONTENT", content);
+          store.commit("SET_RES", res.result);
+          store.commit("SET_POSTTYPE", postType);
+          store.commit("SET_DISSCUSS", discuss);
+          // let htmls = store.state.options ? "" : store.state.content.html;
+          return {
+            htmls: res.result.content
+          };
+        }
+      }
+    } catch (err) {
+      store.commit("GET_EXIST_STATUS", false);
+      throw err;
+    }
   },
   head() {
     return {
@@ -354,7 +439,9 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     if (typeof window != "undefined") {
-      document.getElementById("wrapper").scrollTop = 0;
+      if (document.getElementById("wrapper")) {
+        document.getElementById("wrapper").scrollTop = 0;
+      }
     }
     next();
   },
@@ -770,7 +857,7 @@ export default {
           subjectid: self.$route.params.id
         };
         let data = await self.$axios.$post(`${api.command.comments}`, para1);
-        console.log("messagelisdsat===", data);
+        // console.log("messagelisdsat===", data);
         if (data.code === 0) {
           self.messagelist = data.result;
         } else {
@@ -803,42 +890,14 @@ export default {
     }
   },
   mounted() {
-    this.messageList();
+    if (this.$store.state.GET_MESSAGE_STATE) {
+      this.messageList();
+    }
     // 判断是否是长图文
     if (this.$store.state.res.int_type === 2) {
       this.compile();
     }
-    console.log("messagelist===", this.$store.state);
-    // 在前端执行播放视频 先判断 只能在mounted中执行;
-    // if (this.$store.state.res.int_type === 1) {
-    //   let res = this.$axios
-    //     .$get(`${api.command.videos}`)
-    //     .then(res => {
-    //       let player = new Aliplayer(
-    //         {
-    //           id: "J_prismPlayer",
-    //           width: "100%",
-    //           autoplay: false,
-    //           prismType: 2,
-    //           vid: this.$store.state.content.videos[0].vid,
-    //           playauth: "",
-    //           playsinline: true, //app内播放设置
-    //           qualitySort: "desc", //清晰度切换
-    //           cover: this.$store.state.content.videos[0].imageUrl,
-    //           accessKeyId: res.result.accessKeyId,
-    //           securityToken: res.result.securityToken,
-    //           accessKeySecret: res.result.accessKeySecret
-    //         },
-    //         function(player) {
-    //           console.log("player", player);
-    //           console.log("播放器创建好了。");
-    //         }
-    //       );
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // }
+    // console.log("messagelist===", this.$store.state);
   }
 };
 </script>

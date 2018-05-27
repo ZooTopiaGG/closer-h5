@@ -8,7 +8,6 @@ export default async function ({
     let para = {
       subjectid: params.id
     }
-    // let res = await app.$axios.$post(`${api.command.show}`, para)
     let [res, incr_view] = await Promise.all([
       app.$axios.$post(`${api.command.show}`, para),
       app.$axios.$post(`${api.command.incr_view}`, para)
@@ -80,7 +79,4 @@ export default async function ({
     store.commit('GET_EXIST_STATUS', false)
     throw err
   }
-  // store.dispatch('getFeedDetails', {
-  //   subjectid: params.id
-  // })
 }
