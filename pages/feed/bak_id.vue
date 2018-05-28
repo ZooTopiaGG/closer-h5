@@ -72,22 +72,22 @@
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
           <!-- <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div> -->
-          <div class="feeder-img" style="position:relative; width:7.5rem; height: 9.3rem;" v-if="$store.state.res.bigcover">
+          <div class="feeder-img" style="position:relative;" v-if="$store.state.res.bigcover">
             <!--  判断是否在app 内 需要预览 -->
             <img class="feed-cover" :style="{ 
                         display:'block',
                         position:'relative', 
-                        width: $deviceWidth+'px',
+                        width: '100%',
                         height: ($deviceWidth * 465 / 375 )+'px'}" v-lazy="$com.makeFileUrl($store.state.res.bigcover)"
             >
             <div class="hide-over"></div>
           </div>
-          <div class="feeder-img" style="position:relative; width:100%; width:7.5rem; height: 4.18rem;" v-else>
+          <div class="feeder-img" style="position:relative;"  v-else>
             <!--  判断是否在app 内 需要预览 -->
             <img class="feed-cover" :style="{ 
                         display:'block',
                         position:'relative', 
-                        width: $deviceWidth+'px',
+                        width: '100%',
                         height: ($deviceWidth * 209 / 375 )+'px'}" v-lazy="$com.makeFileUrl($store.state.res.cover)">
             <div class="hide-over"></div>
           </div>
@@ -103,12 +103,12 @@
               </span>
             </div>
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" id="tjimg" ref="markedContent"></div>
+            <div v-if="$store.state.res.int_category != 1" class="summary" id="tjimg" ref="markedContent" v-html="markedContent"></div>
             <div v-else :class="{
                 summary2: !$store.state.GET_MESSAGE_STATE && lessContent,
                 category1: category1
               }">
-              <div class="summary" id="tjimg" ref="markedContent"></div>
+              <div class="summary" id="tjimg" ref="markedContent" v-html="markedContent"></div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
                   <span>阅读 {{ $store.state.res.view }}</span>
@@ -171,9 +171,9 @@
                   <!-- 包含视频 -->
                   <div v-else-if="item.type === 2">
                     <div v-if="$store.state.GET_MESSAGE_STATE">
-                      <div class="imgbox" style="background-color: rgba(0,0,0,1); width: 100%; height:3.6rem; position:relative; border-radius: 3px;">
+                      <div class="imgbox" style="background-color: rgba(0,0,0,1); width: 100%; height: 180px; position:relative; border-radius: 3px;">
                         <video :src="item.video.src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                          x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 3.6rem; overflow:hidden; object-fit: fill;"
+                          x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 180px; overflow:hidden; object-fit: fill;"
                           :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
                         </video>
                       </div>
@@ -183,7 +183,7 @@
                         backgroundPosition: 'center center',
                         backgroundRepeat: 'no-repeat',
                         width: '100%',
-                        height:'3.6rem', 
+                        height:'180px', 
                         position:'relative',
                         borderRadius: '3px'}">
                       <div class="flex flex-align-center flex-pack-center" :data-vid="item.video.vid" style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);border-radius:3px;">
@@ -426,6 +426,7 @@ export default {
       isActive: true,
       exist: true,
       htmls: {},
+      markedContent: "",
       // 投稿类型
       postType: "",
       options: {},
@@ -559,10 +560,10 @@ export default {
           //   }' width='${self.$deviceWidth}' height='auto'/>
           //           </div>`;
           // }
-          flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:3.2rem'>
+          flag = `<div class='imgbox' style="width:100%;min-height: 160px; background-color: #fff;">
                     <img src='http://h5.tiejin.cn/_nuxt/img/default.623ab71.jpeg' data-src='${
                       srcArray[1]
-                    }' width='${self.$deviceWidth}' height='auto'/>
+                    }' width='100%' height='auto'/>
                     </div>`;
           // 替换插入需要的值
           // 正则替换富文本内的img标签
@@ -597,7 +598,7 @@ export default {
             flg = `<div 
               class='imgbox'
               data-vid='${vidArray[1]}' 
-              style='background-color: rgba(0,0,0,1); width: 100%; height:4.8rem; position:relative;'>
+              style='background-color: rgba(0,0,0,1); width: 100%; height:240px; position:relative;'>
               <video src='${urlArray[1]}'
                 controls='controls' 
                 preload='none' 
@@ -606,7 +607,7 @@ export default {
                 x-webkit-airplay='allow'
                 x5-video-player-type='h5'
                 x5-video-orientation='portraint'
-                style='width: 100%; height:4.8rem;  overflow:hidden;object-fit: fill;'
+                style='width: 100%; height:240px;  overflow:hidden;object-fit: fill;'
                 poster='${coverArray[1]}' 
                 data-cover='${coverArray[1]}'>
                     
@@ -621,7 +622,7 @@ export default {
                 background-position: 50% 50%;
                 background-repeat: no-repeat; 
                 width: 100%; 
-                height:4.8rem; 
+                height:240px; 
                 position:relative;'>
               <div 
                 class='flex 
@@ -651,8 +652,8 @@ export default {
           let widthArray = x.match(regexWidth);
           let heightArray = x.match(regexHeight);
           let newsplit = x.split(widthArray[0]);
-          let flag = `<div class="imgbox" style="width:100%; min-height: 4.18rem;">
-            ${newsplit[0]}width="100%"${newsplit[1]}
+          let flag = `<div class="imgbox" style="width:100%; min-height: 230px;">
+            ${newsplit[0]} width="100%" ${newsplit[1]}
           </div>`;
           self.content.html = self.content.html.replace(regexIframe, flag);
         });
@@ -664,66 +665,66 @@ export default {
     // 本质上来讲，这个子组件不是任何组件的子组件，
     // 它是由vue直接在全局动态生成的一个匿名组件，然后将它插入到当前位置的。
     // 也正是因此，它才能够完成动态的生成和添加。
-    async compile() {
-      let self = this;
-      // 变量html是生成好的vue格式的HTML模板字符串，
-      // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
-      // 比如 v-if, :bind, @click 等。
-      const html = await self.parseLongGraphic();
-      // console.log("html=====", html);
-      // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
-      // 但是不会注册，类似于js中的createElement，
-      // 创建但是不会添加。
-      // 在这里创建出一个子组件对象构造器。
-      const Component = Vue.extend({
-        // 模板文件。由于Markdown解析之后可能会有多个根节点，
-        // 因此需要包裹起来。
-        // 实际的内容是：
-        // `<div><img src="url" @click="showInfo(`图片文字')"></div>`
-        template: `<div> ${html} </div>`,
-        // 这里面写的就是这个动态生成的新组件中的方法了，
-        // 当然你也可加上data、mounted、updated、watch、computed等等。
-        methods: {
-          // 上面模板中将点击事件绑定到了这里，因此点击了之后就会调用这个函数。
-          // 你可以写多个函数在这里，但是这里的函数的作用域只限在这个子组件中。
-          showVid(el) {
-            location.href = `/?vid=${el.target.offsetParent.dataset.vid}`;
-          }
-        },
-        mounted() {
-          this.$nextTick(() => {
-            if (
-              document.readyState == "complete" ||
-              document.readyState == "interactive"
-            ) {
-              let tjimg2 = document
-                .getElementById("tjimg")
-                .getElementsByTagName("img");
-              Array.prototype.forEach.call(tjimg2, async function(x, i) {
-                if (x.dataset.src) {
-                  await x.setAttribute("src", x.dataset.src);
-                }
-              });
-            }
-          });
-          // console.log("页面挂载好了");
-        }
-      });
-      // new Component()是将上面构建的组件对象给实例化，
-      // $mount()是将实例化的组件进行手动挂载，
-      // 将虚拟dom生成出实际渲染的dom，
-      // 这里的markedComponent是完成挂载以后的子组件
-      const markedComponent = new Component().$mount();
-      // // 将挂载以后的子组件dom插入到父组件中
-      // // markedComponent.$el就是挂载后生成的渲染dom
+    // async compile() {
+    //   let self = this;
+    //   // 变量html是生成好的vue格式的HTML模板字符串，
+    //   // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
+    //   // 比如 v-if, :bind, @click 等。
+    //   const html = await self.parseLongGraphic();
+    //   // console.log("html=====", html);
+    //   // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
+    //   // 但是不会注册，类似于js中的createElement，
+    //   // 创建但是不会添加。
+    //   // 在这里创建出一个子组件对象构造器。
+    //   const Component = Vue.extend({
+    //     // 模板文件。由于Markdown解析之后可能会有多个根节点，
+    //     // 因此需要包裹起来。
+    //     // 实际的内容是：
+    //     // `<div><img src="url" @click="showInfo(`图片文字')"></div>`
+    //     template: `<div> ${html} </div>`,
+    //     // 这里面写的就是这个动态生成的新组件中的方法了，
+    //     // 当然你也可加上data、mounted、updated、watch、computed等等。
+    //     methods: {
+    //       // 上面模板中将点击事件绑定到了这里，因此点击了之后就会调用这个函数。
+    //       // 你可以写多个函数在这里，但是这里的函数的作用域只限在这个子组件中。
+    //       showVid(el) {
+    //         location.href = `/?vid=${el.target.offsetParent.dataset.vid}`;
+    //       }
+    //     },
+    //     mounted() {
+    //       this.$nextTick(() => {
+    //         if (
+    //           document.readyState == "complete" ||
+    //           document.readyState == "interactive"
+    //         ) {
+    //           let tjimg2 = document
+    //             .getElementById("tjimg")
+    //             .getElementsByTagName("img");
+    //           Array.prototype.forEach.call(tjimg2, async function(x, i) {
+    //             if (x.dataset.src) {
+    //               await x.setAttribute("src", x.dataset.src);
+    //             }
+    //           });
+    //         }
+    //       });
+    //       // console.log("页面挂载好了");
+    //     }
+    //   });
+    //   // new Component()是将上面构建的组件对象给实例化，
+    //   // $mount()是将实例化的组件进行手动挂载，
+    //   // 将虚拟dom生成出实际渲染的dom，
+    //   // 这里的markedComponent是完成挂载以后的子组件
+    //   const markedComponent = new Component().$mount();
+    //   // // 将挂载以后的子组件dom插入到父组件中
+    //   // // markedComponent.$el就是挂载后生成的渲染dom
 
-      self.$refs["markedContent"].appendChild(markedComponent.$el);
-      if (self.$refs["markedContent"].offsetHeight <= 300) {
-        self.lessContent = false;
-      } else {
-        self.lessContent = true;
-      }
-    },
+    //   self.$refs["markedContent"].appendChild(markedComponent.$el);
+    //   if (self.$refs["markedContent"].offsetHeight <= 300) {
+    //     self.lessContent = false;
+    //   } else {
+    //     self.lessContent = true;
+    //   }
+    // },
     // vid
     showVid2(vid) {
       location.href = `/?vid=${vid}`;
@@ -900,7 +901,9 @@ export default {
     }
     // 判断是否是长图文
     if (this.$store.state.res.int_type === 2) {
-      this.compile();
+      // this.compile();
+      console.log(this.parseLongGraphic());
+      self.markedContent = this.parseLongGraphic();
     }
     // console.log("messagelist===", this.$store.state);
   }
@@ -1006,12 +1009,12 @@ export default {
 }
 
 .video-player {
-  margin: 0.2rem 0;
+  margin: 10px 0;
 }
 </style>
 <style scoped>
 #feed {
-  padding: 0 0 0.3rem;
+  padding: 0 0 15px;
   box-sizing: border-box;
   font-size: 13px;
   padding-bottom: 0;
@@ -1025,7 +1028,7 @@ export default {
   margin-top: 200px;
 }
 .feed-doc {
-  padding-bottom: 0.3rem;
+  padding-bottom: 15px;
 }
 
 .feeder-info,
@@ -1035,17 +1038,17 @@ export default {
 .feeder-title,
 .read-num,
 .feeder-comments {
-  padding: 0 0.3rem;
+  padding: 0 15px;
 }
 
 .read-num {
-  margin-bottom: 0.2rem;
+  margin-bottom: 10px;
   color: #888;
 }
 
 .feeder-title {
   font-size: 18px;
-  margin-bottom: 0.2rem;
+  margin-bottom: 10px;
   font-weight: bold;
   white-space: pre-line;
   line-height: 1.6;
@@ -1054,20 +1057,20 @@ export default {
 .feeder-title-2 {
   font-size: 16px;
   font-weight: 400;
-  margin: 0.3rem 0;
+  margin: 15px 0;
 }
 
 .feeder-cover {
-  padding: 0.3rem 0.3rem 0;
+  padding: 15px 15px 0;
 }
 
 .feeder-cover > img {
-  width: 1.64rem;
-  height: 0.64rem;
+  width: 82px;
+  height: 32px;
 }
 
 .feeder-content {
-  margin-top: 0.4rem;
+  margin-top: 20px;
 }
 
 .feeder-img {
@@ -1086,15 +1089,15 @@ export default {
 }
 
 .messager-info-div > img {
-  width: 0.68rem;
-  height: 0.68rem;
+  width: 34px;
+  height: 34px;
   border-radius: 100%;
-  margin-right: 0.1rem;
+  margin-right: 5px;
   margin-bottom: 3px;
 }
 
 .feeder-info {
-  margin: 0.2rem 0;
+  margin: 10px 0;
 }
 
 .prism-player {
@@ -1112,12 +1115,12 @@ export default {
 }
 
 .feed-messagebord {
-  height: 0.8rem;
+  height: 40px;
   border-bottom: 1px solid #eee;
 }
 
 .feed-messagebord-type {
-  height: 0.8rem;
+  height: 40px;
   color: #94928e;
   font-size: 14px;
 }
@@ -1127,7 +1130,7 @@ export default {
 }
 
 .feed-publication-number {
-  margin-right: 0.2rem;
+  margin-right: 10px;
 }
 
 .feed-messagebord-left {
@@ -1146,11 +1149,11 @@ export default {
 
 .feed-messagebord-list-cell {
   border-bottom: 1px solid #eee;
-  padding: 0.2rem 0 0;
+  padding: 10px 0 0;
 }
 
 .messager-content {
-  margin: 0.2rem 0;
+  margin: 10px 0;
   line-height: 1.6;
   text-align: justify;
 }
@@ -1189,42 +1192,42 @@ export default {
 }
 
 .feeder-comments {
-  margin-top: 0.25rem;
+  margin-top: 13px;
 }
 
 .feeder-comments-cell {
   box-sizing: border-box;
   border-bottom: 1px solid rgb(243, 243, 243);
-  margin-bottom: 0.2rem;
-  padding: 0.2rem;
+  margin-bottom: 10px;
+  padding: 10px;
 }
 
 .feeder-comment-info {
-  margin-top: 0.05rem;
+  margin-top: 1px;
 }
 
 .feeder-comment-info > i {
-  margin-right: 0.2rem;
-  width: 0.68rem;
-  height: 0.68rem;
+  margin-right: 10px;
+  width: 34px;
+  height: 34px;
   border-radius: 100%;
 }
 
 .feeder-comment-3 {
-  height: 1.24rem;
+  height: 62px;
   box-sizing: border-box;
-  padding: 0.2rem;
-  border-radius: 0.1rem;
+  padding: 10px;
+  border-radius: 8px;
   border: 1px solid #d7d7d9;
   background: #f6f6f6;
 }
 
 .feeder-comment-3-cover > i {
   display: block;
-  margin-right: 0.2rem;
-  width: 0.86rem;
-  height: 0.86rem;
-  border-radius: 0.1rem;
+  margin-right: 10px;
+  width: 43px;
+  height: 43px;
+  border-radius: 8px;
 }
 
 .feeder-comment-3-title {
@@ -1244,7 +1247,7 @@ export default {
 .feeder-comment-nickname {
   font-size: 12px;
   color: rgba(148, 146, 142, 1);
-  margin-bottom: 0.18rem;
+  margin-bottom: 10px;
   line-height: 1;
 }
 
@@ -1254,21 +1257,21 @@ export default {
 }
 
 .messager-comments {
-  padding: 0.1rem 0.2rem;
+  padding: 5px 10px;
   background-color: #f4f4f4;
-  margin-bottom: 0.2rem;
+  margin-bottom: 10px;
 }
 
 .messager-comments-cell {
   box-sizing: border-box;
-  padding: 0.05rem 0;
+  padding: 1px 0;
 }
 .summary {
   text-align: justify;
 }
 
 .summary2 {
-  height: 4rem;
+  height: 200px;
   position: relative;
   overflow: hidden;
   transition: height 0.5s;
@@ -1283,8 +1286,8 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 1.6rem;
-  line-height: 0.48rem;
+  height: 80px;
+  line-height: 24px;
   text-align: center;
   font-size: 15px;
   color: #507caf;
@@ -1301,17 +1304,17 @@ export default {
 .collapse2 {
   background: #fff;
   position: static;
-  height: 0.8rem;
+  height: 40px;
 }
 
 .message-num {
-  height: 0.8rem;
-  line-height: 0.8rem;
-  padding: 0 0.3rem;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 15px;
   box-sizing: border-box;
   font-size: 16px;
   border-bottom: 1px solid #f5f5f5;
-  margin-bottom: 0.2rem;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 
@@ -1322,11 +1325,11 @@ export default {
 
 .dpTextArea {
   width: 100%;
-  padding: 0 0.3rem 0.3rem;
+  padding: 0 15px 15px;
   background: #fff;
   min-height: 180px;
   box-sizing: border-box;
-  padding-top: 0.98rem;
+  padding-top: 50px;
 }
 
 .tj-btn {
@@ -1334,21 +1337,21 @@ export default {
 }
 
 .tj-code-btn {
-  height: 0.52rem;
+  height: 26px;
   margin: 0 2px 0 5px;
   font-size: 14px;
 }
 
 .title {
-  height: 0.6rem;
-  line-height: 0.6rem;
+  height: 30px;
+  line-height: 30px;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 0.15rem;
+  margin-bottom: 10px;
 }
 
 .cancel {
-  margin-right: 0.2rem;
+  margin-right: 10px;
 }
 </style>
