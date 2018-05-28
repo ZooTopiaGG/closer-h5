@@ -1,12 +1,12 @@
 function setRem() {
   if (typeof window !== 'undefined') {
-    let deviceWidth = document.documentElement.clientWidth
-    if (deviceWidth > 768) deviceWidth = 768
-    document.documentElement.style.fontSize = deviceWidth / 7.5 + "px"
     let nvg = navigator.userAgent.toLowerCase()
     if (nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1) {
       document.documentElement.style.overflow = "auto"
     } else {
+      let deviceWidth = document.documentElement.clientWidth;
+      if (deviceWidth > 750) deviceWidth = 750;
+      document.documentElement.style.fontSize = deviceWidth / 7.5 + "px";
       document.documentElement.style.overflow = "hidden"
     }
   } else {
@@ -19,16 +19,6 @@ setRem()
 window.onresize = function () {
   setRem()
 }
-
-window.addEventListener('popstate', function (e) {
-  if (e.state) {
-    //侦测是用户触发的后退操作, dosomething
-    //这里刷新当前url
-    console.log(e)
-    history.pushState(null, null, location.href);
-    // this.location.reload();
-  }
-}, false);
 
 // //获取浏览器页面可见高度和宽度  
 // var _PageHeight = document.documentElement.clientHeight,
@@ -60,21 +50,22 @@ window.addEventListener('popstate', function (e) {
 //     loadingMask.parentNode.removeChild(loadingMask);
 //   }
 // }
+
 document.onreadystatechange = completeLoading;
 
 function completeLoading() {
   if (document.readyState == 'interactive') {
-    console.log('interactive')
+    // console.log('interactive')
     canShowContent()
     try {
       window.webkit.messageHandlers.canShowContent.postMessage(null);
     } catch (e) {
       console.log(e)
     }
-    console.log('messageHandlers')
+    // console.log('messageHandlers')
   }
   if (document.readyState == "complete") {
-    console.log('complete')
+    // console.log('complete')
   }
 }
 
