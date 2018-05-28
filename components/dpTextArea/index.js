@@ -1,5 +1,5 @@
 import dptextarea from './dpTextArea.vue'
-const DpTextArea = {
+var DpTextArea = {
   install: function (Vue) {
     if (typeof window !== 'undefined' && window.Vue) {
       Vue = window.Vue

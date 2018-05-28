@@ -1,4 +1,4 @@
-const nodeExternals = require('webpack-node-externals')
+var nodeExternals = require('webpack-node-externals')
 module.exports = {
   /*
    ** Headers of the page
@@ -146,6 +146,7 @@ module.exports = {
         'Aliplayer': 'Aliplayer'
       }
       if (isDev && isClient) {
+        config.entry['polyfill'] = ['babel-polyfill']
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
