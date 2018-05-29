@@ -23,21 +23,16 @@ module.exports = {
       }
     ],
     // 可使用外链形式 引入第三方库
-    script: [{
-        src: './device1.js'
-      },
+    script: [
       // html head 中创建 script 标签
       {
-        innerHTML: require('./assets/js/device.js'),
+        innerHTML: require('./assets/js/stat.js'),
         type: 'text/javascript',
         charset: 'utf-8'
       },
       {
         src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
-      },
-      // {
-      //   src: 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js'
-      // },
+      }
     ],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{

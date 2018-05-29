@@ -1,8 +1,5 @@
 function setRem() {
   if (typeof window !== 'undefined') {
-    let deviceWidth = document.documentElement.clientWidth;
-    if (deviceWidth > 750) deviceWidth = 750;
-    document.documentElement.style.fontSize = deviceWidth / 7.5 + "px";
     let nvg = navigator.userAgent.toLowerCase()
     if (nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1) {
       document.documentElement.style.overflow = "auto"
@@ -19,7 +16,6 @@ setRem()
 window.onresize = function () {
   setRem()
 }
-
 // //获取浏览器页面可见高度和宽度  
 // var _PageHeight = document.documentElement.clientHeight,
 //   _PageWidth = document.documentElement.clientWidth;
