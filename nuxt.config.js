@@ -26,7 +26,32 @@ module.exports = {
     script: [
       // html head 中创建 script 标签
       {
-        innerHTML: require('./assets/js/stat.js'),
+        innerHTML: `(function () {
+          if (typeof window !== 'undefined') {
+            let nvg = navigator.userAgent.toLowerCase()
+            if (nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1) {
+              document.documentElement.style.overflow = "auto"
+            } else {
+              document.documentElement.style.overflow = "hidden"
+            }
+            if (document.readyState == 'interactive') {
+              // console.log('interactive')
+              canShowContent()
+              try {
+                window.webkit.messageHandlers.canShowContent.postMessage(null);
+              } catch (e) {
+                console.log(e)
+              }
+              // console.log('messageHandlers')
+            }
+            if (document.readyState == "complete") {
+              // console.log('complete')
+            }
+            function canShowContent() {}
+          } else {
+            console.log('Do not use window in server')
+          }
+        })()`,
         type: 'text/javascript',
         charset: 'utf-8'
       },

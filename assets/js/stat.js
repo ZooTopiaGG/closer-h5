@@ -12,10 +12,7 @@ function setRem() {
 }
 // 初始化
 setRem()
-// 改变窗口大小时重新设置 rem
-window.onresize = function () {
-  setRem()
-}
+
 // //获取浏览器页面可见高度和宽度  
 // var _PageHeight = document.documentElement.clientHeight,
 //   _PageWidth = document.documentElement.clientWidth;
@@ -46,8 +43,9 @@ window.onresize = function () {
 //     loadingMask.parentNode.removeChild(loadingMask);
 //   }
 // }
-
-document.onreadystatechange = completeLoading;
+if (typeof document != 'undefined') {
+  document.onreadystatechange = completeLoading;
+}
 
 function completeLoading() {
   if (document.readyState == 'interactive') {
