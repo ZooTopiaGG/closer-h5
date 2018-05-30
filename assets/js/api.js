@@ -5,6 +5,7 @@ let api = {
   // 正式接口地址
   // base: 'http://api.tiejin.cn/',
   // filePath: filePath || 'http://file-sandbox.tiejin.cn',
+  downAppUrl: 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer',
   file: '/file/upload/public',
   admin: {
     // 微信授权获取code
@@ -12,6 +13,8 @@ let api = {
     login_with_wechat: 'closer_auth.login_with_wechat',
     closeruser_regist: 'closer_auth.closeruser_regist',
     get_code_by_phone: 'closer_account.get_code_by_phone',
+    check: 'closer_account.check',
+    info: 'closer_user.info',
     // 用户详情
     user_show: 'closer_user.show',
     // 点赞

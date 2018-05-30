@@ -5,7 +5,7 @@
     </div>
     <div class="openbonus-body flex-1 flex flex-v flex-align-center">
       <div class="body-avatar">
-        <img v-lazy="hasInviter.avatar">
+        <img v-lazy="$com.makeFileUrl(hasInviter.avatar)">
       </div>
       <div class="body-desc"><span>{{ hasInviter.name }}</span>给你发了</div>
       <div class="body-money"><span>10</span>元</div>
@@ -42,37 +42,6 @@ export default {
     if (Cookie.get("inviter")) {
       this.hasInviter = JSON.parse(Cookie.get("inviter"));
     }
-    // this.isWeiXin = $async.isWeiXin();
-    // let self = this;
-    // // 验证code是否存在
-    // if (self.$route.query.code) {
-    //   console.log(self.$route.query.code);
-    //   self.$store.dispatch("get_code_by_login", {
-    //     code: self.$route.query.code
-    //   });
-    // } else if (Cookie.get("token")) {
-    //   // self.$store.dispatch("get_token_by_login", {
-    //   //   paras: Cookie.get("user")
-    //   // });
-    //   // 进行其他 ajax 操作
-    //   console.log(Cookie.get("user"));
-    //   return;
-    // } else {
-    //   // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-    //   if ($async.isWeiXin()) {
-    //     // 通过微信授权 获取code
-    //     self.$toast({
-    //       message: "没有token",
-    //       position: "top"
-    //     });
-    //     self.$store.dispatch("get_wx_auth", {
-    //       url: "http://h5-sandbox.tiejin.cn/invite/openbonus"
-    //     });
-    //     return;
-    //   } else {
-    //     self.$store.commit("SET_VISIBLE_LOGIN", true);
-    //   }
-    // }
   }
 };
 </script>

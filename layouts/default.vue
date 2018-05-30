@@ -39,7 +39,7 @@
         </keep-alive>
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="footer">
-        <mt-button type="primary" size="small" @click="openApp" class="circle-btn">
+        <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           App内打开
         </mt-button>
       </div>
@@ -62,8 +62,16 @@ export default {
     };
   },
   methods: {
-    openApp() {
-      location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+    downApp() {
+      if (this.$route.path.indexOf("/community") > -1) {
+        this.$router.push({
+          path: `/down?downurl=closer://community/${this.$route.params.id}`
+        });
+      } else if (this.$route.path.indexOf("/feed") > -1) {
+        this.$router.push({
+          path: `/down?downurl=closer://feed/${this.$route.params.id}`
+        });
+      }
     },
     handleScroll(e) {
       if (

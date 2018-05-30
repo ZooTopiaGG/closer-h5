@@ -2,10 +2,10 @@
   <div id="bonus" class="flex flex-align-center flex-pack-center">
     <div class="bonus-body flex flex-v flex-align-center flex-pack-around">
       <div class="bonus-body-avatar">
-        <img v-lazy="$route.query.avatar">
+        <img v-lazy="$com.makeFileUrl(res.avatar)">
       </div>
       <div class="bonus-body-desc">
-        <p>{{ $route.query.name }}</p>
+        <p>{{ res.name }}</p>
         <p>给你发了一个大红包</p>
       </div>
       <div class="bonus-body-money"><span class="unit">¥</span><span class="money">10</span><span>元</span></div>
@@ -25,7 +25,21 @@ import Cookie from "js-cookie";
 export default {
   async asyncData({ app, query, store }) {
     console.log("query====", query);
-    Cookie.set("inviter", query);
+    // Cookie.set("inviter", query);
+    try {
+      let data = await app.$axios.$get(
+        `${api.admin.info}?uid=${query.inviter}`
+      );
+      if (data.code === 0) {
+        console.log("daateeeeee", data);
+        data.result.id = query.inviter;
+        return {
+          res: data.result
+        };
+      }
+    } catch (err) {
+      error({ message: `${err}` });
+    }
   },
   head() {
     return {
@@ -34,7 +48,8 @@ export default {
   },
   data() {
     return {
-      openbonus: false
+      openbonus: false,
+      res: {}
     };
   },
   methods: {
@@ -43,26 +58,22 @@ export default {
       this.openbonus = true;
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
-      console.log(Cookie.get("token"));
+      console.log(self.res);
+      Cookie.set("inviter", self.res);
+      console.log(Cookie.get("inviter"));
+      // return;
       if (Cookie.get("token")) {
-        // self.$store.dispatch("get_token_by_login", {
-        //   paras: Cookie.get("user")
-        // });
         // 进行其他 ajax 操作
         console.log(Cookie.get("user"));
         // self.support();
-        this.$router.push({ path: "/invite/openbonus" });
+        this.$router.push({ path: "/invite/alreadyget" });
         return;
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
-          // self.$toast({
-          //   message: "没有token",
-          //   position: "top"
-          // });
           await self.$store.dispatch("get_wx_auth", {
-            url: "http://h5-sandbox.tiejin.cn/invite/openbonus"
+            url: `${location.protocol}//${location.hostname}/invite/openbonus`
           });
           return;
         } else {
@@ -135,7 +146,7 @@ export default {
   margin-bottom: 1.3rem;
 }
 .bonus-body-role {
-  margin-bottom: 0.22rem;
+  margin-bottom: 0.2rem;
   font-size: 18px;
   color: #fabb7d;
 }

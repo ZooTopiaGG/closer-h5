@@ -164,9 +164,6 @@ export default {
     };
   },
   methods: {
-    openApp() {
-      location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
-    },
     tofeeddetails(item) {
       // console.log(item.subjectid)
       this.$router.push({

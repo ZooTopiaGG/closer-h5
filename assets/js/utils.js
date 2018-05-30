@@ -163,56 +163,6 @@ export default {
       return
     }
   },
-  /*
-    @param 富文本分割字符串
-    str 被操作的字符串
-    flg 分割后需要插入的字符串
-    splitStr1 分割字符串1
-    splitStr2 分割字符串2
-    url 图片地址
-  */
-  // insert_flg(a, b, c, d){
-  //   let newstr = `<img src="${a}?s=${b}" width="${c}" height="${d}"/>`
-  //   return newstr;
-  // },
-  // // 正则表达式处理图片
-  // regexImg(str) {
-  //   const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-  //   const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-  //   const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-  //   const regexPImg =new RegExp("<img.*?(?:>|/>)","gi");
-  //   // const regexPImg = /<p><img.*?(?:>|\/>)/gi
-  //   let pImg = str.match(regexPImg);
-  //   // console.log(pImg)
-  //   // 判断 是否匹配到图片
-  //   let clientWidth = document.documentElement.clientWidth
-  //   let size
-  //   if (pImg) {
-  //     pImg.forEach(async (x, i) => {
-  //       console.log(x)
-  //       let srcArray = x.match(regexSrc);
-  //       console.log('srcArray====', srcArray)
-  //       let widthArray = x.match(regexWidth);
-  //       let heightArray = x.match(regexHeight);
-  //       // console.log(srcArray)
-  //       if (widthArray[1] >= heightArray[1]) {
-  //         size = clientWidth * 2
-  //       } else {
-  //         size = parseInt(clientWidth * heightArray[1] * 2 / widthArray[1]) 
-  //       }
-  //       // 替换插入需要的值
-  //       let flag = await this.insert_flg(srcArray[1], size, clientWidth, parseInt(clientWidth * heightArray[1] / widthArray[1]))
-  //       // let flag = `<img src="${srcArray[1]}?s=${size}" width="${clientWidth}" height="${parseInt(clientWidth * heightArray[1] / widthArray[1])}"/>`
-  //       // 正则替换富文本内的img标签
-  //       console.log('str', str)
-  //       let _htmls = str.replace(regexPImg, flag);
-  //       console.log(_htmls)
-  //       return _htmls
-  //     })
-  //   } else {
-  //     return str
-  //   }
-  // },
   // 获取cookie通过name
   getCookiebyName(cookie, name) {
     var pair = cookie.match(new RegExp(name + '=([^;]+)'));
@@ -237,20 +187,5 @@ export default {
     let nvg = navigator.userAgent.toLowerCase();
     let _result = nvg.indexOf('closer-ios') != -1 || nvg.indexOf('closer-android') != -1;
     return _result
-  },
-  // 回到顶部
-  backtotop(topValue) {
-    // topValue 介质
-    let timer = setInterval(() => {
-      let h = document.documentElement.scrollTop || document.body.scrollTop;
-      let nowH = h;
-      let speed = (0 - nowH) / 5; // 随着高度减速
-      speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
-      if (h <= topValue) { //当前小于等于介质时,停止这次计时器
-        clearInterval(timer); // C1
-      }
-      document.documentElement.scrollTop = h + speed;
-      document.body.scrollTop = h + speed;
-    }, 30)
   }
 }

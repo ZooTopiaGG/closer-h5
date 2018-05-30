@@ -15,8 +15,8 @@
     如果已经登录过 则显示 立即下载，提现无门槛
     如果已经领取了 则显示给其他好友发红包 -->
     <div class="hasToken">
-      <mt-button type="primary" class="margin-top-20 tj-btn">
-        <span>前往APP，提现无门槛</span>
+      <mt-button type="primary" class="margin-top-20 tj-btn" @click="downApp">
+        <span>立即下载，提现秒到账</span>
       </mt-button>
     </div> 
   </div>
@@ -35,20 +35,21 @@ export default {
       hasInviter: {}
     };
   },
+  methods: {
+    downApp() {
+      this.$router.push({ path: "/down" });
+    }
+  },
   beforeMount() {
-    this.hasInviter = JSON.parse(Cookie.get("inviter"));
-    // this.isWeiXin = $async.isWeiXin();
+    console.log(Cookie.get("inviter"));
     let self = this;
     // // 验证code是否存在
     if (self.$route.query.code) {
-      // console.log(self.$route.query.code);
       self.$store.dispatch("get_code_by_login", {
-        code: self.$route.query.code
+        code: self.$route.query.code,
+        $router: self.$router
       });
     } else if (Cookie.get("token")) {
-      // self.$store.dispatch("get_token_by_login", {
-      //   paras: Cookie.get("user")
-      // });
       // 进行其他 ajax 操作
       console.log(Cookie.get("user"));
     } else {
@@ -60,7 +61,7 @@ export default {
           position: "top"
         });
         self.$store.dispatch("get_wx_auth", {
-          url: "http://h5-sandbox.tiejin.cn/invite/openbonus"
+          url: `${location.protocol}//${location.hostname}/invite/openbonus`
         });
         return;
       } else {

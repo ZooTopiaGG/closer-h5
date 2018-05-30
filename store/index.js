@@ -123,16 +123,41 @@ export const actions = {
   async get_code_by_login({
     commit
   }, {
-    code
+    code,
+    $router
   }) {
-    let self = this
-    let para = {
-      plateform: 2,
-      code: code,
-      protocol: "WEB_SOCKET"
-    };
+    let self = this,
+      para;
+    let check = await self.$axios.$get(`${api.admin.check}?type=mpwechat&code=${code}`)
+    console.log('check=====', check)
+    if (check.code != 0) {
+      Toast({
+        message: '该账号已被使用',
+        position: 'top'
+      })
+      $router.push({
+        path: '/invite/alreadyget'
+      })
+      return
+    }
+    if (Cookie.get('inviter')) {
+      let inv = JSON.parse(Cookie.get('inviter'))
+      console.log('inviter====', inv)
+      para = {
+        plateform: 2,
+        code: code,
+        inviter: inv.id,
+        protocol: "WEB_SOCKET"
+      }
+    } else {
+      para = {
+        plateform: 2,
+        code: code,
+        protocol: "WEB_SOCKET"
+      };
+    }
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
-    // console.log('wxlogindata===', data)
+    console.log('wxlogindata===', data)
     if (data.code === 0) {
       // console.log("datauser====", data.result.user);
       // 返回的数据
@@ -176,19 +201,34 @@ export const actions = {
     commit
   }, {
     phone,
-    token
+    token,
+    $router
   }) {
     // 点击必须登录的按钮，可获取cookie进行判断 信息
     // 邀新 inviter参数
     // console.log('intver', JSON.parse(Cookie.get('inviter')))
     try {
       let self = this,
-        para
+        para;
+      let check = await self.$axios.$get(`${api.admin.check}?type=phone&code=${phone}`)
+      console.log('check=====', check)
+      if (check.code != 0) {
+        Toast({
+          message: '该账号已被使用',
+          position: 'top'
+        })
+        $router.push({
+          path: '/invite/alreadyget'
+        })
+        return
+      }
       if (Cookie.get('inviter')) {
+        let inv = JSON.parse(Cookie.get('inviter'))
+        console.log('inviter====', inv)
         para = {
           phone: phone,
           token: token,
-          inviter: Cookie.get('inviter'),
+          inviter: inv.id,
           protocol: 'WEB_SOCKET'
         }
       } else {
@@ -224,11 +264,10 @@ export const actions = {
         Cookie.set('user', userInfo, {
           expires: 7
         })
-        // localstorage.setAge(0.1 * 24 * 60 * 60 * 1000).set('wx_user', userInfo).set('wx_token', userToken)
         commit('SET_USER', userInfo)
         commit('SET_TOKEN', userToken)
         Toast({
-          message: '登录成功',
+          message: '领取成功，前往App直接领取',
           position: 'top'
         })
         return true
@@ -241,7 +280,7 @@ export const actions = {
       }
     } catch (err) {
       Toast({
-        message: err,
+        message: 'throw new error not be normal',
         position: 'top'
       })
       throw err;
@@ -279,6 +318,23 @@ export const actions = {
         position: 'top'
       })
     }
+  },
+  // 校验 手机号查重
+  async check_account({
+    commit
+  }, {
+    code,
+    type
+  }) {
+    console.log(11111)
+    let self = this
+    let check = await self.$axios.$get(`${api.admin.check}?type=${type}&code=${code}`)
+    console.log('check=====', check)
+    if (check) {
+      console.log('check===', check)
+      return
+    }
+    return
   },
   // 关注，取消关注
   async get_focus_stat({

@@ -20,7 +20,7 @@
       <div class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
         <span v-if="isAbsolute">登 录</span>
-        <span v-else>立即注册，领红包秒到账</span>
+        <span v-else>立即下载，提现秒到账</span>
       </div>
     </mt-button>
   </div>
@@ -79,30 +79,33 @@ export default {
       let self = this;
       try {
         self.loading = 1;
-        if (!$async.isPhoneNum(self.phone)) {
-          self.loading = 2;
-          self.$toast({
-            message: "手机号格式错误",
-            position: "top"
-          });
-          return false;
-        }
-        if (!self.code) {
-          self.loading = 2;
-          self.$toast({
-            message: "手机号或验证码错误",
-            position: "top"
-          });
-          return false;
-        }
+        // if (!$async.isPhoneNum(self.phone)) {
+        //   self.loading = 2;
+        //   self.$toast({
+        //     message: "手机号格式错误",
+        //     position: "top"
+        //   });
+        //   return false;
+        // }
+        // if (!self.code) {
+        //   self.loading = 2;
+        //   self.$toast({
+        //     message: "手机号或验证码错误",
+        //     position: "top"
+        //   });
+        //   return false;
+        // }
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
-          token: self.code
+          token: self.code,
+          $router: self.$router
         });
         if (status) {
           self.loading = 2;
           if (!self.isAbsolute) {
-            self.$router.push({ path: "/invite/openbonus" });
+            // self.$router.push({ path: "/invite/openbonus" });
+            // 需要传入打开相应app页面的参数
+            self.$router.push({ path: "/down" });
           } else {
             self.$store.commit("SET_VISIBLE_LOGIN", false);
           }

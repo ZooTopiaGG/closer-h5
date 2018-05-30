@@ -643,6 +643,7 @@ export default {
       }
       const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
       var piFrame = await self.content.html.match(regexIframe);
+      console.log("piFrame====", piFrame);
       if (piFrame) {
         // console.log("piFrame===", piFrame);
         const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -651,8 +652,11 @@ export default {
           let widthArray = x.match(regexWidth);
           let heightArray = x.match(regexHeight);
           let newsplit = x.split(widthArray[0]);
+          let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
+          let newsplit1 = newstr.split(heightArray[0]);
+          let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
           let flag = `<div class="imgbox" style="width:100%; min-height: 4.18rem;">
-            ${newsplit[0]}width="100%"${newsplit[1]}
+            ${newstr1}</iframe>
           </div>`;
           self.content.html = self.content.html.replace(regexIframe, flag);
         });
@@ -729,9 +733,10 @@ export default {
       location.href = `/?vid=${vid}`;
     },
     tofeed(fid) {
-      this.$router.push({
-        path: "/feed/" + fid
-      });
+      location.href = `closer://feed/${fid}`;
+      // this.$router.push({
+      //   path: "/feed/" + fid
+      // });
     },
     // 去留言
     async toMessage(item) {
