@@ -5,7 +5,7 @@ let api = {
   // 正式接口地址
   // base: 'http://api.tiejin.cn/',
   // filePath: filePath || 'http://file-sandbox.tiejin.cn',
-  downAppUrl: 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer',
+  downUrl: 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer',
   file: '/file/upload/public',
   admin: {
     // 微信授权获取code
