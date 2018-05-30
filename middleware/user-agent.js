@@ -14,6 +14,8 @@ export default function (context) {
       nvg: context.userAgent,
       ref: context.req.originalUrl
     })
+    console.log('context.userAgent===', context.userAgent)
+    context.store.commit('GET_AGENT', context.userAgent)
     context.store.commit('GET_APP_TOKEN', context.req.headers['authorization'])
   }
 }

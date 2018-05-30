@@ -1,9 +1,9 @@
 <template>
   <div class="down_app flex flex-v flex-pack-justify">
-    <div v-if="$com.isWeiXin()" class="point">
+    <div v-if="$store.state.agent.indexOf('micromessenger') > -1" class="point">
       <img src="~/assets/images/point@2x.png" alt="">
     </div>
-    <div v-if="!$com.isWeiXin()" class="noweixin">
+    <div v-if="!$store.state.agent.indexOf('micromessenger') > -1" class="noweixin">
       <p>已下载？<a @click="goApp" href="javascript:;">打开应用</a></p>
     </div>
     <div v-else class="downtitle">

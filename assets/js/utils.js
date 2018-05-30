@@ -175,8 +175,12 @@ export default {
   },
   /*判断是否是微信 微博 QQ*/
   isWeiXin() {
-    var wx = navigator.userAgent.toLowerCase();
-    return wx.indexOf('micromessenger') != -1
+    if (typeof window != 'undefined') {
+      var wx = navigator.userAgent.toLowerCase();
+      return wx.indexOf('micromessenger') != -1
+    } else {
+      return false
+    }
   },
   isAlipay() {
     var weibo = navigator.userAgent.toLowerCase();

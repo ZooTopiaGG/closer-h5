@@ -178,7 +178,9 @@
                         </video>
                       </div>
                     </div>
-                    <div v-else class="imgbox" @click="showVid2(item.video.vid)" :data-vid="item.video.vid" :style="{
+                    <div v-else class="imgbox" 
+                    @click="showVid2(item.video.vid)" 
+                    :data-vid="item.video.vid" :style="{
                         backgroundImage: 'url('+item.video.imageUrl+')',
                         backgroundPosition: 'center center',
                         backgroundRepeat: 'no-repeat',
@@ -192,7 +194,6 @@
                     </div>
                   </div>
                 </div>
-
               </li>
             </ul>
           </div>
@@ -643,7 +644,6 @@ export default {
       }
       const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
       var piFrame = await self.content.html.match(regexIframe);
-      console.log("piFrame====", piFrame);
       if (piFrame) {
         // console.log("piFrame===", piFrame);
         const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;

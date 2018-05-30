@@ -6,6 +6,7 @@ import {
 } from 'mint-ui'
 export const state = () => ({
   GET_MESSAGE_STATE: false,
+  agent: '',
   GET_APP_TOKEN: '',
   content: '',
   res: {},
@@ -33,6 +34,10 @@ export const mutations = {
     let refer = para.ref
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result
+  },
+  GET_AGENT(state, para) {
+    let nvg = para.toLowerCase();
+    state.agent = nvg;
   },
   GET_APP_TOKEN(state, para) {
     state.GET_APP_TOKEN = para
