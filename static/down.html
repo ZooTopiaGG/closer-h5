@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>下载贴近App</title>
+  <script>
+    /*适配移动设备 关键代码*/
+    var deviceWidth = document.documentElement.clientWidth;
+    if (deviceWidth > 750) deviceWidth = 750;
+    document.documentElement.style.fontSize = deviceWidth / 7.5 + "px";
+
+  </script>
+  <style>
+    body,
+    html {
+      margin: 0;
+      overflow-x: hidden
+    }
+
+    .down_app {
+      padding: 0.5rem 0;
+      box-sizing: border-box;
+      height: 100vh;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-around;
+      -ms-flex-pack: justify;
+      justify-content: space-around;
+    }
+
+    .downfooter {
+      width: 6.25rem;
+      height: 1.6rem;
+      box-sizing: border-box;
+      margin: 0 auto;
+      background: rgb(246, 246, 246);
+      border-radius: 6px;
+      padding: 0 0.2rem;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+    }
+
+    .downfooter>img {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+
+    .downfooter_desc p:nth-child(1) {
+      color: #4b4945;
+    }
+
+    .downfooter_desc p:nth-child(2) {
+      color: #999;
+      font-size: 10px;
+    }
+
+    .downbody img {
+
+      width: 7.5rem;
+      height: 6.76rem;
+
+    }
+
+    .downtitle {
+      padding: 0 0.3rem;
+      font-size: 16px;
+      color: #94928e;
+      display: none;
+    }
+
+    .downtitle h3 {
+      font-size: 18px;
+      color: #4b4945;
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+    }
+
+    .downtitle p>img {
+      width: 0.54rem;
+      height: 0.28rem;
+      margin-left: 5px;
+    }
+
+    .point {
+      position: fixed;
+      right: 0.3rem;
+      top: 0.3rem;
+      display: none;
+    }
+
+    .point img {
+      width: 1.74rem;
+      height: 1.3rem;
+    }
+
+    .noweixin {
+      text-align: center;
+      font-size: 16px;
+      display: none;
+    }
+
+    .noweixin a {
+      color: #94928e;
+      text-decoration: underline;
+    }
+
+    .downApp {
+      padding: 5px 8px;
+      background: #FDDB00;
+      outline: none;
+      border: 0;
+      border-radius: 4px;
+      line-height: 1.6;
+      box-sizing: border-box;
+    }
+
+  </style>
+</head>
+
+<body style="font-size:14px;">
+  <div class="down_app">
+    <div class="point">
+      <img src="./point@2x.png" alt="">
+    </div>
+    <div class="noweixin">
+      <p>已下载？
+        <a class="goApp" href="javascript:;">打开应用</a>
+      </p>
+    </div>
+    <div class="downtitle">
+      <h3>若已安装了客户端</h3>
+      <p class="flex flex-align-center">1. 请先点击右上角更多
+        <img src="./more@2x.png" alt="">
+      </p>
+      <p>2. 然后选择在 浏览器 中打开</p>
+    </div>
+    <div class="downbody">
+      <img src="./downapp@2x.png" alt="">
+    </div>
+    <div class="downfooter">
+      <img src="./login_logo@2x.png" alt="">
+      <div class="downfooter_desc">
+        <p>下载 「贴近」 客户端</p>
+        <p>贴近一点 看身边</p>
+      </div>
+      <div>
+        <button class="downApp">立即下载</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    function isWeiXin() {
+      var wx = navigator.userAgent.toLowerCase();
+      return wx.indexOf('micromessenger') > -1
+    }
+
+    function getParam(paramName) {
+      var paramValue = "";
+      var isFound = false;
+      if (location.search.indexOf("?") == 0 && location.search.indexOf("=") > 1) {
+        var arrSource = unescape(location.search).substring(1, location.search.length).split("&");
+        var i = 0;
+        while (i < arrSource.length && !isFound) {
+          if (arrSource[i].indexOf("=") > 0) {
+            if (arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase()) {
+              paramValue = arrSource[i].split("=")[1];
+              isFound = true;
+            }
+          }
+          i++;
+        }
+      }
+      return paramValue;
+    }
+    window.onload = function () {
+      console.log(isWeiXin())
+      if (isWeiXin()) {
+        document.querySelector('.downtitle').style.display = 'block'
+        document.querySelector('.point').style.display = 'block'
+      } else {
+        document.querySelector('.noweixin').style.display = 'block'
+      }
+      document.querySelector('.downApp').addEventListener('click', function () {
+        location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer'
+      }, false)
+      document.querySelector('.goApp').addEventListener('click', function () {
+        // this.$route.query.downurl
+        console.log(getParam('downurl'))
+        if (getParam('downurl')) {
+          location.href = getParam('downurl')
+        } else {
+          return
+        }
+      }, false)
+    }
+
+  </script>
+</body>
+
+</html>

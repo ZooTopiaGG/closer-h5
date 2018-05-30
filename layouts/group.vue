@@ -133,9 +133,12 @@ export default {
   },
   methods: {
     downApp() {
-      this.$router.push({
-        path: `/down?downurl=closer://group/${this.$route.params.id}`
-      });
+      location.href = `${location.protocol}//${
+        location.host
+      }/down.html?downurl=closer://group/${this.$route.params.id}`;
+      // this.$router.push({
+      //   path: `/down?downurl=closer://group/${this.$route.params.id}`
+      // });
     },
     tofeeddetails(item) {
       // console.log(item.subjectid)

@@ -64,13 +64,20 @@ export default {
   methods: {
     downApp() {
       if (this.$route.path.indexOf("/community") > -1) {
-        this.$router.push({
-          path: `/down?downurl=closer://community/${this.$route.params.id}`
-        });
+        location.href = `${location.protocol}//${
+          location.host
+        }/down.html?downurl=closer://community/${this.$route.params.id}`;
+        // this.$router.push({
+        //   path: `/down?downurl=closer://community/${this.$route.params.id}`
+        // });
       } else if (this.$route.path.indexOf("/feed") > -1) {
-        this.$router.push({
-          path: `/down?downurl=closer://feed/${this.$route.params.id}`
-        });
+        location.href = `${location.protocol}//${
+          location.host
+        }/down.html?downurl=closer://feed/${this.$route.params.id}`;
+
+        // this.$router.push({
+        //   path: `/down?downurl=closer://feed/${this.$route.params.id}`
+        // });
       }
     },
     handleScroll(e) {

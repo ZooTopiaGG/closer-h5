@@ -37,7 +37,8 @@ export default {
   },
   methods: {
     downApp() {
-      this.$router.push({ path: "/down" });
+      // this.$router.push({ path: "/down" });
+      location.href = `${location.protocol}//${location.host}/down.html`;
     }
   },
   beforeMount() {

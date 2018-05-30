@@ -40,6 +40,9 @@ export default {
       }
     }
   },
+  beforeRouteEnter: (to, from, next) => {
+    // ...
+  },
   beforeMount() {
     console.log(this.$route.query.downurl);
   }
