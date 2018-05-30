@@ -132,46 +132,60 @@ export const actions = {
     $router
   }) {
     let self = this,
+      unionId,
+      nickName,
+      avatar,
       para;
     // 注意： code 只能用一次，所以这里校验了 就不能再登录了，需要将校验放在登录里面
-    // let check = await self.$axios.$get(`${api.admin.check}?type=mpwechat&code=${code}`)
+    let check = await self.$axios.$get(`${api.admin.check_wechat}?code=${code}`)
     // console.log('check=====', check)
-    // if (check.code != 0) {
-    //   Toast({
-    //     message: '该账号已被使用',
-    //     position: 'top'
-    //   })
-    //   $router.push({
-    //     path: '/invite/alreadyget'
-    //   })
-    //   return
-    // }
-    // if (Cookie.get('inviter')) {
-    //   let inv = JSON.parse(Cookie.get('inviter'))
-    //   // console.log('inviter====', inv)
-    //   para = {
-    //     plateform: 2,
-    //     code: code,
-    //     inviter: inv.id,
-    //     protocol: "WEB_SOCKET"
-    //   }
-    // } else {
-    //   para = {
-    //     plateform: 2,
-    //     code: code,
-    //     protocol: "WEB_SOCKET"
-    //   };
-    // }
-    para = {
-      plateform: 2,
-      code: code,
-      protocol: "WEB_SOCKET"
-    };
-    console.log('para-======', para)
+    if (check.code != 0) {
+      Toast({
+        message: '该账号已被使用',
+        position: 'top'
+      })
+      $router.push({
+        path: '/invite/alreadyget'
+      })
+      return
+    } else {
+      if (check.result.hasRegist) {
+        Toast({
+          message: '该账号已被使用',
+          position: 'top'
+        })
+        $router.push({
+          path: '/invite/alreadyget'
+        })
+        return
+      } else {
+        unionId = check.result.unionId;
+        nickName = check.result.nickName;
+        avatar = check.result.avatar;
+      }
+    }
+    if (Cookie.get('inviter')) {
+      let inv = JSON.parse(Cookie.get('inviter'))
+      // console.log('inviter====', inv)
+      para = {
+        unionid: unionId,
+        inviter: inv.id,
+        nickName: nickName,
+        avatar: avatar,
+        protocol: "WEB_SOCKET"
+      }
+    } else {
+      Toast({
+        message: '该账号没有被邀请',
+        position: 'top'
+      })
+      return
+    }
+    // console.log('para-======', para)
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
-    console.log('wxlogindata===', data)
+    // console.log('wxlogindata===', data)
     if (data.code === 0) {
-      console.log("datauser====", data.result);
+      // console.log("datauser====", data.result);
       // 返回的数据
       let userInfo = {
         gender: data.result.user.gender,
@@ -201,7 +215,7 @@ export const actions = {
       // localstorage.setAge(0.1 * 24 * 60 * 60 * 1000).set('wx_user', userInfo).set('wx_token', userToken)
       commit('SET_USER', userInfo)
       commit('SET_TOKEN', userToken)
-      console.log(1111221212121)
+      // console.log(1111221212121)
     } else {
       // self.$toast({
       //   message: data.result,

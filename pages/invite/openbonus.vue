@@ -7,13 +7,9 @@
       <div class="body-avatar">
         <img v-lazy="hasInviter.avatar">
       </div>
-      <div class="body-desc"><span>{{ hasInviter.name }}</span>给你的现金红包已经到账</div>
+      <div class="body-desc flex flex-v flex-align-center"><span class="inviterName">{{ hasInviter.name }}</span>给你的现金红包已经到账</div>
       <div class="body-money"><span>10</span>元</div>
     </div>
-    <!-- 判断他是否在微信，如果在 则不显示 ，显示按钮 立即下载，提现无门槛，
-    不在微信的话 则通过手机号登录，则判断 是否已经登录过，
-    如果已经登录过 则显示 立即下载，提现无门槛
-    如果已经领取了 则显示给其他好友发红包 -->
     <div class="hasToken">
       <mt-button type="primary" class="margin-top-20 tj-btn" @click="downApp">
         <span>立即下载，提现秒到账</span>

@@ -14,6 +14,7 @@ let api = {
     closeruser_regist: 'closer_auth.closeruser_regist',
     get_code_by_phone: 'closer_account.get_code_by_phone',
     check: 'closer_account.check',
+    check_wechat: 'closer_account.check_wechat',
     info: 'closer_user.info',
     // 用户详情
     user_show: 'closer_user.show',

@@ -8,10 +8,12 @@
         <img v-lazy="$com.makeFileUrl(hasInviter.avatar)">
       </div>
       <div class="body-desc flex flex-v flex-align-center">
-        <span>{{ hasInviter.name }}</span>
-        <p>你已经领取过了</p>
+        <p> 邀请好友赚现金</p>
+        <p>各自获得10元钱</p>
       </div>
-      <!-- <div class="body-money"><span>10</span>元</div> -->
+      <div class="body-money">
+        <img src="~/assets/images/group2@3x.png" alt="">
+      </div>
     </div>
     <div class="hasToken">
       <mt-button type="primary" @click="downApp" class="margin-top-20 tj-btn">
@@ -72,6 +74,9 @@ export default {
       border: 2px solid #fabb7d;
       margin-bottom: 0.36rem;
     }
+    .inviterName {
+      margin-bottom: 0.3rem;
+    }
     .body-desc {
       font-size: 18px;
       line-height: 25px;
@@ -85,16 +90,16 @@ export default {
       line-height: 1.4rem;
       font-size: 18px;
       margin-bottom: 0.3rem;
-      span {
-        font-weight: bold;
-        font-size: 50px;
-        margin-right: 3px;
+      img {
+        width: 6.7rem;
+        height: 4.28rem;
+        margin-top: 0.8rem;
       }
     }
   }
   .hasToken {
     padding: 0 0.5rem;
-    margin-bottom: 1.6rem;
+    margin-bottom: 0.5rem;
     button {
       width: 100%;
     }
