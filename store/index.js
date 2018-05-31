@@ -120,32 +120,26 @@ export const actions = {
       location.href = data.result;
     }
   },
+
   // 通过code进行登录，如果get_wx_auth被调用， get_code_by_login才会被调用
   async get_code_by_login({
     commit
   }, {
     code,
-    $router
+    $router,
+    type
   }) {
     let self = this,
-      unionId,
-      nickName,
-      avatar,
       para;
     // 注意： code 只能用一次，所以这里校验了 就不能再登录了，需要将校验放在登录里面
-    let check = await self.$axios.$get(`${api.admin.check_wechat}?code=${code}`)
-    // console.log('check=====', check)
-    if (check.code != 0) {
-      Toast({
-        message: '该账号已被使用',
-        position: 'top'
-      })
-      $router.push({
-        path: '/invite/alreadyget'
-      })
-      return
-    } else {
-      if (check.result.hasRegist) {
+    // $router 是否存在 验证是否是奖励金登录
+    if (type && type === 'bonus') {
+      let unionId,
+        nickName,
+        avatar;
+      let check = await self.$axios.$get(`${api.admin.check_wechat}?code=${code}`)
+      // console.log('check=====', check)
+      if (check.code != 0) {
         Toast({
           message: '该账号已被使用',
           position: 'top'
@@ -155,26 +149,43 @@ export const actions = {
         })
         return
       } else {
-        unionId = check.result.unionId;
-        nickName = check.result.nickName;
-        avatar = check.result.avatar;
+        if (check.result.hasRegist) {
+          Toast({
+            message: '该账号已被使用',
+            position: 'top'
+          })
+          $router.push({
+            path: '/invite/alreadyget'
+          })
+          return
+        } else {
+          unionId = check.result.unionId;
+          nickName = check.result.nickName;
+          avatar = check.result.avatar;
+        }
       }
-    }
-    if (Cookie.get('inviter')) {
-      let inv = JSON.parse(Cookie.get('inviter'))
-      para = {
-        unionid: unionId,
-        inviter: inv.id,
-        nickName: nickName,
-        avatar: avatar,
-        protocol: "WEB_SOCKET"
+      if (Cookie.get('inviter')) {
+        let inv = JSON.parse(Cookie.get('inviter'))
+        para = {
+          unionid: unionId,
+          inviter: inv.id,
+          nickName: nickName,
+          avatar: avatar,
+          protocol: "WEB_SOCKET"
+        }
+      } else {
+        Toast({
+          message: '该账号没有被邀请',
+          position: 'top'
+        })
+        return
       }
     } else {
-      Toast({
-        message: '该账号没有被邀请',
-        position: 'top'
-      })
-      return
+      para = {
+        platform: 2,
+        code: code,
+        protocol: "WEB_SOCKET",
+      }
     }
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
     if (data.code === 0) {
@@ -214,31 +225,40 @@ export const actions = {
   }, {
     phone,
     token,
-    $router
+    $router,
+    type
   }) {
     // 点击必须登录的按钮，可获取cookie进行判断 信息
     // 邀新 inviter参数
     try {
       let self = this,
         para;
-      let check = await self.$axios.$get(`${api.admin.check}?type=phone&code=${phone}`)
-      if (check.code != 0) {
-        Toast({
-          message: '该账号已被使用',
-          position: 'top'
-        })
-        $router.push({
-          path: '/invite/alreadyget'
-        })
-        return
-      }
-      if (Cookie.get('inviter')) {
-        let inv = JSON.parse(Cookie.get('inviter'))
-        para = {
-          phone: phone,
-          token: token,
-          inviter: inv.id,
-          protocol: 'WEB_SOCKET'
+      if (type && type === 'bonus') {
+        let check = await self.$axios.$get(`${api.admin.check}?type=phone&code=${phone}`)
+        if (check.code != 0) {
+          Toast({
+            message: '该账号已被使用',
+            position: 'top'
+          })
+          $router.push({
+            path: '/invite/alreadyget'
+          })
+          return
+        }
+        if (Cookie.get('inviter')) {
+          let inv = JSON.parse(Cookie.get('inviter'))
+          para = {
+            phone: phone,
+            token: token,
+            inviter: inv.id,
+            protocol: 'WEB_SOCKET'
+          }
+        } else {
+          Toast({
+            message: '该账号没有被邀请',
+            position: 'top'
+          })
+          return
         }
       } else {
         para = {

@@ -95,10 +95,18 @@ export default {
         //   });
         //   return false;
         // }
+        // 判断是否是在奖励金页面
+        let type;
+        if (!self.$route.path.indexOf("/invite") > -1) {
+          type = "else";
+        } else {
+          type = "bonus";
+        }
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
           token: self.code,
-          $router: self.$router
+          $router: self.$router,
+          type: type
         });
         if (status) {
           self.loading = 2;

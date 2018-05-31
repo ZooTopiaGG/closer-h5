@@ -43,7 +43,8 @@ export default {
     if (self.$route.query.code) {
       self.$store.dispatch("get_code_by_login", {
         code: self.$route.query.code,
-        $router: self.$router
+        $router: self.$router,
+        type: "bonus"
       });
     } else if (Cookie.get("token")) {
       // 进行其他 ajax 操作

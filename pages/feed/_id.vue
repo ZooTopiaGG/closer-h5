@@ -468,9 +468,6 @@ export default {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
-        // self.$store.dispatch("get_token_by_login", {
-        //   paras: Cookie.get("user")
-        // });
         // 进行其他 ajax 操作
         self.$store.dispatch("get_focus_stat", {
           communityid: self.$store.state.res.communityid,
