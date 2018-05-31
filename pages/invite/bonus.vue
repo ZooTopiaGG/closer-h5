@@ -1,6 +1,6 @@
 <template>
   <div id="bonus" class="flex flex-align-center flex-pack-center">
-    <div class="bonus-body flex flex-v flex-align-center flex-pack-around">
+    <div class="bonus-body flex flex-v flex-align-center flex-pack-justify">
       <div class="bonus-body-avatar">
         <img v-lazy="$com.makeFileUrl(res.avatar)">
       </div>
@@ -88,14 +88,14 @@ export default {
   background: brown;
 }
 .bonus-body {
-  width: 7.12rem;
-  height: 11.68rem;
+  width: 94.93vw;
+  height: 86.56vh;
   background-image: url("~/assets/images/bonus@2x.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
 .bonus-body-desc {
-  margin-bottom: 0.42rem;
+  margin-bottom: 3.1vh;
   font-size: 16px;
   color: rgba(255, 221, 106, 1);
   text-align: center;
@@ -103,10 +103,10 @@ export default {
 }
 .bonus-body-desc p {
   margin: 0;
-  line-height: 0.44rem;
+  line-height: 3.26vh;
 }
 .bonus-body-money {
-  height: 0.96rem;
+  height: 7.1vh;
   color: rgba(255, 221, 106, 1);
   box-sizing: border-box;
   font-weight: bold;
@@ -121,33 +121,32 @@ export default {
   top: -16px;
 }
 .bonus-body-avatar {
-  padding-top: 1.44rem;
-  margin-bottom: 0.38rem;
+  padding-top: 10.67vh;
+  margin-bottom: 2.81vh;
 }
 .bonus-body-avatar > img {
-  width: 1.28rem;
-  height: 1.28rem;
+  width: 64px;
+  height: 64px;
   border-radius: 100%;
   border: 2px solid #ffdd6a;
 }
 .bonus-body-money {
-  margin-bottom: 0.98rem;
+  margin-bottom: 7.26vh;
 }
 .bonus-body-btnopen > img {
-  width: 2.76rem;
-  height: 2.76rem;
+  width: 138px;
+  height: 138px;
 }
 .bonus-body-btnopen {
-  margin-bottom: 1.3rem;
+  margin-bottom: 6vh;
 }
 .bonus-body-role {
-  margin-bottom: 0.2rem;
   font-size: 18px;
   color: #fabb7d;
 }
 .bonus-role-bottom {
-  width: 2.8rem;
-  height: 0.82rem;
+  width: 37.33vw;
+  height: 6.074vh;
   background-image: url("~/assets/images/bottomcenter@2x.png");
   background-size: cover;
   background-repeat: no-repeat;
