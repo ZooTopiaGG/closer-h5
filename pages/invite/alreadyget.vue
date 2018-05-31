@@ -57,25 +57,27 @@ export default {
     .head-circle {
       position: absolute;
       width: 100%;
-      height: 3.62rem;
+      height: 27.1vh;
       background: url("~/assets/images/nav@2x.png") no-repeat;
       background-size: cover;
       z-index: 6;
     }
   }
   .openbonus-body {
-    padding-top: 2.7rem;
+    padding-top: 20.24vh;
     position: relative;
     z-index: 7;
     .body-avatar img {
-      width: 1.42rem;
-      height: 1.42rem;
+      width: 10.64vh;
+      height: 10.64vh;
+      max-width: 142px;
+      max-height: 142px;
       border-radius: 100%;
       border: 2px solid #fabb7d;
-      margin-bottom: 0.36rem;
+      margin-bottom: 2.7vh;
     }
     .inviterName {
-      margin-bottom: 0.3rem;
+      margin-bottom: 2.25vh;
     }
     .body-desc {
       font-size: 18px;
@@ -86,20 +88,20 @@ export default {
       }
     }
     .body-money {
-      height: 1.4rem;
-      line-height: 1.4rem;
+      height: 10.5vh;
+      line-height: 10.5vh;
       font-size: 18px;
-      margin-bottom: 0.3rem;
+      margin-bottom: 2.25vh;
       img {
-        width: 7.02rem;
-        height: 4.6rem;
-        margin-top: 0.6rem;
+        width: 53.42vh;
+        height: 34.5vh;
+        margin-top: 4.5vh;
       }
     }
   }
   .hasToken {
-    padding: 0 0.5rem;
-    margin-bottom: 0.5rem;
+    padding: 0 3.75vh;
+    margin-bottom: 7.5vh;
     button {
       width: 100%;
     }

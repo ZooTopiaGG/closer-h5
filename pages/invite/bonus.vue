@@ -1,5 +1,6 @@
 <template>
   <div id="bonus" class="flex flex-align-center flex-pack-center">
+    <img src="~/assets/images/bonus@2x.png" alt="">
     <div class="bonus-body flex flex-v flex-align-center flex-pack-justify">
       <div class="bonus-body-avatar">
         <img v-lazy="$com.makeFileUrl(res.avatar)">
@@ -86,13 +87,22 @@ export default {
   overflow-y: auto;
   height: 100vh;
   background: brown;
+  position: relative;
 }
 .bonus-body {
   width: 94.93vw;
   height: 86.56vh;
-  background-image: url("~/assets/images/bonus@2x.png");
-  background-size: cover;
-  background-repeat: no-repeat;
+  position: relative;
+  z-index: 1;
+}
+#bonus > img {
+  width: 94.93vw;
+  height: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
 }
 .bonus-body-desc {
   margin-bottom: 3.1vh;
@@ -141,7 +151,7 @@ export default {
   margin-bottom: 6vh;
 }
 .bonus-body-role {
-  margin-bottom: 0.96vh;
+  margin-bottom: 1.2vh;
   font-size: 18px;
   color: #fabb7d;
 }

@@ -6,13 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>下载贴近App</title>
-  <script>
-    /*适配移动设备 关键代码*/
-    var deviceWidth = document.documentElement.clientWidth;
-    if (deviceWidth > 750) deviceWidth = 750;
-    document.documentElement.style.fontSize = deviceWidth / 7.5 + "px";
-
-  </script>
   <style>
     body,
     html {
@@ -74,13 +67,13 @@
 
     .downbody img {
 
-      width: 7.5rem;
-      height: 6.76rem;
+      width: 100%;
+      height: 50.67vh;
 
     }
 
     .downtitle {
-      padding: 0 0.3rem;
+      padding: 0 2.25vh;
       font-size: 16px;
       color: #94928e;
       display: none;
@@ -90,25 +83,25 @@
       font-size: 18px;
       color: #4b4945;
       margin-top: 0;
-      margin-bottom: 0.4rem;
+      margin-bottom: 3vh;
     }
 
     .downtitle p>img {
-      width: 0.54rem;
-      height: 0.28rem;
+      width: 7.2vw;
+      height: 2.1vh;
       margin-left: 5px;
     }
 
     .point {
       position: fixed;
-      right: 0.3rem;
-      top: 0.3rem;
+      right: 4vw;
+      top: 2.25vh;
       display: none;
     }
 
     .point img {
-      width: 1.74rem;
-      height: 1.3rem;
+      width: 23.2vw;
+      height: 9.75vh;
     }
 
     .noweixin {

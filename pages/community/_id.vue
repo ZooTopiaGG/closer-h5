@@ -72,7 +72,7 @@
               <!-- 视频贴 int_type == 1-->
               <div class="feedmain" v-else-if="item.int_type === 1">
                 <video :src="item.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 4.8rem; overflow:hidden; object-fit: fill;"
+                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 35.98vh; overflow:hidden; object-fit: fill;"
                   :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
                 </video>
                 <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
@@ -183,18 +183,18 @@ export default {
   overflow-x: hidden;
 }
 .member {
-  padding: 0 0.2rem 0.2rem;
+  padding: 0 2.67vw 1.5vh;
 }
 
 .title {
-  margin-bottom: 0.2rem;
+  margin-bottom: 1.5vh;
   font-size: 24px;
   font-weight: bold;
   text-align: left;
 }
 
 .content {
-  padding: 0 0.15rem 0.15rem;
+  padding: 0 2vw 1.124vh;
   text-align: justify;
   font-size: 14px;
   color: #808080;
@@ -202,67 +202,67 @@ export default {
 
 .member,
 .works {
-  padding-top: 0.4rem;
+  padding-top: 3vh;
 }
 
 .works {
-  padding-bottom: 0.2rem;
+  padding-bottom: 1.5vh;
   position: relative;
 }
 
 .works .title {
-  margin-left: 0.35rem;
+  margin-left: 4.67vw;
 }
 
 .group {
   flex-wrap: wrap;
-  max-height: 4rem;
+  max-height: 30vh;
   overflow: hidden;
 }
 
 .group li {
   width: 20%;
-  margin-bottom: 0.15rem;
-  height: 2rem;
+  margin-bottom: 1.124vh;
+  height: 15vh;
   box-sizing: border-box;
 }
 .group li > span {
   font-size: 13px;
   text-align: center;
-  width: 1.4rem;
+  width: 18.67vw;
   height: 24px;
   line-height: 24px;
   overflow: hidden;
 }
 .group li > img {
-  max-width: 1rem;
-  max-height: 1rem;
+  max-width: 13.33vw;
+  max-height: 7.61vh;
   width: 100%;
   height: auto;
   display: block;
   border-radius: 4px;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.75vh;
 }
 
 /*feed流*/
 
 .feed-list-cell {
   border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 0.4rem;
-  padding-bottom: 0.35rem;
+  margin-bottom: 3vh;
+  padding-bottom: 2.62vh;
 }
 
 .columnname > img {
-  width: 1.64rem;
-  height: 0.64rem;
+  width: 21.87vw;
+  height: 4.8vh;
   border-radius: 0 4px 4px 0;
-  margin-right: 0.3rem;
+  margin-right: 4vw;
 }
 
 .columnname {
-  padding-right: 0.35rem;
+  padding-right: 4.67vw;
   box-sizing: border-box;
-  margin-bottom: 0.3rem;
+  margin-bottom: 2.25vh;
 }
 
 /* .name {
@@ -274,7 +274,7 @@ export default {
 }
 
 .feedtype {
-  padding-top: 0.35rem;
+  padding-top: 2.62vh;
 }
 
 .feedcover > img {
@@ -286,7 +286,7 @@ export default {
   font-size: 16px;
   line-height: 1.6;
   -webkit-line-clamp: 2;
-  margin-top: 0.2rem;
+  margin-top: 1.5vh;
 }
 .feedtype .feedtitle {
   font-weight: bold;
@@ -296,12 +296,12 @@ export default {
   font-size: 13px;
   line-height: 1.6;
   -webkit-line-clamp: 2;
-  margin-top: 0.2rem;
+  margin-top: 1.5vh;
 }
 
 .feedimgcontent {
   flex-wrap: wrap;
-  margin-top: 0.2rem;
+  margin-top: 1.5vh;
 }
 
 .feeder-img-list:nth-child(3n) {
@@ -311,7 +311,7 @@ export default {
 .feedtitle,
 .feedcontent {
   text-align: justify;
-  padding: 0 0.35rem;
+  padding: 0 4.67vw;
 }
 .content p {
   margin-bottom: 0;
@@ -333,8 +333,8 @@ export default {
 }
 .feeder-img {
   position: relative;
-  width: 7.5rem;
-  height: 9.3rem;
+  width: 100%;
+  height: 69.72vh;
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }

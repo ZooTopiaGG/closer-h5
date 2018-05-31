@@ -150,7 +150,7 @@ html {
 
 nav {
   width: 100%;
-  height: 0.98rem;
+  height: 7.35vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -170,7 +170,7 @@ nav .communityName {
 }
 
 .nuxts {
-  margin-top: 0.98rem;
+  margin-top: 7.35vh;
   overflow-x: hidden;
   /*height: calc(100vh-0.98rem);*/
 }
@@ -189,7 +189,7 @@ nav.appnav .icon-ios-more {
 
 nav.appnav .communityName {
   color: #fff;
-  max-width: 4rem;
+  max-width: 53.33vw;
 }
 
 nav.scrollnav {
@@ -216,16 +216,16 @@ nav.appnav ~ .nuxts {
 }
 
 .access-not {
-  width: 1.64rem;
-  height: 0.64rem;
-  margin-right: 0.2rem;
+  width: 21.87vw;
+  height: 4.8vh;
+  margin-right: 2.67vw;
   border-radius: 0 3px 3px 0;
 }
 
 .icon-ios-more {
   font-size: 28px;
-  margin-left: 0.4rem;
-  margin-right: 0.2rem;
+  margin-left: 5.33vw;
+  margin-right: 2.67vw;
 }
 
 .not-exist {
@@ -237,6 +237,6 @@ nav.appnav ~ .nuxts {
 
 .tj-focus-btn {
   box-sizing: border-box;
-  margin-right: 0.3rem;
+  margin-right: 4vw;
 }
 </style>

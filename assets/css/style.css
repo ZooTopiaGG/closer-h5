@@ -88,11 +88,11 @@ video::-webkit-media-controls-volume-slider {
 /*公用样式*/
 
 .margin-bottom-40 {
-  margin-bottom: .4rem;
+  margin-bottom: 3vh;
 }
 
 .margin-top-20 {
-  margin-top: .4rem
+  margin-top: 3vh;
 }
 
 .text-align {

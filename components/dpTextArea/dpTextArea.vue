@@ -34,31 +34,31 @@ export default {
 <style scoped>
 .dpTextArea {
   width: 100%;
-  padding: 0 0.3rem 0.3rem;
+  padding: 0 4vw 2.25vh;
   background: #fff;
   min-height: 180px;
   box-sizing: border-box;
-  padding-top: 0.98rem;
+  padding-top: 7.35vh;
 }
 .tj-btn {
   width: 100%;
 }
 
 .tj-code-btn {
-  height: 0.52rem;
+  height: 3.9vh;
   margin: 0 2px 0 5px;
   font-size: 14px;
 }
 
 .title {
-  height: 0.6rem;
-  line-height: 0.6rem;
+  height: 4.5vh;
+  line-height: 4.5vh;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 0.15rem;
+  margin-bottom: 1.124vh;
 }
 .cancel {
-  margin-right: 0.2rem;
+  margin-right: 2.67vw;
 }
 </style>

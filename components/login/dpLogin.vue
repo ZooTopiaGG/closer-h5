@@ -129,10 +129,10 @@ export default {
 </script>
 <style>
 .dpLogin {
-  width: 6.54rem;
-  height: 5.44rem;
+  width: 87.2vw;
+  height: 40.78vh;
   background: #fff;
-  padding: 0.4rem;
+  padding: 3vh;
   box-sizing: border-box;
   margin: 15vh auto 0;
   border-radius: 3px;
@@ -176,18 +176,18 @@ export default {
 }
 
 .tj-code-btn {
-  height: 0.52rem;
+  height: 3.9vh;
   margin: 0 2px 0 5px;
   font-size: 14px;
 }
 
 .title {
-  height: 0.6rem;
-  line-height: 0.6rem;
+  height: 4.5vh;
+  line-height: 4.5vh;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 0.15rem;
+  margin-bottom: 1.12vh;
 }
 .notweixin {
   margin-top: 20px;

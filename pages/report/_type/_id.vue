@@ -180,46 +180,35 @@ export default {
   margin-right: 0;
   width: 50%;
   font-size: 13px;
-  margin-bottom: 0.3rem;
+  margin-bottom: 2.25vh;
 }
 </style>
 <style scoped="scoped">
 #report {
   font-size: 13px;
-  margin-top: 0.8rem;
+  margin-top: 5.6vh;
 }
 
 .radio-group {
   flex-wrap: wrap;
-  margin-bottom: 0.2rem;
+  margin-bottom: 1.5vh;
 }
 
 .report {
-  padding: 0.2rem;
+  padding: 1.5vh 2.67vw;
   box-sizing: border-box;
   background: #fff;
 }
 
 .title {
-  margin-bottom: 0.4rem;
+  margin-bottom: 3vh;
 }
 
 .desc {
   background: #f4f4f4;
-  padding: 0.2rem 0.1rem;
-  margin: 0 0 0.6rem;
+  padding: 1.5vh 1.33vw;
+  margin: 0 0 4.5vh;
 }
-
-/*.imgbox {
-        width: 2.0rem;
-        height: 1.125rem;
-        margin-right: 0.1rem;
-        box-sizing: border-box;
-    }
-    .imgbox>img{
-        width: 100%;
-        height: 100%;
-    }*/
 
 .tj-btn {
   width: 100%;
@@ -227,8 +216,8 @@ export default {
 }
 
 .btn {
-  padding: 0.2rem;
-  margin-top: 0.3rem;
+  padding: 1.5vh 2.67vw;
+  margin-top: 2.25vh;
 }
 
 .reportcon {

@@ -3,7 +3,7 @@
     <div class="openbonus-head">
       <div class="head-circle"></div>
     </div>
-    <div class="openbonus-body flex-1 flex flex-v flex-align-center">
+    <div class="openbonus-body flex flex-v flex-align-center ">
       <div class="body-avatar">
         <img v-lazy="hasInviter.avatar">
       </div>
@@ -77,22 +77,25 @@ export default {
     .head-circle {
       position: absolute;
       width: 100%;
-      height: 3.62rem;
+      height: 27.14vh;
       background: url("~/assets/images/nav@2x.png") no-repeat;
       background-size: cover;
       z-index: 6;
     }
   }
   .openbonus-body {
-    padding-top: 2.7rem;
+    padding-top: 20.24vh;
     position: relative;
     z-index: 7;
+    margin-bottom: 4.5vh;
     .body-avatar img {
-      width: 1.42rem;
-      height: 1.42rem;
+      width: 10.64vh;
+      height: 10.64vh;
+      max-width: 142px;
+      max-height: 142px;
       border-radius: 100%;
       border: 2px solid #fabb7d;
-      margin-bottom: 0.36rem;
+      margin-bottom: 2.7vh;
     }
     .body-desc {
       font-size: 18px;
@@ -102,10 +105,10 @@ export default {
       }
     }
     .body-money {
-      height: 1.4rem;
-      line-height: 1.4rem;
+      height: 10.49vh;
+      line-height: 10.49vh;
       font-size: 18px;
-      margin-bottom: 0.3rem;
+      margin-bottom: 2.25vh;
       span {
         font-weight: bold;
         font-size: 50px;
@@ -114,8 +117,7 @@ export default {
     }
   }
   .hasToken {
-    padding: 0 0.5rem;
-    margin-bottom: 1.6rem;
+    padding: 0 6.67vw;
     button {
       width: 100%;
     }

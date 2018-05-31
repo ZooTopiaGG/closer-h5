@@ -39,12 +39,14 @@ export default {
 }
 
 .logo img {
-  width: 2rem;
-  height: 2rem;
+  width: 15vh;
+  height: 15vh;
+  max-width: 200px;
+  max-height: 200px;
 }
 
 .form {
-  padding: 0 0.8rem;
+  padding: 0 10.67vw;
   box-sizing: border-box;
 }
 
@@ -53,7 +55,7 @@ export default {
 }
 
 .tj-code-btn {
-  height: 0.52rem;
+  height: 3.9vh;
   margin: 0 2px 0 5px;
   font-size: 14px;
 }
