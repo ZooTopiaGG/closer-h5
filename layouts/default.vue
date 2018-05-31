@@ -181,7 +181,6 @@ nav .communityName {
 .nuxts {
   margin-top: 7.35vh;
   overflow-x: hidden;
-  /*height: calc(100vh-0.98rem);*/
 }
 .webNoNav {
   margin-top: 0;
@@ -216,7 +215,7 @@ nav.scrollnav .communityName {
 
 nav.appnav ~ .nuxts {
   margin-top: 0;
-  /* height: 100vh; */
+  height: 100vh;
 }
 
 .appnuxts {
