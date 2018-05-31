@@ -108,8 +108,17 @@ export default {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
+          console.log(
+            `${location.protocol}//${location.hostname}/feed/${
+              self.$route.params.id
+            }`
+          );
           await self.$store.dispatch("get_wx_auth", {
-            url: location.href
+            // 正式
+            // url: location.href
+            url: `${location.protocol}//${location.hostname}/feed/${
+              self.$route.params.id
+            }`
           });
           return;
         } else {
@@ -207,7 +216,7 @@ nav.scrollnav .communityName {
 
 nav.appnav ~ .nuxts {
   margin-top: 0;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .appnuxts {

@@ -102,6 +102,7 @@ export default {
         } else {
           type = "bonus";
         }
+        console.log("type===", type);
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
           token: self.code,

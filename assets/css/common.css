@@ -304,7 +304,7 @@ button {}
 }
 
 .commonbox {
-  height: 100vh;
+  /* height: 100vh; */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -315,9 +315,9 @@ button {}
   height: calc(100vh - 7.35vh);
 }
 
-.webNoNav.web-class {
+/* .webNoNav.web-class {
   height: 100vh;
-}
+} */
 
 .ellipsis {
   white-space: nowrap;
@@ -326,4 +326,54 @@ button {}
   /*适用IE*/
   -o-text-overflow: ellipsis;
   overflow: hidden;
+}
+
+/* fix iOS bug not displaying 100vh correctly */
+
+/* ipad */
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .fullheight,
+  .appnuxts {
+    height: 768px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .fullheight,
+  .appnuxts {
+    height: 1024px;
+  }
+}
+
+/* iphone5 */
+
+@media only screen and (min-width: 320px) and (max-height: 568px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2) {
+  .fullheight,
+  .appnuxts {
+    height: 320px;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-height: 568px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
+  .fullheight,
+  .appnuxts {
+    height: 568px;
+  }
+}
+
+/* iPhone 4 */
+
+@media only screen and (min-width: 320px) and (max-width: 480px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+  .fullheight,
+  .appnuxts {
+    height: 320px;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 480px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  .fullheight,
+  .appnuxts {
+    height: 480px;
+  }
 }

@@ -93,7 +93,7 @@
           </div>
           <div class="feeder-content">
             <!-- 标题 -->
-            <div class="feeder-title"> {{ $store.state.res.title }} </div>
+            <div class="feeder-title feeder-title-2"> {{ $store.state.res.title }} </div>
             <!-- 阅读量 -->
             <div class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
@@ -164,8 +164,8 @@
                       <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)" :style="{backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
                     </div>
                     <div>
-                      <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
-                      <div class="feeder-comment-3-summary">{{ item.feed.summary }}</div>
+                      <div class="feeder-comment-3-title ellipsis">{{ item.feed.title }}</div>
+                      <div class="feeder-comment-3-summary ellipsis">{{ item.feed.summary }}</div>
                     </div>
                   </div>
                   <!-- 包含视频 -->
@@ -236,7 +236,7 @@
                   </div>
                 </div>
                 <div class="icon-group flex flex-align-center">
-                  <p class="flex flex-align-center" style="margin-right:5px" @click="toMessage(item)">
+                  <p class="flex flex-align-center" style="margin-right:10px" @click="toMessage(item)">
                     <span class="icon-font icon-message"></span>
                     <span>{{ item.replyNumber }}</span>
                   </p>
@@ -333,6 +333,7 @@ export default {
             }
           }
         }
+        console.log("content====", res.result.content);
         // 静态增加阅读量
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
@@ -880,11 +881,13 @@ export default {
     // 验证code是否存在
     if (self.$route.query.code) {
       self.$store.dispatch("get_code_by_login", {
-        code: self.$route.query.code
+        code: self.$route.query.code,
+        type: "else"
       });
     }
   },
   mounted() {
+    console.log(this.$store.state);
     if (this.$store.state.GET_MESSAGE_STATE) {
       this.messageList();
     }
@@ -947,7 +950,7 @@ export default {
 }
 
 .read-num {
-  margin-bottom: 1, 5vh;
+  margin-bottom: 1.5vh;
   color: #888;
 }
 

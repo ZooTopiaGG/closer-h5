@@ -138,7 +138,6 @@ export const actions = {
         nickName,
         avatar;
       let check = await self.$axios.$get(`${api.admin.check_wechat}?code=${code}`)
-      // console.log('check=====', check)
       if (check.code != 0) {
         Toast({
           message: '该账号已被使用',
@@ -187,6 +186,7 @@ export const actions = {
         protocol: "WEB_SOCKET",
       }
     }
+    console.log('para====', para)
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
     if (data.code === 0) {
       // 返回的数据
@@ -294,10 +294,12 @@ export const actions = {
         })
         commit('SET_USER', userInfo)
         commit('SET_TOKEN', userToken)
-        Toast({
-          message: '领取成功，前往App直接领取',
-          position: 'top'
-        })
+        if (type && type === "bonus") {
+          Toast({
+            message: '领取成功，前往App直接领取',
+            position: 'top'
+          })
+        }
         return true
       } else {
         Toast({
