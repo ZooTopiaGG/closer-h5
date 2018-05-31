@@ -15,7 +15,7 @@
         }" @click="toopenbonus" src="~/assets/images/btn_open@2x.png" alt="avatar" srcset="~/assets/images/btn_open@2x.png">
       </div>
       <div class="bonus-body-role">
-        <div class="bonus-role-bottom flex flex-align-center flex-pack-center">活动规则</div>
+        <div class="bonus-role-bottom flex flex-align-center flex-pack-center">大吉大利</div>
       </div>
     </div>
   </div>
@@ -24,14 +24,12 @@
 import Cookie from "js-cookie";
 export default {
   async asyncData({ app, query, store }) {
-    console.log("query====", query);
-    // Cookie.set("inviter", query);
     try {
       let data = await app.$axios.$get(
         `${api.admin.info}?uid=${query.inviter}`
       );
       if (data.code === 0) {
-        console.log("daateeeeee", data);
+        // console.log("daateeeeee", data);
         data.result.id = query.inviter;
         return {
           res: data.result
@@ -58,14 +56,12 @@ export default {
       this.openbonus = true;
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
-      console.log(self.res);
+      // console.log(self.res);
       Cookie.set("inviter", self.res);
-      console.log(Cookie.get("inviter"));
-      // return;
+      // console.log(Cookie.get("inviter"));
       if (Cookie.get("token")) {
         // 进行其他 ajax 操作
-        console.log(Cookie.get("user"));
-        // self.support();
+        // console.log(Cookie.get("user"));
         this.$router.push({ path: "/invite/alreadyget" });
         return;
       } else {
@@ -77,7 +73,6 @@ export default {
           });
           return;
         } else {
-          // self.$store.commit("SET_VISIBLE_LOGIN", true);
           this.$router.push({ path: "/invite/register" });
         }
       }

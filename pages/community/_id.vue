@@ -116,7 +116,6 @@ export default {
           `${api.group.recruiting}?communityid=${params.id}&pagenum=1&count=5`
         )
       ]);
-      // console.log("community===", community);
       // 设置communityid到res状态
       // 关注状态
       if (community.result.isFollowed) {
@@ -124,14 +123,12 @@ export default {
       }
       community.result.communityid = params.id;
       store.commit("SET_RES", community.result);
-      // console.log("feed===", feed);
       await feed.result.data.map(x => {
         if (x.content) {
           x.content = JSON.parse(x.content);
         }
         return x;
       });
-      // console.log("group===", group);
       return {
         res: {
           community: community.result,
@@ -165,7 +162,6 @@ export default {
   },
   methods: {
     tofeeddetails(item) {
-      // console.log(item.subjectid)
       this.$router.push({
         path: `/feed/${item.subjectid}`
       });
@@ -176,13 +172,10 @@ export default {
       });
     },
     hiddenLogin() {
-      console.log(this.$store.state.visibleLogin);
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     }
   },
-  mounted() {
-    console.log("this.$store===", this.$store.state);
-  }
+  mounted() {}
 };
 </script>
 <style scoped>

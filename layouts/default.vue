@@ -74,15 +74,11 @@ export default {
         location.href = `${location.protocol}//${
           location.host
         }/down.html?downurl=closer://feed/${this.$route.params.id}`;
-
-        // this.$router.push({
-        //   path: `/down?downurl=closer://feed/${this.$route.params.id}`
-        // });
       }
     },
     handleScroll(e) {
       if (
-        // 判断是否是长图文或者栏目主页
+        // 判断是否是长图文或者栏目主页 滚动显示导航背景
         (this.$route.path.indexOf("/feed") > -1 &&
           this.$store.state.res.int_type === 2) ||
         this.$route.path.indexOf("/community") > -1
@@ -102,16 +98,11 @@ export default {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
-        // self.$store.dispatch("get_token_by_login", {
-        //   paras: Cookie.get("user")
-        // });
         // 进行其他 ajax 操作
-        // console.log("栏目实体信息或贴子详情", self.$store.state.res);
         self.$store.dispatch("get_focus_stat", {
           communityid: self.$store.state.res.communityid,
           flag: self.$store.state.is_follow ? 0 : 1
         });
-        // console.log(Cookie.get("user"));
         return;
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
@@ -134,7 +125,6 @@ export default {
         wrp.addEventListener("scroll", this.handleScroll);
       }
     });
-    // console.log("is_follow===", this.$store.state.is_follow);
   }
 };
 </script>

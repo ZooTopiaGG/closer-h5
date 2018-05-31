@@ -29,7 +29,6 @@ export const state = () => ({
 export const mutations = {
   GET_USER_AGENT(state, para) {
     // 通过中间件。判断在路由之前执行 判断路由类型
-    // console.log('para===', para)
     let nvg = para.nvg.toLowerCase();
     let refer = para.ref
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
@@ -102,7 +101,6 @@ export const actions = {
       // 进入页面之前请求服务 获取cookies
       let user = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'user')
       let token = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'token')
-      // console.log(token) 判断token是否存在或过期， 存在返回token，否则返回false
       commit('SET_USER', user)
       commit('SET_TOKEN', token)
     }
@@ -113,14 +111,12 @@ export const actions = {
   }, {
     url
   }) {
-    // console.log(url)
     let self = this
     let para = {
       path: url
     };
     let data = await self.$axios.$post(`${api.admin.get_auth_path}`, para);
     if (data.code === 0) {
-      console.log("getcode===", data);
       location.href = data.result;
     }
   },
@@ -166,7 +162,6 @@ export const actions = {
     }
     if (Cookie.get('inviter')) {
       let inv = JSON.parse(Cookie.get('inviter'))
-      // console.log('inviter====', inv)
       para = {
         unionid: unionId,
         inviter: inv.id,
@@ -181,11 +176,8 @@ export const actions = {
       })
       return
     }
-    // console.log('para-======', para)
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
-    // console.log('wxlogindata===', data)
     if (data.code === 0) {
-      // console.log("datauser====", data.result);
       // 返回的数据
       let userInfo = {
         gender: data.result.user.gender,
@@ -210,17 +202,10 @@ export const actions = {
       Cookie.set('user', userInfo, {
         expires: 7
       })
-      // console.log('usercookies=====', Cookie.get('user'))
-      // console.log('tokencookies=====', Cookie.get('token'))
-      // localstorage.setAge(0.1 * 24 * 60 * 60 * 1000).set('wx_user', userInfo).set('wx_token', userToken)
       commit('SET_USER', userInfo)
       commit('SET_TOKEN', userToken)
-      // console.log(1111221212121)
     } else {
-      // self.$toast({
-      //   message: data.result,
-      //   position: "top"
-      // });
+      return
     }
   },
   // 通过token登录， 先获取cookie查看token是否过期 如果过期则调用授权，如果没有过期则调用get_token_by_login获取用户信息
@@ -233,12 +218,10 @@ export const actions = {
   }) {
     // 点击必须登录的按钮，可获取cookie进行判断 信息
     // 邀新 inviter参数
-    // console.log('intver', JSON.parse(Cookie.get('inviter')))
     try {
       let self = this,
         para;
       let check = await self.$axios.$get(`${api.admin.check}?type=phone&code=${phone}`)
-      console.log('check=====', check)
       if (check.code != 0) {
         Toast({
           message: '该账号已被使用',
@@ -251,7 +234,6 @@ export const actions = {
       }
       if (Cookie.get('inviter')) {
         let inv = JSON.parse(Cookie.get('inviter'))
-        console.log('inviter====', inv)
         para = {
           phone: phone,
           token: token,
@@ -267,7 +249,6 @@ export const actions = {
       }
       let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)
       if (data.code === 0) {
-        console.log('data===login===', data)
         let userInfo = {
           gender: data.result.user.gender,
           phones: data.result.user.phones,
@@ -330,10 +311,7 @@ export const actions = {
         phone: phone
       }
       let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
-      // console.log('data===', data)
-      if (data.code === 0) {
-        console.log('data===send===', data)
-      } else {
+      if (data.code === 0) {} else {
         Toast({
           message: data.result,
           position: 'top'
@@ -346,23 +324,6 @@ export const actions = {
       })
     }
   },
-  // 校验 手机号查重
-  async check_account({
-    commit
-  }, {
-    code,
-    type
-  }) {
-    console.log(11111)
-    let self = this
-    let check = await self.$axios.$get(`${api.admin.check}?type=${type}&code=${code}`)
-    console.log('check=====', check)
-    if (check) {
-      console.log('check===', check)
-      return
-    }
-    return
-  },
   // 关注，取消关注
   async get_focus_stat({
     commit
@@ -371,7 +332,6 @@ export const actions = {
     flag
   }) {
     let self = this
-    // console.log('栏目实体信息或贴子详情', this.$store.state.res)
     try {
       let data = await self.$axios.$get(`${api.community.subscription}?communityid=${communityid}&flag=${flag}`)
       if (data.code === 0) {

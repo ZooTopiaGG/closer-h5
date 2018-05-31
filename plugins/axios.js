@@ -22,7 +22,6 @@ export default function ({
     }
   }
   $axios.onRequest(config => {
-    // console.log('Making request to==', config)
     let host;
     if (typeof window != 'undefined') {
       host = window.location.host;

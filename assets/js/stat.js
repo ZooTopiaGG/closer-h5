@@ -49,18 +49,12 @@ if (typeof document != 'undefined') {
 
 function completeLoading() {
   if (document.readyState == 'interactive') {
-    // console.log('interactive')
     canShowContent()
     try {
       window.webkit.messageHandlers.canShowContent.postMessage(null);
-    } catch (e) {
-      console.log(e)
-    }
-    // console.log('messageHandlers')
+    } catch (e) {}
   }
-  if (document.readyState == "complete") {
-    // console.log('complete')
-  }
+  if (document.readyState == "complete") {}
 }
 
 function canShowContent() {}

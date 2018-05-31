@@ -12,7 +12,7 @@
         <p>各自获得10元钱</p>
       </div>
       <div class="body-money">
-        <img src="~/assets/images/group2@3x.png" alt="">
+        <img src="~/assets/images/2201527733118_.pic.jpg" alt="">
       </div>
     </div>
     <div class="hasToken">
@@ -32,8 +32,8 @@ export default {
   },
   methods: {
     downApp() {
-      location.href = `${location.protocol}//${location.host}/down.html`;
-      // this.$router.push({ path: "/down" });
+      location.href = api.downUrl;
+      // location.href = `${location.protocol}//${location.host}/down.html`;
     }
   },
   data() {
@@ -91,9 +91,9 @@ export default {
       font-size: 18px;
       margin-bottom: 0.3rem;
       img {
-        width: 6.7rem;
-        height: 4.28rem;
-        margin-top: 0.8rem;
+        width: 7.02rem;
+        height: 4.6rem;
+        margin-top: 0.6rem;
       }
     }
   }

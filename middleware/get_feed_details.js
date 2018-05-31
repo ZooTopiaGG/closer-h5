@@ -25,24 +25,20 @@ export default async function ({
       if (res.result.content) {
         var content = JSON.parse(res.result.content)
         if (content.discuss) {
-          // var discuss = content.discuss
           var discuss = await content.discuss.map((x) => {
             if (x.text) {
               let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
               let res = x.text.match(reg)
               if (res) {
                 x.weblink = true
-                // this.$set(x, 'weblink', true)
                 res.map(y => {
                   // 正则替换文本
                   let tag = `<a href="${y}" target="_blank">${y}</a>`
                   let newtag = x.text.replace(reg, tag)
-                  // this.$set(x, 'newText', newtag)
                   x.newText = newtag
                 })
               } else {
                 x.weblink = false
-                // this.$set(x, 'weblink', false)
               }
             }
             return x
@@ -67,13 +63,11 @@ export default async function ({
         default:
           postType = '全部'
       }
-      // console.log(';ressssss==sdada')
       // 返回在渲染页面之前得结果
       store.commit('SET_CONTENT', content)
       store.commit('SET_RES', res.result)
       store.commit('SET_POSTTYPE', postType)
       store.commit('SET_DISSCUSS', discuss)
-      // store.commit('SET_OPTIONS', options)
     }
   } catch (err) {
     store.commit('GET_EXIST_STATUS', false)

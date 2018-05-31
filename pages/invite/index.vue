@@ -76,7 +76,6 @@ export default {
     try {
       let data = await app.$axios.$get(`${api.admin.invite_counts}`);
       if (data.code === 0) {
-        console.log("data====", data);
         return {
           result: data.result
         };

@@ -45,7 +45,6 @@ export default {
     };
   },
   async asyncData({ params, error, app, store }) {
-    // console.log('token===', store.state.GET_APP_TOKEN)
     try {
       // 举报栏目
       if (params.type === "c") {
@@ -59,9 +58,7 @@ export default {
           app.$axios.$post(`${api.command.reportType}`, para1),
           app.$axios.$post(`${api.command.show}`, para)
         ]);
-        // console.log(';data ===', data)
         if (list.code === 0) {
-          // console.log(';list===', list)
           return {
             res: {
               data: data.result,
@@ -86,9 +83,7 @@ export default {
           app.$axios.$post(`${api.command.reportType}`, para1),
           app.$axios.$post(`${api.command.show}`, para)
         ]);
-        // console.log(';data ===', data)
         if (data.code === 0) {
-          // console.log(';list===', list)
           return {
             res: {
               data: data.result,
@@ -117,7 +112,6 @@ export default {
     return {
       loading: 1, // 按钮执行状态
       disabled: false, // 按钮可用状态
-      // res: {},
       reportcon: "",
       reportinfo: null
     };
@@ -125,7 +119,6 @@ export default {
   methods: {
     // 点击单选按钮时变化
     reportChange(item) {
-      // console.log(item.target.value)
       this.reportinfo = item.target.value;
       // 监听按钮状态
       this.disabled = false;
@@ -167,9 +160,6 @@ export default {
         self.loading = 1;
       }
     }
-  },
-  created() {
-    // this.getReportType()
   },
   mounted() {
     console.log(this.res);

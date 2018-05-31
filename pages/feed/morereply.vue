@@ -142,7 +142,6 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
-    // console.log("to=", to);
     if (to.path.indexOf("/feed/morereply") > -1) {
       this.$store.commit("SET_NO_NAV", false);
     } else {
@@ -153,7 +152,6 @@ export default {
   beforeMount() {
     this.$store.commit("SET_NO_NAV", false);
     this.item = JSON.parse(sessionStorage.getItem("item"));
-    // console.log("item===", this.item);
   },
   mounted() {}
 };

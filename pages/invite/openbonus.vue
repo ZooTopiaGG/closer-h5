@@ -27,18 +27,17 @@ export default {
   },
   data() {
     return {
-      // isWeiXin: false,
       hasInviter: {}
     };
   },
   methods: {
     downApp() {
-      // this.$router.push({ path: "/down" });
-      location.href = `${location.protocol}//${location.host}/down.html`;
+      location.href = api.downUrl;
+      // location.href = `${location.protocol}//${location.host}/down.html`;
     }
   },
   beforeMount() {
-    console.log(Cookie.get("inviter"));
+    // console.log(Cookie.get("inviter"));
     let self = this;
     // // 验证code是否存在
     if (self.$route.query.code) {
@@ -66,8 +65,7 @@ export default {
         self.$store.commit("SET_VISIBLE_LOGIN", true);
       }
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style lang='less'>

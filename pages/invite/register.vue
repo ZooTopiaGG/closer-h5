@@ -17,11 +17,6 @@
     <div class="openbonus-sign">
       <dp-login :isAbsolute="false"></dp-login>
     </div>
-    <!-- <div class="hasToken" v-show="hasToken">
-      <mt-button type="primary" class="margin-top-20 tj-btn">
-        <span>立即下载，提现无门槛</span>
-      </mt-button>
-    </div>  -->
   </div>
 </template>
 <script>
@@ -34,7 +29,6 @@ export default {
   },
   data() {
     return {
-      // isWeiXin: false
       hasInviter: {}
     };
   },

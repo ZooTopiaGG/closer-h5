@@ -8,7 +8,6 @@ let options = {
 export default {
   createTime(milliseconds, type) {
     let time = new Date(milliseconds);
-    //tt.replace(/Date\([\d+]+\)/, function(a) { eval('d = new '+a) });
     let y = time.getFullYear();
     let m = time.getMonth() + 1;
     m = m < 10 ? ('0' + m) : m;
@@ -85,7 +84,6 @@ export default {
       return monthRound + '个月前'
     } else {
       if (daysRound > 0) {
-        // return this.createTime(milliseconds, type)
         return daysRound + '天前'
       } else {
         if (hoursRound > 0) {
@@ -151,7 +149,6 @@ export default {
   },
   // 图片地址处理
   makeFileUrl(url, type, size) {
-    // console.log(' api.filePath====', api.filePath)
     if (url) {
       let sizes = size ? size : 500
       if (type === 'src') {

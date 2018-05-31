@@ -15,10 +15,6 @@
 <script>
 export default {
   name: "signin",
-  // components: {
-  //     dpButton,
-  //     dpRadio
-  // },
   data() {
     return {
       captcha: "",
@@ -62,16 +58,10 @@ export default {
         }
       ]
     };
-  },
-  methods: {
-    handleSelect(e) {
-      console.log(e.target.value);
-    }
   }
 };
 </script>
 <style scoped>
-
 .form {
   padding: 0 0.8rem;
   box-sizing: border-box;

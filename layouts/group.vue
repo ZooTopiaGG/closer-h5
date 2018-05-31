@@ -117,13 +117,6 @@
 <script>
 export default {
   middleware: "group",
-  // header() {
-  //   return {
-  //     title: this.$store.state.group_info.group_info
-  //       ? this.$store.state.group_info.group_info.name
-  //       : "贴近群组"
-  //   };
-  // },
   data() {
     return {
       defaultErrorImg:
@@ -141,14 +134,13 @@ export default {
       // });
     },
     tofeeddetails(item) {
-      // console.log(item.subjectid)
       this.$router.push({
         path: `/feed/${item.subjectid}`
       });
     }
   },
   mounted() {
-    console.log(this.$store.state.group_info);
+    // console.log(this.$store.state.group_info);
   }
 };
 </script>

@@ -120,7 +120,6 @@ module.exports = {
       retries: 3
     },
     // baseURL: 'https://api-sandbox.tiejin.cn/command/',
-    // baseURL: 'https://api.tiejin.cn/command/',
     debug: true, // 添加拦截器
   },
   /*
@@ -140,7 +139,6 @@ module.exports = {
       analyzerMode: 'static'
     },
     // 发布路径 只需设置为根路径
-    // publicPath: 'http://h5-sandbox.tiejin.cn:3000',
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
     vendor: ['axios', 'vue-picture-preview2', 'mint-ui', 'js-cookie'],
     /*
@@ -176,7 +174,6 @@ module.exports = {
           })
         ]
       }
-      // console.log(config.externals)
     }
   },
   // 插件

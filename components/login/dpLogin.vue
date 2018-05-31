@@ -103,9 +103,9 @@ export default {
         if (status) {
           self.loading = 2;
           if (!self.isAbsolute) {
-            // self.$router.push({ path: "/invite/openbonus" });
             // 需要传入打开相应app页面的参数
-            self.$router.push({ path: "/down" });
+            location.href = api.downUrl;
+            // self.$router.push({ path: "/down" });
           } else {
             self.$store.commit("SET_VISIBLE_LOGIN", false);
           }
