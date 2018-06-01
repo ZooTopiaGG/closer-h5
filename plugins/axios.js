@@ -36,7 +36,7 @@ export default function ({
       config.baseURL = 'https://api.tiejin.cn/command/'
     }
     // 线上时
-    if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts')) {
+    if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts' || config.url === 'closer_report.get_report_types')) {
       config.headers.Authorization = store.state.GET_APP_TOKEN
     } else if (store.state.token) {
       // 获取贴子详情不需要token验证
