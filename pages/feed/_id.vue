@@ -929,7 +929,7 @@ export default {
 }
 /* 视频特殊处理 */
 .videofeed .box {
-  height: calc(100vh - 200px);
+  height: calc(177.87vw - 200px);
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;

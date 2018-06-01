@@ -266,18 +266,18 @@ button {}
 .summary p,
 .summary ol,
 .summary ul {
-  padding: 0 4vh;
-  margin-bottom: 1.5vh;
+  padding: 0 4vw;
+  margin-bottom: 2.668vw;
 }
 
 .summary p img {
   max-width: 100%;
   height: auto;
-  margin: 1.2vh 0;
+  margin: 2.14vw 0;
 }
 
 .summary .imgbox {
-  margin: 1.5vh 0
+  margin: 2.668vw 0
 }
 
 .summary video {
@@ -290,21 +290,21 @@ button {}
 
 .split-box {
   width: 100%;
-  height: 1.5vh;
+  height: 2.668vw;
   background: #f4f4f4;
 }
 
 .footer {
   text-align: center;
   position: fixed;
-  bottom: 6vh;
+  bottom: 10.672vw;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
 }
 
 .commonbox {
-  height: 100vh;
+  height: 177.87vw;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -312,11 +312,11 @@ button {}
 .web-class {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  height: calc(100vh - 7.35vh);
+  height: calc(177.87vw - 11.07vw);
 }
 
 .webNoNav.web-class {
-  height: 100vh;
+  height: 177.87vw;
 }
 
 .ellipsis {
