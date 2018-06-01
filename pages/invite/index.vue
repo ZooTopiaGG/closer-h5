@@ -127,12 +127,12 @@ export default {
 <style>
 #invite {
   /* overflow-y: auto; */
-  min-height: 100vh;
+  min-height: 177.87vw;
 }
 
 .tj-invite {
   width: 100%;
-  min-height: 100vh;
+  min-height: 177.87vw;
   background-image: url("~/assets/images/bg@2x.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -141,8 +141,8 @@ export default {
 .top {
   position: absolute;
   width: 100%;
-  height: 51.57vh;
-  top: 9.74vh;
+  height: 91.72vw;
+  top: 17.32v2;
   background-image: url("~/assets/images/top@2x.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -151,7 +151,7 @@ export default {
 .bottom {
   position: absolute;
   width: 22.4vw;
-  height: 11.39vh;
+  height: 20.26vw;
   bottom: 0;
   left: 0;
   background-image: url("~/assets/images/leftbottom@2x.png");
@@ -161,7 +161,7 @@ export default {
 }
 .tj-invite-head {
   position: absolute;
-  top: 37.48vh;
+  top: 66.66vw;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
@@ -169,19 +169,19 @@ export default {
 
 .footer-content-title {
   position: absolute;
-  top: 8.1vh;
+  top: 14.41vw;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .tj-invite-head,
 .footer-content-title {
-  font-size: 2.7vh;
+  font-size: 4.8vw;
   color: #fff;
   font-weight: bold;
   width: 71.18vw;
-  height: 8.7vh;
-  line-height: 8.65vh;
+  height: 15.47vw;
+  line-height: 15.39vw;
   text-align: center;
   background-image: url("~/assets/images/Combined-Shape@2x.png");
   background-repeat: no-repeat;
@@ -189,14 +189,14 @@ export default {
 }
 
 .tj-invite-body {
-  padding-top: 38.08vh;
+  padding-top: 67.73vw;
   z-index: 9;
   position: relative;
 }
 
 .tj-invite-footer {
-  padding-top: 8.7vh;
-  padding-bottom: 2.25vh;
+  padding-top: 15.47vw;
+  padding-bottom: 4vw;
   position: relative;
   z-index: 12;
 }
@@ -207,18 +207,18 @@ export default {
   background: #fff;
   margin: 0 auto;
   border-radius: 6px;
-  padding: 1.52vh;
+  padding: 2.7vw;
   box-sizing: border-box;
 }
 .body-content {
-  height: 68.49vh;
+  height: 121.82vw;
 }
 
 .footer-content {
   /* height: 9.9rem; */
-  padding: 2.25vh 3.9vh 0;
+  padding: 4vw 6.94vw 10vw;
   /* 待处理交互 */
-  height: 26.24vh;
+  height: 46.67vw;
   box-sizing: border-box;
   overflow: hidden;
   transition: height 0.35s;
@@ -227,20 +227,20 @@ export default {
   height: auto;
 }
 .body-content-title {
-  font-size: 2.13vh;
+  font-size: 3.79vw;
   color: #4b4945;
-  margin: 2.25vh 0;
+  margin: 4vw 0;
   text-align: center;
 }
 
 .process-list {
-  height: 7.61vh;
-  margin-bottom: 1.52vh;
+  height: 13.54vw;
+  margin-bottom: 2.7vw;
 }
 
 .process-list li {
   width: 2.66vw;
-  height: 9.13vh;
+  height: 16.24vw;
   position: relative;
 }
 
@@ -260,17 +260,17 @@ export default {
 }
 .fifth-span {
   font-size: 14px;
-  margin-top: 1vh;
+  margin-top: 1.78vw;
   font-weight: bold;
 }
 
 .details-list {
-  margin-top: 2.25vh;
+  margin-top: 4vw;
 }
 
 .details-list-cell {
   width: 20.26vw;
-  height: 16.19vh;
+  height: 28.8vw;
   background-image: url("~/assets/images/card2@2x.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -283,15 +283,15 @@ export default {
 }
 
 .details-cell-title {
-  height: 5.25vh;
-  line-height: 5.25vh;
+  height: 9.33vw;
+  line-height: 9.33vw;
   color: #fff;
   font-size: 13px;
 }
 
 .details-cell-body {
-  height: 6.3vh;
-  line-height: 6.3vh;
+  height: 11.21vw;
+  line-height: 11.21vw;
   font-weight: bold;
   width: 14.93vw;
   margin: 0 auto;
@@ -299,12 +299,12 @@ export default {
 }
 
 .details-cell-body span {
-  font-size: 4.5vh;
+  font-size: 8vw;
 }
 
 .details-cell-footer {
-  height: 4.2vh;
-  line-height: 4.2vh;
+  height: 7.47vw;
+  line-height: 7.47vw;
   font-size: 10px;
 }
 
@@ -318,12 +318,12 @@ export default {
 }
 
 .body-content-btn {
-  margin: 4.05vh auto 0;
+  margin: 7.2vw auto 0;
 }
 
 .content-btn {
   width: 79.74vw;
-  height: 7.05vh;
+  height: 12.54vw;
   background-image: url("~/assets/images/btn@2x.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -333,8 +333,8 @@ export default {
 .tj-invite-center {
   position: absolute;
   width: 100%;
-  height: 43.93vh;
-  top: 84.78vh;
+  height: 78.14vw;
+  top: 150.8vw;
   left: 0;
   background-image: url("~/assets/images/zhubo@2x.png");
   background-repeat: no-repeat;
@@ -346,16 +346,16 @@ export default {
   line-height: 1.6;
 }
 .footer-content-details p {
-  margin: 2.7vh 0;
+  margin: 4.8vw 0;
   text-align: justify;
 }
 .footer-content-collapse {
   position: absolute;
-  bottom: 2.25vh;
-  left: 2.25vh;
+  bottom: 4vw;
+  left: 4vw;
   width: 92vw;
-  height: 14.39vh;
-  padding-bottom: 1.5vh;
+  height: 25.6vw;
+  padding-bottom: 2.668vw;
   color: #888;
   border-radius: 0 0 0.12rem 0.12rem;
   background: linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);

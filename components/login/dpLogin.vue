@@ -97,12 +97,13 @@ export default {
         // }
         // 判断是否是在奖励金页面
         let type;
-        if (!self.$route.path.indexOf("/invite") > -1) {
-          type = "else";
-        } else {
+        // console.log(self.$route.path.indexOf("/invite") > -1);
+        if (self.$route.path.indexOf("/invite") > -1) {
           type = "bonus";
+        } else {
+          type = "else";
         }
-        console.log("type===", type);
+        // console.log("type===", type);
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
           token: self.code,
@@ -131,11 +132,11 @@ export default {
 <style>
 .dpLogin {
   width: 87.2vw;
-  height: 40.78vh;
+  height: 72.6vw;
   background: #fff;
-  padding: 3vh;
+  padding: 5.34vw;
   box-sizing: border-box;
-  margin: 15vh auto 0;
+  margin: 26.7vw auto 0;
   border-radius: 3px;
 }
 .inHtmlLogin {
@@ -177,18 +178,18 @@ export default {
 }
 
 .tj-code-btn {
-  height: 3.9vh;
+  height: 6.94vw;
   margin: 0 2px 0 5px;
   font-size: 14px;
 }
 
 .title {
-  height: 4.5vh;
-  line-height: 4.5vh;
+  height: 8vw;
+  line-height: 8vw;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 1.12vh;
+  margin-bottom: 2vw;
 }
 .notweixin {
   margin-top: 20px;

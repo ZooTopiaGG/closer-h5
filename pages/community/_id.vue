@@ -72,7 +72,7 @@
               <!-- 视频贴 int_type == 1-->
               <div class="feedmain" v-else-if="item.int_type === 1">
                 <video :src="item.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 35.98vh; overflow:hidden; object-fit: fill;"
+                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 64vw; overflow:hidden; object-fit: fill;"
                   :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
                 </video>
                 <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
@@ -183,18 +183,18 @@ export default {
   overflow-x: hidden;
 }
 .member {
-  padding: 0 2.67vw 1.5vh;
+  padding: 0 2.67vw 2.67vw;
 }
 
 .title {
-  margin-bottom: 1.5vh;
+  margin-bottom: 2.67vw;
   font-size: 24px;
   font-weight: bold;
   text-align: left;
 }
 
 .content {
-  padding: 0 2vw 1.124vh;
+  padding: 0 2vw 2vw;
   text-align: justify;
   font-size: 14px;
   color: #808080;
@@ -202,11 +202,11 @@ export default {
 
 .member,
 .works {
-  padding-top: 3vh;
+  padding-top: 5.336vw;
 }
 
 .works {
-  padding-bottom: 1.5vh;
+  padding-bottom: 2.67vw;
   position: relative;
 }
 
@@ -216,14 +216,14 @@ export default {
 
 .group {
   flex-wrap: wrap;
-  max-height: 30vh;
+  max-height: 53.36vw;
   overflow: hidden;
 }
 
 .group li {
   width: 20%;
-  margin-bottom: 1.124vh;
-  height: 15vh;
+  margin-bottom: 2vw;
+  height: 26.7vw;
   box-sizing: border-box;
 }
 .group li > span {
@@ -236,25 +236,25 @@ export default {
 }
 .group li > img {
   max-width: 13.33vw;
-  max-height: 7.61vh;
+  max-height: 13.33vw;
   width: 100%;
   height: auto;
   display: block;
   border-radius: 4px;
-  margin-bottom: 0.75vh;
+  margin-bottom: 1.335vw;
 }
 
 /*feed流*/
 
 .feed-list-cell {
   border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 3vh;
-  padding-bottom: 2.62vh;
+  margin-bottom: 5.336vw;
+  padding-bottom: 4.66vw;
 }
 
 .columnname > img {
   width: 21.87vw;
-  height: 4.8vh;
+  height: 8.54vw;
   border-radius: 0 4px 4px 0;
   margin-right: 4vw;
 }
@@ -262,7 +262,7 @@ export default {
 .columnname {
   padding-right: 4.67vw;
   box-sizing: border-box;
-  margin-bottom: 2.25vh;
+  margin-bottom: 4vw;
 }
 
 /* .name {
@@ -274,7 +274,7 @@ export default {
 }
 
 .feedtype {
-  padding-top: 2.62vh;
+  padding-top: 4.66vw;
 }
 
 .feedcover > img {
@@ -286,7 +286,7 @@ export default {
   font-size: 16px;
   line-height: 1.6;
   -webkit-line-clamp: 2;
-  margin-top: 1.5vh;
+  margin-top: 2.67vw;
 }
 .feedtype .feedtitle {
   font-weight: bold;
@@ -296,12 +296,12 @@ export default {
   font-size: 13px;
   line-height: 1.6;
   -webkit-line-clamp: 2;
-  margin-top: 1.5vh;
+  margin-top: 2.67vw;
 }
 
 .feedimgcontent {
   flex-wrap: wrap;
-  margin-top: 1.5vh;
+  margin-top: 2.67vw;
 }
 
 .feeder-img-list:nth-child(3n) {
@@ -334,7 +334,7 @@ export default {
 .feeder-img {
   position: relative;
   width: 100%;
-  height: 69.72vh;
+  height: 124vw;
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }

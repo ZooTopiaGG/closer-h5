@@ -30,13 +30,13 @@
 </template>
 <style scoped>
 #about {
-  padding: 1.65vh 2.93vw;
-  padding-top: 6.6vh;
+  padding: 2.93vw;
+  padding-top: 11.74vw;
   line-height: 1.6;
 }
 
 .part {
-  margin-bottom: 1.5vh;
+  margin-bottom: 2.67vw;
   text-align: justify;
 }
 .part a {
@@ -44,7 +44,7 @@
 }
 h3,
 p {
-  margin-bottom: 1.5vh;
+  margin-bottom: 2.67vw;
 }
 h3 {
   color: #444;

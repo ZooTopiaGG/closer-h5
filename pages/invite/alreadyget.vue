@@ -51,57 +51,54 @@ export default {
 </script>
 <style lang='less'>
 #openbonus {
-  height: 100vh;
+  height: 177.87vw;
   .openbonus-head {
     position: relative;
     .head-circle {
       position: absolute;
       width: 100%;
-      height: 27.1vh;
+      height: 48.27vw;
       background: url("~/assets/images/nav@2x.png") no-repeat;
       background-size: cover;
       z-index: 6;
     }
   }
   .openbonus-body {
-    padding-top: 20.24vh;
+    padding-top: 36vw;
     position: relative;
     z-index: 7;
+    margin-bottom: 8vw;
     .body-avatar img {
-      width: 10.64vh;
-      height: 10.64vh;
+      width: 18.93vw;
+      height: 18.93vw;
       max-width: 142px;
       max-height: 142px;
       border-radius: 100%;
       border: 2px solid #fabb7d;
-      margin-bottom: 2.7vh;
-    }
-    .inviterName {
-      margin-bottom: 2.25vh;
+      margin-bottom: 4.8vw;
     }
     .body-desc {
       font-size: 18px;
       line-height: 25px;
       span {
         font-weight: bold;
-        margin-bottom: 15px;
       }
     }
     .body-money {
-      height: 10.5vh;
-      line-height: 10.5vh;
+      height: 18.676vw;
+      line-height: 18, 676vw;
       font-size: 18px;
-      margin-bottom: 2.25vh;
+      margin-bottom: 4vw;
       img {
-        width: 53.42vh;
-        height: 34.5vh;
-        margin-top: 4.5vh;
+        width: 95.02vw;
+        height: 61.36vw;
+        margin-top: 8vw;
       }
     }
   }
   .hasToken {
-    padding: 0 3.75vh;
-    margin-bottom: 7.5vh;
+    padding: 0 6.67vw;
+    margin-bottom: 13.34vw;
     button {
       width: 100%;
     }

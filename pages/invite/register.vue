@@ -41,31 +41,31 @@ export default {
 </script>
 <style lang='less'>
 #openbonus {
-  height: 100vh;
+  height: 177.87vw;
   .openbonus-head {
     position: relative;
     .head-circle {
       position: absolute;
       width: 100%;
-      height: 27.14vh;
+      height: 48.27vw;
       background: url("~/assets/images/nav@2x.png") no-repeat;
       background-size: cover;
       z-index: 6;
     }
   }
   .openbonus-body {
-    padding-top: 20.24vh;
+    padding-top: 36vw;
     position: relative;
     z-index: 7;
-    margin-bottom: 4.5vh;
+    margin-bottom: 8vw;
     .body-avatar img {
-      width: 10.64vh;
-      height: 10.64vh;
+      width: 18.93vw;
+      height: 18.93vw;
       max-width: 142px;
       max-height: 142px;
       border-radius: 100%;
       border: 2px solid #fabb7d;
-      margin-bottom: 2.7vh;
+      margin-bottom: 5.16vw;
     }
     .body-desc {
       font-size: 18px;
@@ -75,18 +75,16 @@ export default {
       }
     }
     .body-money {
-      height: 10.49vh;
-      line-height: 10.49vh;
+      height: 18.66vw;
+      line-height: 18.66vw;
       font-size: 18px;
-      margin-bottom: 2.25vh;
+      margin-bottom: 4vw;
       span {
         font-weight: bold;
         font-size: 50px;
         margin-right: 3px;
       }
     }
-  }
-  .openbonus-sign {
   }
 }
 </style>

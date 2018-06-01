@@ -80,7 +80,7 @@
               <!-- 视频贴 int_type == 1-->
               <div class="feedmain" v-else-if="item.int_type === 1">
                 <video :src="item.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 35.98vh; overflow:hidden; object-fit: fill;"
+                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 64vw; overflow:hidden; object-fit: fill;"
                   :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
                 </video>
                 <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
@@ -150,17 +150,17 @@ export default {
 }
 .member,
 .intro {
-  padding: 0 2.67vw 1.5vh;
+  padding: 0 2.67vw 2.67vw;
 }
 
 .title {
-  margin-bottom: 1.5vh;
+  margin-bottom: 2.67vw;
   font-size: 16px;
   margin-left: 2vw;
 }
 
 .content {
-  padding: 0 2vw 1.124vh;
+  padding: 0 2vw 2vw;
   text-align: justify;
   font-size: 14px;
   color: #808080;
@@ -169,11 +169,11 @@ export default {
 .member,
 .works,
 .intro {
-  padding-top: 3vh;
+  padding-top: 5.34vw;
 }
 
 .works {
-  padding-bottom: 1.5vh;
+  padding-bottom: 2.67vw;
   position: relative;
 }
 
@@ -183,7 +183,7 @@ export default {
 
 .group {
   flex-wrap: wrap;
-  max-height: 30vh;
+  max-height: 53.4vw;
   overflow: hidden;
 }
 
@@ -194,8 +194,8 @@ export default {
 
 .group li {
   width: 20%;
-  margin-bottom: 1.124vh;
-  height: 15vh;
+  margin-bottom: 2vw;
+  height: 26.7vw;
   box-sizing: border-box;
 }
 .group li > span {
@@ -207,30 +207,30 @@ export default {
   overflow: hidden;
 }
 .group li > img {
-  max-width: 7.5vh;
-  max-height: 7.5vh;
+  max-width: 13.35vw;
+  max-height: 13.35vw;
   width: 100%;
   height: auto;
   display: block;
   border-radius: 100%;
-  margin-bottom: 0.75vh;
+  margin-bottom: 1.335vw;
 }
 
 .more {
-  margin: 2.25vh 0 1.5vh;
+  margin: 4vw 0 2.67vw;
 }
 
 /*feed流*/
 
 .feed-list-cell {
   border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 3vh;
-  padding-bottom: 2.62vh;
+  margin-bottom: 5.34vw;
+  padding-bottom: 4.66vw;
 }
 
 .columnname > img {
   width: 21.87vw;
-  height: 4.78vh;
+  height: 8.5vw;
   border-radius: 0 4px 4px 0;
   margin-right: 4vw;
 }
@@ -238,7 +238,7 @@ export default {
 .columnname {
   padding-right: 4.67vw;
   box-sizing: border-box;
-  margin-bottom: 1.5vh;
+  margin-bottom: 2.67vw;
 }
 
 /* .name {
@@ -250,7 +250,7 @@ export default {
 }
 
 .feedtype {
-  padding-top: 2.62vh;
+  padding-top: 4.66vw;
 }
 .feedtype .feedtitle,
 .feedmain .feedtitle {
@@ -263,7 +263,7 @@ export default {
 
 .feedtitle {
   font-size: 16px;
-  margin-bottom: 1.5vh;
+  margin-bottom: 2.67vw;
 }
 
 .feedcontent {
@@ -292,8 +292,8 @@ export default {
   line-height: 1.6;
 }
 .group-master {
-  width: 6.3vh;
-  height: 6.3vh;
+  width: 11.2vw;
+  height: 11.2vw;
   max-width: 84px;
   max-height: 84px;
   position: absolute;
@@ -313,6 +313,6 @@ export default {
   margin-left: 2px;
 }
 .prism-player {
-  margin-bottom: 2.25vh;
+  margin-bottom: 4vw;
 }
 </style>

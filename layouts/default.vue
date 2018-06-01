@@ -159,7 +159,7 @@ html {
 
 nav {
   width: 100%;
-  height: 7.35vh;
+  height: 13.07vw;
   position: fixed;
   top: 0;
   left: 0;
@@ -179,7 +179,7 @@ nav .communityName {
 }
 
 .nuxts {
-  margin-top: 7.35vh;
+  margin-top: 13.07vw;
   overflow-x: hidden;
 }
 .webNoNav {
@@ -215,17 +215,16 @@ nav.scrollnav .communityName {
 
 nav.appnav ~ .nuxts {
   margin-top: 0;
-  height: 100vh;
+  height: 177.87vw;
 }
 
 .appnuxts {
   margin-top: 0;
-  /*height: 100vh;*/
 }
 
 .access-not {
   width: 21.87vw;
-  height: 4.8vh;
+  height: 8.54vw;
   margin-right: 2.67vw;
   border-radius: 0 3px 3px 0;
 }

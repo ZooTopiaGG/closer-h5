@@ -1,6 +1,6 @@
 <template>
   <div id="bonus" class="flex flex-align-center flex-pack-center">
-    <img src="~/assets/images/bonus@2x.png" alt="">
+    <!-- <img src="~/assets/images/bonus@2x.png" alt=""> -->
     <div class="bonus-body flex flex-v flex-align-center flex-pack-justify">
       <div class="bonus-body-avatar">
         <img v-lazy="$com.makeFileUrl(res.avatar)">
@@ -85,17 +85,19 @@ export default {
 <style>
 #bonus {
   overflow-y: auto;
-  height: 100vh;
+  height: 177.87vw;
   background: brown;
   position: relative;
 }
 .bonus-body {
   width: 94.93vw;
-  height: 86.56vh;
+  height: 155.7vw;
   position: relative;
   z-index: 1;
+  background: url("~/assets/images/bonus@2x.png") no-repeat;
+  background-size: cover;
 }
-#bonus > img {
+/* #bonus > img {
   width: 94.93vw;
   height: auto;
   position: absolute;
@@ -103,9 +105,9 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 0;
-}
+} */
 .bonus-body-desc {
-  margin-bottom: 3.1vh;
+  margin-bottom: 5.51vw;
   font-size: 16px;
   color: rgba(255, 221, 106, 1);
   text-align: center;
@@ -113,10 +115,10 @@ export default {
 }
 .bonus-body-desc p {
   margin: 0;
-  line-height: 3.26vh;
+  line-height: 5.8vw;
 }
 .bonus-body-money {
-  height: 7.1vh;
+  height: 12.63vw;
   color: rgba(255, 221, 106, 1);
   box-sizing: border-box;
   font-weight: bold;
@@ -131,8 +133,8 @@ export default {
   top: -16px;
 }
 .bonus-body-avatar {
-  padding-top: 10.67vh;
-  margin-bottom: 2.81vh;
+  padding-top: 19vw;
+  margin-bottom: 5vw;
 }
 .bonus-body-avatar > img {
   width: 64px;
@@ -141,23 +143,23 @@ export default {
   border: 2px solid #ffdd6a;
 }
 .bonus-body-money {
-  margin-bottom: 7.26vh;
+  margin-bottom: 12.91vw;
 }
 .bonus-body-btnopen > img {
   width: 138px;
   height: 138px;
 }
 .bonus-body-btnopen {
-  margin-bottom: 6vh;
+  margin-bottom: 10.672vw;
 }
 .bonus-body-role {
-  margin-bottom: 1.2vh;
+  margin-bottom: 2.14vw;
   font-size: 18px;
   color: #fabb7d;
 }
 .bonus-role-bottom {
   width: 37.33vw;
-  height: 6.074vh;
+  height: 10.8vw;
   background-image: url("~/assets/images/bottomcenter@2x.png");
   background-size: cover;
   background-repeat: no-repeat;

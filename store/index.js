@@ -165,6 +165,7 @@ export const actions = {
       }
       if (Cookie.get('inviter')) {
         let inv = JSON.parse(Cookie.get('inviter'))
+        // console.log('inv=====', inv)
         para = {
           unionid: unionId,
           inviter: inv.id,
@@ -172,6 +173,7 @@ export const actions = {
           avatar: avatar,
           protocol: "WEB_SOCKET"
         }
+        // console.log('para====', para)
       } else {
         Toast({
           message: '该账号没有被邀请',
@@ -247,12 +249,14 @@ export const actions = {
         }
         if (Cookie.get('inviter')) {
           let inv = JSON.parse(Cookie.get('inviter'))
+          // console.log('inv====', inv)
           para = {
             phone: phone,
             token: token,
             inviter: inv.id,
             protocol: 'WEB_SOCKET'
           }
+          // console.log('para=====', para)
         } else {
           Toast({
             message: '该账号没有被邀请',
