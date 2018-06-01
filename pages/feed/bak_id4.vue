@@ -72,7 +72,7 @@
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
           <!-- <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div> -->
-          <div class="feeder-img" style="position:relative; width:100%; height: 124vw;" v-if="$store.state.res.bigcover">
+          <div class="feeder-img" style="position:relative; width:100%; height: 77.78vh;" v-if="$store.state.res.bigcover">
             <!--  判断是否在app 内 需要预览 -->
             <img class="feed-cover" :style="{ 
                         display:'block',
@@ -82,7 +82,7 @@
             >
             <div class="hide-over"></div>
           </div>
-          <div class="feeder-img" style="position:relative; width:100%; width:100%; height: 57vw;" v-else>
+          <div class="feeder-img" style="position:relative; width:100%; width:100%; height: 31.81vh;" v-else>
             <!--  判断是否在app 内 需要预览 -->
             <img class="feed-cover" :style="{ 
                         display:'block',
@@ -171,9 +171,9 @@
                   <!-- 包含视频 -->
                   <div v-else-if="item.type === 2">
                     <div v-if="$store.state.GET_MESSAGE_STATE">
-                      <div class="imgbox" style="background-color: rgba(0,0,0,1); width: 100%; height: 48vw; position:relative; border-radius: 3px;">
+                      <div class="imgbox" style="background-color: rgba(0,0,0,1); width: 100%; height: 27vh; position:relative; border-radius: 3px;">
                         <video :src="item.video.src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                          x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 48vw; overflow:hidden; object-fit: fill;"
+                          x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 27vh; overflow:hidden; object-fit: fill;"
                           :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
                         </video>
                       </div>
@@ -185,7 +185,7 @@
                         backgroundPosition: 'center center',
                         backgroundRepeat: 'no-repeat',
                         width: '100%',
-                        height:'48vw', 
+                        height:'27vh', 
                         position:'relative',
                         borderRadius: '3px'}">
                       <div class="flex flex-align-center flex-pack-center" :data-vid="item.video.vid" style="position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);border-radius:3px;">
@@ -558,7 +558,7 @@ export default {
           //   }' width='${self.$deviceWidth}' height='auto'/>
           //           </div>`;
           // }
-          flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:42.7vw'>
+          flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:24vh'>
                     <img src='http://h5.tiejin.cn/_nuxt/img/default.623ab71.jpeg' data-src='${
                       srcArray[1]
                     }' width='${self.$deviceWidth}' height='auto'/>
@@ -596,7 +596,7 @@ export default {
             flg = `<div 
               class='imgbox'
               data-vid='${vidArray[1]}' 
-              style='background-color: rgba(0,0,0,1); width: 100%; height:64vw; position:relative;'>
+              style='background-color: rgba(0,0,0,1); width: 100%; height:35.98vh; position:relative;'>
               <video src='${urlArray[1]}'
                 controls='controls' 
                 preload='none' 
@@ -605,7 +605,7 @@ export default {
                 x-webkit-airplay='allow'
                 x5-video-player-type='h5'
                 x5-video-orientation='portraint'
-                style='width: 100%; height:64vw;  overflow:hidden;object-fit: fill;'
+                style='width: 100%; height:35.98vh;  overflow:hidden;object-fit: fill;'
                 poster='${coverArray[1]}' 
                 data-cover='${coverArray[1]}'>
                     
@@ -620,7 +620,7 @@ export default {
                 background-position: 50% 50%;
                 background-repeat: no-repeat; 
                 width: 100%; 
-                height:64vw; 
+                height:35.98vh; 
                 position:relative;'>
               <div 
                 class='flex 
@@ -653,7 +653,7 @@ export default {
           let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
           let newsplit1 = newstr.split(heightArray[0]);
           let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
-          let flag = `<div class="imgbox" style="width:100%; min-height: 55.72vw;">
+          let flag = `<div class="imgbox" style="width:100%; min-height: 31.33vh;">
             ${newstr1}</iframe>
           </div>`;
           self.content.html = self.content.html.replace(regexIframe, flag);
@@ -917,7 +917,7 @@ export default {
 }
 
 .video-player {
-  margin: 2.668vw 0;
+  margin: 1.5vh 0;
 }
 </style>
 <style scoped>
@@ -936,7 +936,7 @@ export default {
   margin-top: 200px;
 }
 .feed-doc {
-  padding-bottom: 4vw;
+  padding-bottom: 2.25vh;
 }
 
 .feeder-info,
@@ -950,13 +950,13 @@ export default {
 }
 
 .read-num {
-  margin-bottom: 2.668vw;
+  margin-bottom: 1.5vh;
   color: #888;
 }
 
 .feeder-title {
   font-size: 18px;
-  margin-bottom: 2.668vw;
+  margin-bottom: 1.5vh;
   font-weight: bold;
   white-space: pre-line;
   line-height: 1.6;
@@ -965,20 +965,20 @@ export default {
 .feeder-title-2 {
   font-size: 16px;
   font-weight: 400;
-  margin: 4vw 0;
+  margin: 2.25vh 0;
 }
 
 .feeder-cover {
-  padding: 4vw 4vw 0;
+  padding: 2.25vh 4vw 0;
 }
 
 .feeder-cover > img {
   width: 21.87vw;
-  height: 8.54vw;
+  height: 4.8vh;
 }
 
 .feeder-content {
-  margin-top: 5.34vw;
+  margin-top: 3vh;
 }
 
 .feeder-img {
@@ -997,8 +997,8 @@ export default {
 }
 
 .messager-info-div > img {
-  width: 9.07vw;
-  height: 9.07vw;
+  width: 5.1vh;
+  height: 5.1vh;
   max-width: 68px;
   max-height: 68px;
   border-radius: 100%;
@@ -1007,7 +1007,7 @@ export default {
 }
 
 .feeder-info {
-  margin: 2.668vw 0;
+  margin: 1.5vh 0;
 }
 
 .videoNav {
@@ -1018,12 +1018,12 @@ export default {
 }
 
 .feed-messagebord {
-  height: 10.67vw;
+  height: 6vh;
   border-bottom: 1px solid #eee;
 }
 
 .feed-messagebord-type {
-  height: 10.67vw;
+  height: 6vh;
   color: #94928e;
   font-size: 14px;
 }
@@ -1052,11 +1052,11 @@ export default {
 
 .feed-messagebord-list-cell {
   border-bottom: 1px solid #eee;
-  padding: 2.668vw 0 0;
+  padding: 1.5vh 0 0;
 }
 
 .messager-content {
-  margin: 2.668vw 0;
+  margin: 1.5vh 0;
   line-height: 1.6;
   text-align: justify;
 }
@@ -1095,33 +1095,33 @@ export default {
 }
 
 .feeder-comments {
-  margin-top: 3.33vw;
+  margin-top: 1.87vh;
 }
 
 .feeder-comments-cell {
   box-sizing: border-box;
   border-bottom: 1px solid rgb(243, 243, 243);
-  margin-bottom: 2.668vw;
-  padding: 2.67vw 2.67vw;
+  margin-bottom: 1.5vh;
+  padding: 1.5vh 2.67vw;
 }
 
 .feeder-comment-info {
-  margin-top: 0.66vw;
+  margin-top: 0.37vh;
 }
 
 .feeder-comment-info > i {
   margin-right: 2.67vw;
-  width: 9.07vw;
-  height: 9.07vw;
+  width: 5.1vh;
+  height: 5.1vh;
   max-width: 68px;
   max-height: 68px;
   border-radius: 100%;
 }
 
 .feeder-comment-3 {
-  height: 16.54vw;
+  height: 9.3vh;
   box-sizing: border-box;
-  padding: 2.67vw;
+  padding: 1.5vh 2.67vw;
   border-radius: 6px;
   border: 1px solid #d7d7d9;
   background: #f6f6f6;
@@ -1130,8 +1130,8 @@ export default {
 .feeder-comment-3-cover > i {
   display: block;
   margin-right: 2.67vw;
-  width: 11.47vw;
-  height: 11.47vw;
+  width: 6.45vh;
+  height: 6.45vh;
   max-width: 86px;
   max-height: 86px;
   border-radius: 6px;
@@ -1154,7 +1154,7 @@ export default {
 .feeder-comment-nickname {
   font-size: 12px;
   color: rgba(148, 146, 142, 1);
-  margin-bottom: 2.4vw;
+  margin-bottom: 1.35vh;
   line-height: 1;
 }
 
@@ -1164,21 +1164,21 @@ export default {
 }
 
 .messager-comments {
-  padding: 1.335vw 2.67vw;
+  padding: 0.75vh 2.67vw;
   background-color: #f4f4f4;
-  margin-bottom: 2.67vw;
+  margin-bottom: 1.5vh;
 }
 
 .messager-comments-cell {
   box-sizing: border-box;
-  padding: 0.67vw 0;
+  padding: 0.374vh 0;
 }
 .summary {
   text-align: justify;
 }
 
 .summary2 {
-  height: 53.36vw;
+  height: 30vh;
   position: relative;
   overflow: hidden;
   transition: height 0.5s;
@@ -1193,8 +1193,8 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 21.334vw;
-  line-height: 6.4vw;
+  height: 12vh;
+  line-height: 3.6vh;
   text-align: center;
   font-size: 15px;
   color: #507caf;
@@ -1211,17 +1211,17 @@ export default {
 .collapse2 {
   background: #fff;
   position: static;
-  height: 10.67vw;
+  height: 6vh;
 }
 
 .message-num {
-  height: 10.67vw;
-  line-height: 10.67vw;
+  height: 6vh;
+  line-height: 6vh;
   padding: 0 4vw;
   box-sizing: border-box;
   font-size: 16px;
   border-bottom: 1px solid #f5f5f5;
-  margin-bottom: 2.67vw;
+  margin-bottom: 1.5vh;
   font-weight: bold;
 }
 
@@ -1232,11 +1232,11 @@ export default {
 
 .dpTextArea {
   width: 100%;
-  padding: 0 4vw 4vw;
+  padding: 0 4vw 2.25vh;
   background: #fff;
   min-height: 180px;
   box-sizing: border-box;
-  padding-top: 13.07vw;
+  padding-top: 7.35vh;
 }
 
 .tj-btn {
@@ -1244,18 +1244,18 @@ export default {
 }
 
 .tj-code-btn {
-  height: 6.9vw;
+  height: 3.9vh;
   margin: 0 2px 0 5px;
   font-size: 14px;
 }
 
 .title {
-  height: 8vw;
-  line-height: 8vw;
+  height: 4.5vh;
+  line-height: 4.5vh;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 2vw;
+  margin-bottom: 1.12vh;
 }
 
 .cancel {
