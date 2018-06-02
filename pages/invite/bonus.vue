@@ -83,7 +83,7 @@ export default {
 <style>
 #bonus {
   overflow-y: auto;
-  height: 177.87vw;
+  min-height: 177.87vw;
   background: brown;
   position: relative;
 }

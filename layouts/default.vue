@@ -215,7 +215,7 @@ nav.scrollnav .communityName {
 
 nav.appnav ~ .nuxts {
   margin-top: 0;
-  height: 177.87vw;
+  min-height: 177.87vw;
 }
 
 .appnuxts {

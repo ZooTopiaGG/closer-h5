@@ -158,22 +158,24 @@ export default {
 </script>
 <style lang='less'>
 #comment {
-  min-height: 100vh;
+  min-height: 177.87vw;
   .feed-messagebord-list {
-    padding: 0 0.3rem;
+    padding: 0 4vw;
   }
   .comment-head {
-    padding: 0.4rem 0.3rem 0.2rem;
+    padding: 5.33vw 4vw 2.67vw;
   }
   .feed-messagebord-list-cell {
     border-bottom: 1px solid #eee;
-    padding: 0.3rem 0 0;
+    padding: 4vw 0 0;
   }
   .messager-info-div > img {
-    width: 0.68rem;
-    height: 0.68rem;
+    width: 9.07vw;
+    height: 9.07vw;
+    max-width: 68px;
+    max-height: 68px;
     border-radius: 100%;
-    margin-right: 0.1rem;
+    margin-right: 1.33vw;
     margin-bottom: 3px;
   }
   .messager-name {
@@ -188,18 +190,18 @@ export default {
     height: 14px;
   }
   .messager-content {
-    margin: 0.2rem 0;
+    margin: 2.67vw 0;
     line-height: 1.6;
     text-align: justify;
   }
   .message-num {
-    height: 0.8rem;
-    line-height: 0.8rem;
-    padding: 0 0.3rem;
+    height: 10.67vw;
+    line-height: 10.67vw;
+    padding: 0 4vw;
     box-sizing: border-box;
     font-size: 16px;
     border-bottom: 1px solid #f5f5f5;
-    margin-bottom: 0.2rem;
+    margin-bottom: 2.67vw;
     font-weight: bold;
   }
 }
