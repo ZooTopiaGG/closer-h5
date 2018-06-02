@@ -5,7 +5,7 @@
     </div>
     <div class="openbonus-body flex flex-v flex-align-center ">
       <div class="body-avatar">
-        <img v-lazy="hasInviter.avatar">
+        <img v-lazy="$com.makeFileUrl(hasInviter.avatar)">
       </div>
       <div class="body-desc flex flex-v flex-align-center"><span class="inviterName">{{ hasInviter.name }}</span>给你的现金红包已经到账</div>
       <div class="body-money"><span>10</span>元</div>
