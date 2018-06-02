@@ -56,26 +56,24 @@ export default {
     async toopenbonus() {
       this.openbonus = true;
       let self = this;
-      // 渲染页面前 先判断cookies token是否存在
       // console.log(self.res);
       Cookie.set("inviter", self.res);
-      // console.log(Cookie.get("inviter"));
-      if (Cookie.get("token")) {
-        // 进行其他 ajax 操作
-        // console.log(Cookie.get("user"));
-        this.$router.push({ path: "/invite/alreadyget" });
+      // // console.log(Cookie.get("inviter"));
+      // if (Cookie.get("token")) {
+      //   // 进行其他 ajax 操作
+      //   this.$router.push({ path: "/invite/alreadyget" });
+      //   return;
+      // } else {
+      // }
+      // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+      if ($async.isWeiXin()) {
+        // 通过微信授权 获取code
+        await self.$store.dispatch("get_wx_auth", {
+          url: `${location.protocol}//${location.hostname}/invite/openbonus`
+        });
         return;
       } else {
-        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        if ($async.isWeiXin()) {
-          // 通过微信授权 获取code
-          await self.$store.dispatch("get_wx_auth", {
-            url: `${location.protocol}//${location.hostname}/invite/openbonus`
-          });
-          return;
-        } else {
-          this.$router.push({ path: "/invite/register" });
-        }
+        this.$router.push({ path: "/invite/register" });
       }
     }
   },
