@@ -806,14 +806,13 @@ export default {
         // 前期仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
-          self.$toast({
-            message: "没有token",
-            position: "top"
-          });
+          // self.$toast({
+          //   message: "没有token",
+          //   position: "top"
+          // });
           await self.$store.dispatch("get_wx_auth", {
             url: location.href
           });
-          return;
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
