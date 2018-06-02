@@ -183,7 +183,7 @@ export const actions = {
       }
     } else {
       para = {
-        platform: 2,
+        plateform: 2,
         code: code,
         protocol: "WEB_SOCKET",
       }
