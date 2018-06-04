@@ -11,6 +11,14 @@ const babelConfig = {
   ],
   plugins: ["transform-runtime"]
 }
+const jsLoaderConfig = {
+  test: /\.js?$/,
+  use: [{
+    loader: 'babel-loader',
+    options: babelConfig
+  }],
+  exclude: /node_modules/
+}
 module.exports = {
   /*
    ** Headers of the page
@@ -169,6 +177,7 @@ module.exports = {
       // config.externals = {
       //   'Aliplayer': 'Aliplayer'
       // }
+      config.module.rules.push(jsLoaderConfig)
       if (isDev && isClient) {
         // config.entry['polyfill'] = ['babel-polyfill']
         config.module.rules.push({
