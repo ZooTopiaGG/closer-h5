@@ -13,7 +13,7 @@
       <div class="bonus-body-btnopen">
         <img :class="{
           openbonus: openbonus
-        }" @click="toopenbonus" src="~/assets/images/btn_open@2x.png" alt="avatar" srcset="~/assets/images/btn_open@2x.png">
+        }" @click.native="toopenbonus" src="~/assets/images/btn_open@2x.png" alt="avatar" srcset="~/assets/images/btn_open@2x.png">
       </div>
       <div class="bonus-body-role">
         <div class="bonus-role-bottom flex flex-align-center flex-pack-center">大吉大利</div>
