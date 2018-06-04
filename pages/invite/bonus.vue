@@ -150,7 +150,7 @@ export default {
   margin-bottom: 10.672vw;
 }
 .bonus-body-role {
-  margin-bottom: 2.14vw;
+  margin-bottom: 3vw;
   font-size: 18px;
   color: #fabb7d;
 }
