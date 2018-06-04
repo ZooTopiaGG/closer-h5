@@ -54,11 +54,10 @@ export default {
   methods: {
     // 打开红包
     async toopenbonus() {
+      alert(11111);
       this.openbonus = true;
       let self = this;
-      // console.log(self.res);
       Cookie.set("inviter", self.res);
-      // // console.log(Cookie.get("inviter"));
       // if (Cookie.get("token")) {
       //   // 进行其他 ajax 操作
       //   this.$router.push({ path: "/invite/alreadyget" });

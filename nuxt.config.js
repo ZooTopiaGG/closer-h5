@@ -55,9 +55,9 @@ module.exports = {
         type: 'text/javascript',
         charset: 'utf-8'
       },
-      {
-        src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
-      }
+      // {
+      //   src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
+      // }
     ],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{
@@ -75,11 +75,11 @@ module.exports = {
         type: 'text/css',
         href: '//at.alicdn.com/t/font_663941_c0ea3e10z0fz85mi.css'
       },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css'
-      },
+      // {
+      //   rel: 'stylesheet',
+      //   type: 'text/css',
+      //   href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css'
+      // },
     ],
 
   },
@@ -129,6 +129,10 @@ module.exports = {
     color: '#FDDB00',
     height: '2px'
   },
+  // 禁用预加载
+  render: {
+    resourceHints: false,
+  },
   /*
    ** Build configuration
    */
@@ -149,11 +153,11 @@ module.exports = {
       isClient,
       isServer
     }) {
-      config.externals = {
-        'Aliplayer': 'Aliplayer'
-      }
+      // config.externals = {
+      //   'Aliplayer': 'Aliplayer'
+      // }
       if (isDev && isClient) {
-        config.entry['polyfill'] = ['babel-polyfill']
+        // config.entry['polyfill'] = ['babel-polyfill']
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -164,9 +168,6 @@ module.exports = {
         // Object.assign(config.resolve.alias, {
         //   'vue$': 'vue/dist/vue.esm.js'
         // })
-        // config.externals = [
-        //   { Aliplayer: 'Aliplayer'}
-        // ]
       } else if (isServer) {
         config.externals = [
           nodeExternals({

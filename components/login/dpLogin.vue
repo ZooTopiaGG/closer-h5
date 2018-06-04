@@ -79,22 +79,22 @@ export default {
       let self = this;
       try {
         self.loading = 1;
-        // if (!$async.isPhoneNum(self.phone)) {
-        //   self.loading = 2;
-        //   self.$toast({
-        //     message: "手机号格式错误",
-        //     position: "top"
-        //   });
-        //   return false;
-        // }
-        // if (!self.code) {
-        //   self.loading = 2;
-        //   self.$toast({
-        //     message: "手机号或验证码错误",
-        //     position: "top"
-        //   });
-        //   return false;
-        // }
+        if (!$async.isPhoneNum(self.phone)) {
+          self.loading = 2;
+          self.$toast({
+            message: "手机号格式错误",
+            position: "top"
+          });
+          return false;
+        }
+        if (!self.code) {
+          self.loading = 2;
+          self.$toast({
+            message: "手机号或验证码错误",
+            position: "top"
+          });
+          return false;
+        }
         // 判断是否是在奖励金页面
         let type;
         // console.log(self.$route.path.indexOf("/invite") > -1);

@@ -101,15 +101,15 @@ export default {
         },
         {
           number: 7,
-          money: 70
+          money: 28
         },
         {
           number: 14,
-          money: 70
+          money: 28
         },
         {
           number: 21,
-          money: 70
+          money: 28
         }
       ]
     };
@@ -142,7 +142,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 91.72vw;
-  top: 17.32v2;
+  top: 17.32vw;
   background-image: url("~/assets/images/top@2x.png");
   background-repeat: no-repeat;
   background-size: cover;
