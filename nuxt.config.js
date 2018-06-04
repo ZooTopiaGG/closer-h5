@@ -55,9 +55,9 @@ module.exports = {
         type: 'text/javascript',
         charset: 'utf-8'
       },
-      // {
-      //   src: 'https://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-h5-min.js'
-      // }
+      {
+        src: 'https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js'
+      }
     ],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{
