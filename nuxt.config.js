@@ -1,4 +1,16 @@
 var nodeExternals = require('webpack-node-externals')
+const babelConfig = {
+  presets: [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+      }
+    }],
+    "stage-2"
+  ],
+  plugins: ["transform-runtime"]
+}
 module.exports = {
   /*
    ** Headers of the page
@@ -142,6 +154,7 @@ module.exports = {
     analyze: {
       analyzerMode: 'static'
     },
+    babel: babelConfig,
     // 发布路径 只需设置为根路径
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
     vendor: ['axios', 'vue-picture-preview2', 'mint-ui', 'js-cookie'],
