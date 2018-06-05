@@ -103,12 +103,14 @@
               </span>
             </div>
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" id="tjimg" ref="markedContent"></div>
+            <div v-if="$store.state.res.int_category != 1" class="summary" ref="markedContent" id="tjimg">
+            </div>
             <div v-else :class="{
                 summary2: !$store.state.GET_MESSAGE_STATE && lessContent,
                 category1: category1
               }">
-              <div class="summary" id="tjimg" ref="markedContent"></div>
+              <div class="summary" id="tjimg" ref="markedContent">
+              </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
                   <span>阅读 {{ $store.state.res.view }}</span>
@@ -427,7 +429,7 @@ export default {
       messagelist: {},
       isActive: true,
       exist: true,
-      htmls: {},
+      htmls: null,
       // 投稿类型
       postType: "",
       options: {},
@@ -669,6 +671,7 @@ export default {
       // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
       // 比如 v-if, :bind, @click 等。
       const html = await self.parseLongGraphic();
+      alert(html);
       // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
       // 但是不会注册，类似于js中的createElement，
       // 创建但是不会添加。
@@ -719,6 +722,9 @@ export default {
       } else {
         self.lessContent = true;
       }
+    },
+    async compile1() {
+      self.htmls = await this.parseLongGraphic();
     },
     // vid
     showVid2(vid) {
@@ -888,7 +894,7 @@ export default {
   mounted() {
     console.log(this.$store.state);
     if (this.$store.state.GET_MESSAGE_STATE) {
-      this.messageList();
+      // this.messageList();
     }
     // 判断是否是长图文
     if (this.$store.state.res.int_type === 2) {

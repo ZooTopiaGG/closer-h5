@@ -41,7 +41,7 @@ export default {
 </script>
 <style lang='less'>
 #openbonus {
-  min-height: 177.87vw;
+  min-height: 100vh;
   .openbonus-head {
     position: relative;
     .head-circle {
@@ -51,10 +51,11 @@ export default {
       background: url("~/assets/images/nav@2x.png") no-repeat;
       background-size: cover;
       z-index: 6;
+      top: -30px;
     }
   }
   .openbonus-body {
-    padding-top: 36vw;
+    padding-top: calc(36vw-25px);
     position: relative;
     z-index: 7;
     margin-bottom: 8vw;

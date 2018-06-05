@@ -41,7 +41,7 @@
             </ul>
           </div>
           <div class="body-content-btn flex flex-pack-center">
-            <div class="content-btn flex flex-align-center flex-pack-center" @click="inviteFriends">邀请好友赚现金</div>
+            <div class="content-btn flex flex-align-center flex-pack-center cursor" @click="inviteFriends">邀请好友赚现金</div>
           </div>
         </div>
       </div>

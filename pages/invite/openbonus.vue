@@ -74,7 +74,7 @@ export default {
 </script>
 <style lang='less'>
 #openbonus {
-  min-height: 177.87vw;
+  min-height: 100vh;
   .openbonus-head {
     position: relative;
     .head-circle {

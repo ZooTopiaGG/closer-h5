@@ -209,6 +209,10 @@ module.exports = {
     '~/plugins/async',
     '~/plugins/picture-view.js',
     {
+      src: '~/plugins/vconsole.js',
+      ssr: false
+    },
+    {
       src: '~/plugins/device.js',
       ssr: false
     }

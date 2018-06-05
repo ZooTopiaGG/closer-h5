@@ -12,6 +12,8 @@ export default function ({
       api.filePath = 'http://file-sandbox.tiejin.cn'
     } else if (/tiejin/.test(host)) {
       api.filePath = 'http://file.tiejin.cn'
+    } else {
+      api.filePath = 'http://file-sandbox.tiejin.cn'
     }
   } else {
     let host = window.location.host
@@ -19,6 +21,8 @@ export default function ({
       api.filePath = 'http://file-sandbox.tiejin.cn'
     } else if (/tiejin/.test(host)) {
       api.filePath = 'http://file.tiejin.cn'
+    } else {
+      api.filePath = 'http://file-sandbox.tiejin.cn'
     }
   }
   $axios.onRequest(config => {
@@ -34,6 +38,8 @@ export default function ({
       config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
     } else if (/tiejin/.test(host)) {
       config.baseURL = 'https://api.tiejin.cn/command/'
+    } else {
+      config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
     }
     // 线上时
     if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts' || config.url === 'closer_report.get_report_types')) {

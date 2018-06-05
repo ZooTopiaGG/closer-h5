@@ -53,7 +53,7 @@ export default {
 </script>
 <style lang='less'>
 #openbonus {
-  min-height: 177.87vw;
+  min-height: 100vh;
   .openbonus-head {
     position: relative;
     .head-circle {
@@ -63,10 +63,11 @@ export default {
       background: url("~/assets/images/nav@2x.png") no-repeat;
       background-size: cover;
       z-index: 6;
+      top: -30px;
     }
   }
   .openbonus-body {
-    padding-top: 36vw;
+    padding-top: calc(36vw - 25px);
     position: relative;
     z-index: 7;
     margin-bottom: 8vw;
@@ -88,9 +89,9 @@ export default {
     }
     .body-money {
       height: 18.676vw;
-      line-height: 18, 676vw;
+      line-height: 18.676vw;
       font-size: 18px;
-      margin-bottom: 4vw;
+      margin-bottom: 16vw;
       img {
         width: 95.02vw;
         height: 61.36vw;

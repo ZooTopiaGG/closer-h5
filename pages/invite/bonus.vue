@@ -12,7 +12,8 @@
       <div class="bonus-body-money"><span class="unit">¥</span><span class="money">10</span><span>元</span></div>
       <div class="bonus-body-btnopen">
         <img :class="{
-          openbonus: openbonus
+          openbonus: openbonus,
+          cursor: true
         }" @click="toopenbonus" src="~/assets/images/btn_open@2x.png" alt="avatar" srcset="~/assets/images/btn_open@2x.png">
       </div>
       <div class="bonus-body-role">
@@ -55,7 +56,6 @@ export default {
     // 打开红包
     async toopenbonus() {
       try {
-        alert(11111);
         this.openbonus = true;
         let self = this;
         Cookie.set("inviter", self.res);
@@ -71,9 +71,7 @@ export default {
         } else {
           this.$router.push({ path: "/invite/register" });
         }
-      } catch (e) {
-        alert(e);
-      }
+      } catch (e) {}
     }
   },
   mounted() {}
@@ -82,7 +80,7 @@ export default {
 <style>
 #bonus {
   overflow-y: auto;
-  min-height: 177.87vw;
+  min-height: 100vh;
   background: brown;
   position: relative;
 }

@@ -327,3 +327,7 @@ button {}
   -o-text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.cursor {
+  cursor: pointer;
+}
