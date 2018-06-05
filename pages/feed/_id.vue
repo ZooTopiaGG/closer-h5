@@ -418,7 +418,7 @@ export default {
       isIndex: 0,
       defaultErrorImg:
         'this.src="' + require("~/assets/images/default.jpeg") + '"',
-      defaultImg: require("~/assets/images/default.jpeg"),
+      defaultImg: require("~/assets/images/default2.png"),
       clientWidth: "",
       visibleLogin: false,
       loading: 1, // 按钮执行状态
@@ -532,7 +532,7 @@ export default {
         pImg.forEach((x, i) => {
           // console.log(`第${i}个x====`, x);
           let srcArray = x.match(regexSrc);
-          flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:42.7vw'>
+          flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:212px'>
                     <img src='${self.defaultImg}' data-src='${
             srcArray[1]
           }' width='${self.$deviceWidth}' height='auto'/>
@@ -568,7 +568,7 @@ export default {
             flg = `<div 
               class='imgbox'
               data-vid='${vidArray[1]}' 
-              style='background-color: rgba(0,0,0,1); width: 100%; height:64vw; position:relative;'>
+              style='background-color: rgba(0,0,0,1); width: 100%; min-height:212px; position:relative;'>
               <video src='${urlArray[1]}'
                 controls='controls' 
                 preload='none' 
@@ -577,10 +577,9 @@ export default {
                 x-webkit-airplay='allow'
                 x5-video-player-type='h5'
                 x5-video-orientation='portraint'
-                style='width: 100%; height:64vw;  overflow:hidden;object-fit: fill;'
+                style='width: 100%; height:240px;  overflow:hidden;object-fit: fill;'
                 poster='${coverArray[1]}' 
                 data-cover='${coverArray[1]}'>
-                    
               </video>
             </div>`;
           } else {
@@ -625,7 +624,7 @@ export default {
           let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
           let newsplit1 = newstr.split(heightArray[0]);
           let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
-          let flag = `<div class="imgbox" style="width:100%; min-height: 55.72vw;">
+          let flag = `<div class="imgbox" style="width:100%; min-height: 212px;">
             ${newstr1}</iframe>
           </div>`;
           self.content.html = self.content.html.replace(regexIframe, flag);
@@ -661,7 +660,7 @@ export default {
         },
         mounted() {
           this.$nextTick(() => {
-            if (typeof document != "undefined") {
+            if (typeof window != "undefined") {
               window.onload = function() {
                 // console.log(2662);
                 let tjimg2 = document
@@ -671,7 +670,7 @@ export default {
                   if (x.dataset.src) {
                     setTimeout(() => {
                       x.src = x.dataset.src;
-                    }, 1000);
+                    }, 500);
                   }
                 });
               };
