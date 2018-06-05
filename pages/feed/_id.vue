@@ -335,7 +335,7 @@ export default {
             }
           }
         }
-        console.log("content====", res.result.content);
+        // console.log("content====", res.result.content);
         // 静态增加阅读量
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
@@ -418,6 +418,7 @@ export default {
       isIndex: 0,
       defaultErrorImg:
         'this.src="' + require("~/assets/images/default.jpeg") + '"',
+      defaultImg: require("~/assets/images/default.jpeg"),
       clientWidth: "",
       visibleLogin: false,
       loading: 1, // 按钮执行状态
@@ -531,39 +532,10 @@ export default {
         pImg.forEach((x, i) => {
           // console.log(`第${i}个x====`, x);
           let srcArray = x.match(regexSrc);
-          // let widthArray = x.match(regexWidth);
-          // let heightArray = x.match(regexHeight);
-          // console.log(`${widthArray} ---- ${heightArray}`)
-          // console.log(`第${i}个srcArray====`, srcArray[1]);
-          // if (widthArray && heightArray) {
-          //   if (parseInt(widthArray[1]) >= parseInt(heightArray[1])) {
-          //     size = self.$deviceWidth;
-          //   } else {
-          //     size = parseInt(
-          //       self.$deviceWidth * heightArray[1] / widthArray[1]
-          //     );
-          //   }
-          //   let nH = parseInt(
-          //     self.$deviceWidth * heightArray[1] / widthArray[1]
-          //   );
-          //   flag = `<div class='imgbox' style='background-color: #fff; width: ${
-          //     self.$deviceWidth
-          //   }; min-height: ${nH}'>
-          //           <img refs="tjimg" src="${srcArray[1]}?s=100" data-src='${
-          //     srcArray[1]
-          //   }' width='${self.$deviceWidth}' height='${nH}'/>
-          //           </div>`;
-          // } else {
-          //   flag = `<div class='imgbox' style='background-color: #fff; width: 100%; min-height:3.2rem'>
-          //           <img refs="tjimg" src="${srcArray[1]}?s=100" data-src='${
-          //     srcArray[1]
-          //   }' width='${self.$deviceWidth}' height='auto'/>
-          //           </div>`;
-          // }
           flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:42.7vw'>
-                    <img src='http://h5.tiejin.cn/_nuxt/img/default.623ab71.jpeg' data-src='${
-                      srcArray[1]
-                    }' width='${self.$deviceWidth}' height='auto'/>
+                    <img src='${self.defaultImg}' data-src='${
+            srcArray[1]
+          }' width='${self.$deviceWidth}' height='auto'/>
                     </div>`;
           // 替换插入需要的值
           // 正则替换富文本内的img标签
@@ -577,14 +549,12 @@ export default {
       }
       const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
       var pVideo = await self.content.html.match(regexVideo);
-      // console.log("pVideo====", pVideo);
       if (pVideo) {
         // 正则替换富文本内 img标签 待发布（npm）
         const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
         const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
         const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
         let flg;
-        // console.log("pVideo=", pVideo);
         pVideo.forEach((x, i) => {
           // 匹配imageurl属性下的值
           let urlArray = x.match(regexUrl);
@@ -671,7 +641,6 @@ export default {
       // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
       // 比如 v-if, :bind, @click 等。
       const html = await self.parseLongGraphic();
-      // alert(html);
       // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
       // 但是不会注册，类似于js中的createElement，
       // 创建但是不会添加。
@@ -692,18 +661,20 @@ export default {
         },
         mounted() {
           this.$nextTick(() => {
-            if (
-              document.readyState == "complete" ||
-              document.readyState == "interactive"
-            ) {
-              let tjimg2 = document
-                .getElementById("tjimg")
-                .getElementsByTagName("img");
-              Array.prototype.forEach.call(tjimg2, async function(x, i) {
-                if (x.dataset.src) {
-                  await x.setAttribute("src", x.dataset.src);
-                }
-              });
+            if (typeof document != "undefined") {
+              window.onload = function() {
+                // console.log(2662);
+                let tjimg2 = document
+                  .getElementById("tjimg")
+                  .getElementsByTagName("img");
+                Array.prototype.forEach.call(tjimg2, function(x, i) {
+                  if (x.dataset.src) {
+                    setTimeout(() => {
+                      x.src = x.dataset.src;
+                    }, 1000);
+                  }
+                });
+              };
             }
           });
         }
@@ -894,7 +865,7 @@ export default {
   mounted() {
     console.log(this.$store.state);
     if (this.$store.state.GET_MESSAGE_STATE) {
-      // this.messageList();
+      this.messageList();
     }
     // 判断是否是长图文
     if (this.$store.state.res.int_type === 2) {
