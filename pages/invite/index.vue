@@ -127,7 +127,7 @@ export default {
         console.log("inandriod.....");
         if (typeof window.bridge != "undefined") {
           console.log("toandriod.......");
-          window.bridge.inviteUser(null);
+          window.bridge.inviteUser("args", null);
           console.log(window.bridge);
         } else {
           console.log("window.bridge====", window.bridge);
