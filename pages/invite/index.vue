@@ -119,13 +119,18 @@ export default {
       this.iscollapse = !this.iscollapse;
     },
     inviteFriends() {
-      if (this.$store.state.agent === "closer-ios") {
+      if (this.$store.state.agent.indexOf("closer-ios") > -1) {
         this.$com.setupWebViewJavascriptBridge(function(bridge) {
           bridge.callHandler("inviteUser", null);
         });
       } else {
+        console.log("inandriod.....");
         if (typeof window.bridge != "undefined") {
+          console.log("toandriod.......");
           window.bridge.inviteUser(null);
+          console.log(window.bridge);
+        } else {
+          console.log("window.bridge====", window.bridge);
         }
       }
       // 兼容 老版本
