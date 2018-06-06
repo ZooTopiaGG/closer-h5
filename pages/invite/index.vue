@@ -119,10 +119,16 @@ export default {
       this.iscollapse = !this.iscollapse;
     },
     inviteFriends() {
-      console.log(this.$com.setupWebViewJavascriptBridge);
-      this.$com.setupWebViewJavascriptBridge(function(bridge) {
-        bridge.callHandler("inviteUser", null);
-      });
+      if (this.$store.state.agent === "closer-ios") {
+        this.$com.setupWebViewJavascriptBridge(function(bridge) {
+          bridge.callHandler("inviteUser", null);
+        });
+      } else {
+        if (typeof window.bridge != "undefined") {
+          window.bridge.inviteUser(null);
+        }
+      }
+
       // location.href = "closer_invite_guys_raise_cash";
     }
   }

@@ -178,6 +178,7 @@ export default {
     let _result = nvg.indexOf('closer-ios') != -1 || nvg.indexOf('closer-android') != -1;
     return _result
   },
+  // jsbriadge ---ios
   setupWebViewJavascriptBridge(callback) {
     // console.log(callback)
     if (window.WebViewJavascriptBridge) {
