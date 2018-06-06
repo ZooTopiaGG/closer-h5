@@ -166,8 +166,8 @@
                       <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)" :style="{backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
                     </div>
                     <div>
-                      <div class="feeder-comment-3-title ellipsis">{{ item.feed.title }}</div>
-                      <div class="feeder-comment-3-summary ellipsis">{{ item.feed.summary }}</div>
+                      <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
+                      <div class="feeder-comment-3-summary">{{ item.feed.summary }}</div>
                     </div>
                   </div>
                   <!-- 包含视频 -->
@@ -1105,15 +1105,17 @@ export default {
 
 .feeder-comment-3-title {
   font-size: 15px;
-  height: 22px;
+  height: 15px;
+  line-height: 1;
   overflow: hidden;
-  margin-bottom: 5px;
+  margin-bottom: 2.67vw;
 }
 
 .feeder-comment-3-summary {
   font-size: 12px;
+  height: 12px;
+  line-height: 1;
   color: rgba(148, 146, 142, 1);
-  height: 20px;
   overflow: hidden;
 }
 
