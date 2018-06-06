@@ -119,7 +119,11 @@ export default {
       this.iscollapse = !this.iscollapse;
     },
     inviteFriends() {
-      location.href = "closer_invite_guys_raise_cash";
+      console.log(this.$com.setupWebViewJavascriptBridge);
+      this.$com.setupWebViewJavascriptBridge(function(bridge) {
+        bridge.callHandler("inviteUser", null);
+      });
+      // location.href = "closer_invite_guys_raise_cash";
     }
   }
 };

@@ -133,7 +133,7 @@ export default {
         wrp.addEventListener("scroll", this.handleScroll);
       }
       let tjimg = document.querySelector(".access-not");
-      if (tjimg.dataset.original) {
+      if (tjimg && tjimg.dataset.original) {
         setTimeout(() => {
           tjimg.src = tjimg.dataset.original;
         }, 500);
