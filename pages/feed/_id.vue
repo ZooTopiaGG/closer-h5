@@ -77,8 +77,8 @@
             <img class="feed-cover" :style="{ 
                         display:'block',
                         position:'relative', 
-                        width: $deviceWidth+'px',
-                        height: ($deviceWidth * 465 / 375 )+'px'}" v-lazy="$com.makeFileUrl($store.state.res.bigcover)"
+                        width: '100%',
+                        height: '124vw'}" :src="defaultImg2" :data-original="$com.makeFileUrl($store.state.res.bigcover)" 
             >
             <div class="hide-over"></div>
           </div>
@@ -87,8 +87,8 @@
             <img class="feed-cover" :style="{ 
                         display:'block',
                         position:'relative', 
-                        width: $deviceWidth+'px',
-                        height: ($deviceWidth * 209 / 375 )+'px'}" v-lazy="$com.makeFileUrl($store.state.res.cover)">
+                        width: '100%',
+                        height: '57vw'}" :src="defaultImg" :data-original="$com.makeFileUrl($store.state.res.cover)">
             <div class="hide-over"></div>
           </div>
           <div class="feeder-content">
@@ -335,7 +335,6 @@ export default {
             }
           }
         }
-        // console.log("content====", res.result.content);
         // 静态增加阅读量
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
@@ -381,7 +380,6 @@ export default {
             default:
               postType = "全部";
           }
-          // console.log(';ressssss==sdada')
           // 返回在渲染页面之前得结果
           store.commit("SET_CONTENT", content);
           store.commit("SET_RES", res.result);
@@ -419,6 +417,7 @@ export default {
       defaultErrorImg:
         'this.src="' + require("~/assets/images/default.jpeg") + '"',
       defaultImg: require("~/assets/images/default2.png"),
+      defaultImg2: require("~/assets/images/default.jpeg"),
       clientWidth: "",
       visibleLogin: false,
       loading: 1, // 按钮执行状态
@@ -439,7 +438,6 @@ export default {
     };
   },
   beforeRouteLeave(to, from, next) {
-    // console.log("to=", to);
     if (to.path.indexOf("/feed/morereply") > -1) {
       this.$store.commit("SET_NO_NAV", false);
     } else {
@@ -454,11 +452,6 @@ export default {
       }
     }
     next();
-  },
-  watch: {
-    $router(to) {
-      // console.log("to===", to);
-    }
   },
   methods: {
     morereply(item) {
@@ -518,9 +511,7 @@ export default {
     // 替换文本中图片和视频字符串
     async parseLongGraphic() {
       let self = this;
-      // self.$store.state.content.html 复制到self.content.html
       self.content.html = self.$store.state.content.html;
-      // console.log("self.content.html===", self.content.html);
       const regexImg = /<img.*?(?:>|\/>)/gi;
       let pImg = await self.content.html.match(regexImg);
       if (pImg) {
@@ -528,9 +519,7 @@ export default {
         // const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
         // const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
         let size, flag;
-        // console.log("pImg===", pImg);
         pImg.forEach((x, i) => {
-          // console.log(`第${i}个x====`, x);
           let srcArray = x.match(regexSrc);
           flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:212px'>
                     <img src='${self.defaultImg}' data-src='${
@@ -540,11 +529,8 @@ export default {
           // 替换插入需要的值
           // 正则替换富文本内的img标签
           // 替换不同文本
-          // console.log(`第${i}flag====`, flag);
           const regexPImg1 = new RegExp(x);
-          // console.log(`第${i}regexPImg1====`, regexPImg1);
           self.content.html = self.content.html.replace(regexPImg1, flag);
-          // console.log("self.content.html===", self.content.html);
         });
       }
       const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
@@ -561,7 +547,6 @@ export default {
           // 匹配vid属性下的值
           let vidArray = x.match(regexVid);
           let coverArray = x.match(regexCover);
-          // console.log("vidArray====" + i, vidArray[1]);
           // // 替换插入需要的值flg
           // let temp = pVideo[i].split('<p>');
           if (self.$store.state.GET_MESSAGE_STATE) {
@@ -614,7 +599,6 @@ export default {
       const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
       var piFrame = await self.content.html.match(regexIframe);
       if (piFrame) {
-        // console.log("piFrame===", piFrame);
         const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
         const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
         piFrame.forEach((x, i) => {
@@ -662,7 +646,12 @@ export default {
           this.$nextTick(() => {
             if (typeof window != "undefined") {
               window.onload = function() {
-                // console.log(2662);
+                let tjimg = document.querySelector(".feed-cover");
+                if (tjimg.dataset.original) {
+                  setTimeout(() => {
+                    tjimg.src = tjimg.dataset.original;
+                  }, 500);
+                }
                 let tjimg2 = document
                   .getElementById("tjimg")
                   .getElementsByTagName("img");
@@ -709,7 +698,6 @@ export default {
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
-        console.log(Cookie.get("user"));
         self.visibleMessage = true;
         // 进行其他 ajax 操作
         return;
@@ -862,7 +850,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state);
+    // console.log(this.$store.state);
     if (this.$store.state.GET_MESSAGE_STATE) {
       this.messageList();
     }

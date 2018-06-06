@@ -36,12 +36,13 @@ export default function ({
     }
     if (/sandbox.tiejin/.test(host)) {
       config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
+      // config.baseURL = 'http://192.168.136.52:8080/command/'
     } else if (/tiejin/.test(host)) {
       config.baseURL = 'https://api.tiejin.cn/command/'
     } else {
       config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
     }
-    // config.headers.common['User-Agent'] = 'Closer-H5';
+    // config.headers.common['Closer-Agent'] = 'Closer-H5';
     // 线上时
     if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts' || config.url === 'closer_report.get_report_types')) {
       config.headers.Authorization = store.state.GET_APP_TOKEN

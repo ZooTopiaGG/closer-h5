@@ -12,9 +12,7 @@
       }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-align-center">
-            <!-- <img v-if="!$store.state.res.blogo" class="access-not" src="http://file-sandbox.tiejin.cn/public/93hJ39k8JZ/1524902685000.jpg" :onerror="defaultErrorImg">
-              <img v-else class="access-not" :src="$store.state.res.blogo" :onerror="defaultErrorImg"> -->
-            <img class="access-not" v-lazy="$store.state.res.blogo">
+            <img class="access-not" :src="defaultImg" :onerror="defaultErrorImg" :data-original="$store.state.res.blogo">
             <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
@@ -56,6 +54,7 @@ export default {
     return {
       defaultErrorImg:
         'this.src="' + require("~/assets/images/default.jpeg") + '"',
+      defaultImg: require("~/assets/images/default2.png"),
       col: "#333",
       scrollnav: false,
       exist: true
@@ -132,6 +131,12 @@ export default {
       let wrp = document.getElementById("wrapper");
       if (wrp) {
         wrp.addEventListener("scroll", this.handleScroll);
+      }
+      let tjimg = document.querySelector(".access-not");
+      if (tjimg.dataset.original) {
+        setTimeout(() => {
+          tjimg.src = tjimg.dataset.original;
+        }, 500);
       }
     });
   }
