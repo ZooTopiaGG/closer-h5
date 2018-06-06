@@ -128,8 +128,8 @@ export default {
           window.bridge.inviteUser(null);
         }
       }
-
-      // location.href = "closer_invite_guys_raise_cash";
+      // 兼容 老版本
+      location.href = "closer_invite_guys_raise_cash";
     }
   }
 };
