@@ -93,7 +93,7 @@
           </div>
           <div class="feeder-content">
             <!-- 标题 -->
-            <div class="feeder-title feeder-title-2"> {{ $store.state.res.title }} </div>
+            <div class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </div>
             <!-- 阅读量 -->
             <div class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
@@ -930,7 +930,10 @@ export default {
   font-weight: 400;
   margin: 4vw 0;
 }
-
+.feeder-title-3 {
+  font-size: 20px;
+  font-weight: bold;
+}
 .feeder-cover {
   padding: 4vw 4vw 0;
 }
