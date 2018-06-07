@@ -35,12 +35,12 @@ export default function ({
       }
     }
     if (/sandbox.tiejin/.test(host)) {
-      config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
+      config.baseURL = 'http://api-sandbox.tiejin.cn/command/'
       // config.baseURL = 'http://192.168.136.52:8080/command/'
     } else if (/tiejin/.test(host)) {
-      config.baseURL = 'https://api.tiejin.cn/command/'
+      config.baseURL = 'http://api.tiejin.cn/command/'
     } else {
-      config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
+      config.baseURL = 'http://api-sandbox.tiejin.cn/command/'
     }
     // config.headers.common['Closer-Agent'] = 'Closer-H5';
     // 线上时

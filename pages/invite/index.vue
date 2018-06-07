@@ -1,14 +1,17 @@
 <template>
   <div id="invite">
     <div class="tj-invite">
-      <div class="top"></div>
+      <img src="~/assets/images/bg@2x.png" alt="">
+      <div class="top">
+        <img src="~/assets/images/top@2x.png" alt="">
+      </div>
       <div class="tj-invite-head">
         <span>邀请好友赚现金</span>
       </div>
       <div class="tj-invite-body">
         <div class="body-content">
           <div class="body-content-title">
-            <span>首次成功邀请一个好友，享受奖励金直接翻倍效果！</span>
+            <span>首次邀请好友注册，立即获得10元现金哦~</span>
           </div>
           <div class="body-content-process">
             <ul class="process-list flex flex-pack-justify">
@@ -50,15 +53,13 @@
         <div :class="{
           'footer-content': true,
           iscollapse: iscollapse
-          }"
-          >
+          }">
           <div class="footer-content-title">活动细则</div>
           <div class="footer-content-details">
-            <p>1.被推荐的用户输入手机号，即可领取10元现金（在四川地区注册）。</p>
-            <p>2.您推荐的用户只要下载并首次登录App（四川地区登录）,您可立即获得10元现金（在我的中查看）。 </p>
-            <p>3.您推荐的用户数量达到7人、14人、21人时，分别获得1-7人累计奖励金翻倍（不包括首邀额外奖励），8-14人累计奖励金翻倍和15-21人累计奖励金翻倍的奖励 </p>
-            <p>4.您推荐的新用户同一手机设备，同一手机号码仅可领取一次。 </p>
-            <p>5.现金释放方式根据被邀请用户登陆天数释放。算了，规则复杂别看了，知道分享能赚钱就行。</p>
+            <p>1.您推荐的首个用户只要下载登陆并首次注册App,您可立即获得10元奖励金，之后每邀请一个用户可获得2元奖励金，并在邀请人数达到7，14，21时获得翻倍奖励（在我的-钱包中查看）。
+            </p>
+            <p>2.您推荐的新用户同一手机设备，同一手机号码仅可领取一次。</p>
+            <p>3.您领取的奖励金将逐步释放，您邀请的朋友每登陆一天，即为您释放一部分，已释放的奖励金您可以根据平台规则实时提现到支付宝，如果每个月超过税务机关规定上限，我们会代扣个人所得税（您如果邀请的好友多，建议您分月申请将奖励金转为现金）。</p>
           </div>
           <div class="footer-content-collapse flex flex-align-end flex-pack-center" @click="collapse">
             <span v-if="!iscollapse">点击展开</span>
@@ -120,16 +121,21 @@ export default {
     },
     inviteFriends() {
       if (this.$store.state.agent.indexOf("closer-ios") > -1) {
-        this.$com.setupWebViewJavascriptBridge(function(bridge) {
-          bridge.callHandler("inviteUser", null);
-        });
+        if (window.WebViewJavascriptBridge) {
+          this.$com.setupWebViewJavascriptBridge(function(bridge) {
+            bridge.callHandler("inviteUser", null);
+          });
+        } else {
+          // 兼容 老版本
+          location.href = "closer_invite_guys_raise_cash";
+        }
       } else {
         if (typeof window.bridge != "undefined") {
           window.bridge.inviteUser(null);
+        } else {
+          location.href = "closer_invite_guys_raise_cash";
         }
       }
-      // 兼容 老版本
-      location.href = "closer_invite_guys_raise_cash";
     }
   }
 };
@@ -143,20 +149,24 @@ export default {
 .tj-invite {
   width: 100%;
   min-height: 177.87vw;
-  background-image: url("~/assets/images/bg@2x.png");
-  background-repeat: no-repeat;
-  background-size: cover;
   position: relative;
+}
+.tj-invite > img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 .top {
   position: absolute;
   width: 100%;
-  height: 91.72vw;
   top: 17.32vw;
-  background-image: url("~/assets/images/top@2x.png");
-  background-repeat: no-repeat;
-  background-size: cover;
   z-index: 8;
+}
+.top > img {
+  width: 100%;
+  height: 91.72vw;
 }
 .bottom {
   position: absolute;
@@ -169,6 +179,7 @@ export default {
   background-size: cover;
   z-index: 8;
 }
+
 .tj-invite-head {
   position: absolute;
   top: 66.66vw;
@@ -220,6 +231,7 @@ export default {
   padding: 2.7vw;
   box-sizing: border-box;
 }
+
 .body-content {
   height: 121.82vw;
 }
@@ -233,9 +245,11 @@ export default {
   overflow: hidden;
   transition: height 0.35s;
 }
+
 .iscollapse {
   height: auto;
 }
+
 .body-content-title {
   font-size: 3.79vw;
   color: #4b4945;
@@ -265,9 +279,11 @@ export default {
 .process-list li div.fifth {
   background: #e0e0e0;
 }
+
 .process-list li div.checked {
   background: #fddb00;
 }
+
 .fifth-span {
   font-size: 14px;
   margin-top: 1.78vw;
@@ -351,14 +367,17 @@ export default {
   background-size: cover;
   z-index: 10;
 }
+
 .footer-content-details {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.6;
 }
+
 .footer-content-details p {
   margin: 4.8vw 0;
   text-align: justify;
 }
+
 .footer-content-collapse {
   position: absolute;
   bottom: 4vw;
