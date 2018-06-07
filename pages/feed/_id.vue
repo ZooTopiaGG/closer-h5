@@ -650,7 +650,7 @@ export default {
                 if (tjimg.dataset.original) {
                   setTimeout(() => {
                     tjimg.src = tjimg.dataset.original;
-                  }, 500);
+                  }, 200);
                 }
                 let tjimg2 = document
                   .getElementById("tjimg")
