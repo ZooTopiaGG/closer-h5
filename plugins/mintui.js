@@ -13,8 +13,8 @@ Vue.component(Spinner.name, Spinner)
 
 Vue.use(Lazyload, {
   preLoad: 1.3,
-  error: require('~/assets/images/default.jpeg'),
-  loading: require('~/assets/images/default.jpeg'),
+  error: require('~/assets/images/default2.png'),
+  loading: require('~/assets/images/default2.png'),
   attempt: 1,
 })
 
