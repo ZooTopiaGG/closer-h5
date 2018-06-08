@@ -267,7 +267,7 @@
               </div>
             </li>
           </ul>
-          <div class="learn-more" v-if="messagelist.count && messagelist.count>1">
+          <div class="learn-more" v-if="messagelist.count && messagelist.count>10">
             <span @click="learnMore" class="flex flex-align-center flex-pack-center">
               <span v-if="loading === 1">查看更多留言</span>
               <span v-else-if="loading===2" class="flex flex-align-center">
@@ -356,7 +356,7 @@ export default {
                 const regexPImg1 = new RegExp(x);
                 content.html = content.html.replace(regexPImg1, flag);
               });
-              console.log("content.html====", content.html);
+              // console.log("content.html====", content.html);
             }
             const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
             var pVideo = await content.html.match(regexVideo);
@@ -420,7 +420,7 @@ export default {
                 content.html = content.html.replace(regexVideo1, flg);
               });
 
-              console.log("content.vhtml====", content.html);
+              // console.log("content.vhtml====", content.html);
             }
             const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
             var piFrame = await content.html.match(regexIframe);
@@ -439,7 +439,7 @@ export default {
                 </div>`;
                 content.html = content.html.replace(regexIframe, flag);
               });
-              console.log("content.Ihtml====", content.html);
+              // console.log("content.Ihtml====", content.html);
             }
           }
           if (content.discuss) {
@@ -489,9 +489,19 @@ export default {
           store.commit("SET_RES", res.result);
           store.commit("SET_POSTTYPE", postType);
           store.commit("SET_DISSCUSS", discuss);
-          // let htmls = store.state.options ? "" : store.state.content.html;
+        }
+      }
+      if (store.state.GET_MESSAGE_STATE) {
+        let para1 = {
+          pagesize: 10,
+          pagenum: 1,
+          subjectid: params.id
+        };
+        let data = await app.$axios.$post(`${api.command.comments}`, para1);
+        if (data.code === 0) {
+          // console.log("messagelist===", data.result);
           return {
-            htmls: res.result.content
+            messagelist: data.result
           };
         }
       }
@@ -530,7 +540,6 @@ export default {
       content: {
         html: ""
       },
-      messagelist: {},
       isActive: true,
       exist: true,
       // 投稿类型
@@ -612,181 +621,6 @@ export default {
       // 监听按钮状态
       this.disabled = false;
       this.loading = 1;
-    },
-    // 替换文本中图片和视频字符串 待删除
-    async parseLongGraphic() {
-      let self = this;
-      self.content.html = self.$store.state.content.html;
-      const regexImg = /<img.*?(?:>|\/>)/gi;
-      let pImg = await self.content.html.match(regexImg);
-      if (pImg) {
-        const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        // const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        // const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        let size, flag;
-        pImg.forEach((x, i) => {
-          let srcArray = x.match(regexSrc);
-          flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:212px'>
-                    <img src='${self.defaultImg}' data-src='${
-            srcArray[1]
-          }' width='${self.$deviceWidth}' height='auto'/>
-                    </div>`;
-          // 替换插入需要的值
-          // 正则替换富文本内的img标签
-          // 替换不同文本
-          const regexPImg1 = new RegExp(x);
-          self.content.html = self.content.html.replace(regexPImg1, flag);
-        });
-      }
-      const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
-      var pVideo = await self.content.html.match(regexVideo);
-      if (pVideo) {
-        // 正则替换富文本内 img标签 待发布（npm）
-        const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        let flg;
-        pVideo.forEach((x, i) => {
-          // 匹配imageurl属性下的值
-          let urlArray = x.match(regexUrl);
-          // 匹配vid属性下的值
-          let vidArray = x.match(regexVid);
-          let coverArray = x.match(regexCover);
-          // // 替换插入需要的值flg
-          // let temp = pVideo[i].split('<p>');
-          if (self.$store.state.GET_MESSAGE_STATE) {
-            flg = `<div 
-              class='imgbox'
-              data-vid='${vidArray[1]}' 
-              style='background-color: rgba(0,0,0,1); width: 100%; min-height:212px; position:relative;'>
-              <video src='${urlArray[1]}'
-                controls='controls' 
-                preload='none' 
-                webkit-playsinline='true'
-                playsinline='true'
-                x-webkit-airplay='allow'
-                x5-video-player-type='h5'
-                x5-video-orientation='portraint'
-                style='width: 100%; height:240px;  overflow:hidden;object-fit: fill;'
-                poster='${coverArray[1]}' 
-                data-cover='${coverArray[1]}'>
-              </video>
-            </div>`;
-          } else {
-            flg = `<div 
-              class='imgbox' 
-              @click='showVid' 
-              data-vid='${vidArray[1]}' 
-              style='background:rgba(0,0,0,.3) url("${coverArray[1]}"); 
-                background-position: 50% 50%;
-                background-repeat: no-repeat; 
-                width: 100%; 
-                height:64vw; 
-                position:relative;'>
-              <div 
-                class='flex 
-                flex-align-center 
-                flex-pack-center' 
-                data-vid='${vidArray[1]}' 
-                style='position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);'>
-                <span 
-                  class='icon-font icon-shipin' 
-                  data-vid='${vidArray[1]}' 
-                  style='font-size: 60px; color: #ddd;'>
-                </span>
-              </div>
-            </div>`;
-          }
-          const regexVideo1 = new RegExp(x);
-          self.content.html = self.content.html.replace(regexVideo1, flg);
-        });
-      }
-      const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
-      var piFrame = await self.content.html.match(regexIframe);
-      if (piFrame) {
-        const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        piFrame.forEach((x, i) => {
-          let widthArray = x.match(regexWidth);
-          let heightArray = x.match(regexHeight);
-          let newsplit = x.split(widthArray[0]);
-          let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
-          let newsplit1 = newstr.split(heightArray[0]);
-          let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
-          let flag = `<div class="imgbox" style="width:100%; min-height: 212px;">
-            ${newstr1}</iframe>
-          </div>`;
-          self.content.html = self.content.html.replace(regexIframe, flag);
-        });
-      } else {
-        return self.content.html;
-      }
-      return self.content.html;
-    },
-    // 待删除
-    async compile() {
-      let self = this;
-      // 变量html是生成好的vue格式的HTML模板字符串，
-      // 这个模板里面可以包含各种vue的指令，数据绑定等操作，
-      // 比如 v-if, :bind, @click 等。
-      const html = await self.parseLongGraphic();
-      // Vue.extend是vue的组件构造器，专门用来构建自定义组件的，
-      // 但是不会注册，类似于js中的createElement，
-      // 创建但是不会添加。
-      // 在这里创建出一个子组件对象构造器。
-      const Component = Vue.extend({
-        // 模板文件。由于Markdown解析之后可能会有多个根节点，
-        // 因此需要包裹起来。
-        // 实际的内容是：
-        template: `<div> ${html} </div>`,
-        // 这里面写的就是这个动态生成的新组件中的方法了，
-        // 当然你也可加上data、mounted、updated、watch、computed等等。
-        methods: {
-          // 上面模板中将点击事件绑定到了这里，因此点击了之后就会调用这个函数。
-          // 你可以写多个函数在这里，但是这里的函数的作用域只限在这个子组件中。
-          showVid(el) {
-            location.href = `/?vid=${el.target.offsetParent.dataset.vid}`;
-          }
-        },
-        mounted() {
-          this.$nextTick(() => {
-            if (typeof window != "undefined") {
-              window.onload = function() {
-                // let tjimg = document.querySelector(".feed-cover");
-                // if (tjimg.dataset.original) {
-                //   setTimeout(() => {
-                //     tjimg.src = tjimg.dataset.original;
-                //   }, 200);
-                // }
-                let tjimg2 = document
-                  .getElementById("tjimg")
-                  .getElementsByTagName("img");
-                Array.prototype.forEach.call(tjimg2, function(x, i) {
-                  if (x.dataset.src) {
-                    setTimeout(() => {
-                      x.src = x.dataset.src;
-                    }, 500);
-                  }
-                });
-              };
-            }
-          });
-        }
-      });
-      // new Component()是将上面构建的组件对象给实例化，
-      // $mount()是将实例化的组件进行手动挂载，
-      // 将虚拟dom生成出实际渲染的dom，
-      // 这里的markedComponent是完成挂载以后的子组件
-      const markedComponent = new Component().$mount();
-      // // 将挂载以后的子组件dom插入到父组件中
-      // // markedComponent.$el就是挂载后生成的渲染dom
-
-      self.$refs["markedContent"].appendChild(markedComponent.$el);
-      if (self.$refs["markedContent"].offsetHeight <= 300) {
-        self.lessContent = false;
-      } else {
-        self.lessContent = true;
-      }
     },
     // vid
     showVid2(vid) {
@@ -914,7 +748,6 @@ export default {
         let data = await self.$axios.$post(`${api.command.comments}`, para1);
         if (data.code === 0) {
           self.messagelist = data.result;
-          console.log("self.messagelist===", self.messagelist);
         } else {
           self.$toast({
             message: data.result,
@@ -944,9 +777,6 @@ export default {
         type: "else"
       });
     }
-    if (this.$store.state.GET_MESSAGE_STATE) {
-      this.messageList();
-    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -954,18 +784,21 @@ export default {
       if (typeof window != "undefined") {
         // 处理图片异步加载
         window.onload = function() {
-          let tjimg = document.querySelector(".feed-cover");
-          if (tjimg.dataset.original) {
-            tjimg.src = tjimg.dataset.original;
+          let tjcover = document.querySelector(".feed-cover");
+          if (tjcover && tjcover.dataset.original) {
+            tjcover.src = tjcover.dataset.original;
           }
-          let tjimg2 = document
-            .getElementById("tjimg")
-            .getElementsByTagName("img");
-          Array.prototype.forEach.call(tjimg2, function(x, i) {
-            if (x.dataset.src) {
-              x.src = x.dataset.src;
+          let tjimg = document.getElementById("tjimg");
+          if (tjimg) {
+            let tjimg2 = tjimg.getElementsByTagName("img");
+            if (tjimg2) {
+              Array.prototype.forEach.call(tjimg2, function(x, i) {
+                if (x.dataset.src) {
+                  x.src = x.dataset.src;
+                }
+              });
             }
-          });
+          }
         };
       }
       // 处理视频 再app内原生播放
@@ -980,28 +813,27 @@ export default {
         };
       }
       // 处理 征稿 在app内 展开/收起
-      if (document.querySelector("#tjimg").offsetHeight <= 300) {
-        self.lessContent = false;
-      } else {
-        self.lessContent = true;
-      }
-      let collapse = document.querySelector(".collapse");
-      if (collapse) {
-        let ofh = document.querySelector("#tjimg").offsetHeight;
-        collapse.onclick = function() {
-          if (self.category1) {
-            self.$com.doMove(document.querySelector("#tjimg"), 300);
-          } else {
-            self.$com.doMove(document.querySelector("#tjimg"), ofh);
-          }
-          self.category1 = !self.category1;
-        };
+      let _tjimg = document.querySelector("#tjimg");
+      if (_tjimg) {
+        if (_tjimg.offsetHeight <= 300) {
+          self.lessContent = false;
+        } else {
+          self.lessContent = true;
+        }
+        let collapse = document.querySelector(".collapse");
+        if (collapse) {
+          let ofh = _tjimg.offsetHeight;
+          collapse.onclick = function() {
+            if (self.category1) {
+              self.$com.doMove(_tjimg, 300);
+            } else {
+              self.$com.doMove(_tjimg, ofh);
+            }
+            self.category1 = !self.category1;
+          };
+        }
       }
     });
-    // 判断是否是长图文
-    if (this.$store.state.res.int_type === 2) {
-      // this.compile();
-    }
   }
 };
 </script>

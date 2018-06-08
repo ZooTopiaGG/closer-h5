@@ -314,7 +314,7 @@ button {}
 .web-class {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  height: calc(177.87vw - 11.07vw);
+  height: calc(100vh - 13.07vw);
 }
 
 .webNoNav.web-class {
@@ -332,4 +332,32 @@ button {}
 
 .cursor {
   cursor: pointer;
+}
+
+.lg-preview-img {
+  z-index: 9999999;
+  position: static !important;
+  max-height: none !important;
+}
+
+.lg-preview-wrapper {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.lg-preview-nav-left,
+.lg-preview-nav-right {
+  display: none !important;
 }
