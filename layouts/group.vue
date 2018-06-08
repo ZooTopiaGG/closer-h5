@@ -134,9 +134,10 @@ export default {
       // });
     },
     tofeeddetails(item) {
-      this.$router.push({
-        path: `/feed/${item.subjectid}`
-      });
+      location.href = `/feed/${item.subjectid}`;
+      // this.$router.push({
+      //   path: `/feed/${item.subjectid}`
+      // });
     }
   },
   mounted() {

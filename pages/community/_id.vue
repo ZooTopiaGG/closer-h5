@@ -162,14 +162,16 @@ export default {
   },
   methods: {
     tofeeddetails(item) {
-      this.$router.push({
-        path: `/feed/${item.subjectid}`
-      });
+      location.href = `/feed/${item.subjectid}`;
+      // this.$router.push({
+      //   path: `/feed/${item.subjectid}`
+      // });
     },
     togroup(item) {
-      this.$router.push({
-        path: `/group/${item.id}`
-      });
+      location.href = `/group/${item.id}`;
+      // this.$router.push({
+      //   path: `/group/${item.id}`
+      // });
     },
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);

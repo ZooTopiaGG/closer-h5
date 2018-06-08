@@ -559,9 +559,11 @@ export default {
   methods: {
     morereply(item) {
       sessionStorage.setItem("item", JSON.stringify(item));
-      this.$router.push({
-        path: "/feed/morereply?sid=" + item.subjectid + "&cid=" + item.commentid
-      });
+      location.href =
+        "/feed/morereply?sid=" + item.subjectid + "&cid=" + item.commentid;
+      // this.$router.push({
+      //   path: "/feed/morereply?sid=" + item.subjectid + "&cid=" + item.commentid
+      // });
     },
     // 需要登录的操作 先判断后执行
     async tjFocus() {
@@ -905,13 +907,14 @@ export default {
       let self = this;
       try {
         let para1 = {
-          pagesize: 100,
+          pagesize: 10,
           pagenum: 1,
           subjectid: self.$route.params.id
         };
         let data = await self.$axios.$post(`${api.command.comments}`, para1);
         if (data.code === 0) {
           self.messagelist = data.result;
+          console.log("self.messagelist===", self.messagelist);
         } else {
           self.$toast({
             message: data.result,
@@ -940,6 +943,9 @@ export default {
         code: self.$route.query.code,
         type: "else"
       });
+    }
+    if (this.$store.state.GET_MESSAGE_STATE) {
+      this.messageList();
     }
   },
   mounted() {
@@ -992,9 +998,6 @@ export default {
         };
       }
     });
-    if (this.$store.state.GET_MESSAGE_STATE) {
-      this.messageList();
-    }
     // 判断是否是长图文
     if (this.$store.state.res.int_type === 2) {
       // this.compile();
