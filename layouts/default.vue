@@ -16,7 +16,7 @@
             <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
-            <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">
+            <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn">
               <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
                 <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
@@ -96,6 +96,7 @@ export default {
     async tjFocus() {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
+      console.log('Cookie.get("token")====', Cookie.get("token"));
       if (Cookie.get("token")) {
         // 进行其他 ajax 操作
         self.$store.dispatch("get_focus_stat", {

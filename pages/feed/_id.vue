@@ -819,7 +819,7 @@ export default {
             };
           }
           // 处理 征稿 在app内 展开/收起
-          if (tjimg && $store.state.res.int_category == 1) {
+          if (tjimg && self.$store.state.res.int_category == 1) {
             if (tjimg.offsetHeight <= 300) {
               self.lessContent = false;
             } else {
