@@ -110,7 +110,7 @@ export default {
         app.$axios.$get(
           `${api.community.community_subject_list_index}?communityid=${
             params.id
-          }&pagenum=1&pagesize=100`
+          }&pagenum=1&pagesize=5`
         ),
         app.$axios.$get(
           `${api.group.recruiting}?communityid=${params.id}&pagenum=1&count=5`
@@ -129,7 +129,6 @@ export default {
         }
         return x;
       });
-      console.log("feed====", feed.result);
       return {
         res: {
           community: community.result,
@@ -186,7 +185,6 @@ export default {
 .member {
   padding: 0 2.67vw 2.67vw;
 }
-
 .title {
   margin-bottom: 2.67vw;
   font-size: 24px;
@@ -238,8 +236,8 @@ export default {
 .group li > img {
   max-width: 13.33vw;
   max-height: 13.33vw;
-  width: 100%;
-  height: auto;
+  width: 50px;
+  height: 50px;
   display: block;
   border-radius: 4px;
   margin-bottom: 1.335vw;

@@ -1,10 +1,10 @@
 <template>
   <div id="feed" :class="{ videofeed: $store.state.res.int_type === 1}">
     <lg-preview></lg-preview>
-    <div  v-if="$store.state.res.int_type === 1" style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: #222;box-shadow: 0 1px 5px #efefef;">
+    <div v-if="$store.state.res.int_type === 1" style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: rgba(0,0,0,.8);box-shadow: 0 1px 5px #efefef;">
       <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
         x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint"
-        style="width: 100%; height: 200px; overflow:hidden;object-fit: fill;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
+        style="width: 100%; height: 200px; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         
       </video>
     </div>
@@ -103,13 +103,13 @@
               </span>
             </div>
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" ref="markedContent" id="tjimg">
+            <div v-if="$store.state.res.int_category != 1" class="summary" v-html="$store.state.content.html" id="tjimg">
             </div>
             <div v-else :class="{
                 summary2: !$store.state.GET_MESSAGE_STATE && lessContent,
                 category1: category1
               }">
-              <div class="summary" id="tjimg" ref="markedContent">
+              <div class="summary" id="tjimg" v-html="$store.state.content.html">
               </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
@@ -123,7 +123,7 @@
                   <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
                 </span>
               </div>
-              <div @click="collapses" v-if="!$store.state.GET_MESSAGE_STATE && lessContent" :class="{
+              <div v-if="!$store.state.GET_MESSAGE_STATE && lessContent" :class="{
                 collapse:true, 
                 flex:true, 
                 'flex-align-end':true, 
@@ -173,9 +173,9 @@
                   <!-- 包含视频 -->
                   <div v-else-if="item.type === 2">
                     <div v-if="$store.state.GET_MESSAGE_STATE">
-                      <div class="imgbox" style="background-color: rgba(0,0,0,1); width: 100%; height: 48vw; position:relative; border-radius: 3px;">
+                      <div class="imgbox" style="background-color: rgba(0,0,0,.8); width: 100%; height: 48vw; position:relative; border-radius: 3px;">
                         <video :src="item.video.src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                          x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 48vw; overflow:hidden; object-fit: fill;"
+                          x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 48vw; overflow:hidden;"
                           :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
                         </video>
                       </div>
@@ -299,8 +299,6 @@ import Cookie from "js-cookie";
 import Vue from "vue/dist/vue.js";
 export default {
   name: "Feed",
-  // middleware: "get_feed_details",
-  scrollToTop: true,
   async asyncData({ params, store, app }) {
     try {
       let para = {
@@ -338,6 +336,112 @@ export default {
         // 静态增加阅读量
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
+          // 解析长图文html
+          if (res.result.int_type === 2) {
+            const regexImg = /<img.*?(?:>|\/>)/gi;
+            let pImg = await content.html.match(regexImg);
+            if (pImg) {
+              const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+              let size, flag;
+              pImg.forEach((x, i) => {
+                let srcArray = x.match(regexSrc);
+                flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:212px'>
+                          <img src='/default2.png' data-src='${
+                            srcArray[1]
+                          }' style="width:100%; height: auto;"/>
+                          </div>`;
+                // 替换插入需要的值
+                // 正则替换富文本内的img标签
+                // 替换不同文本
+                const regexPImg1 = new RegExp(x);
+                content.html = content.html.replace(regexPImg1, flag);
+              });
+              console.log("content.html====", content.html);
+            }
+            const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+            var pVideo = await content.html.match(regexVideo);
+            if (pVideo) {
+              // 正则替换富文本内 img标签 待发布（npm）
+              const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+              const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
+              const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
+              let flg;
+              pVideo.forEach((x, i) => {
+                // 匹配imageurl属性下的值
+                let urlArray = x.match(regexUrl);
+                // 匹配vid属性下的值
+                let vidArray = x.match(regexVid);
+                let coverArray = x.match(regexCover);
+                // // 替换插入需要的值flg
+                // let temp = pVideo[i].split('<p>');
+                if (store.state.GET_MESSAGE_STATE) {
+                  flg = `<div 
+                    class='imgbox'
+                    data-vid='${vidArray[1]}' 
+                    style='background-color: rgba(0,0,0,.8); width: 100%; height:240px; position:relative;'>
+                    <video src='${urlArray[1]}'
+                      controls='controls' 
+                      preload='none' 
+                      webkit-playsinline='true'
+                      playsinline='true'
+                      x-webkit-airplay='allow'
+                      x5-video-player-type='h5'
+                      x5-video-orientation='portraint'
+                      style='width: 100%; height:240px; overflow:hidden;'
+                      poster='${coverArray[1]}' 
+                      data-cover='${coverArray[1]}'>
+                    </video>
+                  </div>`;
+                } else {
+                  flg = `<div 
+                    class='imgbox video-native-player'
+                    data-vid='${vidArray[1]}' 
+                    style='background:rgba(0,0,0,.3) url("${coverArray[1]}"); 
+                      background-position: 50% 50%;
+                      background-repeat: no-repeat; 
+                      width: 100%; 
+                      height:64vw; 
+                      position:relative;'>
+                    <div 
+                      class='flex 
+                      flex-align-center 
+                      flex-pack-center' 
+                      data-vid='${vidArray[1]}' 
+                      style='position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);'>
+                      <span 
+                        class='icon-font icon-shipin' 
+                        data-vid='${vidArray[1]}' 
+                        style='font-size: 60px; color: #ddd;'>
+                      </span>
+                    </div>
+                  </div>`;
+                }
+                const regexVideo1 = new RegExp(x);
+                content.html = content.html.replace(regexVideo1, flg);
+              });
+
+              console.log("content.vhtml====", content.html);
+            }
+            const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
+            var piFrame = await content.html.match(regexIframe);
+            if (piFrame) {
+              const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+              const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+              piFrame.forEach((x, i) => {
+                let widthArray = x.match(regexWidth);
+                let heightArray = x.match(regexHeight);
+                let newsplit = x.split(widthArray[0]);
+                let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
+                let newsplit1 = newstr.split(heightArray[0]);
+                let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
+                let flag = `<div class="imgbox" style="width:100%; min-height: 212px;">
+                  ${newstr1}</iframe>
+                </div>`;
+                content.html = content.html.replace(regexIframe, flag);
+              });
+              console.log("content.Ihtml====", content.html);
+            }
+          }
           if (content.discuss) {
             // var discuss = content.discuss
             var discuss = await content.discuss.map(x => {
@@ -429,7 +533,6 @@ export default {
       messagelist: {},
       isActive: true,
       exist: true,
-      htmls: null,
       // 投稿类型
       postType: "",
       options: {},
@@ -484,9 +587,9 @@ export default {
         }
       }
     },
-    collapses() {
-      this.category1 = !this.category1;
-    },
+    // collapses() {
+    //   this.category1 = !this.category1;
+    // },
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
     // 贴子类型：int_category（判断是否有留言功能）
@@ -508,7 +611,7 @@ export default {
       this.disabled = false;
       this.loading = 1;
     },
-    // 替换文本中图片和视频字符串
+    // 替换文本中图片和视频字符串 待删除
     async parseLongGraphic() {
       let self = this;
       self.content.html = self.$store.state.content.html;
@@ -618,6 +721,7 @@ export default {
       }
       return self.content.html;
     },
+    // 待删除
     async compile() {
       let self = this;
       // 变量html是生成好的vue格式的HTML模板字符串，
@@ -646,12 +750,12 @@ export default {
           this.$nextTick(() => {
             if (typeof window != "undefined") {
               window.onload = function() {
-                let tjimg = document.querySelector(".feed-cover");
-                if (tjimg.dataset.original) {
-                  setTimeout(() => {
-                    tjimg.src = tjimg.dataset.original;
-                  }, 200);
-                }
+                // let tjimg = document.querySelector(".feed-cover");
+                // if (tjimg.dataset.original) {
+                //   setTimeout(() => {
+                //     tjimg.src = tjimg.dataset.original;
+                //   }, 200);
+                // }
                 let tjimg2 = document
                   .getElementById("tjimg")
                   .getElementsByTagName("img");
@@ -682,9 +786,6 @@ export default {
         self.lessContent = true;
       }
     },
-    async compile1() {
-      self.htmls = await this.parseLongGraphic();
-    },
     // vid
     showVid2(vid) {
       location.href = `/?vid=${vid}`;
@@ -705,10 +806,6 @@ export default {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
-          self.$toast({
-            message: "没有token",
-            position: "top"
-          });
           await self.$store.dispatch("get_wx_auth", {
             url: location.href
           });
@@ -770,10 +867,6 @@ export default {
         // 前期仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
-          // self.$toast({
-          //   message: "没有token",
-          //   position: "top"
-          // });
           await self.$store.dispatch("get_wx_auth", {
             url: location.href
           });
@@ -812,7 +905,7 @@ export default {
       let self = this;
       try {
         let para1 = {
-          pagesize: 5,
+          pagesize: 100,
           pagenum: 1,
           subjectid: self.$route.params.id
         };
@@ -850,13 +943,61 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.$store.state);
+    this.$nextTick(() => {
+      let self = this;
+      if (typeof window != "undefined") {
+        // 处理图片异步加载
+        window.onload = function() {
+          let tjimg = document.querySelector(".feed-cover");
+          if (tjimg.dataset.original) {
+            tjimg.src = tjimg.dataset.original;
+          }
+          let tjimg2 = document
+            .getElementById("tjimg")
+            .getElementsByTagName("img");
+          Array.prototype.forEach.call(tjimg2, function(x, i) {
+            if (x.dataset.src) {
+              x.src = x.dataset.src;
+            }
+          });
+        };
+      }
+      // 处理视频 再app内原生播放
+      let showVid = document.querySelectorAll(".video-native-player");
+      if (showVid.length > 0) {
+        document.body.onclick = function(event) {
+          //冒泡处理
+          var vid = event.target.dataset.vid;
+          if (vid) {
+            location.href = `/?vid=${vid}`;
+          }
+        };
+      }
+      // 处理 征稿 在app内 展开/收起
+      if (document.querySelector("#tjimg").offsetHeight <= 300) {
+        self.lessContent = false;
+      } else {
+        self.lessContent = true;
+      }
+      let collapse = document.querySelector(".collapse");
+      if (collapse) {
+        let ofh = document.querySelector("#tjimg").offsetHeight;
+        collapse.onclick = function() {
+          if (self.category1) {
+            self.$com.doMove(document.querySelector("#tjimg"), 300);
+          } else {
+            self.$com.doMove(document.querySelector("#tjimg"), ofh);
+          }
+          self.category1 = !self.category1;
+        };
+      }
+    });
     if (this.$store.state.GET_MESSAGE_STATE) {
       this.messageList();
     }
     // 判断是否是长图文
     if (this.$store.state.res.int_type === 2) {
-      this.compile();
+      // this.compile();
     }
   }
 };

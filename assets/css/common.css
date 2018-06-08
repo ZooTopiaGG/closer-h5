@@ -259,10 +259,10 @@ button {}
 /*全局控制 富文本内图片样式*/
 
 .summary {
-  font-size: 18px;
-  line-height: 1.6;
-  letter-spacing: 1px;
-  color: #333;
+  font-size: 17px;
+  line-height: 1.54;
+  letter-spacing: 0.5px;
+  /* color: #222; */
 }
 
 .summary p,

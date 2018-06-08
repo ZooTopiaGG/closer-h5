@@ -48,7 +48,7 @@ export default function ({
       config.headers.Authorization = store.state.GET_APP_TOKEN
     } else if (store.state.token) {
       // 获取贴子详情不需要token验证
-      config.headers.Authorization = `GroukAuth ${store.state.token}`
+      // config.headers.Authorization = `GroukAuth ${store.state.token}`
     } else {
       return
     }

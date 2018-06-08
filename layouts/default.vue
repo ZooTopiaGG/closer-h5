@@ -134,9 +134,7 @@ export default {
       }
       let tjimg = document.querySelector(".access-not");
       if (tjimg && tjimg.dataset.original) {
-        setTimeout(() => {
-          tjimg.src = tjimg.dataset.original;
-        }, 500);
+        tjimg.src = tjimg.dataset.original;
       }
     });
   }

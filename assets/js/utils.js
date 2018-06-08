@@ -178,6 +178,15 @@ export default {
     let _result = nvg.indexOf('closer-ios') != -1 || nvg.indexOf('closer-android') != -1;
     return _result
   },
+  // 展开收起 速率计算
+  doMove(obj, iTarget, callback) {
+    clearInterval(obj.timer);
+    obj.timer = setInterval(function () {
+      var iSpeed = (iTarget - obj.offsetHeight) / 5;
+      iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+      iTarget == obj.offsetHeight ? (clearInterval(obj.timer), callback && callback()) : obj.style.height = iSpeed + obj.offsetHeight + "px"
+    }, 30)
+  },
   // jsbriadge ---ios
   setupWebViewJavascriptBridge(callback) {
     // console.log(ca llback)
