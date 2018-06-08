@@ -634,22 +634,24 @@ export default {
       let self = this;
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
-        self.visibleMessage = true;
-        // 进行其他 ajax 操作
+      // if (Cookie.get("token")) {
+      //   self.visibleMessage = true;
+      //   // 进行其他 ajax 操作
+      //   return;
+      // } else {
+
+      // }
+      // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+      console.log("liuyan被电击了====");
+      if ($async.isWeiXin()) {
+        // 通过微信授权 获取code
+        await self.$store.dispatch("get_wx_auth", {
+          url: location.href
+        });
         return;
       } else {
-        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        if ($async.isWeiXin()) {
-          // 通过微信授权 获取code
-          await self.$store.dispatch("get_wx_auth", {
-            url: location.href
-          });
-          return;
-        } else {
-          // 显示登录弹窗
-          self.$store.commit("SET_VISIBLE_LOGIN", true);
-        }
+        // 显示登录弹窗
+        self.$store.commit("SET_VISIBLE_LOGIN", true);
       }
     },
     async sure() {
@@ -696,6 +698,7 @@ export default {
       let self = this;
       self.isIndex = index;
       // 渲染页面前 先判断cookies token是否存在
+      console.log('Cookie.get("token")===', Cookie.get("token"));
       if (Cookie.get("token")) {
         self.support(item);
         return;
@@ -721,6 +724,7 @@ export default {
           flag: item.isLike ? 0 : 1
         };
         let data = await self.$axios.$post(`${api.admin.like}`, para);
+        console.log("data====", data);
         if (data.code === 0) {
           self.$set(item, "isLike", !item.isLike);
         } else {
@@ -779,6 +783,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$store.state);
     this.$nextTick(() => {
       let self = this;
       if (typeof window != "undefined") {
@@ -789,6 +794,7 @@ export default {
             tjcover.src = tjcover.dataset.original;
           }
           let tjimg = document.getElementById("tjimg");
+          // 图片异步加载
           if (tjimg) {
             let tjimg2 = tjimg.getElementsByTagName("img");
             if (tjimg2) {
@@ -799,39 +805,40 @@ export default {
               });
             }
           }
-        };
-      }
-      // 处理视频 再app内原生播放
-      let showVid = document.querySelectorAll(".video-native-player");
-      if (showVid.length > 0) {
-        document.body.onclick = function(event) {
-          //冒泡处理
-          var vid = event.target.dataset.vid;
-          if (vid) {
-            location.href = `/?vid=${vid}`;
+          // 处理视频 再app内原生播放
+          let showVid = document.querySelectorAll(".video-native-player");
+          if (showVid.length > 0) {
+            document.body.onclick = function(event) {
+              //冒泡处理
+              var vid = event.target.dataset.vid;
+              console.log("vid===", vid);
+              if (vid) {
+                location.href = `/?vid=${vid}`;
+                console.log("location.href===", location.href);
+              }
+            };
+          }
+          // 处理 征稿 在app内 展开/收起
+          if (tjimg && $store.state.res.int_category == 1) {
+            if (tjimg.offsetHeight <= 300) {
+              self.lessContent = false;
+            } else {
+              self.lessContent = true;
+            }
+            let collapse = document.querySelector(".collapse");
+            if (collapse) {
+              let ofh = tjimg.offsetHeight;
+              collapse.onclick = function() {
+                if (self.category1) {
+                  self.$com.doMove(tjimg, 300);
+                } else {
+                  self.$com.doMove(tjimg, ofh);
+                }
+                self.category1 = !self.category1;
+              };
+            }
           }
         };
-      }
-      // 处理 征稿 在app内 展开/收起
-      let _tjimg = document.querySelector("#tjimg");
-      if (_tjimg) {
-        if (_tjimg.offsetHeight <= 300) {
-          self.lessContent = false;
-        } else {
-          self.lessContent = true;
-        }
-        let collapse = document.querySelector(".collapse");
-        if (collapse) {
-          let ofh = _tjimg.offsetHeight;
-          collapse.onclick = function() {
-            if (self.category1) {
-              self.$com.doMove(_tjimg, 300);
-            } else {
-              self.$com.doMove(_tjimg, ofh);
-            }
-            self.category1 = !self.category1;
-          };
-        }
       }
     });
   }
