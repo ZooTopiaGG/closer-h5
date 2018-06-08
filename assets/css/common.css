@@ -306,7 +306,7 @@ button {}
 }
 
 .commonbox {
-  min-height: 177.87vw;
+  min-height: 100vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -318,7 +318,7 @@ button {}
 }
 
 .webNoNav.web-class {
-  min-height: 177.87vw;
+  min-height: 100vh;
 }
 
 .ellipsis {
