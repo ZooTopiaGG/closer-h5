@@ -577,7 +577,6 @@ export default {
           await self.$store.dispatch("get_wx_auth", {
             url: location.href
           });
-          return;
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
@@ -648,7 +647,8 @@ export default {
         };
         let data = await self.$axios.$post(`${api.admin.add_reply}`, para);
         if (data.code === 0) {
-          await self.messageList();
+          console.log("data.result===", data.result);
+          self.messageList();
           self.$toast({
             message: "留言成功",
             position: "top"
@@ -661,6 +661,7 @@ export default {
           });
         }
       } catch (err) {
+        console.log("err==", err);
         self.$toast({
           message: err,
           position: "top"
