@@ -761,6 +761,7 @@ export default {
     }
   },
   mounted() {
+    console.log("this.$store.state.incr_view====", this.$store.state.incr_view);
     this.$nextTick(() => {
       let self = this;
       if (typeof window != "undefined") {
