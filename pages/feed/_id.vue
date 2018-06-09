@@ -645,6 +645,7 @@ export default {
           content: self.textarea,
           lastid: self.item.commentid
         };
+        console.log("para==", para);
         let data = await self.$axios.$post(`${api.admin.add_reply}`, para);
         if (data.code === 0) {
           console.log("data.result===", data.result);
@@ -699,6 +700,7 @@ export default {
           commentid: item.commentid,
           flag: item.isLike ? 0 : 1
         };
+        console.log("para===", para);
         let data = await self.$axios.$post(`${api.admin.like}`, para);
         if (data.code === 0) {
           console.log(data.result);

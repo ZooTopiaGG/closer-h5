@@ -21,7 +21,6 @@ export default {
   },
   methods: {
     sure() {
-      console.log(11111);
       this.$store.commit("SET_VISIBLE_MESSAGE", false);
     },
     cancel() {
