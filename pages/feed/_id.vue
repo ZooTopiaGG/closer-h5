@@ -677,7 +677,6 @@ export default {
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
         self.support(item);
-        return;
       } else {
         // 前期仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
@@ -701,6 +700,7 @@ export default {
         };
         let data = await self.$axios.$post(`${api.admin.like}`, para);
         if (data.code === 0) {
+          console.log(data.result);
           self.$set(item, "isLike", !item.isLike);
         } else {
           self.$toast({
@@ -709,6 +709,7 @@ export default {
           });
         }
       } catch (err) {
+        console.log("err====", err);
         self.$toast({
           message: err,
           position: "top"

@@ -124,7 +124,6 @@ export const actions = {
     let data = await self.$axios.$post(`${api.admin.get_auth_path}`, para);
     if (data.code === 0) {
       console.log('data.result===', data.result)
-      return
       location.href = data.result;
     }
   },
