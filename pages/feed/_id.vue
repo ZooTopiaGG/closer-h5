@@ -102,7 +102,7 @@
                 <span>赞 {{ $store.state.res.like }}</span>
               </span>
             </div>
-            <div class="read-num" v-else>阅读 {{ $store.state.incr_view }}</div>
+            <div class="read-num" v-else>阅读 <span class="incrviewnum">{{ incrview }}</span></div>
             <div v-if="$store.state.res.int_category != 1" class="summary" v-html="$store.state.content.html" id="tjimg">
             </div>
             <div v-else>
@@ -110,7 +110,7 @@
               </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
-                  <span>阅读 {{ $store.state.incr_view }}</span>
+                  <span>阅读 <span class="incrviewnum">{{ incrview }}</span></span>
                 </span>
                 <span>
                   <span style="margin-right: 10px;">
@@ -291,17 +291,7 @@ export default {
       let para = {
         subjectid: params.id
       };
-      let [res, incr_view] = await Promise.all([
-        app.$axios.$post(`${api.command.show}`, para),
-        app.$axios.$post(
-          `${api.command.incr_view}?timestamps=${new Date().getTime()}`,
-          para
-        )
-      ]);
-      // 静态增加 阅读量
-      if (incr_view.code === 0) {
-        store.commit("GET_INCR_VIEW", incr_view.result);
-      }
+      let res = await app.$axios.$post(`${api.command.show}`, para);
       // 获取迷药
       if (res.code != 0) {
         store.commit("GET_EXIST_STATUS", false);
@@ -454,27 +444,27 @@ export default {
             });
           }
           // 投稿类型
-          var postType = "";
-          switch (res.result.int_post_limit) {
-            case 0:
-              postType = "图片";
-              break;
-            case 1:
-              postType = "视频";
-              break;
-            case 2:
-              postType = "长图文";
-              break;
-            case 3:
-              postType = "全部";
-              break;
-            default:
-              postType = "全部";
-          }
+          // var postType = "";
+          // switch (res.result.int_post_limit) {
+          //   case 0:
+          //     postType = "图片";
+          //     break;
+          //   case 1:
+          //     postType = "视频";
+          //     break;
+          //   case 2:
+          //     postType = "长图文";
+          //     break;
+          //   case 3:
+          //     postType = "全部";
+          //     break;
+          //   default:
+          //     postType = "全部";
+          // }
           // 返回在渲染页面之前得结果
           store.commit("SET_CONTENT", content);
           store.commit("SET_RES", res.result);
-          store.commit("SET_POSTTYPE", postType);
+          // store.commit("SET_POSTTYPE", postType);
           store.commit("SET_DISSCUSS", discuss);
         }
       }
@@ -533,7 +523,8 @@ export default {
       postType: "",
       options: {},
       vid: "",
-      category1: false
+      category1: false,
+      incrview: ""
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -677,7 +668,6 @@ export default {
       let self = this;
       self.isIndex = index;
       // 渲染页面前 先判断cookies token是否存在
-      console.log('Cookie.get("token")===', Cookie.get("token"));
       if (Cookie.get("token")) {
         self.support(item);
         return;
@@ -748,6 +738,24 @@ export default {
     },
     hiddenTextArea() {
       this.visibleMessage = false;
+    },
+    async incrView() {
+      let self = this;
+      try {
+        let para = {
+          subjectid: self.$route.params.id
+        };
+        let view = await self.$axios.$get(
+          `${api.command.incr_view}?subjectid=${self.$route.params.id}`
+        );
+        console.log("view====", view);
+        // 静态增加 阅读量
+        if (view.code === 0) {
+          self.incrview = view.result;
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   },
   beforeMount() {
@@ -761,9 +769,10 @@ export default {
     }
   },
   mounted() {
-    console.log("this.$store.state.incr_view====", this.$store.state.incr_view);
-    this.$nextTick(() => {
-      let self = this;
+    let self = this;
+    // 增加阅读量
+    self.incrView();
+    self.$nextTick(() => {
       if (typeof window != "undefined") {
         // 处理图片异步加载
         window.onload = function() {
