@@ -109,9 +109,9 @@ module.exports = {
     '@nuxtjs/axios',
   ],
   axios: {
-    retry: {
-      retries: 3
-    },
+    // retry: {
+    //   retries: 3
+    // },
     // baseURL: 'https://api-sandbox.tiejin.cn/command/',
     debug: true, // 添加拦截器
   },

@@ -123,6 +123,8 @@ export const actions = {
     };
     let data = await self.$axios.$post(`${api.admin.get_auth_path}`, para);
     if (data.code === 0) {
+      console.log('data.result===', data.result)
+      return
       location.href = data.result;
     }
   },
@@ -338,14 +340,18 @@ export const actions = {
       let para = {
         phone: phone
       }
+      console.log('api.admin.get_code_by_phone===', para)
       let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
-      if (data.code === 0) {} else {
+      if (data.code === 0) {
+        console.log('data===', data.result)
+      } else {
         Toast({
           message: data.result,
           position: 'top'
         })
       }
     } catch (err) {
+      console.log('err===', err)
       Toast({
         message: err,
         position: 'top'
@@ -361,6 +367,7 @@ export const actions = {
   }) {
     let self = this
     try {
+      console.log('api.community.subscription===', api.community.subscription)
       let data = await self.$axios.$get(`${api.community.subscription}?communityid=${communityid}&flag=${flag}`)
       if (data.code === 0) {
         console.log('data===subscription===', flag)
@@ -380,6 +387,7 @@ export const actions = {
         })
       }
     } catch (err) {
+      console.log('err==', err)
       Toast({
         message: err,
         position: 'top'

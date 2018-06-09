@@ -36,7 +36,7 @@
           <nuxt/>
         </keep-alive>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="footer">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           App内打开
         </mt-button>
