@@ -105,10 +105,7 @@
             <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
             <div v-if="$store.state.res.int_category != 1" class="summary" v-html="$store.state.content.html" id="tjimg">
             </div>
-            <div v-else :class="{
-                summary2: !$store.state.GET_MESSAGE_STATE && lessContent,
-                category1: category1
-              }">
+            <div v-else>
               <div class="summary" id="tjimg" v-html="$store.state.content.html">
               </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
@@ -122,16 +119,6 @@
                   </span>
                   <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
                 </span>
-              </div>
-              <div v-if="!$store.state.GET_MESSAGE_STATE && lessContent" :class="{
-                collapse:true, 
-                flex:true, 
-                'flex-align-end':true, 
-                'flex-pack-center':true,
-                collapse2: category1
-              }">
-                <span v-if="!category1">展开全文</span>
-                <span v-else>收起全文</span>
               </div>
             </div>
             <!-- 神议论列表 -->
@@ -356,7 +343,6 @@ export default {
                 const regexPImg1 = new RegExp(x);
                 content.html = content.html.replace(regexPImg1, flag);
               });
-              // console.log("content.html====", content.html);
             }
             const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
             var pVideo = await content.html.match(regexVideo);
@@ -419,8 +405,6 @@ export default {
                 const regexVideo1 = new RegExp(x);
                 content.html = content.html.replace(regexVideo1, flg);
               });
-
-              // console.log("content.vhtml====", content.html);
             }
             const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
             var piFrame = await content.html.match(regexIframe);
@@ -439,7 +423,6 @@ export default {
                 </div>`;
                 content.html = content.html.replace(regexIframe, flag);
               });
-              // console.log("content.Ihtml====", content.html);
             }
           }
           if (content.discuss) {
@@ -598,9 +581,6 @@ export default {
         }
       }
     },
-    // collapses() {
-    //   this.category1 = !this.category1;
-    // },
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
     // 贴子类型：int_category（判断是否有留言功能）
@@ -634,24 +614,19 @@ export default {
       let self = this;
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
-      // if (Cookie.get("token")) {
-      //   self.visibleMessage = true;
-      //   // 进行其他 ajax 操作
-      //   return;
-      // } else {
-
-      // }
-      // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-      console.log("liuyan被电击了====");
-      if ($async.isWeiXin()) {
-        // 通过微信授权 获取code
-        await self.$store.dispatch("get_wx_auth", {
-          url: location.href
-        });
-        return;
+      if (Cookie.get("token")) {
+        self.visibleMessage = true;
       } else {
-        // 显示登录弹窗
-        self.$store.commit("SET_VISIBLE_LOGIN", true);
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          await self.$store.dispatch("get_wx_auth", {
+            url: location.href
+          });
+        } else {
+          // 显示登录弹窗
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
       }
     },
     async sure() {
@@ -724,7 +699,6 @@ export default {
           flag: item.isLike ? 0 : 1
         };
         let data = await self.$axios.$post(`${api.admin.like}`, para);
-        console.log("data====", data);
         if (data.code === 0) {
           self.$set(item, "isLike", !item.isLike);
         } else {
@@ -783,7 +757,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state);
     this.$nextTick(() => {
       let self = this;
       if (typeof window != "undefined") {
@@ -808,35 +781,13 @@ export default {
           // 处理视频 再app内原生播放
           let showVid = document.querySelectorAll(".video-native-player");
           if (showVid.length > 0) {
-            document.body.onclick = function(event) {
+            document.body.ontouchend = function() {
               //冒泡处理
               var vid = event.target.dataset.vid;
-              console.log("vid===", vid);
               if (vid) {
                 location.href = `/?vid=${vid}`;
-                console.log("location.href===", location.href);
               }
             };
-          }
-          // 处理 征稿 在app内 展开/收起
-          if (tjimg && self.$store.state.res.int_category == 1) {
-            if (tjimg.offsetHeight <= 300) {
-              self.lessContent = false;
-            } else {
-              self.lessContent = true;
-            }
-            let collapse = document.querySelector(".collapse");
-            if (collapse) {
-              let ofh = tjimg.offsetHeight;
-              collapse.onclick = function() {
-                if (self.category1) {
-                  self.$com.doMove(tjimg, 300);
-                } else {
-                  self.$com.doMove(tjimg, ofh);
-                }
-                self.category1 = !self.category1;
-              };
-            }
           }
         };
       }
@@ -972,7 +923,7 @@ export default {
 }
 
 .feed-messagebord-type {
-  height: 10.67vw;
+  margin-bottom: 2.668vw;
   color: #94928e;
   font-size: 14px;
 }
@@ -1126,43 +1077,6 @@ export default {
 }
 .summary {
   text-align: justify;
-}
-
-.summary2 {
-  height: 53.36vw;
-  position: relative;
-  overflow: hidden;
-  transition: height 0.5s;
-}
-
-.category1 {
-  height: auto;
-}
-
-.collapse {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 21.334vw;
-  line-height: 6.4vw;
-  text-align: center;
-  font-size: 15px;
-  color: #507caf;
-  background: linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
-  background: -o-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
-  background: -moz-linear-gradient(-90deg, rgba(255, 255, 255, 0.3), white 65%);
-  background: -webkit-linear-gradient(
-    -90deg,
-    rgba(255, 255, 255, 0.3),
-    white 65%
-  );
-}
-
-.collapse2 {
-  background: #fff;
-  position: static;
-  height: 10.67vw;
 }
 
 .message-num {
