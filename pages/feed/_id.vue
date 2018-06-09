@@ -102,7 +102,7 @@
                 <span>赞 {{ $store.state.res.like }}</span>
               </span>
             </div>
-            <div class="read-num" v-else>阅读 {{ $store.state.res.view }}</div>
+            <div class="read-num" v-else>阅读 {{ $store.state.incr_view }}</div>
             <div v-if="$store.state.res.int_category != 1" class="summary" v-html="$store.state.content.html" id="tjimg">
             </div>
             <div v-else>
@@ -110,7 +110,7 @@
               </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
-                  <span>阅读 {{ $store.state.res.view }}</span>
+                  <span>阅读 {{ $store.state.incr_view }}</span>
                 </span>
                 <span>
                   <span style="margin-right: 10px;">
@@ -298,6 +298,10 @@ export default {
           para
         )
       ]);
+      // 静态增加 阅读量
+      if (incr_view.code === 0) {
+        store.commit("GET_INCR_VIEW", incr_view.result);
+      }
       // 获取迷药
       if (res.code != 0) {
         store.commit("GET_EXIST_STATUS", false);
@@ -320,7 +324,7 @@ export default {
             }
           }
         }
-        // 静态增加阅读量
+        // 验证content
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
           // 解析长图文html
