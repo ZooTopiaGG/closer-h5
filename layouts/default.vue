@@ -103,7 +103,6 @@ export default {
           communityid: self.$store.state.res.communityid,
           flag: self.$store.state.is_follow ? 0 : 1
         });
-        return;
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
