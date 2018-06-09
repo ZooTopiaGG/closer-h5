@@ -102,7 +102,7 @@
                 <span>赞 {{ $store.state.res.like }}</span>
               </span>
             </div>
-            <div class="read-num" v-else>阅读 <span class="incrviewnum">{{ incrview }}</span></div>
+            <div class="read-num" v-else>阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></div>
             <div v-if="$store.state.res.int_category != 1" class="summary" v-html="$store.state.content.html" id="tjimg">
             </div>
             <div v-else>
@@ -110,7 +110,7 @@
               </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
-                  <span>阅读 <span class="incrviewnum">{{ incrview }}</span></span>
+                  <span>阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></span>
                 </span>
                 <span>
                   <span style="margin-right: 10px;">
@@ -291,7 +291,14 @@ export default {
       let para = {
         subjectid: params.id
       };
-      let res = await app.$axios.$post(`${api.command.show}`, para);
+      let [res, view] = await Promise.all([
+        app.$axios.$post(`${api.command.show}`, para),
+        app.$axios.$post(`${api.command.incr_view}`, para)
+      ]);
+      // 静态增加 阅读量
+      if (view.code === 0) {
+        store.commit("GET_INCR_VIEW", view.result);
+      }
       // 获取迷药
       if (res.code != 0) {
         store.commit("GET_EXIST_STATUS", false);
@@ -748,7 +755,7 @@ export default {
         let view = await self.$axios.$get(
           `${api.command.incr_view}?subjectid=${self.$route.params.id}`
         );
-        console.log("view====", view);
+        // console.log("view====", view);
         // 静态增加 阅读量
         if (view.code === 0) {
           self.incrview = view.result;
@@ -770,8 +777,6 @@ export default {
   },
   mounted() {
     let self = this;
-    // 增加阅读量
-    self.incrView();
     self.$nextTick(() => {
       if (typeof window != "undefined") {
         // 处理图片异步加载

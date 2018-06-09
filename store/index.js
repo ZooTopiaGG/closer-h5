@@ -23,7 +23,8 @@ export const state = () => ({
   token: '',
   visibleLogin: false,
   visibleMessage: false,
-  is_follow: false
+  is_follow: false,
+  incr_view: ''
 })
 
 export const mutations = {
@@ -46,6 +47,11 @@ export const mutations = {
   },
   SET_RES(state, para) {
     state.res = para
+  },
+  // 
+  GET_INCR_VIEW(state, para) {
+    console.log('para====', para)
+    state.incr_view = para
   },
   SET_NO_NAV(state, para) {
     state.webNoNav = para
