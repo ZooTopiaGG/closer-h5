@@ -207,7 +207,7 @@ export default {
 }
 
 .works {
-  padding-bottom: 2.67vw;
+  padding-bottom: 4vw;
   position: relative;
 }
 

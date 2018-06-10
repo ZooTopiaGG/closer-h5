@@ -107,7 +107,7 @@
         暂无群作品
       </div>
     </div>
-    <div class="footer">
+    <div class="open-footer">
       <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
         打开贴近群组
       </mt-button>
@@ -174,7 +174,7 @@ export default {
 }
 
 .works {
-  padding-bottom: 2.67vw;
+  padding-bottom: 4vw;
   position: relative;
 }
 

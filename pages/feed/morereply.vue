@@ -158,7 +158,7 @@ export default {
 </script>
 <style lang='less'>
 #comment {
-  min-height: 177.87vw;
+  min-height: 100vh;
   .feed-messagebord-list {
     padding: 0 4vw;
   }
