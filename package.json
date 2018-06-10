@@ -23,7 +23,7 @@
     "js-cookie": "^2.2.0",
     "mint-ui": "^2.2.13",
     "nuxt": "^1.0.0",
-    "vue-picture-preview2": "^1.0.0"
+    "vue-picture-preview2": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
