@@ -796,16 +796,16 @@ export default {
             }
           }
           // 处理视频 再app内原生播放
-          // let showVid = document.querySelectorAll(".video-native-player");
-          // if (showVid.length > 0) {
-          //   document.body.ontouchend = function() {
-          //     //冒泡处理
-          //     var vid = event.target.dataset.vid;
-          //     if (vid) {
-          //       location.href = `/?vid=${vid}`;
-          //     }
-          //   };
-          // }
+          let showVid = document.querySelectorAll(".video-native-player");
+          if (showVid.length > 0) {
+            document.body.ontouchend = function() {
+              //冒泡处理
+              var vid = event.target.dataset.vid;
+              if (vid) {
+                location.href = `/?vid=${vid}`;
+              }
+            };
+          }
         };
       }
     });
