@@ -1,6 +1,6 @@
 <template>
   <div id="feed" :class="{ videofeed: $store.state.res.int_type === 1}">
-    <lg-preview></lg-preview>
+    <lg-preview @change="changepreview"></lg-preview>
     <div v-if="$store.state.res.int_type === 1" style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: rgba(0,0,0,.8);box-shadow: 0 1px 5px #efefef;">
       <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
         x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint"
@@ -192,13 +192,13 @@
           <span class="flex-1 ellipsis" v-if="$store.state.res.int_category === 3">
             <span>
               <!-- <span v-if="$store.state.res.isOffical">官方出品</span> -->
-              <span>{{ $store.state.res.className }} @{{ $store.state.res.user.attributes.roster.name }}</span>
+              <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span>
             </span>
           </span>
           <span class="flex-1 ellipsis" v-else>
             <span>
               <span v-if="$store.state.res.isOffical">官方出品</span>
-              <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.username }}</span>
+              <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.user.fullname }}</span>
             </span>
           </span>
           <span style="margin-left: 10px">{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd hh:MM') }}</span>
@@ -551,6 +551,9 @@ export default {
     next();
   },
   methods: {
+    changepreview() {
+      console.log("我被唤起了。。。。");
+    },
     morereply(item) {
       sessionStorage.setItem("item", JSON.stringify(item));
       location.href =
@@ -645,10 +648,8 @@ export default {
           content: self.textarea,
           lastid: self.item.commentid
         };
-        console.log("para==", para);
         let data = await self.$axios.$post(`${api.admin.add_reply}`, para);
         if (data.code === 0) {
-          console.log("data.result===", data.result);
           self.messageList();
           self.$toast({
             message: "留言成功",
@@ -662,7 +663,6 @@ export default {
           });
         }
       } catch (err) {
-        console.log("err==", err);
         self.$toast({
           message: err,
           position: "top"
@@ -700,10 +700,8 @@ export default {
           commentid: item.commentid,
           flag: item.isLike ? 0 : 1
         };
-        console.log("para===", para);
         let data = await self.$axios.$post(`${api.admin.like}`, para);
         if (data.code === 0) {
-          console.log(data.result);
           self.$set(item, "isLike", !item.isLike);
         } else {
           self.$toast({
@@ -712,7 +710,6 @@ export default {
           });
         }
       } catch (err) {
-        console.log("err====", err);
         self.$toast({
           message: err,
           position: "top"
@@ -759,7 +756,6 @@ export default {
         let view = await self.$axios.$get(
           `${api.command.incr_view}?subjectid=${self.$route.params.id}`
         );
-        // console.log("view====", view);
         // 静态增加 阅读量
         if (view.code === 0) {
           self.incrview = view.result;
@@ -780,6 +776,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$store.state);
     let self = this;
     self.$nextTick(() => {
       if (typeof window != "undefined") {
@@ -856,7 +853,7 @@ export default {
   margin-top: 200px;
 }
 .feed-doc {
-  padding-bottom: 4vw;
+  /* padding-bottom: 4vw; */
 }
 
 .feeder-info,
@@ -883,9 +880,8 @@ export default {
 }
 
 .feeder-title-2 {
-  font-size: 16px;
   font-weight: 400;
-  margin: 4vw 0;
+  /* margin: 4vw 0 2.13vw; */
 }
 .feeder-title-3 {
   font-size: 20px;

@@ -132,7 +132,7 @@ export default {
 <style>
 .dpLogin {
   width: 87.2vw;
-  height: 72.6vw;
+  /* height: 72.6vw; */
   background: #fff;
   padding: 5.34vw;
   box-sizing: border-box;

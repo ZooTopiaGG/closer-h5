@@ -42,8 +42,9 @@
         </mt-button>
       </div>
     </div>
-    <div class="not-exist" v-else>
-      <span>贴子已经被删除</span>
+    <div class="not-exist flex flex-v flex-align-center" v-else>
+      <img src="~/assets/images/home_icon_delete@2x.png" alt="">
+      <span>此贴子已被删除</span>
     </div>
   </div>
 </template>
@@ -244,7 +245,11 @@ nav.appnav ~ .nuxts {
   top: 50%;
   transform: translate(-50%, -50%);
 }
-
+.not-exist img {
+  width: 21.6vw;
+  height: 21.07vw;
+  margin-bottom: 1.6vw;
+}
 .tj-focus-btn {
   box-sizing: border-box;
   margin-right: 4vw;

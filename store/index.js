@@ -50,7 +50,6 @@ export const mutations = {
   },
   // 
   GET_INCR_VIEW(state, para) {
-    console.log('para====', para)
     state.incr_view = para
   },
   SET_NO_NAV(state, para) {
