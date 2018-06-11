@@ -241,7 +241,7 @@ export const actions = {
     $router,
     type
   }) {
-    // 点击必须登录的按钮，可获取cookie进行判断 信息
+    // 点击必须登录的按 钮，可获取cookie进行判断 信息
     // 邀新 inviter参数
     try {
       let self = this,
@@ -380,10 +380,8 @@ export const actions = {
         communityid: communityid,
         flag: flag
       }
-      console.log('api.community.subscription===', api.community.subscription)
-      let data = await self.$axios.$post(`${api.community.subscription}`)
+      let data = await self.$axios.$post(`${api.community.subscription}`, para)
       if (data.code === 0) {
-        console.log('data===subscription===', flag)
         if (flag == 0) {
           commit('SET_FOCUS_STAT', false)
         } else {
@@ -394,14 +392,12 @@ export const actions = {
           })
         }
       } else {
-        console.log('err==', err)
         Toast({
           message: data.result,
           position: 'top'
         })
       }
     } catch (err) {
-      console.log('err==', err)
       Toast({
         message: err,
         position: 'top'
