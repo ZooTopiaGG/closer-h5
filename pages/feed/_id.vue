@@ -24,7 +24,7 @@
             </div>
             <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
               <div class="feeder-img-list" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                :style="{width: '50%',height:'0',paddingBottom:'50%',  backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
+                :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',  backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                 :key="index">
                 <img class="feeder-cover-list " v-preview="$com.makeFileUrl(img.link)" :onerror="defaultErrorImg">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -796,16 +796,16 @@ export default {
             }
           }
           // 处理视频 再app内原生播放
-          let showVid = document.querySelectorAll(".video-native-player");
-          if (showVid.length > 0) {
-            document.body.ontouchend = function() {
-              //冒泡处理
-              var vid = event.target.dataset.vid;
-              if (vid) {
-                location.href = `/?vid=${vid}`;
-              }
-            };
-          }
+          // let showVid = document.querySelectorAll(".video-native-player");
+          // if (showVid.length > 0) {
+          //   document.body.ontouchend = function() {
+          //     //冒泡处理
+          //     var vid = event.target.dataset.vid;
+          //     if (vid) {
+          //       location.href = `/?vid=${vid}`;
+          //     }
+          //   };
+          // }
         };
       }
     });
