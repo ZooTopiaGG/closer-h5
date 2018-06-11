@@ -12,7 +12,7 @@
         'flex-pack-center': true
       }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
-          <div class="flex flex-align-center">
+          <div class="flex flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :onerror="defaultErrorImg" :data-original="$store.state.res.blogo">
             <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
           </div>
@@ -94,11 +94,14 @@ export default {
         return false;
       }
     },
+    // 跳转栏目主页
+    toCommunity() {
+      location.href = `/community/${this.$store.state.res.communityid}`;
+    },
     // 需要登录的操作 先判断后执行
     async tjFocus() {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
-      console.log('Cookie.get("token")====', Cookie.get("token"));
       if (Cookie.get("token")) {
         // 进行其他 ajax 操作
         self.$store.dispatch("get_focus_stat", {
@@ -109,11 +112,11 @@ export default {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
-          console.log(
-            `${location.protocol}//${location.hostname}/feed/${
-              self.$route.params.id
-            }`
-          );
+          // console.log(
+          //   `${location.protocol}//${location.hostname}/feed/${
+          //     self.$route.params.id
+          //   }`
+          // );
           await self.$store.dispatch("get_wx_auth", {
             // 正式
             // url: location.href
