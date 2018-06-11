@@ -1,6 +1,5 @@
 <template>
   <div id="feed" :class="{ videofeed: $store.state.res.int_type === 1}">
-    <lg-preview @change="changepreview"></lg-preview>
     <div v-if="$store.state.res.int_type === 1" style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: rgba(0,0,0,.8);box-shadow: 0 1px 5px #efefef;">
       <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
         x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint"
@@ -551,9 +550,6 @@ export default {
     next();
   },
   methods: {
-    changepreview() {
-      console.log("我被唤起了。。。。");
-    },
     morereply(item) {
       sessionStorage.setItem("item", JSON.stringify(item));
       location.href =
@@ -776,7 +772,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state);
     let self = this;
     self.$nextTick(() => {
       if (typeof window != "undefined") {

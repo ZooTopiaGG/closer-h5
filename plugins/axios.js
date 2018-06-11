@@ -49,11 +49,10 @@ export default function ({
     } else if (store.state.token) {
       // 获取贴子详情不需要token验证
       config.headers.Authorization = `GroukAuth ${store.state.token}`
-    } else {
-      return
     }
   })
   $axios.onError(error => {
+    console.log('error.response====', error.response)
     const code = parseInt(error.response && error.response.status)
     if (code === 400) {
       redirect('/400')

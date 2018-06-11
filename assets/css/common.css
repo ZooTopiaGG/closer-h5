@@ -275,11 +275,15 @@ button {}
 .summary p img {
   max-width: 100%;
   height: auto;
-  margin: 2.14vw 0;
+  margin-bottom: 2.668vw;
+}
+
+.summary img {
+  display: block;
 }
 
 .summary .imgbox {
-  margin: 2.668vw 0
+  margin-bottom: 2.668vw;
 }
 
 .summary video {
