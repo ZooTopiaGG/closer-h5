@@ -614,9 +614,11 @@ export default {
       let self = this;
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
+      console.log('Cookie.get("token")====', Cookie.get("token"));
       if (Cookie.get("token")) {
         self.visibleMessage = true;
       } else {
+        console.log("no token");
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
