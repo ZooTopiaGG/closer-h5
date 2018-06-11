@@ -43,8 +43,8 @@ export default function ({
       config.baseURL = 'http://api-sandbox.tiejin.cn/command/'
     }
     // config.headers.common['Closer-Agent'] = 'Closer-H5';
+    console.log('config.config===', config)
     console.log('config.headers===', config.headers)
-    console.log('config.headers===', store.state.token)
     // 线上时
     if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts' || config.url === 'closer_report.get_report_types')) {
       config.headers.Authorization = store.state.GET_APP_TOKEN
@@ -52,6 +52,9 @@ export default function ({
       // 获取贴子详情不需要token验证
       config.headers.Authorization = `GroukAuth ${store.state.token}`
     }
+  })
+  $axios.onResponse(config => {
+    console.log('config====', config)
   })
   $axios.onError(error => {
     console.log('error.response====', error.response)
