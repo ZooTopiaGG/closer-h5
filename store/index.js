@@ -146,8 +146,11 @@ export const actions = {
     if (type && type === 'bonus') {
       let unionId,
         nickName,
-        avatar;
-      let check = await self.$axios.$get(`${api.admin.check_wechat}?code=${code}`)
+        avatar,
+        paras = {
+          code: code
+        }
+      let check = await self.$axios.$post(`${api.admin.check_wechat}`, paras)
       if (check.code != 0) {
         Toast({
           message: '该账号已被使用',
@@ -244,7 +247,11 @@ export const actions = {
       let self = this,
         para;
       if (type && type === 'bonus') {
-        let check = await self.$axios.$get(`${api.admin.check}?type=phone&code=${phone}`)
+        para = {
+          type: 'phone',
+          code: phone
+        }
+        let check = await self.$axios.$post(`${api.admin.check}`, para)
         if (check.code != 0) {
           Toast({
             message: '该账号已被使用',
@@ -369,8 +376,12 @@ export const actions = {
   }) {
     let self = this
     try {
+      let para = {
+        communityid: communityid,
+        flag: flag
+      }
       console.log('api.community.subscription===', api.community.subscription)
-      let data = await self.$axios.$get(`${api.community.subscription}?communityid=${communityid}&flag=${flag}`)
+      let data = await self.$axios.$post(`${api.community.subscription}`)
       if (data.code === 0) {
         console.log('data===subscription===', flag)
         if (flag == 0) {
@@ -383,6 +394,7 @@ export const actions = {
           })
         }
       } else {
+        console.log('err==', err)
         Toast({
           message: data.result,
           position: 'top'

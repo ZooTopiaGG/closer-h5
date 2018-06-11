@@ -9,10 +9,11 @@
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
     <div class="tj-code">
       <mt-field placeholder="验证码" type="tel" :attr="{ maxlength: 6 }" v-model="code" class="margin-bottom-40">
-        <mt-button type="default" class="tj-code-btn" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
+        <mt-button type="default" class="tj-code-btn cursor" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
       </mt-field>
     </div>
     <mt-button type="primary" :disabled="loading === 1" :class="{
+      'cursor': true,
       'margin-top-20': true, 
       'tj-btn': true,
       notweixin: !isAbsolute
@@ -28,10 +29,6 @@
 <script>
 export default {
   name: "dpLogin",
-  // components: {
-  //     dpButton,
-  //     dpRadio
-  // },
   data() {
     return {
       phone: "",
