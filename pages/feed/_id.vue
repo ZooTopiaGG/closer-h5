@@ -56,7 +56,7 @@
               <span class="communityName flex-1">{{ $store.state.res.communityName }}</span>
               <div>
                 <!-- <a href="javasript:;">已关注</a> -->
-                <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn" @click="tjFocus">
+                <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor" @click="tjFocus">
                   <span v-if="$store.state.is_follow">已关注</span>
                   <span v-else>
                     <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
@@ -224,11 +224,11 @@
                   </div>
                 </div>
                 <div class="icon-group flex flex-align-center">
-                  <p class="flex flex-align-center" style="margin-right:10px" @click="toMessage(item)">
+                  <p class="flex flex-align-center cursor" style="margin-right:10px" @click="toMessage(item)">
                     <span class="icon-font icon-message"></span>
                     <span>{{ item.replyNumber }}</span>
                   </p>
-                  <p class="supports" @click="toSupport(item, index)">
+                  <p class="supports cursor" @click="toSupport(item, index)">
                     <img src="~/assets/images/home_btn_like_n@2x.png" v-if="!item.isLike">
                     <img src="~/assets/images/home_btn_like_pre@2x.png" v-else>
                   </p>

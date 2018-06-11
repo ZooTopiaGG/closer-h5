@@ -17,7 +17,7 @@
             <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
-            <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn">
+            <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
               <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
                 <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
@@ -37,7 +37,7 @@
           <nuxt/>
         </keep-alive>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           App内打开
         </mt-button>
