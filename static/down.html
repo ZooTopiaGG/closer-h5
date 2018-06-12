@@ -157,7 +157,7 @@
         <p>贴近一点 看身边</p>
       </div>
       <div>
-        <button class="downApp">立即下载</button>
+        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer" class="downApp">立即下载</a>
       </div>
     </div>
   </div>
@@ -192,9 +192,19 @@
         document.querySelector('.point').style.display = 'block'
       } else {
         document.querySelector('.noweixin').style.display = 'block'
+        setTimeout(() => {
+          document.querySelector('.downApp').click();
+        }, 1000)
       }
       document.querySelector('.downApp').addEventListener('click', function () {
-        location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer'
+        // location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer'
+        var ifr = document.createElement('iframe');
+        ifr.src = getParam('downurl');
+        ifr.style.display = 'none';
+        document.body.appendChild(ifr);
+        setTimeout(function () {
+          document.body.removeChild(ifr);
+        }, 3000);
       }, false)
       document.querySelector('.goApp').addEventListener('click', function () {
         // this.$route.query.downurl
