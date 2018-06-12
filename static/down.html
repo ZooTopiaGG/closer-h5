@@ -186,7 +186,6 @@
       return paramValue;
     }
     window.onload = function () {
-      console.log(isWeiXin())
       if (isWeiXin()) {
         document.querySelector('.downtitle').style.display = 'block'
         document.querySelector('.point').style.display = 'block'
@@ -198,7 +197,14 @@
       }
       document.querySelector('.downApp').addEventListener('click', function () {
         if (getParam('downurl')) {
-          location.href = getParam('downurl')
+          // location.href = getParam('downurl')
+          var ifr = document.createElement('iframe');
+          ifr.src = getParam('downurl');
+          ifr.style.display = 'none';
+          document.body.appendChild(ifr);
+          setTimeout(function () {
+            document.body.removeChild(ifr);
+          }, 2000);
         }
         setTimeout(() => {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer'

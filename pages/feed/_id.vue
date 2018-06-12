@@ -798,13 +798,23 @@ export default {
           // 处理视频 再app内原生播放
           let showVid = document.querySelectorAll(".video-native-player");
           if (showVid.length > 0) {
-            document.body.ontouchend = function() {
-              //冒泡处理
-              var vid = event.target.dataset.vid;
-              if (vid) {
-                location.href = `/?vid=${vid}`;
-              }
-            };
+            document.addEventListener(
+              "click",
+              "body",
+              function(e) {
+                e = e || event;
+                var vid = e.target.dataset.vid;
+                console.log("vid==", vid);
+                if (vid) {
+                  location.href = `/?vid=${vid}`;
+                }
+              },
+              false
+            );
+            // document.body.onclick = function() {
+            //   //冒泡处理
+
+            // };
           }
         };
       }
