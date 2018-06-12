@@ -44,7 +44,9 @@
             </ul>
           </div>
           <div class="body-content-btn flex flex-pack-center">
-            <div class="content-btn flex flex-align-center flex-pack-center cursor" @click="inviteFriends">邀请好友赚现金</div>
+            <div class="content-btn flex flex-align-center flex-pack-center cursor" @click="inviteFriends">
+              邀请好友赚现金
+            </div>
           </div>
         </div>
       </div>
@@ -118,6 +120,9 @@ export default {
   methods: {
     collapse() {
       this.iscollapse = !this.iscollapse;
+    },
+    jupp() {
+      location.href = "http://www.baidu.com";
     },
     inviteFriends() {
       if (this.$store.state.agent.indexOf("closer-ios") > -1) {

@@ -606,6 +606,7 @@ export default {
     showVid2(vid) {
       location.href = `/?vid=${vid}`;
     },
+    // tovid
     openClick(event) {
       // if (event.target.nodeName === "IMG") {
       //   // event.target.src 这里做处理

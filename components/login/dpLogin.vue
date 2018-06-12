@@ -111,8 +111,10 @@ export default {
           self.loading = 2;
           if (!self.isAbsolute) {
             // 需要传入打开相应app页面的参数
-            location.href = api.downUrl;
-            // self.$router.push({ path: "/down" });
+            // location.href = api.downUrl;
+            location.href = `${location.protocol}//${
+              location.host
+            }/down.html?downurl=closer://jump/to/mine`;
           } else {
             self.$store.commit("SET_VISIBLE_LOGIN", false);
           }
