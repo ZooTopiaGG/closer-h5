@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",
+    "fastclick": "^1.0.6",
     "js-cookie": "^2.2.0",
     "mint-ui": "^2.2.13",
     "nuxt": "^1.0.0",
@@ -28,7 +29,9 @@
   "devDependencies": {
     "babel-eslint": "^8.2.1",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-stage-2": "^6.24.1",
+    "es6-promise": "^4.2.4",
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",

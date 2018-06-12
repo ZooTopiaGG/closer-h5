@@ -196,12 +196,13 @@
         }, 500)
       }
       document.querySelector('.downApp').addEventListener('click', function () {
+        // location.href = getParam('downurl')
         if (getParam('downurl')) {
           location.href = getParam('downurl')
         }
         setTimeout(() => {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer'
-        }, 1000)
+        }, 3000)
       }, false)
       document.querySelector('.goApp').addEventListener('click', function () {
         // this.$route.query.downurl

@@ -30,11 +30,15 @@ module.exports = {
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1'
+        content: 'width=device-width, initial-scale=1, user-scalable=no'
       },
       {
         name: 'format-detection',
         content: "telephone=no"
+      },
+      {
+        'http-equiv': "X-UA-Compatible",
+        content: 'IE=edge,chrome=1'
       },
       {
         hid: 'description',
@@ -152,7 +156,7 @@ module.exports = {
       // }
       config.module.rules.push(jsLoaderConfig)
       if (isDev && isClient) {
-        // config.entry['polyfill'] = ['babel-polyfill']
+        config.entry['polyfill'] = ['babel-polyfill']
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -181,6 +185,7 @@ module.exports = {
     '~/plugins/axios',
     '~/plugins/async',
     '~/plugins/picture-view.js',
+    '~/plugins/polyfill.js',
     {
       src: '~/plugins/vconsole.js',
       ssr: false

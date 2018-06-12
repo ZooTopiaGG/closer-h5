@@ -87,7 +87,15 @@ export default {
         if (!self.code) {
           self.loading = 2;
           self.$toast({
-            message: "手机号或验证码错误",
+            message: "验证码错误",
+            position: "top"
+          });
+          return false;
+        }
+        if (isNaN(self.code) || self.code.length != 6) {
+          self.loading = 2;
+          self.$toast({
+            message: "验证码错误",
             position: "top"
           });
           return false;
