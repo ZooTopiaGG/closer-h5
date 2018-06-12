@@ -102,7 +102,7 @@
               </span>
             </div>
             <div class="read-num" v-else>阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" v-html="$store.state.content.html" id="tjimg">
+            <div v-if="$store.state.res.int_category != 1" class="summary" v-html="$store.state.content.html" id="tjimg" @click="openClick($event)">
             </div>
             <div v-else>
               <div class="summary" id="tjimg" v-html="$store.state.content.html">
@@ -391,7 +391,7 @@ export default {
                     <div 
                       class='flex 
                       flex-align-center 
-                      flex-pack-center' 
+                      flex-pack-center'
                       data-vid='${vidArray[1]}' 
                       style='position:absolute;left:0;top:0;bottom:0;right:0;background:rgba(0,0,0,.3);'>
                       <span 
@@ -606,6 +606,15 @@ export default {
     showVid2(vid) {
       location.href = `/?vid=${vid}`;
     },
+    openClick(event) {
+      // if (event.target.nodeName === "IMG") {
+      //   // event.target.src 这里做处理
+      //   console.log("111");
+      // }
+      if (event.target.dataset.vid) {
+        location.href = `/?vid=${event.target.dataset.vid}`;
+      }
+    },
     tofeed(fid) {
       location.href = `closer://feed/${fid}`;
     },
@@ -796,26 +805,16 @@ export default {
             }
           }
           // 处理视频 再app内原生播放
-          let showVid = document.querySelectorAll(".video-native-player");
-          if (showVid.length > 0) {
-            document.addEventListener(
-              "click",
-              "body",
-              function(e) {
-                e = e || event;
-                var vid = e.target.dataset.vid;
-                console.log("vid==", vid);
-                if (vid) {
-                  location.href = `/?vid=${vid}`;
-                }
-              },
-              false
-            );
-            // document.body.onclick = function() {
-            //   //冒泡处理
-
-            // };
-          }
+          // let showVid = document.querySelectorAll(".video-native-player");
+          // if (showVid.length > 0) {
+          //   document.body.ontouchend = function() {
+          //     //冒泡处理
+          //     var vid = event.target.dataset.vid;
+          //     if (vid) {
+          //       location.href = `/?vid=${vid}`;
+          //     }
+          //   };
+          // }
         };
       }
     });
