@@ -130,6 +130,9 @@ export default {
   },
   mounted() {
     let self = this;
+    if (self.$store.state.h5Cookies) {
+      Cookie.set("h5Cookies", self.$store.state.h5Cookies);
+    }
     self.$nextTick(() => {
       // console.log("store====", self.$store.state);
       let content = self.$store.state.content,
@@ -196,6 +199,7 @@ export default {
           ? self.$com.makeFileUrl(self.$store.state.res.cover)
           : self.$com.makeFileUrl(self.$store.state.res.bigcover);
       }
+      // 微信二次分享
       // if (self.$store.state.GET_MESSAGE_STATE) {
       //   self.$store.dispatch("wx_share", {
       //     title: title,

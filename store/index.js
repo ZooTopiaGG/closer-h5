@@ -522,7 +522,9 @@ export const actions = {
       let data = await self.$axios.$post(`${api.share.get_adcookie}`, para)
       if (data.code === 0) {
         commit('SET_H5COOKIES', data.result.udid)
-        console.log('ssssss=====', Cookie.get('h5Cookies'))
+        // Cookie.set("h5Cookies", data.result.udid);
+        // console.log('sdasdadas=====', Cookie.get('h5Cookies'))
+        return data.result.udid
       }
     } catch (e) {
       console.log('e==', e)

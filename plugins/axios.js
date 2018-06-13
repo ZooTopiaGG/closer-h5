@@ -4,7 +4,8 @@ export default function ({
   redirect,
   app,
   store,
-  req
+  req,
+  res
 }) {
   if (req) {
     let host = req.headers.host;
@@ -42,8 +43,7 @@ export default function ({
     } else {
       config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
     }
-    // console.log('cooccococ==', store.state.h5Cookies)
-    Cookie.set('h5Cookies', store.state.h5Cookies)
+    // console.log('cooccococ====', store.state.h5Cookies)
     if (store.state.GET_MESSAGE_STATE) {
       config.headers.common['X-Udid'] = store.state.h5Cookies || 'h5-SRjHazKvYslHxwZxjy5tql9G4edf3d';
       if (store.state.h5Cookies) {
@@ -57,10 +57,13 @@ export default function ({
       // 获取贴子详情不需要token验证
       config.headers.Authorization = `GroukAuth ${store.state.token}`
     }
-    // console.log(' config.headers====', config.headers)
+    // console.log(' config.headers========', config.headers)
   })
   $axios.onResponse(config => {
     // console.log('config====', config)
+    // res.writeHead(200, {
+    //   'Set-Cookie': store.state.h5Cookies
+    // });
   })
   $axios.onError(error => {
     const code = parseInt(error.response && error.response.status)

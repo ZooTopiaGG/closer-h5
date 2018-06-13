@@ -14,6 +14,12 @@ export default async function ({
     groupId: params.id
   }
   try {
+    if (store.state.GET_MESSAGE_STATE && !store.state.h5Cookies) {
+      let co = await store.dispatch("get_adcookie", {
+        webUdid: true
+      });
+      Cookie.set("h5Cookies", co);
+    }
     let data = await app.$axios.$post(`${api.group.group_subject_list}`, para)
     if (data.code === 0) {
       let arr = await data.result.data.map(x => {
