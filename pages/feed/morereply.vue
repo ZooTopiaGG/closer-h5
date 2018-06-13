@@ -149,11 +149,10 @@ export default {
     }
     next();
   },
-  beforeMount() {
+  mounted() {
     this.$store.commit("SET_NO_NAV", false);
     this.item = JSON.parse(sessionStorage.getItem("item"));
-  },
-  mounted() {}
+  }
 };
 </script>
 <style lang='less'>

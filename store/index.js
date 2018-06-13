@@ -111,7 +111,7 @@ export const actions = {
       // 进入页面之前请求服务 获取cookies
       let user = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'user')
       let token = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'token')
-      let h5Cookies = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'token')
+      let h5Cookies = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'h5Cookies')
       commit('SET_USER', user)
       commit('SET_TOKEN', token)
       commit('SET_H5COOKIES', h5Cookies)
