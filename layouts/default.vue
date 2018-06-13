@@ -131,12 +131,12 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
-      console.log("store====", self.$store.state);
+      // console.log("store====", self.$store.state);
       let content = self.$store.state.content,
         title,
         pic,
         desc;
-      console.log("self.$store.content==", self.$store.state.content.text);
+      // console.log("self.$store.content==", self.$store.state.content.text);
       if (self.$store.state.res.int_type === 0) {
         // 图集
         if (content.text) {
