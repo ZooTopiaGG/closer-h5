@@ -3,9 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>下载贴近App</title>
+  <script src="./stat.js" async="async"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
   <style>
     body,
     html {
@@ -120,7 +122,9 @@
     .downApp {
       padding: 5px 8px;
       background: #FDDB00;
+      color: #4b4945;
       outline: none;
+      text-decoration: none;
       border: 0;
       border-radius: 4px;
       line-height: 1.6;
@@ -157,11 +161,40 @@
         <p>贴近一点 看身边</p>
       </div>
       <div>
-        <a class="downApp">立即下载</a>
+        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer" class="downApp">立即下载</a>
       </div>
     </div>
   </div>
   <script>
+    $(document).ready(function () {
+      initLoad()
+    })
+
+    function initLoad() {
+      if (isWeiXin()) {
+        document.querySelector('.downtitle').style.display = 'block'
+        document.querySelector('.point').style.display = 'block'
+      } else {
+        document.querySelector('.noweixin').style.display = 'block'
+        setTimeout(() => {
+          location.href = getParam('downurl');
+          setTimeout(() => {
+            location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
+          }, 1500)
+        }, 0)
+      }
+      document.querySelector('.goApp').addEventListener('click', function () {
+        // this.$route.query.downurl
+        console.log(getParam('downurl'))
+        if (getParam('downurl')) {
+          location.href = getParam('downurl')
+        } else {
+          location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
+          return
+        }
+      }, false)
+    }
+
     function isWeiXin() {
       var wx = navigator.userAgent.toLowerCase();
       return wx.indexOf('micromessenger') > -1
@@ -184,35 +217,6 @@
         }
       }
       return paramValue;
-    }
-    window.onload = function () {
-      if (isWeiXin()) {
-        document.querySelector('.downtitle').style.display = 'block'
-        document.querySelector('.point').style.display = 'block'
-      } else {
-        document.querySelector('.noweixin').style.display = 'block'
-        setTimeout(() => {
-          document.querySelector('.downApp').click();
-        }, 500)
-      }
-      document.querySelector('.downApp').addEventListener('click', function () {
-        // location.href = getParam('downurl')
-        if (getParam('downurl')) {
-          location.href = getParam('downurl')
-        }
-        setTimeout(() => {
-          location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer'
-        }, 3000)
-      }, false)
-      document.querySelector('.goApp').addEventListener('click', function () {
-        // this.$route.query.downurl
-        console.log(getParam('downurl'))
-        if (getParam('downurl')) {
-          location.href = getParam('downurl')
-        } else {
-          return
-        }
-      }, false)
     }
 
   </script>

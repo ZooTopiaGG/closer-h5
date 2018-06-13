@@ -84,10 +84,11 @@ export default {
       background: url("~/assets/images/nav@2x.png") no-repeat;
       background-size: cover;
       z-index: 6;
+      top: -50px;
     }
   }
   .openbonus-body {
-    padding-top: 36vw;
+    padding-top: calc(36vw - 50px);
     position: relative;
     z-index: 7;
     margin-bottom: 8vw;

@@ -266,15 +266,15 @@ button {}
   /* color: #222; */
 }
 
-.summary p,
-.summary ol,
-.summary ul,
-.summary * {
+.summary>p,
+.summary>ol,
+.summary>ul,
+.summary>div:not(.imgbox) {
   padding: 0 4vw;
   margin-bottom: 2.668vw;
 }
 
-.summary p img {
+.summary>p img {
   max-width: 100%;
   height: auto;
   margin-bottom: 2.668vw;

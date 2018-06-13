@@ -70,7 +70,7 @@ export default {
     padding-top: calc(36vw - 25px);
     position: relative;
     z-index: 7;
-    margin-bottom: 8vw;
+    // margin-bottom: 8vw;
     .body-avatar img {
       width: 18.93vw;
       height: 18.93vw;
@@ -88,10 +88,8 @@ export default {
       }
     }
     .body-money {
-      height: 18.676vw;
-      line-height: 18.676vw;
       font-size: 18px;
-      margin-bottom: 16vw;
+      // margin-bottom: 16vw;
       img {
         width: 95.02vw;
         height: 61.36vw;
