@@ -133,7 +133,7 @@ export default {
       console.log("url====", location.href);
       if (this.$store.state.GET_MESSAGE_STATE) {
         this.$store.dispatch("wx_share", {
-          url: location.href,
+          url: "http://h5-sandbox.tiejin.cn/feed/wiEZMD8WbmM1",
           title: "分享",
           pic:
             "http://file-sandbox.tiejin.cn/public/9nzLgQhlpP/crop_1528707772028.png.jpg",
