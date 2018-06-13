@@ -198,7 +198,6 @@ export default {
       }
       if (self.$store.state.GET_MESSAGE_STATE) {
         self.$store.dispatch("wx_share", {
-          url: location.href,
           title: title,
           desc: desc,
           pic: pic

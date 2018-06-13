@@ -414,16 +414,16 @@ export const actions = {
   async wx_share({
     commit
   }, {
-    url,
     title,
     desc,
     pic
   }) {
-    let self = this
-    let para = {
-      url: url.split('#')[0]
-    }
-    // console.log('url===', url)
+    let self = this,
+      url = location.href.split('#')[0],
+      para = {
+        url: url
+      }
+    console.log('url===', url)
     try {
       let res = await self.$axios.$post(`${api.share.wechat_config}`, para)
       if (res.code === 0) {
