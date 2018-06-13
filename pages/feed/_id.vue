@@ -290,11 +290,11 @@ export default {
       let para = {
         subjectid: params.id
       };
-      if (store.state.GET_MESSAGE_STATE && store.state.h5Cookies) {
-        store.dispatch("get_adcookie", {
-          webUdid: true
-        });
-      }
+      // if (store.state.GET_MESSAGE_STATE && store.state.h5Cookies) {
+      //   store.dispatch("get_adcookie", {
+      //     webUdid: true
+      //   });
+      // }
       let [res, view] = await Promise.all([
         app.$axios.$post(`${api.command.show}`, para),
         app.$axios.$post(`${api.command.incr_view}`, para)
