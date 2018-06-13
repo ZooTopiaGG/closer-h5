@@ -9,7 +9,13 @@ const babelConfig = {
     }],
     "stage-2"
   ],
-  plugins: ["transform-runtime"]
+  plugins: ["transform-runtime"],
+  env: {
+    "test": {
+      "presets": ["env", "stage-2"],
+      "plugins": ["transform-vue-jsx", "istanbul"]
+    }
+  }
 }
 const jsLoaderConfig = {
   test: /\.js?$/,
@@ -142,7 +148,7 @@ module.exports = {
     babel: babelConfig,
     // 发布路径 只需设置为根路径
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
-    vendor: ['axios', 'vue-picture-preview2', 'mint-ui', 'js-cookie'],
+    vendor: ['axios', 'mint-ui', 'js-cookie'],
     /*
      ** Run ESLint on save
      */
@@ -156,7 +162,7 @@ module.exports = {
       // }
       config.module.rules.push(jsLoaderConfig)
       if (isDev && isClient) {
-        config.entry['polyfill'] = ['babel-polyfill']
+        // config.entry['polyfill'] = ['babel-polyfill']
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -168,11 +174,11 @@ module.exports = {
         //   'vue$': 'vue/dist/vue.esm.js'
         // })
       } else if (isServer) {
-        config.externals = [
-          nodeExternals({
-            whitelist: [/^vue-picture-preview2/]
-          })
-        ]
+        // config.externals = [
+        //   nodeExternals({
+        //     whitelist: [/^vue-picture-preview2/]
+        //   })
+        // ]
       }
     }
   },
@@ -184,8 +190,8 @@ module.exports = {
     '~/plugins/mintui.js',
     '~/plugins/axios',
     '~/plugins/async',
-    '~/plugins/picture-view.js',
-    '~/plugins/polyfill.js',
+    // '~/plugins/picture-view.js',
+    // '~/plugins/polyfill.js',
     {
       src: '~/plugins/vconsole.js',
       ssr: false

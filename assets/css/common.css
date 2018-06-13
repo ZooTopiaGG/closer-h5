@@ -268,7 +268,8 @@ button {}
 
 .summary p,
 .summary ol,
-.summary ul {
+.summary ul,
+.summary * {
   padding: 0 4vw;
   margin-bottom: 2.668vw;
 }

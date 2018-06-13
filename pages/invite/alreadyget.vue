@@ -101,7 +101,7 @@ export default {
   }
   .hasToken {
     padding: 0 6.67vw;
-    margin-bottom: 13.34vw;
+    margin-bottom: 8vw;
     button {
       width: 100%;
     }

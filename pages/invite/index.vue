@@ -140,13 +140,7 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      document.body.onclick = function() {
-        alert(111111);
-      };
-    });
-  }
+  mounted() {}
 };
 </script>
 <style>
