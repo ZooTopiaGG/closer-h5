@@ -120,9 +120,7 @@ export default {
           if (!self.isAbsolute) {
             // 需要传入打开相应app页面的参数
             // location.href = api.downUrl;
-            location.href = `${location.protocol}//${
-              location.host
-            }/down.html?downurl=closer://jump/to/mine`;
+            location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://jump/to/mine`;
           } else {
             self.$store.commit("SET_VISIBLE_LOGIN", false);
           }

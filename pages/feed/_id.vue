@@ -290,6 +290,11 @@ export default {
       let para = {
         subjectid: params.id
       };
+      if (store.state.GET_MESSAGE_STATE && store.state.h5Cookies) {
+        store.dispatch("get_adcookie", {
+          webUdid: true
+        });
+      }
       let [res, view] = await Promise.all([
         app.$axios.$post(`${api.command.show}`, para),
         app.$axios.$post(`${api.command.incr_view}`, para)
@@ -337,7 +342,6 @@ export default {
                             srcArray[1]
                           }' style="width:100%; height: auto;"/>
                           </div>`;
-                // 替换插入需要的值
                 // 正则替换富文本内的img标签
                 // 替换不同文本
                 const regexPImg1 = new RegExp(x);

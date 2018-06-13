@@ -126,9 +126,9 @@ export default {
   },
   methods: {
     downApp() {
-      location.href = `${location.protocol}//${
-        location.host
-      }/down.html?downurl=closer://group/${this.$route.params.id}`;
+      location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://group/${
+        this.$route.params.id
+      }`;
       // this.$router.push({
       //   path: `/down?downurl=closer://group/${this.$route.params.id}`
       // });

@@ -24,7 +24,8 @@ export const state = () => ({
   visibleLogin: false,
   visibleMessage: false,
   is_follow: false,
-  incr_view: ''
+  incr_view: '',
+  h5Cookies: ''
 })
 
 export const mutations = {
@@ -93,6 +94,10 @@ export const mutations = {
   // 关注
   SET_FOCUS_STAT(state, para) {
     state.is_follow = para
+  },
+  // 获取h5cookies
+  SET_H5COOKIES(state, para) {
+    state.h5Cookies = para
   }
 }
 
@@ -106,8 +111,10 @@ export const actions = {
       // 进入页面之前请求服务 获取cookies
       let user = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'user')
       let token = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'token')
+      let h5Cookies = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'token')
       commit('SET_USER', user)
       commit('SET_TOKEN', token)
+      commit('SET_H5COOKIES', h5Cookies)
     }
   },
   // 获取微信授权code，先获取SET_AUTH 判断cookie是否存在或过期，若过期则调用get_wx_auth
@@ -505,6 +512,26 @@ export const actions = {
       }
     } catch (e) {
       console.log('e====', e)
+    }
+  },
+  async get_adcookie({
+    commit
+  }, {
+    webUdid
+  }) {
+    let self = this
+    try {
+      let para = {
+        webUdid: webUdid
+      }
+      let data = await self.$axios.$post(`${api.share.get_adcookie}`, para)
+      if (data.code === 0) {
+        Cookie.set('h5Cookies', data.result.udid)
+        commit('SET_H5COOKIES', data.result.udid)
+        console.log('h5Cookies====', Cookie.get('h5Cookies'))
+      }
+    } catch (e) {
+      console.log('e==', e)
     }
   }
 }

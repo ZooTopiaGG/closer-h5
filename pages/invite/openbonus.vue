@@ -33,9 +33,7 @@ export default {
   methods: {
     downApp() {
       // location.href = api.downUrl;
-      location.href = `${location.protocol}//${
-        location.host
-      }/down.html?downurl=closer://jump/to/mine`;
+      location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://jump/to/mine`;
     }
   },
   beforeMount() {

@@ -55,7 +55,8 @@ let api = {
     share_group: 'closer_share.outer_group'
   },
   share: {
-    wechat_config: 'closer_share.wechat_config'
+    wechat_config: 'closer_share.wechat_config',
+    get_adcookie: 'closer_statistics.get_adcookie'
   }
 }
 
