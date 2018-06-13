@@ -200,8 +200,8 @@ export default {
         self.$store.dispatch("wx_share", {
           url: location.href,
           title: title,
-          pic: pic,
-          desc: desc
+          desc: desc,
+          pic: pic
         });
       }
       let wrp = document.getElementById("wrapper");
