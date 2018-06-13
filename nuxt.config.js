@@ -1,30 +1,4 @@
 var nodeExternals = require('webpack-node-externals')
-const babelConfig = {
-  presets: [
-    ["env", {
-      "modules": false,
-      "targets": {
-        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
-      }
-    }],
-    "stage-2"
-  ],
-  plugins: ["transform-runtime"],
-  env: {
-    "test": {
-      "presets": ["env", "stage-2"],
-      "plugins": ["transform-vue-jsx", "istanbul"]
-    }
-  }
-}
-const jsLoaderConfig = {
-  test: /\.js?$/,
-  use: [{
-    loader: 'babel-loader',
-    options: babelConfig
-  }],
-  exclude: /node_modules/
-}
 module.exports = {
   /*
    ** Headers of the page
@@ -78,11 +52,6 @@ module.exports = {
         type: 'text/css',
         href: '//at.alicdn.com/t/font_663941_c0ea3e10z0fz85mi.css'
       },
-      // {
-      //   rel: 'stylesheet',
-      //   type: 'text/css',
-      //   href: 'https://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css'
-      // },
     ],
 
   },
@@ -145,7 +114,6 @@ module.exports = {
     analyze: {
       analyzerMode: 'static'
     },
-    babel: babelConfig,
     // 发布路径 只需设置为根路径
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
     vendor: ['axios', 'mint-ui', 'js-cookie'],
@@ -160,9 +128,7 @@ module.exports = {
       // config.externals = {
       //   'Aliplayer': 'Aliplayer'
       // }
-      config.module.rules.push(jsLoaderConfig)
       if (isDev && isClient) {
-        // config.entry['polyfill'] = ['babel-polyfill']
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -190,8 +156,6 @@ module.exports = {
     '~/plugins/mintui.js',
     '~/plugins/axios',
     '~/plugins/async',
-    // '~/plugins/picture-view.js',
-    // '~/plugins/polyfill.js',
     {
       src: '~/plugins/vconsole.js',
       ssr: false

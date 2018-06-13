@@ -1,6 +1,6 @@
 {
   "name": "closer-h5",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Nuxt.js project",
   "author": "dengpeng <dp@tiejin.cn>",
   "private": true,
@@ -23,21 +23,16 @@
     "fastclick": "^1.0.6",
     "js-cookie": "^2.2.0",
     "mint-ui": "^2.2.13",
-    "nuxt": "^1.0.0",
-    "vue-picture-preview2": "^1.0.2"
+    "nuxt": "^1.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-vue": "^4.0.0",
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
-    "vconsole": "^3.2.0",
-    "webpack-node-externals": "^1.7.2"
+    "vconsole": "^3.2.0"
   }
 }
