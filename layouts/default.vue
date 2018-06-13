@@ -129,15 +129,79 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      console.log("url====", location.href);
-      if (this.$store.state.GET_MESSAGE_STATE) {
-        this.$store.dispatch("wx_share", {
-          url: "http://h5-sandbox.tiejin.cn/feed/wiEZMD8WbmM1",
-          title: "分享",
-          pic:
-            "http://file-sandbox.tiejin.cn/public/9nzLgQhlpP/crop_1528707772028.png.jpg",
-          desc: "我是描述"
+    let self = this;
+    self.$nextTick(() => {
+      console.log("store====", self.$store.state);
+      let content = self.$store.state.content,
+        title,
+        pic,
+        desc;
+      console.log("self.$store.content==", self.$store.state.content.text);
+      if (self.$store.state.res.int_type === 0) {
+        // 图集
+        if (content.text) {
+          title = content.text;
+        } else {
+          title = "分享图片";
+        }
+        if (content.images.length > 0) {
+          let d = content.images.map(x => {
+            x = "[图片]";
+            return x;
+          });
+          desc = d.join(" ");
+          pic = self.$com.makeFileUrl(content.images[0].link);
+        } else {
+          desc = "[图片]";
+          pic = "";
+        }
+      } else if (self.$store.state.res.int_type === 1) {
+        // 视频
+        if (content.text) {
+          title = content.text;
+        } else {
+          title = "分享视频";
+        }
+        if (content.videos.length > 0) {
+          let d = content.videos.map(x => {
+            x = "[视频]";
+            return x;
+          });
+          desc = d.join(" ");
+          pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
+        } else {
+          desc = "[视频]";
+          pic = "";
+        }
+      } else {
+        // 长图文
+        if (content.text) {
+          title = self.$store.state.res.title;
+        } else {
+          title = content.summary;
+        }
+        // if (content.videos.length > 0) {
+        //   let d = content.videos.map(x => {
+        //     x = "[视频]";
+        //     return x;
+        //   });
+        //   desc = d.join(" ");
+        //   pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
+        // } else {
+        //   desc = "[视频]";
+        //   pic = "";
+        // }
+        desc = content.summary ? content.summary : "分享文章";
+        pic = self.$com.makeFileUrl(self.$store.state.res.cover)
+          ? self.$com.makeFileUrl(self.$store.state.res.cover)
+          : self.$com.makeFileUrl(self.$store.state.res.bigcover);
+      }
+      if (self.$store.state.GET_MESSAGE_STATE) {
+        self.$store.dispatch("wx_share", {
+          url: location.href,
+          title: title,
+          pic: pic,
+          desc: desc
         });
       }
       let wrp = document.getElementById("wrapper");
