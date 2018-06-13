@@ -133,6 +133,14 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      console.log("url====", location.href);
+      this.$store.dispatch("wx_share", {
+        url: location.href,
+        title: "分享",
+        pic:
+          "http://file-sandbox.tiejin.cn/public/9nzLgQhlpP/crop_1528707772028.png.jpg",
+        desc: "我是描述"
+      });
       let wrp = document.getElementById("wrapper");
       if (wrp) {
         wrp.addEventListener("scroll", this.handleScroll);

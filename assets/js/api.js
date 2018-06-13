@@ -53,6 +53,9 @@ let api = {
     recruiting: 'closer_class.recruiting',
     group_subject_list: 'closer_subject.class_subject_list_index',
     share_group: 'closer_share.outer_group'
+  },
+  share: {
+    wechat_config: 'closer_share.wechat_config'
   }
 }
 

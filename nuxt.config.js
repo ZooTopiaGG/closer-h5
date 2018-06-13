@@ -32,9 +32,9 @@ module.exports = {
       {
         src: '/stat.js'
       },
-      // {
-      //   src: 'https://cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js'
-      // }
+      {
+        src: 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js'
+      }
     ],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{
