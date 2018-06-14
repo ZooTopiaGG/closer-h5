@@ -535,7 +535,10 @@ export default {
     };
   },
   beforeRouteLeave(to, from, next) {
-    if (to.path.indexOf("/feed/morereply") > -1) {
+    if (
+      to.path.indexOf("/feed/morereply") > -1 ||
+      to.path.indexOf("/group") > -1
+    ) {
       this.$store.commit("SET_NO_NAV", false);
     } else {
       this.$store.commit("SET_NO_NAV", true);

@@ -410,7 +410,7 @@ export const actions = {
       })
     }
   },
-  // 分享
+  // 微信分享
   async wx_share({
     commit
   }, {
@@ -423,14 +423,12 @@ export const actions = {
       para = {
         url: url
       }
-    console.log('url===', url)
     try {
       let res = await self.$axios.$post(`${api.share.wechat_config}`, para)
       if (res.code === 0) {
-        console.log('data.code==', res)
         let data = res.result;
         wx.config({
-          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
           appId: data.appId, // 必填，公众号的唯一标识
           timestamp: data.timestamp, // 必填，生成签名的时间戳
           nonceStr: data.nonceStr, // 必填，生成签名的随机串
@@ -442,62 +440,59 @@ export const actions = {
           //分享到朋友圈
           wx.onMenuShareTimeline({
             title: title, // 分享标题
-            link: data.url, // 分享链接
+            link: url, // 分享链接
             imgUrl: pic, // 分享图标
             success: function () {
               // 用户确认分享后执行的回调函数
-              //layer.msg('分享成功');
+              Toast('分享成功');
             },
             cancel: function () {
               // 用户取消分享后执行的回调函数
-              Toast('分享失败');
             }
           });
           //分享给好友
           wx.onMenuShareAppMessage({
             title: title, // 分享标题
             desc: desc, // 分享描述
-            link: data.url, // 分享链接
+            link: url, // 分享链接
             imgUrl: pic, // 分享图标
             type: '', // 分享类型,music、video或link，不填默认为link
             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
             success: function () {
               // 用户确认分享后执行的回调函数
               //layer.msg('分享成功');
+              Toast('分享成功');
             },
             cancel: function () {
               // 用户取消分享后执行的回调函数
-              Toast('分享失败');
             }
           });
           //分享到qq
           wx.onMenuShareQQ({
             title: title, // 分享标题
             desc: desc, // 分享描述
-            link: data.url, // 分享链接
+            link: url, // 分享链接
             imgUrl: pic, // 分享图标
             success: function () {
               // 用户确认分享后执行的回调函数
-              //layer.msg('分享成功');
+              Toast('分享成功');
             },
             cancel: function () {
               // 用户取消分享后执行的回调函数
-              Toast('分享失败');
             }
           });
           //分享到QQ空间
           wx.onMenuShareQZone({
             title: title, // 分享标题
             desc: desc, // 分享描述
-            link: data.url, // 分享链接
+            link: url, // 分享链接
             imgUrl: pic, // 分享图标
             success: function () {
               // 用户确认分享后执行的回调函数
-              //layer.msg('分享成功');
+              Toast('分享成功');
             },
             cancel: function () {
               // 用户取消分享后执行的回调函数
-              Toast('分享失败');
             }
           });
         });
@@ -509,6 +504,7 @@ export const actions = {
       console.log('e====', e)
     }
   },
+  // h5设置cookies埋点
   async get_adcookie({
     commit
   }, {

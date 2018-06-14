@@ -39,7 +39,7 @@
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
-          App内打开
+          贴近内打开
         </mt-button>
       </div>
     </div>
@@ -72,6 +72,12 @@ export default {
         location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://feed/${
           this.$route.params.id
         }`;
+      } else if (this.$route.path.indexOf("/group") > -1) {
+        location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://group/${
+          this.$route.params.id
+        }`;
+      } else {
+        location.href = `http://web-sandbox.tiejin.cn/down`;
       }
     },
     handleScroll(e) {
@@ -134,71 +140,102 @@ export default {
       Cookie.set("h5Cookies", self.$store.state.h5Cookies);
     }
     self.$nextTick(() => {
-      // console.log("store====", self.$store.state);
-      let content = self.$store.state.content,
-        title,
-        pic,
-        desc;
-      // console.log("self.$store.content==", self.$store.state.content.text);
-      if (self.$store.state.res.int_type === 0) {
-        // 图集
-        if (content.text) {
-          title = content.text;
-        } else {
-          title = "分享图片";
-        }
-        if (content.images.length > 0) {
-          let d = content.images.map(x => {
-            x = "[图片]";
-            return x;
-          });
-          desc = d.join(" ");
-          pic = self.$com.makeFileUrl(content.images[0].link);
-        } else {
-          desc = "[图片]";
-          pic = "";
-        }
-      } else if (self.$store.state.res.int_type === 1) {
-        // 视频
-        if (content.text) {
-          title = content.text;
-        } else {
-          title = "分享视频";
-        }
-        if (content.videos.length > 0) {
-          let d = content.videos.map(x => {
-            x = "[视频]";
-            return x;
-          });
-          desc = d.join(" ");
-          pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
-        } else {
-          desc = "[视频]";
-          pic = "";
+      console.log("store====", self.$store.state);
+      let title, pic, desc;
+      console.log("self.$store.content==", self.$route);
+      if (self.$route.path.indexOf("/community") > -1) {
+        // 分享栏目主页
+        title = self.$store.state.res.name
+          ? self.$store.state.res.name
+          : "栏目主页";
+        desc = self.$store.state.res.description
+          ? self.$store.state.res.description
+          : "分享栏目主页";
+        pic = self.$store.state.res.slogo
+          ? self.$store.state.res.slogo
+          : self.$store.state.res.blogo;
+      } else if (self.$route.path.indexOf("/group") > -1) {
+        // 分享群组
+        if (
+          self.$store.state.group_info.group_info &&
+          self.$store.state.group_info.group_info.group
+        ) {
+          let group = self.$store.state.group_info.group_info.group;
+          title = group.name ? group.name : "贴近群组";
+          if (group.description) {
+            let description = JSON.parse(
+              self.$store.state.group_info.group_info.group.description
+            );
+            desc = description.content ? description.content : "分享贴近群组";
+          } else {
+            desc = "分享贴近群组";
+          }
+          pic = group.avatar;
         }
       } else {
-        // 长图文
-        if (content.text) {
-          title = self.$store.state.res.title;
+        let content = self.$store.state.content;
+        // 分享长图文
+        if (self.$store.state.res.int_type === 0) {
+          // 图集
+          if (content.text) {
+            title = content.text;
+          } else {
+            title = "分享图片";
+          }
+          if (content.images && content.images.length > 0) {
+            let d = content.images.map(x => {
+              x = "[图片]";
+              return x;
+            });
+            desc = d.join(" ");
+            pic = self.$com.makeFileUrl(content.images[0].link);
+          } else {
+            desc = "[图片]";
+            pic = "";
+          }
+        } else if (self.$store.state.res.int_type === 1) {
+          // 视频
+          if (content.text) {
+            title = content.text;
+          } else {
+            title = "分享视频";
+          }
+          if (content.videos && content.videos.length > 0) {
+            let d = content.videos.map(x => {
+              x = "[视频]";
+              return x;
+            });
+            desc = d.join(" ");
+            pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
+          } else {
+            desc = "[视频]";
+            pic = "";
+          }
         } else {
-          title = content.summary;
+          // 长图文
+          if (content.text) {
+            title = self.$store.state.res.title;
+          } else {
+            title = content.summary;
+          }
+          // if (content.videos.length > 0) {
+          //   let d = content.videos.map(x => {
+          //     x = "[视频]";
+          //     return x;
+          //   });
+          //   desc = d.join(" ");
+          //   pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
+          // } else {
+          //   desc = "[视频]";
+          //   pic = "";
+          // }
+          desc = content.summary ? content.summary : "分享文章";
+          pic = self.$com.makeFileUrl(self.$store.state.res.cover)
+            ? self.$com.makeFileUrl(self.$store.state.res.cover)
+            : self.$com.makeFileUrl(self.$store.state.res.bigcover);
         }
-        // if (content.videos.length > 0) {
-        //   let d = content.videos.map(x => {
-        //     x = "[视频]";
-        //     return x;
-        //   });
-        //   desc = d.join(" ");
-        //   pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
-        // } else {
-        //   desc = "[视频]";
-        //   pic = "";
-        // }
-        desc = content.summary ? content.summary : "分享文章";
-        pic = self.$com.makeFileUrl(self.$store.state.res.cover)
-          ? self.$com.makeFileUrl(self.$store.state.res.cover)
-          : self.$com.makeFileUrl(self.$store.state.res.bigcover);
       }
+
       // 微信二次分享
       if (self.$store.state.GET_MESSAGE_STATE) {
         self.$store.dispatch("wx_share", {
