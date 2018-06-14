@@ -269,12 +269,20 @@ button {}
 .summary>p,
 .summary>ol,
 .summary>ul,
-.summary>div:not(.imgbox) {
+.summary>div:not(.imgbox),
+.summary>section,
+.summary>article,
+.summary>aside {
   padding: 0 4vw;
   margin-bottom: 2.668vw;
 }
 
-.summary>p img {
+p:empty {
+  margin: 0;
+  padding: 0;
+}
+
+.summary img {
   max-width: 100%;
   height: auto;
   margin-bottom: 2.668vw;

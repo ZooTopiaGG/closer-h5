@@ -200,13 +200,13 @@ export default {
           : self.$com.makeFileUrl(self.$store.state.res.bigcover);
       }
       // 微信二次分享
-      // if (self.$store.state.GET_MESSAGE_STATE) {
-      //   self.$store.dispatch("wx_share", {
-      //     title: title,
-      //     desc: desc,
-      //     pic: pic
-      //   });
-      // }
+      if (self.$store.state.GET_MESSAGE_STATE) {
+        self.$store.dispatch("wx_share", {
+          title: title,
+          desc: desc,
+          pic: pic
+        });
+      }
       let wrp = document.getElementById("wrapper");
       if (wrp) {
         wrp.addEventListener("scroll", this.handleScroll);

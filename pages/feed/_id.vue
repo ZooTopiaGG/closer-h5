@@ -1,9 +1,9 @@
 <template>
   <div id="feed" :class="{ videofeed: $store.state.res.int_type === 1}">
-    <div v-if="$store.state.res.int_type === 1" style="width:100%;height: 200px;position: fixed; top: 0;left: 0;z-index: 999; background: rgba(0,0,0,.8);box-shadow: 0 1px 5px #efefef;">
+    <div v-if="$store.state.res.int_type === 1" style="width:100%;height: 56.25vw;position: fixed; top: 0;left: 0;z-index: 999; background: rgba(0,0,0,.8);box-shadow: 0 1px 5px #efefef;">
       <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
         x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint"
-        style="width: 100%; height: 200px; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
+        style="width: 100%; height: 56.25vw; overflow:hidden;" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         
       </video>
     </div>
@@ -332,6 +332,7 @@ export default {
               let size, flag;
               pImg.forEach((x, i) => {
                 let srcArray = x.match(regexSrc);
+                console.log("srcArray====", srcArray[1]);
                 flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:212px'>
                           <img src='/default2.png' data-src='${
                             srcArray[1]
@@ -339,8 +340,8 @@ export default {
                           </div>`;
                 // 正则替换富文本内的img标签
                 // 替换不同文本
-                const regexPImg1 = new RegExp(x);
-                content.html = content.html.replace(regexPImg1, flag);
+                // const regexPImg1 = new RegExp(x);
+                content.html = content.html.replace(x, flag);
               });
             }
             const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
@@ -363,7 +364,7 @@ export default {
                   flg = `<div 
                     class='imgbox'
                     data-vid='${vidArray[1]}' 
-                    style='background-color: rgba(0,0,0,.8); width: 100%; height:240px; position:relative;'>
+                    style='background-color: rgba(0,0,0,.8); width: 100%; height:56.25vw; position:relative;'>
                     <video src='${urlArray[1]}'
                       controls='controls' 
                       preload='none' 
@@ -372,7 +373,7 @@ export default {
                       x-webkit-airplay='allow'
                       x5-video-player-type='h5'
                       x5-video-orientation='portraint'
-                      style='width: 100%; height:240px; overflow:hidden;'
+                      style='width: 100%; height:56.25vw; overflow:hidden;'
                       poster='${coverArray[1]}' 
                       data-cover='${coverArray[1]}'>
                     </video>
@@ -385,7 +386,7 @@ export default {
                       background-position: 50% 50%;
                       background-repeat: no-repeat; 
                       width: 100%; 
-                      height:64vw; 
+                      height:56.25vw; 
                       position:relative;'>
                     <div 
                       class='flex 
@@ -396,14 +397,15 @@ export default {
                       <span 
                         class='icon-font icon-shipin' 
                         data-vid='${vidArray[1]}' 
-                        style='font-size: 60px; color: #ddd;'>
+                        style='font-size: 12.8vw; color: #ddd;'>
                       </span>
                     </div>
                   </div>`;
                 }
-                const regexVideo1 = new RegExp(x);
-                content.html = content.html.replace(regexVideo1, flg);
+                // const regexVideo1 = new RegExp(x);
+                content.html = content.html.replace(x, flg);
               });
+              // console.log("end html===", content.html);
             }
             const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
             var piFrame = await content.html.match(regexIframe);
@@ -420,7 +422,7 @@ export default {
                 let flag = `<div class="imgbox" style="width:100%; min-height: 212px;">
                   ${newstr1}</iframe>
                 </div>`;
-                content.html = content.html.replace(regexIframe, flag);
+                content.html = content.html.replace(x, flag);
               });
             }
           }
@@ -852,11 +854,11 @@ export default {
 }
 /* 视频特殊处理 */
 .videofeed .box {
-  height: calc(177.87vw - 200px);
+  height: calc(177.87vw - 56.25vw);
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  margin-top: 200px;
+  margin-top: 56.25vw;
 }
 .feed-doc {
   /* padding-bottom: 4vw; */
