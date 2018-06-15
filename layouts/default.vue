@@ -93,7 +93,6 @@ export default {
           this.scrollnav = false;
         }
       } else {
-        // console.log("不是长图文类型")
         return false;
       }
     },
