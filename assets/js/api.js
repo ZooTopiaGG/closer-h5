@@ -1,5 +1,6 @@
 let api = {
   downUrl: 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer',
+  downHost: 'http://tiejin.cn/down',
   file: '/file/upload/public',
   admin: {
     // 微信授权获取code

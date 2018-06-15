@@ -65,19 +65,19 @@ export default {
   methods: {
     downApp() {
       if (this.$route.path.indexOf("/community") > -1) {
-        location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://community/${
+        location.href = `${downHost}?downurl=closer://community/${
           this.$route.params.id
         }`;
       } else if (this.$route.path.indexOf("/feed") > -1) {
-        location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://feed/${
+        location.href = `${downHost}?downurl=closer://feed/${
           this.$route.params.id
         }`;
       } else if (this.$route.path.indexOf("/group") > -1) {
-        location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://group/${
+        location.href = `${downHost}?downurl=closer://group/${
           this.$route.params.id
         }`;
       } else {
-        location.href = `http://web-sandbox.tiejin.cn/down`;
+        location.href = `${downHost}`;
       }
     },
     handleScroll(e) {

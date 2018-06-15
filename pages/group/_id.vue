@@ -139,7 +139,7 @@ export default {
   },
   methods: {
     downApp() {
-      location.href = `http://web-sandbox.tiejin.cn/down?downurl=closer://group/${
+      location.href = `${downHost}?downurl=closer://group/${
         this.$route.params.id
       }`;
       // this.$router.push({
