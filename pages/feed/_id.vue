@@ -266,6 +266,10 @@
         </div>
       </div>
     </div>
+    <!-- 测试 feed流 -->
+    <!-- <div class="common-feed">
+      <dp-feed :res="$store.state"></dp-feed>
+    </div> -->
     <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
     </div>
@@ -302,6 +306,7 @@ export default {
       if (res.code != 0) {
         store.commit("GET_EXIST_STATUS", false);
       } else {
+        // 视频贴 特殊处理
         if (res.result.int_type === 1) {
           store.commit("SET_NO_NAV", false);
         }
@@ -473,7 +478,28 @@ export default {
           // store.commit("SET_POSTTYPE", postType);
           store.commit("SET_DISSCUSS", discuss);
         }
+        // 征稿时，显示征稿列表
+        if (
+          store.state.GET_MESSAGE_STATE &&
+          res.result.int_type === 2 &&
+          res.result.int_category === 1
+        ) {
+          let para = {
+            subjectid: params.id,
+            pagenum: 1,
+            pagesize: 10
+          };
+          let feeds = await app.$axios.$post(
+            `${api.command.collections}`,
+            para
+          );
+          console.log("fedddddddds====", feeds);
+          if (feeds.code === 0) {
+            console.log("fedds====", feeds.result);
+          }
+        }
       }
+      // 在浏览器 显示留言列表
       if (store.state.GET_MESSAGE_STATE) {
         let para1 = {
           pagesize: 10,

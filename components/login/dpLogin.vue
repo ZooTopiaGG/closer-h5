@@ -112,7 +112,7 @@ export default {
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
           token: self.code,
-          $router: self.$router,
+          // $router: self.$router,
           type: type
         });
         if (status) {

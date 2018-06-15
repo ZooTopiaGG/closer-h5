@@ -23,6 +23,8 @@ let api = {
   command: {
     // 贴子详情
     show: 'closer_subject.show',
+    // 精彩投稿
+    collections: 'closer_subject.collections',
     // 阅读量统计
     incr_view: 'closer_subject.incr_view',
     // 留言列表

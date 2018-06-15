@@ -138,10 +138,19 @@ export default {
     next();
   },
   methods: {
-    downApp() {
-      location.href = `${api.downHost}?downurl=closer://group/${
-        this.$route.params.id
-      }`;
+    async downApp() {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: "closer-share"
+      });
+      if (result) {
+        location.href = `${api.downHost}?downurl=closer://group/${
+          this.$route.params.id
+        }`;
+      }
       // this.$router.push({
       //   path: `/down?downurl=closer://group/${this.$route.params.id}`
       // });
@@ -153,9 +162,7 @@ export default {
       // });
     }
   },
-  mounted() {
-    // console.log(this.$store.state.group_info);
-  }
+  mounted() {}
 };
 </script>
 <style scoped>

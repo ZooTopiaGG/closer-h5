@@ -20,6 +20,15 @@
 <script>
 import Cookie from "js-cookie";
 export default {
+  async asyncData({ app, store, error, query }) {
+    if (query.code) {
+      store.dispatch("get_code_by_login", {
+        code: query.code,
+        // $router: self.$router,
+        type: "bonus"
+      });
+    }
+  },
   head() {
     return {
       title: "关注身边事，开心拿红包"
@@ -31,9 +40,17 @@ export default {
     };
   },
   methods: {
-    downApp() {
-      // location.href = api.downUrl;
-      location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
+    async downApp() {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: "closer-invitenew"
+      });
+      if (result) {
+        location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
+      }
     }
   },
   beforeMount() {
@@ -44,7 +61,7 @@ export default {
     if (self.$route.query.code) {
       self.$store.dispatch("get_code_by_login", {
         code: self.$route.query.code,
-        $router: self.$router,
+        // $router: self.$router,
         type: "bonus"
       });
     } else if (Cookie.get("token")) {

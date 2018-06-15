@@ -63,21 +63,30 @@ export default {
     };
   },
   methods: {
-    downApp() {
-      if (this.$route.path.indexOf("/community") > -1) {
-        location.href = `${api.downHost}?downurl=closer://community/${
-          this.$route.params.id
-        }`;
-      } else if (this.$route.path.indexOf("/feed") > -1) {
-        location.href = `${api.downHost}?downurl=closer://feed/${
-          this.$route.params.id
-        }`;
-      } else if (this.$route.path.indexOf("/group") > -1) {
-        location.href = `${api.downHost}?downurl=closer://group/${
-          this.$route.params.id
-        }`;
-      } else {
-        location.href = `${api.downHost}`;
+    async downApp() {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: "closer-share"
+      });
+      if (result) {
+        if (this.$route.path.indexOf("/community") > -1) {
+          location.href = `${api.downHost}?downurl=closer://community/${
+            this.$route.params.id
+          }`;
+        } else if (this.$route.path.indexOf("/feed") > -1) {
+          location.href = `${api.downHost}?downurl=closer://feed/${
+            this.$route.params.id
+          }`;
+        } else if (this.$route.path.indexOf("/group") > -1) {
+          location.href = `${api.downHost}?downurl=closer://group/${
+            this.$route.params.id
+          }`;
+        } else {
+          location.href = `${api.downHost}`;
+        }
       }
     },
     handleScroll(e) {
@@ -104,7 +113,6 @@ export default {
     async tjFocus() {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
-      console.log('Cookie.get("token")====', Cookie.get("token"));
       if (Cookie.get("token")) {
         // 进行其他 ajax 操作
         self.$store.dispatch("get_focus_stat", {
@@ -112,16 +120,9 @@ export default {
           flag: self.$store.state.is_follow ? 0 : 1
         });
       } else {
-        console.log("self.$route===", self.$route);
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
-          // console.log(
-          //   `${location.protocol}//${location.hostname}/feed/${
-          //     self.$route.params.id
-          //   }`
-          // );
-
           await self.$store.dispatch("get_wx_auth", {
             // 正式
             url: `${location.protocol}//${location.hostname}${self.$route.path}`
@@ -134,6 +135,9 @@ export default {
   },
   mounted() {
     let self = this;
+    if (typeof window != "undefined") {
+      self.$store.commit("GET_VERSION");
+    }
     if (self.$store.state.h5Cookies) {
       Cookie.set("h5Cookies", self.$store.state.h5Cookies);
     }

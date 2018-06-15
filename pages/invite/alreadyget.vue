@@ -31,9 +31,18 @@ export default {
     };
   },
   methods: {
-    downApp() {
+    async downApp() {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: "closer-invitenew"
+      });
+      if (result) {
+        location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
+      }
       // location.href = api.downUrl;
-      location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
     }
   },
   data() {

@@ -7,6 +7,8 @@ import {
 export const state = () => ({
   GET_MESSAGE_STATE: false,
   agent: '',
+  nvgtype: '',
+  nvgversion: '',
   GET_APP_TOKEN: '',
   content: '',
   res: {},
@@ -39,6 +41,33 @@ export const mutations = {
   GET_AGENT(state, para) {
     let nvg = para.toLowerCase();
     state.agent = nvg;
+  },
+  GET_VERSION(state) {
+    let nvg = navigator.userAgent.toLowerCase(),
+      nvgtype, nvgversion;
+    // window.navigator.appVersion 获取手机版本
+    if (nvg.indexOf('android') > -1 || nvg.indexOf('adr') > -1 || nvg.indexOf('linux') > -1) {
+      // android终端
+      nvgtype = 'android'
+      // android版本
+      if (!!nvg.match(new RegExp("android\\s(\\d+(?:\\.\\d*)+)"))) {
+        let v = nvg.match(new RegExp("android\\s(\\d+(?:\\.\\d*)+)"))
+        nvgversion = v[1].replace(/\./g, "_")
+      }
+    } else if (nvg.indexOf('iphone') > -1 || nvg.indexOf('ipad') > -1 || nvg.indexOf('safari') > -1) {
+      // ios终端
+      nvgtype = 'ios'
+      // ios版本 new RegExp("version/(\\d+(?:\\.\\d*)?)") // 匹配尽量少的一项
+      // new RegExp("version/(\\d+(?:\\.\\d*)+)") 匹配尽量多的项
+      if (!!nvg.match(new RegExp("version/(\\d+(?:\\.\\d*)+)"))) {
+        let v = nvg.match(new RegExp("version/(\\d+(?:\\.\\d*)+)"))
+        nvgversion = v[1].replace(/\./g, "_")
+      }
+    } else {
+      nvgtype = 'windows'
+    }
+    state.nvgversion = nvgversion;
+    state.nvgtype = nvgtype;
   },
   GET_APP_TOKEN(state, para) {
     state.GET_APP_TOKEN = para
@@ -142,7 +171,7 @@ export const actions = {
     commit
   }, {
     code,
-    $router,
+    // $router,
     type
   }) {
     let self = this,
@@ -162,9 +191,10 @@ export const actions = {
           message: '该账号已被使用',
           position: 'top'
         })
-        $router.push({
-          path: '/invite/alreadyget'
-        })
+        // $router.push({
+        //   path: '/invite/alreadyget'
+        // })
+        location.href = '/invite/alreadyget'
         return
       } else {
         if (check.result.hasRegist) {
@@ -172,9 +202,10 @@ export const actions = {
             message: '该账号已被使用',
             position: 'top'
           })
-          $router.push({
-            path: '/invite/alreadyget'
-          })
+          // $router.push({
+          //   path: '/invite/alreadyget'
+          // })
+          location.href = '/invite/alreadyget'
           return
         } else {
           unionId = check.result.unionId;
@@ -243,7 +274,7 @@ export const actions = {
   }, {
     phone,
     token,
-    $router,
+    // $router,
     type
   }) {
     // 点击必须登录的按 钮，可获取cookie进行判断 信息
@@ -262,9 +293,10 @@ export const actions = {
             message: '该账号已被使用',
             position: 'top'
           })
-          $router.push({
-            path: '/invite/alreadyget'
-          })
+          // $router.push({
+          //   path: '/invite/alreadyget'
+          // })
+          location.href = '/invite/alreadyget'
           return
         }
         if (Cookie.get('inviter')) {
@@ -354,18 +386,14 @@ export const actions = {
       let para = {
         phone: phone
       }
-      console.log('api.admin.get_code_by_phone===', para)
       let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
-      if (data.code === 0) {
-        console.log('data===', data.result)
-      } else {
+      if (data.code === 0) {} else {
         Toast({
           message: data.result,
           position: 'top'
         })
       }
     } catch (err) {
-      console.log('err===', err)
       Toast({
         message: err,
         position: 'top'
@@ -435,7 +463,6 @@ export const actions = {
           jsApiList: ['onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
         wx.ready(function () {
-          // console.log('准备好了')
           //分享到朋友圈
           wx.onMenuShareTimeline({
             title: title, // 分享标题
@@ -518,11 +545,31 @@ export const actions = {
       if (data.code === 0) {
         commit('SET_H5COOKIES', data.result.udid)
         // Cookie.set("h5Cookies", data.result.udid);
-        // console.log('sdasdadas=====', Cookie.get('h5Cookies'))
         return data.result.udid
       }
     } catch (e) {
       console.log('e==', e)
+    }
+  },
+  // 下载调用get_adcookies
+  async down_adcookies({
+    commit
+  }, {
+    webUdid,
+    deviceType,
+    deviceVersion,
+    adid
+  }) {
+    let self = this,
+      para = {
+        webUdid: true,
+        deviceType: 'android',
+        deviceVersion: '8_0_0',
+        adid: 'closer-share'
+      }
+    let data = await self.$axios.$post(`${api.share.get_adcookie}`, para)
+    if (data.code === 0) {
+      return true
     }
   }
 }
