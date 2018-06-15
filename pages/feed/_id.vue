@@ -332,11 +332,10 @@ export default {
               let size, flag;
               pImg.forEach((x, i) => {
                 let srcArray = x.match(regexSrc);
-                console.log("srcArray====", srcArray[1]);
+                let _src = srcArray[1].replace("+", "%2b");
+                console.log("_src====", _src);
                 flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:212px'>
-                          <img src='/default2.png' data-src='${
-                            srcArray[1]
-                          }' style="width:100%; height: auto;"/>
+                          <img src='/default2.png' data-src='${_src}' style="width:100%; height: auto;"/>
                           </div>`;
                 // 正则替换富文本内的img标签
                 // 替换不同文本
@@ -628,7 +627,6 @@ export default {
       let self = this;
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
-      console.log('Cookie.get("token")====', Cookie.get("token"));
       if (Cookie.get("token")) {
         self.visibleMessage = true;
       } else {
