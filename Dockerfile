@@ -10,7 +10,7 @@ COPY . /apps/closer-h5/
 
 WORKDIR /apps/closer-h5
 
-# RUN rm -rf node_modules
+RUN rm -rf node_modules
 
 # RUN rm -rf package.json
 
@@ -19,7 +19,7 @@ WORKDIR /apps/closer-h5
 # RUN npm cache clean --force
 
 RUN ping registry.npm.taobao.org -c 4
-# RUN npm install
+RUN npm install
 # RUN npm run dev
 RUN npm run build
 
