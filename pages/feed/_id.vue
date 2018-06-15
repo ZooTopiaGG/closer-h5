@@ -332,8 +332,8 @@ export default {
               let size, flag;
               pImg.forEach((x, i) => {
                 let srcArray = x.match(regexSrc);
-                let _src = srcArray[1].replace("+", "%2b");
-                console.log("_src====", _src);
+                // fix 图片是中文带路径
+                let _src = srcArray[1].replace(/\+/g, "%2b");
                 flag = `<div class='imgbox' style='background: #fff; width: 100%; min-height:212px'>
                           <img src='/default2.png' data-src='${_src}' style="width:100%; height: auto;"/>
                           </div>`;
