@@ -33,7 +33,7 @@ export default {
   methods: {
     downApp() {
       // location.href = api.downUrl;
-      location.href = `${downHost}?downurl=closer://jump/to/mine`;
+      location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
     }
   },
   beforeMount() {

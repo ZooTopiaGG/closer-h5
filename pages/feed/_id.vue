@@ -77,7 +77,7 @@
                         display:'block',
                         position:'relative', 
                         width: '100%',
-                        height: '124vw'}" :src="defaultImg2" :data-original="$com.makeFileUrl($store.state.res.bigcover)" 
+                        height: '124vw'}" :src="defaultImg2" :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
             >
             <div class="hide-over"></div>
           </div>
@@ -87,7 +87,7 @@
                         display:'block',
                         position:'relative', 
                         width: '100%',
-                        height: '57vw'}" :src="defaultImg" :data-original="$com.makeFileUrl($store.state.res.cover)">
+                        height: '57vw'}" :src="defaultImg" :data-src="$com.makeFileUrl($store.state.res.cover)">
             <div class="hide-over"></div>
           </div>
           <div class="feeder-content">
@@ -794,8 +794,8 @@ export default {
         // 处理图片异步加载
         window.onload = function() {
           let tjcover = document.querySelector(".feed-cover");
-          if (tjcover && tjcover.dataset.original) {
-            tjcover.src = tjcover.dataset.original;
+          if (tjcover && tjcover.dataset.src) {
+            tjcover.src = tjcover.dataset.src;
           }
           let tjimg = document.getElementById("tjimg");
           // 图片异步加载

@@ -126,7 +126,7 @@ export default {
   },
   methods: {
     downApp() {
-      location.href = `${downHost}?downurl=closer://group/${
+      location.href = `${api.downHost}?downurl=closer://group/${
         this.$route.params.id
       }`;
       // this.$router.push({

@@ -65,19 +65,19 @@ export default {
   methods: {
     downApp() {
       if (this.$route.path.indexOf("/community") > -1) {
-        location.href = `${downHost}?downurl=closer://community/${
+        location.href = `${api.downHost}?downurl=closer://community/${
           this.$route.params.id
         }`;
       } else if (this.$route.path.indexOf("/feed") > -1) {
-        location.href = `${downHost}?downurl=closer://feed/${
+        location.href = `${api.downHost}?downurl=closer://feed/${
           this.$route.params.id
         }`;
       } else if (this.$route.path.indexOf("/group") > -1) {
-        location.href = `${downHost}?downurl=closer://group/${
+        location.href = `${api.downHost}?downurl=closer://group/${
           this.$route.params.id
         }`;
       } else {
-        location.href = `${downHost}`;
+        location.href = `${api.downHost}`;
       }
     },
     handleScroll(e) {
