@@ -140,9 +140,7 @@ export default {
       Cookie.set("h5Cookies", self.$store.state.h5Cookies);
     }
     self.$nextTick(() => {
-      console.log("store====", self.$store.state);
       let title, pic, desc;
-      console.log("self.$store.content==", self.$route);
       if (self.$route.path.indexOf("/community") > -1) {
         // 分享栏目主页
         title = self.$store.state.res.name
@@ -150,7 +148,7 @@ export default {
           : "栏目主页";
         desc = self.$store.state.res.description
           ? self.$store.state.res.description
-          : "分享栏目主页";
+          : "贴近一点看身边";
         pic = self.$store.state.res.slogo
           ? self.$store.state.res.slogo
           : self.$store.state.res.blogo;
@@ -166,9 +164,9 @@ export default {
             let description = JSON.parse(
               self.$store.state.group_info.group_info.group.description
             );
-            desc = description.content ? description.content : "分享贴近群组";
+            desc = description.content ? description.content : "贴近一点看身边";
           } else {
-            desc = "分享贴近群组";
+            desc = "贴近一点看身边";
           }
           pic = group.avatar;
         }
