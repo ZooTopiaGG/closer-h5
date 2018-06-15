@@ -184,6 +184,16 @@ export default {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     }
   },
+  beforeMount() {
+    let self = this;
+    // 验证code是否存在
+    if (self.$route.query.code) {
+      self.$store.dispatch("get_code_by_login", {
+        code: self.$route.query.code,
+        type: "else"
+      });
+    }
+  },
   mounted() {}
 };
 </script>

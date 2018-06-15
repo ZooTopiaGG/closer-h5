@@ -137,7 +137,7 @@ export const actions = {
     }
   },
 
-  // 通过code进行登录，如果get_wx_auth被调用， get_code_by_login才会被调用
+  // 通过code进行登录，如果get_wx_auth被调用，get_code_by_login才会被调用
   async get_code_by_login({
     commit
   }, {
@@ -205,7 +205,6 @@ export const actions = {
         protocol: "WEB_SOCKET",
       }
     }
-    // return
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
     if (data.code === 0) {
       // 返回的数据

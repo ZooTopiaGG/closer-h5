@@ -104,6 +104,7 @@ export default {
     async tjFocus() {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
+      console.log('Cookie.get("token")====', Cookie.get("token"));
       if (Cookie.get("token")) {
         // 进行其他 ajax 操作
         self.$store.dispatch("get_focus_stat", {
@@ -111,6 +112,7 @@ export default {
           flag: self.$store.state.is_follow ? 0 : 1
         });
       } else {
+        console.log("self.$route===", self.$route);
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
@@ -119,14 +121,11 @@ export default {
           //     self.$route.params.id
           //   }`
           // );
+
           await self.$store.dispatch("get_wx_auth", {
             // 正式
-            // url: location.href
-            url: `${location.protocol}//${location.hostname}/feed/${
-              self.$route.params.id
-            }`
+            url: `${location.protocol}//${location.hostname}${self.$route.path}`
           });
-          return;
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
