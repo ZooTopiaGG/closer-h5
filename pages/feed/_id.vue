@@ -77,7 +77,7 @@
                         display:'block',
                         position:'relative', 
                         width: '100%',
-                        height: '124vw'}" :src="defaultImg2" :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
+                        height: '124vw'}" :src="defaultImg2"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
             >
             <div class="hide-over"></div>
           </div>
@@ -496,9 +496,7 @@ export default {
             `${api.command.collections}`,
             para
           );
-          console.log("fedddddddds====", feeds);
           if (feeds.code === 0) {
-            console.log("fedds====", feeds.result);
             let arr = await feeds.result.data.map(x => {
               if (x.content) {
                 x.content = JSON.parse(x.content);
@@ -662,7 +660,6 @@ export default {
       if (Cookie.get("token")) {
         self.visibleMessage = true;
       } else {
-        console.log("no token");
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
@@ -825,7 +822,9 @@ export default {
         window.onload = function() {
           let tjcover = document.querySelector(".feed-cover");
           if (tjcover && tjcover.dataset.src) {
-            tjcover.src = tjcover.dataset.src;
+            setTimeout(() => {
+              tjcover.src = tjcover.dataset.src;
+            }, 0);
           }
           let tjimg = document.getElementById("tjimg");
           // 图片异步加载
@@ -834,7 +833,9 @@ export default {
             if (tjimg2) {
               Array.prototype.forEach.call(tjimg2, function(x, i) {
                 if (x.dataset.src) {
-                  x.src = x.dataset.src;
+                  setTimeout(() => {
+                    x.src = x.dataset.src;
+                  }, 500);
                 }
               });
             }

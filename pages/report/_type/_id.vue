@@ -161,9 +161,7 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log(this.res);
-  }
+  mounted() {}
 };
 </script>
 <style type="text/css">

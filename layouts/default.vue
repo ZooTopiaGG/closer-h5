@@ -137,6 +137,12 @@ export default {
     let self = this;
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
+      // 动态添加微信配置文件
+      if (self.$store.state.GET_MESSAGE_STATE) {
+        let sct = document.createElement("script");
+        sct.src = "https://res.wx.qq.com/open/js/jweixin-1.2.0.js";
+        document.body.appendChild(sct);
+      }
     }
     if (self.$store.state.h5Cookies) {
       Cookie.set("h5Cookies", self.$store.state.h5Cookies);

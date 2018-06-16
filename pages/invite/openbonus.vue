@@ -54,7 +54,6 @@ export default {
     }
   },
   beforeMount() {
-    console.log(Cookie.get("inviter"));
     let self = this;
     self.hasInviter = JSON.parse(Cookie.get("inviter"));
     // // 验证code是否存在
@@ -66,7 +65,6 @@ export default {
       });
     } else if (Cookie.get("token")) {
       // 进行其他 ajax 操作
-      console.log(Cookie.get("user"));
     } else {
       // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
       if ($async.isWeiXin()) {

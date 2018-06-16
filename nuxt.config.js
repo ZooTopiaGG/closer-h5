@@ -45,11 +45,30 @@ module.exports = {
         })()`
       },
       {
-        src: '/stat.js'
+        innerHTML: `
+        document.addEventListener("DOMContentLoaded", function(event) {
+            console.log("DOMContentLoaded loaded and parsed");
+        });
+        if (typeof document != 'undefined') {
+          document.onreadystatechange = completeLoading;
+        }
+        function completeLoading() {
+          console.log("completeLoading loaded and parsed");
+          if (document.readyState == 'interactive') {
+            canShowContent()
+            try {
+              window.webkit.messageHandlers.canShowContent.postMessage(null);
+            } catch (e) {}
+          }
+          if (document.readyState == "complete") {}
+        }
+        
+        function canShowContent() {}`
       },
-      {
-        src: 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js'
-      }
+      // {
+      //   src: 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js',
+      //   defer: 'defer'
+      // }
     ],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{
@@ -57,16 +76,11 @@ module.exports = {
         type: 'image/x-icon',
         href: '/favicon.ico'
       },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        href: 'https://cdn.bootcss.com/mint-ui/2.2.13/style.min.css'
-      },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        href: '//at.alicdn.com/t/font_663941_c0ea3e10z0fz85mi.css'
-      },
+      // {
+      //   rel: 'stylesheet',
+      //   type: 'text/css',
+      //   href: '//at.alicdn.com/t/font_663941_c0ea3e10z0fz85mi.css'
+      // },
     ],
 
   },
@@ -90,14 +104,20 @@ module.exports = {
   },
   // 全局CSS配置
   css: [{
-      src: '~/assets/css/style.css'
+      src: 'mint-ui/lib/style.css',
     },
     {
-      src: '~/assets/css/common.css'
+      src: '~/assets/fonts/iconfont.css'
     },
     {
       src: '~/assets/css/reset.css'
     },
+    {
+      src: '~/assets/css/style.css'
+    },
+    {
+      src: '~/assets/css/common.css'
+    }
   ],
   modules: [
     '@nuxtjs/axios',

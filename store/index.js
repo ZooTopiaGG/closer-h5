@@ -563,9 +563,9 @@ export const actions = {
     let self = this,
       para = {
         webUdid: true,
-        deviceType: deviceType,
-        deviceVersion: deviceVersion,
-        adid: adid
+        deviceType: deviceType || 'ios',
+        deviceVersion: deviceVersion || '11_0_0',
+        adid: adid || 'closer-share'
       }
     let data = await self.$axios.$post(`${api.share.get_adcookie}`, para)
     if (data.code === 0) {
