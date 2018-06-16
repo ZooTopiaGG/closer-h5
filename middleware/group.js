@@ -14,19 +14,13 @@ export default async function ({
     groupId: params.id
   }
   try {
-    if (store.state.GET_MESSAGE_STATE && !store.state.h5Cookies) {
-      let co = await store.dispatch("get_adcookie", {
-        webUdid: true
-      });
-      Cookie.set("h5Cookies", co);
-    }
     let data = await app.$axios.$post(`${api.group.group_subject_list}`, para)
     if (data.code === 0) {
       let arr = await data.result.data.map(x => {
         x.content = JSON.parse(x.content)
         return x
       })
-      store.commit('SET_GROUP_RES', arr)
+      store.commit('SET_FEED_LIST', arr)
     } else {
       error({
         message: `错误代码:${data.code}, ${data.result}`

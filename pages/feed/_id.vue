@@ -267,9 +267,12 @@
       </div>
     </div>
     <!-- 测试 feed流 -->
-    <!-- <div class="common-feed">
-      <dp-feed :res="$store.state"></dp-feed>
-    </div> -->
+    <div v-if="$store.state.GET_MESSAGE_STATE" class="works">
+      <div v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="title">
+        <span>精彩投稿（{{ $store.state.res.commentNumber }}）</span>
+      </div>
+      <dp-feed></dp-feed>
+    </div>
     <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
     </div>
@@ -286,7 +289,7 @@
 </template>
 <script>
 import Cookie from "js-cookie";
-import Vue from "vue/dist/vue.js";
+// import Vue from "vue/dist/vue.js";
 export default {
   name: "Feed",
   async asyncData({ params, store, app }) {
@@ -496,6 +499,13 @@ export default {
           console.log("fedddddddds====", feeds);
           if (feeds.code === 0) {
             console.log("fedds====", feeds.result);
+            let arr = await feeds.result.data.map(x => {
+              if (x.content) {
+                x.content = JSON.parse(x.content);
+              }
+              return x;
+            });
+            store.commit("SET_FEED_LIST", arr);
           }
         }
       }
@@ -637,10 +647,6 @@ export default {
     },
     // tovid
     openClick(event) {
-      // if (event.target.nodeName === "IMG") {
-      //   // event.target.src 这里做处理
-      //   console.log("111");
-      // }
       if (event.target.dataset.vid) {
         location.href = `/?vid=${event.target.dataset.vid}`;
       }
@@ -833,17 +839,6 @@ export default {
               });
             }
           }
-          // 处理视频 再app内原生播放
-          // let showVid = document.querySelectorAll(".video-native-player");
-          // if (showVid.length > 0) {
-          //   document.body.ontouchend = function() {
-          //     //冒泡处理
-          //     var vid = event.target.dataset.vid;
-          //     if (vid) {
-          //       location.href = `/?vid=${vid}`;
-          //     }
-          //   };
-          // }
         };
       }
     });
@@ -887,8 +882,19 @@ export default {
   -webkit-overflow-scrolling: touch;
   margin-top: 56.25vw;
 }
-.feed-doc {
-  /* padding-bottom: 4vw; */
+
+.works {
+  padding-top: 5.34vw;
+}
+
+.works {
+  padding-bottom: 4vw;
+  position: relative;
+}
+
+.works .title {
+  text-align: left;
+  margin-left: 4.67vw;
 }
 
 .feeder-info,

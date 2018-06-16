@@ -1,7 +1,7 @@
 <template>
   <div class="dpFeed">
-    <ul v-if="res.feed.data && res.feed.data.length > 0" class="feed-list flex-1">
-        <li class="feed-list-cell" @click="tofeeddetails(item)" v-for="(item, index) in res.feed.data" :key="index">
+    <ul v-if="$store.state.feed_list && $store.state.feed_list.length > 0" class="feed-list flex-1">
+        <li class="feed-list-cell" @click="tofeeddetails(item)" v-for="(item, index) in $store.state.feed_list" :key="index">
           <div class="feed-box">
             <div class="feed-cell-content">
               <div class="columnname flex flex-align-center">
@@ -76,15 +76,106 @@
 <script>
 export default {
   name: "dpFeed",
-  props: {
-    res: {
-      default: {}
-    }
-  },
+  // props: {
+  //   res: {
+  //     default: {}
+  //   }
+  // },
   data() {
     // bname: 'button'
     return {};
   },
+  methods: {
+    tofeeddetails(item) {
+      location.href = `/feed/${item.subjectid}`;
+    }
+  },
   mounted() {}
 };
 </script>
+<style scoped>
+.title {
+  margin-bottom: 2.67vw;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
+}
+
+/*feed流*/
+
+.feed-list-cell {
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 5.336vw;
+  padding-bottom: 4.66vw;
+}
+
+.columnname > img {
+  width: 21.87vw;
+  height: 8.54vw;
+  border-radius: 0 4px 4px 0;
+  margin-right: 4vw;
+}
+
+.columnname {
+  padding-right: 4.67vw;
+  box-sizing: border-box;
+  margin-bottom: 4vw;
+}
+
+.time {
+  color: #808080;
+}
+
+.feedcover > img {
+  width: 100%;
+  height: 100%;
+}
+
+.feedtitle {
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
+  margin-top: 2.67vw;
+}
+.feedtype .feedtitle {
+  font-weight: bold;
+}
+
+.feedcontent {
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
+  margin-top: 2.67vw;
+}
+
+.feedimgcontent {
+  flex-wrap: wrap;
+  margin-top: 2.67vw;
+}
+
+.feeder-img-list {
+  position: relative;
+  overflow: hidden;
+}
+
+.feeder-img-list:nth-child(3n) {
+  margin-right: 0 !important;
+}
+
+.feedtitle,
+.feedcontent {
+  text-align: justify;
+  padding: 0 4.67vw;
+}
+.content p {
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+.gif {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 12px;
+}
+</style>
+

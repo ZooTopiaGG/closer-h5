@@ -19,7 +19,7 @@ export const state = () => ({
   discuss: {},
   options: false,
   exist: true,
-  group_res: [],
+  feed_list: [],
   group_info: {},
   auth: '',
   token: '',
@@ -100,8 +100,8 @@ export const mutations = {
   GET_EXIST_STATUS(state, para) {
     state.exist = para
   },
-  SET_GROUP_RES(state, para) {
-    state.group_res = para
+  SET_FEED_LIST(state, para) {
+    state.feed_list = para
   },
   SET_GROUP_INFO(state, para) {
     state.group_info = para
@@ -523,7 +523,7 @@ export const actions = {
           });
         });
         wx.error(function (res) {
-          console.log(res);
+          // console.log(res);
         });
       }
     } catch (e) {

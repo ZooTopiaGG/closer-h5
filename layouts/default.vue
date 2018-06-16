@@ -213,22 +213,13 @@ export default {
           }
         } else {
           // 长图文
-          if (content.text) {
+          if (self.$store.state.res.title) {
             title = self.$store.state.res.title;
+          } else if (content.text) {
+            title = content.text;
           } else {
             title = content.summary;
           }
-          // if (content.videos.length > 0) {
-          //   let d = content.videos.map(x => {
-          //     x = "[视频]";
-          //     return x;
-          //   });
-          //   desc = d.join(" ");
-          //   pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
-          // } else {
-          //   desc = "[视频]";
-          //   pic = "";
-          // }
           desc = content.summary ? content.summary : "分享文章";
           pic = self.$com.makeFileUrl(self.$store.state.res.cover)
             ? self.$com.makeFileUrl(self.$store.state.res.cover)
