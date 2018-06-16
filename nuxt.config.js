@@ -48,19 +48,21 @@ module.exports = {
         innerHTML: `
         document.addEventListener("DOMContentLoaded", function(event) {
             console.log("DOMContentLoaded loaded and parsed");
+            canShowContent()
+            try {
+              window.webkit.messageHandlers.canShowContent.postMessage(null);
+            } catch (e) {}
         });
         if (typeof document != 'undefined') {
           document.onreadystatechange = completeLoading;
         }
         function completeLoading() {
-          console.log("completeLoading loaded and parsed");
           if (document.readyState == 'interactive') {
-            canShowContent()
-            try {
-              window.webkit.messageHandlers.canShowContent.postMessage(null);
-            } catch (e) {}
+          console.log("interactive loaded and parsed");
           }
-          if (document.readyState == "complete") {}
+          if (document.readyState == "complete") {
+            console.log("complete loaded and parsed");
+          }
         }
         
         function canShowContent() {}`
