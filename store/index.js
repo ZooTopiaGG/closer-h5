@@ -385,10 +385,6 @@ export const actions = {
     grouk_captcha_value
   }) {
     let self = this
-    Toast({
-      message: '发送成功！',
-      position: 'top'
-    })
     // 点击必须登录的按钮，可获取cookie进行判断 信息
     try {
       let para = {
@@ -397,6 +393,10 @@ export const actions = {
       }
       let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
       if (data.code === 0) {
+        Toast({
+          message: '发送成功！',
+          position: 'top'
+        });
         return true
       } else {
         Toast({

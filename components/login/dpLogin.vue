@@ -63,7 +63,6 @@ export default {
       let self = this,
         time = 60;
       self.isdisabled = true;
-      console.log(self.img_code_value.length);
       if (!$async.isPhoneNum(self.phone)) {
         self.isdisabled = false;
         self.$toast({
