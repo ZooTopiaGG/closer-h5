@@ -46,8 +46,9 @@ module.exports = {
       },
       {
         innerHTML: `
+        var nt = Date.now()
         document.addEventListener("DOMContentLoaded", function(event) {
-            console.log("DOMContentLoaded loaded and parsed");
+            console.log("DOMContentLoaded====", Date.now() - nt);
             canShowContent()
             try {
               window.webkit.messageHandlers.canShowContent.postMessage(null);
@@ -57,11 +58,16 @@ module.exports = {
           document.onreadystatechange = completeLoading;
         }
         function completeLoading() {
-          if (document.readyState == 'interactive') {
-          console.log("interactive loaded and parsed");
-          }
-          if (document.readyState == "complete") {
-            console.log("complete loaded and parsed");
+          switch (document.readyState) {
+            case "loading": 
+              console.log('loading====', nt)
+              break;
+            case "interactive":
+              console.log("interactive====", Date.now() - nt);
+              break;
+            case "complete":
+              console.log("complete====", Date.now() - nt);
+              break;
           }
         }
         

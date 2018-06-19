@@ -16,29 +16,25 @@
                   {{ item.content.text }}
                 </div>
                 <div v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                    :style="{width: '100%',height:'0',paddingBottom:'56.25%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
+                  <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images && item.content.images.length === 2" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                    :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
+                  <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images && (item.content.images.length === 3 || item.content.images.length > 4)" class="flex feedimgcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                    :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%',backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+                  <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                    :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+                  <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :key="index">
 
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -48,7 +44,7 @@
               <!-- 视频贴 int_type == 1-->
               <div class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
                 <video :src="item.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                  x5-video-player-type="h5" x5-video-orientation="portraint" style="width: 100%; height: 64vw; overflow:hidden; object-fit: fill;"
+                  x5-video-player-type="h5" x5-video-orientation="portraint"
                   :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
                 </video>
                 <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
@@ -161,7 +157,41 @@ export default {
 .feeder-img-list:nth-child(3n) {
   margin-right: 0 !important;
 }
-
+.feeder-img-list-cell-1 {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.feeder-img-list-cell-2 {
+  width: 50%;
+  height: 0;
+  padding-bottom: 50%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.feeder-img-list-cell-3 {
+  width: 33%;
+  height: 0;
+  padding-bottom: 33%;
+  margin-bottom: 0.5%;
+  margin-right: 0.5%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.feeder-img-list-cell-4 {
+  width: 49.5%;
+  height: 0;
+  padding-bottom: 49.5%;
+  margin-bottom: 1%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 .feedtitle,
 .feedcontent {
   text-align: justify;
@@ -176,6 +206,12 @@ export default {
   right: 0;
   bottom: 0;
   font-size: 12px;
+}
+.feedmain > video {
+  width: 100%;
+  height: 64vw;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.8);
 }
 </style>
 

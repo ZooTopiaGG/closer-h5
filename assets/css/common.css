@@ -285,7 +285,8 @@ p:empty {
 .summary img {
   max-width: 100%;
   height: auto;
-  margin-bottom: 2.668vw;
+  /* margin-bottom: 2.668vw; */
+  margin: 0 auto;
 }
 
 .summary img {
