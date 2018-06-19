@@ -40,7 +40,7 @@ export default {
       code: "",
       sendName: "发送验证码",
       img_code_value: "",
-      get_img_code: "http://file-sandbox.tiejin.cn/captcha/image",
+      get_img_code: `${api.filePath}/captcha/image`,
       isdisabled: false,
       loading: 2
     };
@@ -55,7 +55,9 @@ export default {
     async sendImgCode() {
       // sendImgCode
       let self = this;
-      self.get_img_code = `http://file-sandbox.tiejin.cn/captcha/image?tempstamp=${Date.now()}`;
+      self.get_img_code = `${
+        api.filePath
+      }/captcha/image?tempstamp=${Date.now()}`;
     },
     async sendCode() {
       let self = this,
@@ -87,7 +89,6 @@ export default {
           return false;
         }
       }
-      console.log(self.img_code_value);
       let timer = setInterval(() => {
         time--;
         if (time <= 1) {
@@ -106,6 +107,9 @@ export default {
       if (!result) {
         self.isdisabled = false;
         self.sendName = "重新发送";
+        self.get_img_code = `${
+          api.filePath
+        }/captcha/image?tempstamp=${Date.now()}`;
         clearInterval(timer);
       }
     },
