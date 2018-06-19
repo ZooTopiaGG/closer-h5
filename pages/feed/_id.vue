@@ -312,7 +312,7 @@ export default {
         // 验证content
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
-          console.log("content===", content);
+          // console.log("content===", content);
           // 解析长图文html
           if (res.result.int_type === 2) {
             const regexImg = /<img.*?(?:>|\/>)/gi;
@@ -328,7 +328,6 @@ export default {
                   heightArray = x.match(regexHeight),
                   nW,
                   nH;
-                console.log("widthArray====", widthArray);
                 if (widthArray && heightArray) {
                   nH = heightArray[1] * 92 / widthArray[1] + "vw";
                 } else {
@@ -892,6 +891,10 @@ export default {
   width: 100%;
   min-height: 212px;
 }
+.icon-shipin {
+  font-size: 12.8vw;
+  color: #ddd;
+}
 </style>
 <style scoped>
 #feed {
@@ -1013,10 +1016,6 @@ export default {
   right: 0;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 3px;
-}
-.icon-shipin {
-  font-size: 12.8vw;
-  color: #ddd;
 }
 .hide-over {
   position: absolute;

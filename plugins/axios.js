@@ -45,8 +45,8 @@ export default function ({
     }
     // 全局设置 启用跨域传cookies
     config.withCredentials = true
-    // console.log('cooccococ====', store.state.h5Cookies)
-    if (store.state.GET_MESSAGE_STATE) {
+    console.log('cooccococ====', store.state.GET_APP_NAV)
+    if (store.state.GET_APP_NAV) {
       config.headers.common['X-Udid'] = store.state.h5Cookies || 'h5-SRjHazKvYslHxwZxjy5tql9G4edf3d';
       if (store.state.h5Cookies) {
         config.headers.common['Closer-Agent'] = 'Closer-H5';

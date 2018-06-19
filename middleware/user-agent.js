@@ -8,6 +8,9 @@ export default async function (context) {
       nvg: context.userAgent,
       ref: context.req.originalUrl
     })
+    context.store.commit('GET_APP_AGENT', {
+      nvg: context.userAgent
+    })
     context.store.commit('GET_AGENT', context.userAgent)
     context.store.commit('GET_APP_TOKEN', context.req.headers['authorization'])
     let nvg = context.userAgent.toLowerCase()
