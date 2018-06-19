@@ -255,9 +255,9 @@
       </div>
       <dp-feed></dp-feed>
     </div>
-    <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
+    <!-- <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
-    </div>
+    </div> -->
     <div class="tj-dialog" @click.self="hiddenTextArea" v-if="visibleMessage">
       <div class="dpTextArea flex flex-v">
         <mt-field placeholder="写下你的评论" type="textarea" v-model="textarea" rows="5" class="tj-textarea flex-1"></mt-field>
@@ -271,7 +271,6 @@
 </template>
 <script>
 import Cookie from "js-cookie";
-// import Vue from "vue/dist/vue.js";
 export default {
   name: "Feed",
   async asyncData({ params, store, app }) {
@@ -287,7 +286,7 @@ export default {
       if (view.code === 0) {
         store.commit("GET_INCR_VIEW", view.result);
       }
-      // 获取迷药
+      // 获取密钥
       if (res.code != 0) {
         store.commit("GET_EXIST_STATUS", false);
       } else {
@@ -313,19 +312,32 @@ export default {
         // 验证content
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
+          console.log("content===", content);
           // 解析长图文html
           if (res.result.int_type === 2) {
             const regexImg = /<img.*?(?:>|\/>)/gi;
             let pImg = await content.html.match(regexImg);
             if (pImg) {
               const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+              const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+              const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
               let size, flag;
               pImg.forEach((x, i) => {
-                let srcArray = x.match(regexSrc);
-                // fix 图片是中文带路径
+                let srcArray = x.match(regexSrc),
+                  widthArray = x.match(regexWidth),
+                  heightArray = x.match(regexHeight),
+                  nW,
+                  nH;
+                console.log("widthArray====", widthArray);
+                if (widthArray && heightArray) {
+                  nH = heightArray[1] * 92 / widthArray[1] + "vw";
+                } else {
+                  nH = "auto";
+                }
+                // fix 图片是中文带路径 补丁
                 let _src = srcArray[1].replace(/\+/g, "%2b");
-                flag = `<div class='imgbox tiejin-imgbox'>
-                          <img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGeCAMAAAD8CXSkAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQwIDc5LjE2MDQ1MSwgMjAxNy8wNS8wNi0wMTowODoyMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjQ2QjBFMjgzNjBEODExRTg4QTFBQzFDOEI3MDg5MzcwIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjQ2QjBFMjg0NjBEODExRTg4QTFBQzFDOEI3MDg5MzcwIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDZCMEUyODE2MEQ4MTFFODhBMUFDMUM4QjcwODkzNzAiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NDZCMEUyODI2MEQ4MTFFODhBMUFDMUM4QjcwODkzNzAiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7cD9YwAAAAS1BMVEXp6en9/f36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' data-src='${_src}'/>
+                flag = `<div class='imgbox tiejin-imgbox' style="height: ${nH}">
+                          <img style="height: ${nH}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
                         </div>`;
                 // 正则替换富文本内的img标签
                 // 替换不同文本
@@ -418,7 +430,6 @@ export default {
                 let res = x.text.match(reg);
                 if (res) {
                   x.weblink = true;
-                  // this.$set(x, 'weblink', true)
                   res.map(y => {
                     // 正则替换文本
                     let tag = `<a href="${y}" target="_blank">${y}</a>`;
@@ -741,9 +752,9 @@ export default {
         });
       }
     },
-    hiddenLogin() {
-      this.$store.commit("SET_VISIBLE_LOGIN", false);
-    },
+    // hiddenLogin() {
+    //   this.$store.commit("SET_VISIBLE_LOGIN", false);
+    // },
     hiddenTextArea() {
       this.visibleMessage = false;
     },
@@ -827,6 +838,59 @@ export default {
 
 .video-player {
   margin: 2.668vw 0;
+}
+.tiejin-imgbox {
+  background: #fff;
+  width: 100%;
+  min-height: 28.27vw;
+  position: relative;
+}
+.tiejin-imgbox > span {
+  color: #fff;
+  font-size: 14vw;
+  position: absolute;
+  height: 28vw;
+  width: 56vw;
+  text-align: center;
+  line-height: 1.5;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.tiejin-imgbox > img {
+  width: 100%;
+  height: auto;
+}
+.tiejin-videobox {
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 56.25vw;
+  position: relative;
+}
+.tiejin-videobox > video {
+  width: 100%;
+  height: 56.25vw;
+  overflow: hidden;
+}
+.tiejin-videobox-native {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 56.25vw;
+  position: relative;
+}
+.tiejin-videobox-native > div {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+.tiejin-iframe {
+  width: 100%;
+  min-height: 212px;
 }
 </style>
 <style scoped>
@@ -920,45 +984,6 @@ export default {
 .feeder-img {
   width: 100%;
   flex-wrap: wrap;
-}
-.tiejin-imgbox {
-  background: #fff;
-  width: 100%;
-  min-height: 212px;
-}
-.tiejin-imgbox > img {
-  width: 100%;
-  height: auto;
-}
-.tiejin-videobox {
-  background-color: rgba(0, 0, 0, 0.8);
-  width: 100%;
-  height: 56.25vw;
-  position: relative;
-}
-.tiejin-videobox > video {
-  width: 100%;
-  height: 56.25vw;
-  overflow: hidden;
-}
-.tiejin-videobox-native {
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 56.25vw;
-  position: relative;
-}
-.tiejin-videobox-native > div {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.3);
-}
-.tiejin-iframe {
-  width: 100%;
-  min-height: 212px;
 }
 .feed-imgbox {
   width: 100%;

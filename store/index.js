@@ -374,7 +374,8 @@ export const actions = {
   async get_code_by_phone({
     commit
   }, {
-    phone
+    phone,
+    grouk_captcha_value
   }) {
     let self = this
     Toast({
@@ -384,14 +385,18 @@ export const actions = {
     // 点击必须登录的按钮，可获取cookie进行判断 信息
     try {
       let para = {
-        phone: phone
+        phone: phone,
+        grouk_captcha_value: grouk_captcha_value
       }
       let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
-      if (data.code === 0) {} else {
+      if (data.code === 0) {
+        return true
+      } else {
         Toast({
           message: data.result,
           position: 'top'
         })
+        return false
       }
     } catch (err) {
       Toast({

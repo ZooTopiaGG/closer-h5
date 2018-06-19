@@ -47,6 +47,9 @@
       <img src="~/assets/images/home_icon_delete@2x.png" alt="">
       <span>此贴子已被删除</span>
     </div>
+    <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
+      <dp-login></dp-login>
+    </div>
   </div>
 </template>
 <script>
@@ -88,6 +91,9 @@ export default {
           location.href = `${api.downHost}`;
         }
       }
+    },
+    hiddenLogin() {
+      this.$store.commit("SET_VISIBLE_LOGIN", false);
     },
     handleScroll(e) {
       if (

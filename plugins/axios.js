@@ -37,12 +37,14 @@ export default function ({
     }
     if (/sandbox.tiejin/.test(host)) {
       config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
-      // config.baseURL = 'http://192.168.136.52:8080/command/'
+      // config.baseURL = 'http://10.3.0.116:8080/command/'
     } else if (/tiejin/.test(host)) {
       config.baseURL = 'https://api.tiejin.cn/command/'
     } else {
       config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
     }
+    // 全局设置 启用跨域传cookies
+    config.withCredentials = true
     // console.log('cooccococ====', store.state.h5Cookies)
     if (store.state.GET_MESSAGE_STATE) {
       config.headers.common['X-Udid'] = store.state.h5Cookies || 'h5-SRjHazKvYslHxwZxjy5tql9G4edf3d';

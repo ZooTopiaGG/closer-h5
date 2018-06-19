@@ -263,7 +263,7 @@ button {}
   font-size: 17px;
   line-height: 1.54;
   letter-spacing: 0.5px;
-  /* color: #222; */
+  padding: 0 4vw;
 }
 
 .summary>p,
@@ -273,7 +273,6 @@ button {}
 .summary>section,
 .summary>article,
 .summary>aside {
-  padding: 0 4vw;
   margin-bottom: 2.668vw;
 }
 

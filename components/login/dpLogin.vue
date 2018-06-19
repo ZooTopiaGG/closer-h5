@@ -8,6 +8,11 @@
     </div>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
     <div class="tj-code">
+      <mt-field placeholder="图形验证码" type="tel" :attr="{ maxlength: 5 }" v-model="img_code_value" class="margin-bottom-40">
+        <img class="tj-code-img" @click="sendImgCode" :src="get_img_code">
+      </mt-field>
+    </div>
+    <div class="tj-code">
       <mt-field placeholder="验证码" type="tel" :attr="{ maxlength: 6 }" v-model="code" class="margin-bottom-40">
         <mt-button type="default" class="tj-code-btn cursor" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
       </mt-field>
@@ -34,6 +39,8 @@ export default {
       phone: "",
       code: "",
       sendName: "发送验证码",
+      img_code_value: "",
+      get_img_code: "http://file-sandbox.tiejin.cn/captcha/image",
       isdisabled: false,
       loading: 2
     };
@@ -45,10 +52,16 @@ export default {
     }
   },
   methods: {
+    async sendImgCode() {
+      // sendImgCode
+      let self = this;
+      self.get_img_code = `http://file-sandbox.tiejin.cn/captcha/image?tempstamp=${Date.now()}`;
+    },
     async sendCode() {
       let self = this,
         time = 60;
       self.isdisabled = true;
+      console.log(self.img_code_value.length);
       if (!$async.isPhoneNum(self.phone)) {
         self.isdisabled = false;
         self.$toast({
@@ -57,6 +70,24 @@ export default {
         });
         return false;
       }
+      if (!self.img_code_value) {
+        self.isdisabled = false;
+        self.$toast({
+          message: "图形验证码不能为空",
+          position: "top"
+        });
+        return false;
+      } else {
+        if (self.img_code_value.length < 5) {
+          self.isdisabled = false;
+          self.$toast({
+            message: "图形验证码格式错误",
+            position: "top"
+          });
+          return false;
+        }
+      }
+      console.log(self.img_code_value);
       let timer = setInterval(() => {
         time--;
         if (time <= 1) {
@@ -68,9 +99,15 @@ export default {
         }
       }, 1000);
 
-      await self.$store.dispatch("get_code_by_phone", {
-        phone: self.phone
+      let result = await self.$store.dispatch("get_code_by_phone", {
+        phone: self.phone,
+        grouk_captcha_value: self.img_code_value
       });
+      if (!result) {
+        self.isdisabled = false;
+        self.sendName = "重新发送";
+        clearInterval(timer);
+      }
     },
     async toLogin() {
       let self = this;
@@ -149,7 +186,11 @@ export default {
   padding: 0;
   height: auto;
 }
-
+.tj-code-img {
+  width: 94px;
+  height: 26px;
+  border-radius: 3px;
+}
 .inHtmlLogin .mint-cell-wrapper {
   background-image: -webkit-linear-gradient(
     bottom,
