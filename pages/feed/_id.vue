@@ -293,7 +293,7 @@ export default {
       } else {
         // 在外部浏览器
         if (store.state.GET_MESSAGE_STATE) {
-          if (res.result.int_verify === -1 || bool_delete) {
+          if (res.result.int_verify === -1 || res.result.bool_delete) {
             store.commit("GET_EXIST_STATUS", false);
           }
         }
