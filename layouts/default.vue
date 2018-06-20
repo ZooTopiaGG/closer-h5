@@ -13,7 +13,7 @@
       }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-align-center" @click="toCommunity">
-            <img class="access-not" :src="defaultImg" :onerror="defaultErrorImg" :data-original="$store.state.res.blogo">
+            <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
             <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
@@ -240,13 +240,13 @@ export default {
       }
 
       // 微信二次分享
-      if (self.$store.state.GET_MESSAGE_STATE) {
-        self.$store.dispatch("wx_share", {
-          title: title,
-          desc: desc,
-          pic: pic
-        });
-      }
+      // if (self.$store.state.GET_MESSAGE_STATE) {
+      //   self.$store.dispatch("wx_share", {
+      //     title: title,
+      //     desc: desc,
+      //     pic: pic
+      //   });
+      // }
       let wrp = document.getElementById("wrapper");
       if (wrp) {
         wrp.addEventListener("scroll", this.handleScroll);
