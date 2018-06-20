@@ -32,6 +32,7 @@
   </div>
 </template>
 <script>
+import Cookie from "js-cookie";
 export default {
   name: "dpLogin",
   data() {
@@ -142,17 +143,15 @@ export default {
         }
         // 判断是否是在奖励金页面
         let type;
-        // console.log(self.$route.path.indexOf("/invite") > -1);
-        if (self.$route.path.indexOf("/invite") > -1) {
-          type = "bonus";
-        } else {
+        if (self.$route.path.indexOf("/invite") === -1) {
           type = "else";
+        } else {
+          type = "bonus";
         }
-        // console.log("type===", type);
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
           token: self.code,
-          // $router: self.$router,
+          udid: Cookie.get("h5Cookies"),
           type: type
         });
         if (status) {

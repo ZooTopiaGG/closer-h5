@@ -312,6 +312,7 @@ export const actions = {
             phone: phone,
             token: token,
             inviter: inv.id,
+            udid: Cookie.get('h5Cookies'),
             protocol: 'WEB_SOCKET'
           }
         } else {
@@ -325,6 +326,7 @@ export const actions = {
         para = {
           phone: phone,
           token: token,
+          udid: Cookie.get('h5Cookies'),
           protocol: 'WEB_SOCKET'
         }
       }
