@@ -12,16 +12,16 @@ export const state = () => ({
   nvgversion: '',
   GET_APP_TOKEN: '',
   content: '',
-  res: {},
-  webNoNav: true,
-  webNoFooter: true,
-  // messagelist: {},
-  postType: '',
+  end_html: '',
   discuss: {},
+  res: {},
+  postType: '',
   options: false,
   exist: true,
   feed_list: [],
   group_info: {},
+  webNoNav: true,
+  webNoFooter: true,
   auth: '',
   token: '',
   visibleLogin: false,
@@ -82,8 +82,14 @@ export const mutations = {
   SET_CONTENT(state, para) {
     state.content = para
   },
+  SET_END_HTML(state, para) {
+    state.end_html = para
+  },
   SET_RES(state, para) {
     state.res = para
+  },
+  SET_DISSCUSS(state, para) {
+    state.discuss = para
   },
   // 
   GET_INCR_VIEW(state, para) {
@@ -97,9 +103,6 @@ export const mutations = {
   },
   SET_POSTTYPE(state, para) {
     state.postType = para
-  },
-  SET_DISSCUSS(state, para) {
-    state.discuss = para
   },
   SET_OPTIONS(state, para) {
     state.options = para

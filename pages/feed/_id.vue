@@ -77,7 +77,7 @@
             <img class="feed-cover feed-cover-cover" :src="defaultImg" :data-src="$com.makeFileUrl($store.state.res.cover)">
             <div class="hide-over"></div>
           </div>
-          <div class="feeder-content">
+          <div class="feeder-content" id="tjimg" >
             <!-- 标题 -->
             <div class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </div>
             <!-- 阅读量 -->
@@ -89,10 +89,10 @@
               </span>
             </div>
             <div class="read-num" v-else>阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></div>
-            <div v-if="$store.state.res.int_category != 1" class="summary" v-html="$store.state.content.html" id="tjimg" @click="openClick($event)">
+            <div v-if="$store.state.res.int_category != 1" class="summary tj-sum" v-html="$store.state.content.html" @click="openClick($event)">
             </div>
             <div v-else>
-              <div class="summary" id="tjimg" v-html="$store.state.content.html">
+              <div class="summary" v-html="$store.state.content.html">
               </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
@@ -108,7 +108,8 @@
               </div>
             </div>
             <!-- 神议论列表 -->
-            <ul class="feeder-comments" v-if="$store.state.res.int_category === 3">
+            <div v-if="$store.state.res.int_category === 3">
+              <ul class="feeder-comments">
               <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in $store.state.discuss" :key="index">
                 <div class="feeder-comment-info flex flex-align-center flex-pack-end">
                   <i v-lazy:background-image="$com.makeFileUrl(item.avatar)"></i>
@@ -166,6 +167,8 @@
                 </div>
               </li>
             </ul>
+            <div v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-html="$store.state.content.end_html"></div>
+            </div>
           </div>
         </div>
         <!-- 发帖者信息 -->
@@ -324,113 +327,24 @@ export default {
         // 验证content
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
-          // console.log("content===", content);
           // 解析长图文html
           if (res.result.int_type === 2) {
-            const regexImg = /<img.*?(?:>|\/>)/gi;
-            let pImg = await content.html.match(regexImg);
-            if (pImg) {
-              const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              let size, flag;
-              pImg.forEach((x, i) => {
-                let srcArray = x.match(regexSrc),
-                  widthArray = x.match(regexWidth),
-                  heightArray = x.match(regexHeight),
-                  nW,
-                  nH;
-                if (widthArray && heightArray) {
-                  nH = heightArray[1] * 92 / widthArray[1] + "vw";
-                } else {
-                  nH = "auto";
-                }
-                // fix 图片是中文带路径 补丁
-                let _src = srcArray[1].replace(/\+/g, "%2b");
-                flag = `<div class='imgbox tiejin-imgbox' style="height: ${nH}">
-                          <img style="height: ${nH}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
-                        </div>`;
-                // 正则替换富文本内的img标签
-                // 替换不同文本
-                // const regexPImg1 = new RegExp(x);
-                content.html = content.html.replace(x, flag);
-              });
+            let _html = await $async.makeHtmlContent(
+              content.html,
+              store.state.GET_MESSAGE_STATE
+            );
+            if (_html) {
+              content.html = _html;
             }
-            const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
-            var pVideo = await content.html.match(regexVideo);
-            if (pVideo) {
-              // 正则替换富文本内 img标签 待发布（npm）
-              const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              let flg;
-              pVideo.forEach((x, i) => {
-                // 匹配imageurl属性下的值
-                let urlArray = x.match(regexUrl);
-                // 匹配vid属性下的值
-                let vidArray = x.match(regexVid);
-                let coverArray = x.match(regexCover);
-                // // 替换插入需要的值flg
-                // let temp = pVideo[i].split('<p>');
-                if (store.state.GET_MESSAGE_STATE) {
-                  flg = `<div 
-                    class='imgbox tiejin-videobox'
-                    data-vid='${vidArray[1]}' 
-                    >
-                    <video src='${urlArray[1]}'
-                      controls='controls' 
-                      preload='none' 
-                      webkit-playsinline='true'
-                      playsinline='true'
-                      x-webkit-airplay='allow'
-                      x5-video-player-type='h5'
-                      x5-video-orientation='portraint'
-                      poster='${coverArray[1]}' 
-                      data-cover='${coverArray[1]}'>
-                    </video>
-                  </div>`;
-                } else {
-                  flg = `<div 
-                    class='imgbox video-native-player tiejin-videobox-native feed-video-bg'
-                    data-vid='${vidArray[1]}'
-                    data-bg='${coverArray[1]}'
-                    style='background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");'>
-                    <div 
-                      class='flex 
-                      flex-align-center 
-                      flex-pack-center'
-                      data-vid='${vidArray[1]}' 
-                      >
-                      <span 
-                        class='icon-font icon-shipin' 
-                        data-vid='${vidArray[1]}' 
-                        >
-                      </span>
-                    </div>
-                  </div>`;
-                }
-                // const regexVideo1 = new RegExp(x);
-                content.html = content.html.replace(x, flg);
-              });
-              // console.log("end html===", content.html);
-            }
-            const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
-            var piFrame = await content.html.match(regexIframe);
-            if (piFrame) {
-              const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              piFrame.forEach((x, i) => {
-                let widthArray = x.match(regexWidth);
-                let heightArray = x.match(regexHeight);
-                let newsplit = x.split(widthArray[0]);
-                let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
-                let newsplit1 = newstr.split(heightArray[0]);
-                let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
-                let flag = `<div class="imgbox tiejin-iframe">
-                  ${newstr1}</iframe>
-                </div>`;
-                content.html = content.html.replace(x, flag);
-              });
+            if (res.result.int_category === 3 && content.end_html) {
+              let end_html = await $async.makeHtmlContent(
+                content.end_html,
+                store.state.GET_MESSAGE_STATE
+              );
+              if (end_html) {
+                content.end_html = end_html;
+              }
+              console.log("content====", content);
             }
           }
           if (content.discuss) {
@@ -455,13 +369,13 @@ export default {
               }
               return x;
             });
+            store.commit("SET_DISSCUSS", discuss);
           }
           // 返回在渲染页面之前得结果
           store.commit("SET_CONTENT", content);
-          store.commit("SET_RES", res.result);
           // store.commit("SET_POSTTYPE", postType);
-          store.commit("SET_DISSCUSS", discuss);
         }
+        store.commit("SET_RES", res.result);
         // 征稿时，显示征稿列表
         if (
           store.state.GET_MESSAGE_STATE &&
@@ -797,6 +711,7 @@ export default {
   },
   mounted() {
     let self = this;
+    console.log(self.$store.state);
     self.$nextTick(() => {
       if (typeof window != "undefined") {
         // 处理图片异步加载
@@ -1202,8 +1117,9 @@ export default {
   font-size: 12px;
 }
 
-.feeder-comments {
-  margin-top: 3.33vw;
+.feeder-comments,
+.god-discuss-end-tag {
+  margin-top: 6.66vw;
 }
 
 .feeder-comments-cell {
