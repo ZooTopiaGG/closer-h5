@@ -49,7 +49,6 @@ export default {
       minutesRound = Math.floor(minutes),
       seconds = jTime / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound),
       secondsRound = Math.floor(seconds);
-    // console.log('month===', month)
     if (monthRound > 1) {
       return monthRound + '个月前'
     } else {
@@ -109,16 +108,15 @@ export default {
   async makeHtmlContent(html, status) {
     let _html;
     const regexImg = /<img.*?(?:>|\/>)/gi;
-    console.log('html-===', html)
     let pImg = await html.match(regexImg);
-    console.log('pImg-===', pImg)
     if (pImg) {
       const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
       let size, flag;
       pImg.forEach((x, i) => {
-        let srcArray = x.match(regexSrc),
+        let
+          srcArray = x.match(regexSrc),
           widthArray = x.match(regexWidth),
           heightArray = x.match(regexHeight),
           nW,
@@ -191,10 +189,8 @@ export default {
                     </div>
                   </div>`;
         }
-        // const regexVideo1 = new RegExp(x);
         html = html.replace(x, flg);
       });
-      // console.log("end html===", html);
     }
     const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
     let piFrame = await html.match(regexIframe);
@@ -214,7 +210,6 @@ export default {
         html = html.replace(x, flag);
       });
     }
-    console.log(html)
     return html
   },
   // 图片地址处理
@@ -270,7 +265,6 @@ export default {
   },
   // jsbriadge ---ios
   setupWebViewJavascriptBridge(callback) {
-    // console.log(ca llback)
     if (window.WebViewJavascriptBridge) {
       return callback(WebViewJavascriptBridge);
     }

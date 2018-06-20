@@ -297,10 +297,11 @@ export default {
         // 在外部浏览器
         if (store.state.GET_MESSAGE_STATE) {
           if (
-            (res.result.int_verify === -1 &&
+            res.result.int_verify === 0 ||
+            ((res.result.int_verify === -1 &&
               res.result.int_category != 4 &&
               res.result.int_category != 6) ||
-            res.result.bool_delete
+              res.result.bool_delete)
           ) {
             store.commit("GET_EXIST_STATUS", false);
           }
@@ -344,7 +345,6 @@ export default {
               if (end_html) {
                 content.end_html = end_html;
               }
-              console.log("content====", content);
             }
           }
           if (content.discuss) {
@@ -411,7 +411,6 @@ export default {
         };
         let data = await app.$axios.$post(`${api.command.comments}`, para1);
         if (data.code === 0) {
-          // console.log("messagelist===", data.result);
           return {
             messagelist: data.result
           };
@@ -711,7 +710,6 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(self.$store.state);
     self.$nextTick(() => {
       if (typeof window != "undefined") {
         // 处理图片异步加载
