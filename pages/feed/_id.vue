@@ -386,10 +386,10 @@ export default {
                   </div>`;
                 } else {
                   flg = `<div 
-                    class='imgbox video-native-player tiejin-videobox-native'
+                    class='imgbox video-native-player tiejin-videobox-native feed-video-bg'
                     data-vid='${vidArray[1]}'
-                    style='background:rgba(0,0,0,.3) url("${coverArray[1]}"); 
-                      '>
+                    data-bg='${coverArray[1]}'
+                    style='background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");'>
                     <div 
                       class='flex 
                       flex-align-center 
@@ -816,7 +816,17 @@ export default {
               });
             }
           }
-          let videobg = document.querySelector(".feed-cover");
+          let videobg = document.querySelectorAll(".feed-video-bg");
+          if (videobg) {
+            Array.prototype.forEach.call(videobg, function(x, i) {
+              if (x.dataset.bg) {
+                setTimeout(() => {
+                  // x.src = x.dataset.bg;
+                  x.style.backgroundImage = `url('${x.dataset.bg}')`;
+                }, 500);
+              }
+            });
+          }
         };
       }
     });
