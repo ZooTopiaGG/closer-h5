@@ -20,13 +20,16 @@
 <script>
 import Cookie from "js-cookie";
 export default {
-  async asyncData({ app, store, error, query }) {
+  async asyncData({ app, store, error, query, redirect }) {
     if (query.code) {
-      store.dispatch("get_code_by_login", {
+      let res = await store.dispatch("get_code_by_login", {
         code: query.code,
-        // $router: self.$router,
+        inv_id: query.id,
         type: "bonus"
       });
+      if (!res) {
+        redirect("/invite/alreadyget");
+      }
     }
   },
   head() {
@@ -55,33 +58,25 @@ export default {
   },
   beforeMount() {
     let self = this;
-    self.hasInviter = JSON.parse(Cookie.get("inviter"));
-    // // 验证code是否存在
-    if (self.$route.query.code) {
-      self.$store.dispatch("get_code_by_login", {
-        code: self.$route.query.code,
-        // $router: self.$router,
-        type: "bonus"
-      });
-    } else if (Cookie.get("token")) {
-      // 进行其他 ajax 操作
-    } else {
-      // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-      if ($async.isWeiXin()) {
-        // 通过微信授权 获取code
-        self.$toast({
-          message: "没有token",
-          position: "top"
-        });
-        self.$store.dispatch("get_wx_auth", {
-          url: `${location.protocol}//${location.hostname}/invite/openbonus`
-        });
-        return;
-      } else {
-        // bilibili不是微信浏览器
-        self.$store.commit("SET_VISIBLE_LOGIN", true);
-      }
+    if (Cookie.get("inviter")) {
+      self.hasInviter = JSON.parse(Cookie.get("inviter"));
     }
+    // // 验证code是否存在
+    // if (Cookie.get("token")) {
+    //   // 进行其他 ajax 操作
+    // } else {
+    //   // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+    //   if ($async.isWeiXin()) {
+    //     // 通过微信授权 获取code
+    //     self.$store.dispatch("get_wx_auth", {
+    //       url: `${location.protocol}//${location.hostname}/invite/openbonus`
+    //     });
+    //     return;
+    //   } else {
+    //     // bilibili不是微信浏览器
+    //     self.$store.commit("SET_VISIBLE_LOGIN", true);
+    //   }
+    // }
   }
 };
 </script>

@@ -232,7 +232,7 @@ export default {
   },
   // 正则验证手机号
   isPhoneNum(str) {
-    let regex = /^1[^012][0-9]\d{8}$/
+    let regex = /^1[^01][0-9]\d{8}$/
     return regex.test(str)
   },
   /*判断是否是微信 微博 QQ*/

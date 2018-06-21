@@ -72,24 +72,14 @@ module.exports = {
         }
         
         function canShowContent() {}`
-      },
-      // {
-      //   src: 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js',
-      //   defer: 'defer'
-      // }
+      }
     ],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{
-        rel: 'icon',
-        type: 'image/x-icon',
-        href: '/favicon.ico'
-      },
-      // {
-      //   rel: 'stylesheet',
-      //   type: 'text/css',
-      //   href: '//at.alicdn.com/t/font_663941_c0ea3e10z0fz85mi.css'
-      // },
-    ],
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }],
 
   },
   // 路由配置 
@@ -98,17 +88,6 @@ module.exports = {
     mode: 'history',
     // 中间件 在路由之前判断浏览器内核
     middleware: 'user-agent',
-    // scrollBehavior(to, from, savedPosition) {
-    //   // return 期望滚动到哪个的位置
-    //   if (savedPosition) {
-    //     return savedPosition
-    //   } else {
-    //     return {
-    //       x: 0,
-    //       y: 0
-    //     }
-    //   }
-    // },
   },
   // 全局CSS配置
   css: [{

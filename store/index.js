@@ -182,6 +182,7 @@ export const actions = {
   }, {
     code,
     // $router,
+    inv_id,
     type
   }) {
     let self = this,
@@ -195,49 +196,29 @@ export const actions = {
         paras = {
           code: code
         }
+      // 校验账号是否存在
       let check = await self.$axios.$post(`${api.admin.check_wechat}`, paras)
       if (check.code != 0) {
-        Toast({
-          message: '该账号已被使用',
-          position: 'top'
-        })
-        // $router.push({
-        //   path: '/invite/alreadyget'
-        // })
-        location.href = '/invite/alreadyget'
-        return
+        return false
       } else {
         if (check.result.hasRegist) {
-          Toast({
-            message: '该账号已被使用',
-            position: 'top'
-          })
-          // $router.push({
-          //   path: '/invite/alreadyget'
-          // })
-          location.href = '/invite/alreadyget'
-          return
+          return false
         } else {
           unionId = check.result.unionId;
           nickName = check.result.nickName;
           avatar = check.result.avatar;
         }
       }
-      if (Cookie.get('inviter')) {
-        let inv = JSON.parse(Cookie.get('inviter'))
+      if (inv_id) {
         para = {
           unionid: unionId,
-          inviter: inv.id,
+          inviter: inv_id,
           nickName: nickName,
           avatar: avatar,
           protocol: "WEB_SOCKET"
         }
       } else {
-        Toast({
-          message: '该账号没有被邀请',
-          position: 'top'
-        })
-        return
+        return false
       }
     } else {
       para = {
@@ -274,8 +255,9 @@ export const actions = {
       })
       commit('SET_USER', userInfo)
       commit('SET_TOKEN', userToken)
+      return true
     } else {
-      return
+      return false
     }
   },
   // 通过token登录， 先获取cookie查看token是否过期 如果过期则调用授权，如果没有过期则调用get_token_by_login获取用户信息
@@ -303,11 +285,8 @@ export const actions = {
             message: '该账号已被使用',
             position: 'top'
           })
-          // $router.push({
-          //   path: '/invite/alreadyget'
-          // })
           location.href = '/invite/alreadyget'
-          return
+          return false
         }
         if (Cookie.get('inviter')) {
           let inv = JSON.parse(Cookie.get('inviter'))
@@ -323,7 +302,7 @@ export const actions = {
             message: '该账号没有被邀请',
             position: 'top'
           })
-          return
+          return false
         }
       } else {
         para = {

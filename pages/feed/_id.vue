@@ -210,9 +210,7 @@
                 </div>
                 <div class="icon-group flex flex-align-center">
                   <p class="flex flex-align-center cursor messages" style="margin-right:10px" @click="toMessage(item)">
-                    <!-- <span class="icon-font icon-message"></span> -->
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAeCAYAAABE4bxTAAADfElEQVRYR+1XXWgcVRT+zp3dTUikwUalIkIeqg+FvjQgIqVds7O7vbO7goXFB/+ebLEUKkJ9kJaCWpAiVBARf0Awvsg+VJmduZnZbRhFqQ9GxD+wULSU1iI1UMmPTXbukYnZdkh2TffnSTJPwz3nfN8337lz5g7h1kVFK3uIgcNgbAeQiMX6datBuAjGh1f/mH19ZmZmeS0wNRcsmX2TgCP9Yr4NnDOOqu1vKUjKzA4B8QOABpN4enh4y6eVSmXpNkA7Skmn04mhodSjxPwJgDvBvM+ZqntxkBWHitI8zKC3GPyRq+rPdsTSRXJBZl8BcBygNxzlH10nqCCzLwM4CdBJR/nHuuDoqKQgcwcAfhfg9xxVP7gpaK19mw5ttKF6cigaCQaJg2A4VVXz42RFaT4HwgO00DhlB8G1mzPNSm+DTh41hPjOdr3JvrasILPfABhnxt9GcnDUtu2FiEBK82EBOvcvGb3jKP9Qk7hgZSfBeAoACy122p73U1xUTw4VpWkzqAjg8vzi8lgQBI0I/LF8fnsodESUIqLjVdd/rUla3GeeYqJoviyQET5YrU5f7pugXC43nBQ632DjnOd5v8eBV9rJYqw6VVORG81YuVw2FueuW5rCX1z37Pm+tmyjDdpNvKeWdUO4Uc2moP+jQ+YLAJ0G6H1H+Qc2esJe45ZlHiOmV0F82nHrL6772pfy+V1a6BkA80xkua7/Ra+k7eoty9xJTNGh7F5i7K9O1c6sExQtFGTuY4CfXA3OArjRAnRZg59Qqv51O8JSKX2XDlMOmO9vkROd0+9eme3A51VVmwCgWwoaHx9Pbrtn9ATAzwPY+h8OzULQXsfxf1ybY5rmyGBSTDN4V9t6xhyIJucXl14KgmBubd7NQ34sIKSUo0RkxJPDMKSE0G8DeByMK0LTbtv3f23mrEz0BPtgPALgPJMuAQN/xTEGGg2dGBn5s1KphO0EtxLU9uGklAMCDQdABuALTI3drhtcja8z8FsjpD2+71/qZh92JCgiSKfTdwwPpc6C+SECfb8UIpsw+AMCSgCuaIR7lJq+0I2Y1b3VeWkmkxkdTInoTdwBIGrLFoCvJZDc+5lSP3eOeKuiY4eapcXixH06NL4kYIwZ142kmLBt79texHTtUJN09UzkaeAZpWpf9SqmZ0ERQLlcTvXzL7frlvXDjVYY/wDEM9MuxdT8/QAAAABJRU5ErkJggg==" alt="">
-                    <!-- <span>{{ item.replyNumber }}</span> -->
                   </p>
                   <p class="supports cursor" @click="toSupport(item, index)">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAgCAYAAABgrToAAAADz0lEQVRYR82YXWgcVRTH/2c2tXWtWBS0aovFl9So1MY3P17andm9d7apL7FaScEv1BeFiB8UkYKIWKmgL340KJhICvtQsDtzNzvb6kORIsTWQrU+VDS0IVYCFkzBZHf+MmiW3e1m2SRrJ+f53HN+c849554zgg5KVjk7yDADsVYBODF1cXp4fHx8bjkuZDmH58/29/cnZv669KWAu+rsCX6wZtl3pFSaWKqfjgBqbQ8KcQDgn4C8LyKXSD4HoAeC75LXrXsgl8tVlgLZGUBlTwiwEcROrxB8FYH09T14fWUueRrAJoTMemMlLxZA103dhVB+BDDpmWADAM6DuMp+G8BeAG95JngzFsCstp8n8RGIUa8Q7K6F0Gn7GbFwkMSQXwiejQXQVXaUOi3Cp/J+6fNaiKxydhE8BOCQZ4LHrzrgTsfZWE7wFwCVa9aEtx8+fHS6FsLNOE9DOCTEUD6OCGplfybAkyIYzvvBnsYIZbV9gMQgwDc8U4ru46JlyVX8X3QOAvg7RNc9xphzjd5dbf8EYnMI2W5M8dii6QBcAai1YwvCR4Ry7UIGKXIryHR0XgQv5P3g40ZdpWzHAsaiqhZiBIJyM3sEy4LE8bwZG67tAPO6dYCusl8G8F4z8CbGL1Mw6PvBJ80ca53OCMOogKy2IicY9fz6LhCdqwKmUqkbVq+S3wF0ici+EDxf8xUKxKMAfApyEqIcSteYMeaPVs5d17mfFd7bCtEi15KyD4KbLPLhI4XS8VqbVcBsNr2FlfCUQE7nTXFLXbvQzisk9xPY75vgtbYisgglV9mjAB4DMeAVgpGmgEqltlqQ7wU4mTdB71UG/BXAHSHYa0zp5IoCzGQy3QmpnCVx0S8E6xsLpZriuCKotfOikB9AMOL5wUDjzYgd0NV2HoRLwR7fD6JWUyexAiqlVlsoT5NMwirf5vvfTK0wQGebBR4FcMozwdZmhR9rBLWy3xXg1VbtK1ZAV9lRS7mv1VsdG6DWej3C2UkRuZxcu+7GXC43u6JSrLU9IMQXEHieH2QXenhii6CrUiOAPEHKS36h+OFKAxSt7CkBbq6wvLlQ+PrnFQW4I72tN7QS4wB/80xpU6u5oprivkymuyKVswAuJCcm78ydOVO9tNkOTzNZ7bxD8nVAPvVMMVrwF5TagdVylR0t2ncDOA9BNBv+K8QtADYAnILIhUVMUleqEmtI9kSjOCx5yPOK37YLCKW29wisnES/LP5fmSFlb6vimHffbGmyXDfVbZUTC+4ky2Gfk3I5DBPnisXiTDt2lrzVtWO8Ezr/AEKTND+nargIAAAAAElFTkSuQmCC" v-if="!item.isLike">
@@ -231,11 +229,6 @@
                     <span>共{{ item.replyNumber }}条回复</span>
                   </li>
                 </ul>
-                <!-- <ul class="messager-comments" v-if="item.replyNumber <=3">
-                  <li class="messager-comments-cell" v-if="item.replyNumber <=3" style="color: #5E97CD">
-                    <nuxt-link to="/feed/morereply">{{ item.replyNumber }}条回复</nuxt-link>
-                  </li>
-                </ul> -->
               </div>
             </li>
           </ul>
@@ -259,9 +252,6 @@
       </div>
       <dp-feed></dp-feed>
     </div>
-    <!-- <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
-      <dp-login></dp-login>
-    </div> -->
     <div class="tj-dialog" @click.self="hiddenTextArea" v-if="visibleMessage">
       <div class="dpTextArea flex flex-v">
         <mt-field placeholder="写下你的评论" type="textarea" v-model="textarea" rows="5" class="tj-textarea flex-1"></mt-field>
@@ -277,7 +267,9 @@
 import Cookie from "js-cookie";
 export default {
   name: "Feed",
-  async asyncData({ params, store, app }) {
+  async asyncData({ params, store, app, query }) {
+    let a = Date.now();
+    console.log("start===", Date.now());
     try {
       let para = {
         subjectid: params.id
@@ -286,6 +278,7 @@ export default {
         app.$axios.$post(`${api.command.show}`, para),
         app.$axios.$post(`${api.command.incr_view}`, para)
       ]);
+      console.log("middle===", Date.now() - a);
       // 静态增加 阅读量
       if (view.code === 0) {
         store.commit("GET_INCR_VIEW", view.result);
@@ -294,9 +287,13 @@ export default {
       if (res.code != 0) {
         store.commit("GET_EXIST_STATUS", false);
       } else {
-        // 在外部浏览器
+        // 在外部浏览器时 不可看的状态
+        // 在PC预览 可看的状态
         if (store.state.GET_MESSAGE_STATE) {
-          if (
+          // pc端的状态
+          if (query.view && query.view === "pre") {
+            store.commit("GET_EXIST_STATUS", true);
+          } else if (
             res.result.int_verify === 0 ||
             ((res.result.int_verify === -1 &&
               res.result.int_category != 4 &&
@@ -304,6 +301,8 @@ export default {
               res.result.bool_delete)
           ) {
             store.commit("GET_EXIST_STATUS", false);
+          } else {
+            store.commit("GET_EXIST_STATUS", true);
           }
         }
         // 视频贴 特殊处理
@@ -376,6 +375,7 @@ export default {
           // store.commit("SET_POSTTYPE", postType);
         }
         store.commit("SET_RES", res.result);
+        console.log("end===", Date.now() - a);
         // 征稿时，显示征稿列表
         if (
           store.state.GET_MESSAGE_STATE &&
@@ -757,7 +757,6 @@ export default {
   height: 36px;
   line-height: 36px;
 }
-
 .lg-preview-nav-arrow {
   border-top: 2px solid #333 !important;
   border-left: 2px solid #333 !important;
@@ -768,7 +767,6 @@ export default {
   border-top: 0;
   border-bottom: 0;
 }
-
 .video-player {
   margin: 2.668vw 0;
 }
