@@ -55,6 +55,12 @@ export default {
     if (Cookie.get("inviter")) {
       this.hasInviter = JSON.parse(Cookie.get("inviter"));
     }
+  },
+  mounted() {
+    this.$toast({
+      message: "您不是新用户或者您已经领取过了",
+      position: "top"
+    });
   }
 };
 </script>

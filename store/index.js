@@ -282,7 +282,7 @@ export const actions = {
         let check = await self.$axios.$post(`${api.admin.check}`, para)
         if (check.code != 0) {
           Toast({
-            message: '该账号已被使用',
+            message: '您不是新用户或者您已经领取过了',
             position: 'top'
           })
           location.href = '/invite/alreadyget'
@@ -376,6 +376,7 @@ export const actions = {
         grouk_captcha_value: grouk_captcha_value
       }
       let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
+      console.log('data====', data)
       if (data.code === 0) {
         Toast({
           message: '发送成功！',
