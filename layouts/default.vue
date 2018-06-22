@@ -3,14 +3,14 @@
     <lg-preview></lg-preview>
     <div v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
-      :class="{
-        appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
-        scrollnav: scrollnav,
-        webNoNav: !$store.state.webNoNav,
-        flex: true,
-        'flex-v': true,
-        'flex-pack-center': true
-      }">
+        :class="{
+          appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
+          scrollnav: scrollnav,
+          webNoNav: !$store.state.webNoNav,
+          flex: true,
+          'flex-v': true,
+          'flex-pack-center': true
+        }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
@@ -27,6 +27,11 @@
           </div>
         </div>
       </nav>
+      <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos">
+        <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
+          x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
+        </video>
+      </div>
       <div id="wrapper" 
       :class="{ 
         'web-class': $store.state.GET_MESSAGE_STATE, 
@@ -239,13 +244,13 @@ export default {
         }
       }
       // 微信二次分享
-      if (self.$store.state.GET_MESSAGE_STATE) {
-        self.$store.dispatch("wx_share", {
-          title: title,
-          desc: desc,
-          pic: pic
-        });
-      }
+      // if (self.$store.state.GET_MESSAGE_STATE) {
+      //   self.$store.dispatch("wx_share", {
+      //     title: title,
+      //     desc: desc,
+      //     pic: pic
+      //   });
+      // }
       let wrp = document.getElementById("wrapper");
       if (wrp) {
         wrp.addEventListener("scroll", this.handleScroll);
@@ -370,5 +375,20 @@ nav.appnav ~ .nuxts {
 .tj-focus-btn {
   box-sizing: border-box;
   margin-right: 4vw;
+}
+.feed-h5-videos {
+  width: 100%;
+  height: 56.25vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  box-shadow: 0 1px 5px #efefef;
+}
+.feed-h5-videos-player {
+  width: 100%;
+  height: 56.25vw;
+  overflow: hidden;
+  background: #333;
 }
 </style>

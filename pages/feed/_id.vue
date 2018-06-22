@@ -1,10 +1,10 @@
 <template>
   <div id="feed" :class="{ videofeed: $store.state.res.int_type === 1}">
-    <div v-if="$store.state.res.int_type === 1" class="feed-h5-videos">
+    <!-- <div v-if="$store.state.res.int_type === 1" class="feed-h5-videos">
       <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
         x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
       </video>
-    </div>
+    </div> -->
     <div class="box">
       <div class="feed-1">
         <!-- 帖子内容 -->
@@ -47,7 +47,7 @@
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
           <div class="video-doc">
             <div class="videoNav flex flex-align-center">
-              <img class="access-not" v-lazy="$store.state.res.blogo">
+              <img class="access-not" v-lazy="$store.state.res.blogo" @click="toCommunity">
               <span class="communityName flex-1">{{ $store.state.res.communityName }}</span>
               <div>
                 <!-- <a href="javasript:;">已关注</a> -->
@@ -478,6 +478,10 @@ export default {
     next();
   },
   methods: {
+    // 跳转栏目主页
+    toCommunity() {
+      location.href = `/community/${this.$store.state.res.communityid}`;
+    },
     morereply(item) {
       sessionStorage.setItem("item", JSON.stringify(item));
       location.href =
@@ -857,7 +861,7 @@ export default {
   width: 100%;
   height: 56.25vw;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.8);
+  background: #333;
 }
 .works {
   padding-top: 5.34vw;
