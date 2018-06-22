@@ -59,7 +59,6 @@ export default function ({
       // 获取贴子详情不需要token验证
       config.headers.Authorization = `GroukAuth ${store.state.token}`
     }
-    // console.log(' config.headers========', config.headers)
   })
   $axios.onResponse(config => {
     // console.log('config====', config)

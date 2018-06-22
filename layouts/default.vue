@@ -238,7 +238,6 @@ export default {
             : self.$com.makeFileUrl(self.$store.state.res.bigcover);
         }
       }
-
       // 微信二次分享
       if (self.$store.state.GET_MESSAGE_STATE) {
         self.$store.dispatch("wx_share", {
