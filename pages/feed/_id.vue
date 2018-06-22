@@ -707,47 +707,55 @@ export default {
         type: "else"
       });
     }
+    console.log("这是beforemounted.....");
   },
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      console.log("111111");
       if (typeof window != "undefined") {
+        console.log("不能进window.onload?...");
         // 处理图片异步加载
-        window.onload = function() {
-          let tjcover = document.querySelector(".feed-cover");
-          if (tjcover && tjcover.dataset.src) {
-            setTimeout(() => {
-              tjcover.src = tjcover.dataset.src;
-            }, 0);
-          }
-          let tjimg = document.getElementById("tjimg");
-          // 图片异步加载
-          if (tjimg) {
-            let tjimg2 = tjimg.getElementsByTagName("img");
-            if (tjimg2) {
-              Array.prototype.forEach.call(tjimg2, function(x, i) {
-                if (x.dataset.src) {
-                  setTimeout(() => {
-                    x.src = x.dataset.src;
-                  }, 500);
-                }
-              });
-            }
-          }
-          let videobg = document.querySelectorAll(".feed-video-bg");
-          if (videobg) {
-            Array.prototype.forEach.call(videobg, function(x, i) {
-              if (x.dataset.bg) {
+        // window.onload = function() {
+        console.log("处理图片异步加载...");
+        let tjcover = document.querySelector(".feed-cover");
+        console.log("这是cover===", tjcover);
+        if (tjcover && tjcover.dataset.src) {
+          setTimeout(() => {
+            tjcover.src = tjcover.dataset.src;
+          }, 0);
+        }
+        let tjimg = document.getElementById("tjimg");
+        // 图片异步加载
+        if (tjimg) {
+          let tjimg2 = tjimg.getElementsByTagName("img");
+          if (tjimg2) {
+            Array.prototype.forEach.call(tjimg2, function(x, i) {
+              if (x.dataset.src) {
                 setTimeout(() => {
-                  // x.src = x.dataset.bg;
-                  x.style.backgroundImage = `url('${x.dataset.bg}')`;
+                  x.src = x.dataset.src;
                 }, 500);
               }
             });
           }
-        };
+        }
+        let videobg = document.querySelectorAll(".feed-video-bg");
+        if (videobg) {
+          Array.prototype.forEach.call(videobg, function(x, i) {
+            if (x.dataset.bg) {
+              setTimeout(() => {
+                // x.src = x.dataset.bg;
+                x.style.backgroundImage = `url('${x.dataset.bg}')`;
+              }, 500);
+            }
+          });
+        }
+        // };
       }
     });
+    window.onload = function() {
+      console.log("222222");
+    };
   }
 };
 </script>
