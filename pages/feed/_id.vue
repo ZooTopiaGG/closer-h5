@@ -269,7 +269,6 @@ export default {
   name: "Feed",
   async asyncData({ params, store, app, query }) {
     let a = Date.now();
-    console.log("start===", Date.now());
     try {
       let para = {
         subjectid: params.id
@@ -278,7 +277,6 @@ export default {
         app.$axios.$post(`${api.command.show}`, para),
         app.$axios.$post(`${api.command.incr_view}`, para)
       ]);
-      console.log("middle===", Date.now() - a);
       // 静态增加 阅读量
       if (view.code === 0) {
         store.commit("GET_INCR_VIEW", view.result);
@@ -375,7 +373,6 @@ export default {
           // store.commit("SET_POSTTYPE", postType);
         }
         store.commit("SET_RES", res.result);
-        console.log("end===", Date.now() - a);
         // 征稿时，显示征稿列表
         if (
           store.state.GET_MESSAGE_STATE &&
@@ -544,7 +541,11 @@ export default {
       }
     },
     tofeed(fid) {
-      location.href = `closer://feed/${fid}`;
+      if (this.$store.state.GET_MESSAGE_STATE) {
+        this.$router.push({ path: `/feed/${fid}` });
+      } else {
+        location.href = `closer://feed/${fid}`;
+      }
     },
     // 去留言
     async toMessage(item) {
@@ -707,19 +708,14 @@ export default {
         type: "else"
       });
     }
-    console.log("这是beforemounted.....");
   },
   mounted() {
     let self = this;
     self.$nextTick(() => {
-      console.log("111111");
       if (typeof window != "undefined") {
-        console.log("不能进window.onload?...");
         // 处理图片异步加载
         // window.onload = function() {
-        console.log("处理图片异步加载...");
         let tjcover = document.querySelector(".feed-cover");
-        console.log("这是cover===", tjcover);
         if (tjcover && tjcover.dataset.src) {
           setTimeout(() => {
             tjcover.src = tjcover.dataset.src;
@@ -753,9 +749,6 @@ export default {
         // };
       }
     });
-    window.onload = function() {
-      console.log("222222");
-    };
   }
 };
 </script>
