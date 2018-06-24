@@ -68,13 +68,13 @@
           <!-- <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div> -->
           <div class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
             <!--  判断是否在app 内 需要预览 -->
-            <img class="feed-cover feed-cover-bgcover" :src="defaultImg2"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
+            <img class="feed-cover feed-cover-bgcover" :src="defaultImg2" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
             >
             <div class="hide-over"></div>
           </div>
           <div class="feeder-img feeder-img-cover" v-else>
             <!--  判断是否在app 内 需要预览 -->
-            <img class="feed-cover feed-cover-cover" :src="defaultImg" :data-src="$com.makeFileUrl($store.state.res.cover)">
+            <img class="feed-cover feed-cover-cover" :src="defaultImg" data-index= "0" :data-src="$com.makeFileUrl($store.state.res.cover)">
             <div class="hide-over"></div>
           </div>
           <div class="feeder-content" id="tjimg" >
@@ -268,19 +268,13 @@ import Cookie from "js-cookie";
 export default {
   name: "Feed",
   async asyncData({ params, store, app, query }) {
-    let a = Date.now();
     try {
       let para = {
         subjectid: params.id
       };
-      let [res, view] = await Promise.all([
-        app.$axios.$post(`${api.command.show}`, para),
-        app.$axios.$post(`${api.command.incr_view}`, para)
-      ]);
-      // 静态增加 阅读量
-      if (view.code === 0) {
-        store.commit("GET_INCR_VIEW", view.result);
-      }
+      let res = await app.$axios.$get(
+        `${api.command.show}?subjectid=${params.id}`
+      );
       // 获取密钥
       if (res.code != 0) {
         store.commit("GET_EXIST_STATUS", false);
@@ -345,7 +339,6 @@ export default {
             }
           }
           if (content.discuss) {
-            // var discuss = content.discuss
             var discuss = await content.discuss.map(x => {
               if (x.text) {
                 let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
@@ -356,12 +349,10 @@ export default {
                     // 正则替换文本
                     let tag = `<a href="${y}" target="_blank">${y}</a>`;
                     let newtag = x.text.replace(reg, tag);
-                    // this.$set(x, 'newText', newtag)
                     x.newText = newtag;
                   });
                 } else {
                   x.weblink = false;
-                  // this.$set(x, 'weblink', false)
                 }
               }
               return x;
@@ -370,7 +361,6 @@ export default {
           }
           // 返回在渲染页面之前得结果
           store.commit("SET_CONTENT", content);
-          // store.commit("SET_POSTTYPE", postType);
         }
         store.commit("SET_RES", res.result);
         // 征稿时，显示征稿列表
@@ -679,12 +669,10 @@ export default {
         });
       }
     },
-    // hiddenLogin() {
-    //   this.$store.commit("SET_VISIBLE_LOGIN", false);
-    // },
     hiddenTextArea() {
       this.visibleMessage = false;
     },
+    // 阅读数量
     async incrView() {
       let self = this;
       try {
@@ -692,11 +680,13 @@ export default {
           subjectid: self.$route.params.id
         };
         let view = await self.$axios.$get(
-          `${api.command.incr_view}?subjectid=${self.$route.params.id}`
+          `${api.command.incr_view}?subjectid=${
+            self.$route.params.id
+          }&timestamp=${Date.now()}`
         );
         // 静态增加 阅读量
         if (view.code === 0) {
-          self.incrview = view.result;
+          self.$store.commit("GET_INCR_VIEW", view.result);
         }
       } catch (e) {
         console.log(e);
@@ -716,6 +706,7 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      self.incrView();
       if (typeof window != "undefined") {
         // 处理图片异步加载
         // window.onload = function() {

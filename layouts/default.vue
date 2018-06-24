@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="default__box" @click="openSrc($event)">
     <lg-preview></lg-preview>
     <div v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
@@ -55,10 +55,14 @@
     <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
     </div>
+    <div v-if="preShow">
+      <preview-list :preview-list="imgList" :preview-index="preIndex" v-on:preview-show="listenToMyChild"></preview-list>
+    </div>
   </div>
 </template>
 <script>
 import Cookie from "js-cookie";
+import previewList from "~/components/preview.vue";
 export default {
   data() {
     return {
@@ -67,8 +71,14 @@ export default {
       defaultImg: require("~/assets/images/default2.png"),
       col: "#333",
       scrollnav: false,
-      exist: true
+      exist: true,
+      imgList: [],
+      preIndex: 0,
+      preShow: false
     };
+  },
+  components: {
+    previewList
   },
   methods: {
     async downApp() {
@@ -96,6 +106,18 @@ export default {
           location.href = `${api.downHost}`;
         }
       }
+    },
+    leave() {
+      this.preshow = false;
+    },
+    openSrc(e) {
+      if (e.target.dataset.index) {
+        this.preIndex = e.target.dataset.index;
+        this.preShow = true;
+      }
+    },
+    listenToMyChild(somedata) {
+      this.preShow = somedata;
     },
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
@@ -141,6 +163,26 @@ export default {
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
+      }
+    }
+  },
+  beforeMount() {
+    let self = this;
+    if (self.$store.state.GET_MESSAGE_STATE) {
+      let preimg = document.getElementsByTagName("img");
+      if (preimg) {
+        var imgList = [];
+        Array.prototype.forEach.call(preimg, (x, i) => {
+          if (x.dataset.index) {
+            imgList.push({
+              current: {
+                src: x.dataset.src
+              },
+              index: x.dataset.index
+            });
+          }
+        });
+        self.imgList = imgList;
       }
     }
   },

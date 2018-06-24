@@ -1,21 +1,19 @@
 <template>
     <transition name="fade">
-        <div class="lg-preview-wrapper" 
-        v-show="preview.show" 
-        @click="leave" 
+        <div class="lg-preview-wrapper"
+        @click="leave"
         @touchmove.prevent="touchmove"
         @touchstart="touchstart"
         @touchend="touchend"
         >
-            <div class="lg-preview-loading" v-show="preview.loading"><div></div></div>
+            <!-- <div class="lg-preview-loading" v-show="preview.loading"><div></div></div> -->
             <img
                 class="lg-preview-img"
-                v-if="preview.current.src"
-                :src="preview.current.src"
-                v-show="!preview.loading"
+                v-if="previewList[index].current.src"
+                :src="previewList[index].current.src"
             >
             <div class="lg-preview-title">
-                {{preview.list.indexOf(preview.current) + 1}} / {{preview.list.length}}
+                {{parseInt(previewList[index].index) + 1}} / {{previewList.length}}
             </div>
         </div>
     </transition>
@@ -31,8 +29,11 @@ export default {
         : global.LOGIC_EVENT_BUS.LOGIC_PREVIEW;
     }
   },
+  props: ["previewList", "previewIndex"],
   data() {
     return {
+      imglist: [],
+      index: this.previewIndex, // 记录当前图片index
       startX: 0, //开始触摸的位置
       moveX: 0, //滑动时的位置
       endX: 0, //结束触摸的位置
@@ -47,19 +48,11 @@ export default {
       this.moveX = ev.touches[0].clientX;
       //实时的滑动的距离-起始位置=实时移动的位置
       this.disX = this.moveX - this.startX;
-      // if(this.disX<0 || this.disX == 0) {
-      //     this.slideEffect = 'transform:translateX(0px)';
-      // }else if(this.disX>0){
-      //     this.slideEffect = 'transform:translateX('+this.disX+'px)';
-      // }
     },
     touchstart(ev) {
       this.disX = 0;
       ev = ev || event;
       this.startX = ev.touches[0].clientX;
-      // if(ev.touches.length == 1) {    //tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
-      //     this.startX = ev.touches[0].clientX; // 记录开始位置
-      // }
     },
     touchend() {
       if (this.disX < 0) {
@@ -71,51 +64,20 @@ export default {
       }
     },
     leave(e) {
-      if (
-        this.preview.show &&
-        e.target.className.indexOf("lg-preview-nav-arrow") != 0
-      ) {
-        this.close();
-      }
-    },
-    close() {
-      this.preview.show = false;
+      // 向父组件传递状态
+      this.$emit("preview-show", false);
     },
     preAction() {
-      this.preview.loading = true;
-      var index = this.preview.list.indexOf(this.preview.current);
-      if (index === 0) {
-        this.preview.loading = false;
+      if (this.index === 0) {
         return;
       }
-      index--;
-      this.preview.current = this.preview.list[index];
-      const img = new window.Image();
-      img.src = this.preview.current.src;
-      LOGIC_EVENT_BUS.LOGIC_PREVIEW.loading = false;
-      // img.onload = function () {
-      //     setTimeout(function () {
-      //         LOGIC_EVENT_BUS.LOGIC_PREVIEW.loading = false
-      //     },300)
-      // }
+      this.index--;
     },
     nextAction() {
-      this.preview.loading = true;
-      var index = this.preview.list.indexOf(this.preview.current);
-      if (index === this.preview.list.length - 1) {
-        this.preview.loading = false;
+      if (this.index === this.previewList.length - 1) {
         return;
       }
-      index++;
-      this.preview.current = this.preview.list[index];
-      const img = new window.Image();
-      img.src = this.preview.current.src;
-      LOGIC_EVENT_BUS.LOGIC_PREVIEW.loading = false;
-      // img.onload = function () {
-      //     setTimeout(function () {
-      //         LOGIC_EVENT_BUS.LOGIC_PREVIEW.loading = false
-      //     },300)
-      // }
+      this.index++;
     }
   }
 };
@@ -209,37 +171,6 @@ export default {
   border-left: 2px solid #fff;
 }
 
-/* .lg-preview-nav-left,
-.lg-preview-nav-right {
-  position: absolute;
-  height: 100%;
-  margin: 0 5px;
-  width: 200px;
-  top: 0;
-  color: #fff;
-  transition: opacity 0.2s;
-}
-
-.lg-preview-nav-left {
-  left: 0;
-}
-
-.lg-preview-nav-left .lg-preview-nav-arrow {
-  left: 0;
-  margin-left: 40px;
-  transform: rotate(-45deg);
-}
-
-.lg-preview-nav-right {
-  right: 0;
-}
-
-.lg-preview-nav-right .lg-preview-nav-arrow {
-  right: 0;
-  margin-right: 40px;
-  transform: rotate(135deg);
-} */
-
 .lg-preview-title {
   position: absolute;
   left: 0;
@@ -253,19 +184,4 @@ export default {
   height: 40px;
   line-height: 40px;
 }
-
-/* @media all and (max-width: 768px) {
-  .lg-preview-nav-left,
-  .lg-preview-nav-right {
-    width: 100px;
-  }
-
-  .lg-preview-nav-left .lg-preview-nav-arrow {
-    margin-left: 20px;
-  }
-
-  .lg-preview-nav-right .lg-preview-nav-arrow {
-    margin-right: 20px;
-  }
-} */
 </style>
