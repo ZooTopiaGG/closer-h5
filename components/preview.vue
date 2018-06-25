@@ -33,6 +33,7 @@ export default {
       moveY: 0, // 滑动时Yde位置
       endX: 0, //结束触摸的位置
       disX: 0, //移动距离
+      disY: 0,
       slideEffect: "" //滑动时的效果,使用v-bind:style="deleteSlider"
     };
   },
@@ -112,7 +113,7 @@ export default {
   height: 100vh;
   text-align: center;
   box-sizing: border-box;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 1);
   z-index: 10000;
 }
 
