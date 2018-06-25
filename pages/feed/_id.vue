@@ -706,6 +706,7 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      // 阅读量
       self.incrView();
       if (typeof window != "undefined") {
         // 处理图片异步加载

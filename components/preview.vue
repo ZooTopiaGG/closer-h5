@@ -2,7 +2,7 @@
     <transition name="fade">
         <div class="lg-preview-wrapper"
         @click="leave"
-        @touchmove.prevent="touchmove"
+        @touchmove="touchmove"
         @touchstart="touchstart"
         @touchend="touchend"
         >
@@ -22,45 +22,55 @@
 <script>
 export default {
   name: "Preview",
-  computed: {
-    preview() {
-      return typeof window !== "undefined"
-        ? window.LOGIC_EVENT_BUS.LOGIC_PREVIEW
-        : global.LOGIC_EVENT_BUS.LOGIC_PREVIEW;
-    }
-  },
   props: ["previewList", "previewIndex"],
   data() {
     return {
       imglist: [],
       index: this.previewIndex, // 记录当前图片index
-      startX: 0, //开始触摸的位置
-      moveX: 0, //滑动时的位置
+      startX: 0, //开始触摸X的位置
+      startY: 0, //开始触摸Y的位置
+      moveX: 0, //滑动时x的位置
+      moveY: 0, // 滑动时Yde位置
       endX: 0, //结束触摸的位置
       disX: 0, //移动距离
       slideEffect: "" //滑动时的效果,使用v-bind:style="deleteSlider"
     };
   },
   methods: {
+    touchstart(ev) {
+      this.disX = 0;
+      this.disY = 0;
+      ev = ev || event;
+      this.startX = ev.touches[0].clientX;
+      this.startY = ev.touches[0].clientY;
+    },
     touchmove(ev) {
       ev = ev || event;
       //滑动时距离浏览器左侧的距离
       this.moveX = ev.touches[0].clientX;
+      this.moveY = ev.touches[0].clientY;
       //实时的滑动的距离-起始位置=实时移动的位置
+      // x轴距离
       this.disX = this.moveX - this.startX;
-    },
-    touchstart(ev) {
-      this.disX = 0;
-      ev = ev || event;
-      this.startX = ev.touches[0].clientX;
+      // y轴距离
+      this.disY = this.moveY - this.startY;
     },
     touchend() {
-      if (this.disX < 0) {
-        this.nextAction();
-      } else if (this.disX > 0) {
-        this.preAction();
+      // 横向偏移量 x
+      let offsetX = Math.abs(this.disX),
+        offsetY = Math.abs(this.disY);
+      if (offsetX > offsetY) {
+        // X>Y 横向切换
+        if (this.disX < 0) {
+          this.nextAction();
+        } else if (this.disX > 0) {
+          this.preAction();
+        } else {
+          return;
+        }
       } else {
-        return;
+        // Y>=X 纵向滚动
+        console.log("y>x");
       }
     },
     leave(e) {
@@ -99,7 +109,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   text-align: center;
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.9);
@@ -149,6 +159,7 @@ export default {
 
 .lg-preview-img {
   max-width: 100%;
+  width: 100%;
   max-height: 100%;
   display: block;
   position: absolute;

@@ -1,6 +1,6 @@
 <template>
   <div class="default__box" @click="openSrc($event)">
-    <lg-preview></lg-preview>
+    <lg-preview v-if="$store.state.res.int_type === 0"></lg-preview>
     <div v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
@@ -55,7 +55,7 @@
     <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
     </div>
-    <div v-if="preShow">
+    <div v-if="preShow" style="overflow: auto; height: 100vh;">
       <preview-list :preview-list="imgList" :preview-index="preIndex" v-on:preview-show="listenToMyChild"></preview-list>
     </div>
   </div>
