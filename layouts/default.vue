@@ -1,5 +1,5 @@
 <template>
-  <div class="default__box" @click="openSrc($event)">
+  <div class="default__box" >
     <lg-preview v-if="$store.state.res.int_type === 0"></lg-preview>
     <div v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
@@ -114,6 +114,8 @@ export default {
       if (e.target.dataset.index) {
         this.preIndex = e.target.dataset.index;
         this.preShow = true;
+      } else {
+        return;
       }
     },
     listenToMyChild(somedata) {
@@ -168,23 +170,6 @@ export default {
   },
   beforeMount() {
     let self = this;
-    if (self.$store.state.GET_MESSAGE_STATE) {
-      let preimg = document.getElementsByTagName("img");
-      if (preimg) {
-        var imgList = [];
-        Array.prototype.forEach.call(preimg, (x, i) => {
-          if (x.dataset.index) {
-            imgList.push({
-              current: {
-                src: x.dataset.src
-              },
-              index: x.dataset.index
-            });
-          }
-        });
-        self.imgList = imgList;
-      }
-    }
   },
   mounted() {
     let self = this;
@@ -300,6 +285,33 @@ export default {
       let tjimg = document.querySelector(".access-not");
       if (tjimg && tjimg.dataset.original) {
         tjimg.src = tjimg.dataset.original;
+      }
+      // xxxx
+      if (self.$store.state.GET_MESSAGE_STATE) {
+        let preimg = document
+          .querySelector(".feed-1")
+          .getElementsByTagName("img");
+        if (preimg) {
+          var imgList = [];
+          Array.prototype.forEach.call(preimg, (x, i) => {
+            if (x.dataset.index) {
+              imgList.push({
+                current: {
+                  src: x.dataset.src
+                },
+                index: i
+              });
+            }
+            // 点击
+            preimg[i].onclick = (function() {
+              return function() {
+                self.preIndex = i;
+                self.preShow = true;
+              };
+            })(i);
+          });
+          self.imgList = imgList;
+        }
       }
     });
   }

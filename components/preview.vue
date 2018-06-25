@@ -13,7 +13,7 @@
                 :src="previewList[index].current.src"
             >
             <div class="lg-preview-title">
-                {{parseInt(previewList[index].index) + 1}} / {{previewList.length}}
+                {{parseInt(previewList[index].index + 1)}} / {{previewList.length}}
             </div>
         </div>
     </transition>

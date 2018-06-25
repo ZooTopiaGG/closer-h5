@@ -9,35 +9,39 @@
       <div class="feed-1">
         <!-- 帖子内容 -->
         <!-- 图片 -->
-        <div class="feed-doc" v-if="$store.state.res.int_type === 0">
+        <div class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
           <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
           <div v-if="$store.state.GET_MESSAGE_STATE">
             <div class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images && $store.state.content.images.length == 1">
-              <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" :key="index">
-                <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)">
+              <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
+                <!-- <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)"> -->
+                <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </div>
             </div>
             <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
               <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
-                <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)">
+                <!-- <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)"> -->
+                <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">                
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </div>
             </div>
             <div class="feeder-img flex" v-else-if="$store.state.content.images && $store.state.content.images.length == 3 || $store.state.content.images && $store.state.content.images.length > 4">
               <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
-                <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)">
+                <!-- <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)"> -->
+                <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </div>
             </div>
             <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 4">
               <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
-                <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)">
+                <!-- <img class="feeder-cover-list" v-preview="$com.makeFileUrl(img.link)"> -->
+                <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </div>
             </div>
@@ -64,8 +68,7 @@
           </div>
         </div>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
-        <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
-          <!-- <div v-if="$store.state.GET_MESSAGE_STATE" class="feeder-title" >{{ res.title }}</div> -->
+        <div class="feed-doc" id="imgLongFeed" v-else-if="$store.state.res.int_type === 2">
           <div class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
             <!--  判断是否在app 内 需要预览 -->
             <img class="feed-cover feed-cover-bgcover" :src="defaultImg2" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
@@ -110,64 +113,64 @@
             <!-- 神议论列表 -->
             <div v-if="$store.state.res.int_category === 3">
               <ul class="feeder-comments">
-              <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in $store.state.discuss" :key="index">
-                <div class="feeder-comment-info flex flex-align-center flex-pack-end">
-                  <i v-lazy:background-image="$com.makeFileUrl(item.avatar)"></i>
-                </div>
-                <div class="flex-1">
-                  <div class="feeder-comment-nickname flex flex-pack-justify">
-                    <span>{{ item.nickname }}</span>
-                    <!-- <span>{{ $com.getCommonTime(item.createTime, 'yy/mm/dd') }}</span> -->
-                    <span>{{ item.message_time }}</span>
+                <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in $store.state.discuss" :key="index">
+                  <div class="feeder-comment-info flex flex-align-center flex-pack-end">
+                    <i v-lazy:background-image="$com.makeFileUrl(item.avatar)"></i>
                   </div>
-                  <!-- 纯文本 link text-->
-                  <div v-if="item.type === 0" class="feeder-comment">
-                    <span v-if="item.weblink" v-html="item.newText"></span>
-                    <span v-else>{{ item.text }}</span>
-                  </div>
-                  <!-- 包含图片 -->
-                  <div v-else-if="item.type === 1" class="feeder-comment">
-                    <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
-                      <img class="feeder-comment-img" v-preview="$com.makeFileUrl(item.image.link)" v-lazy="$com.makeFileUrl(item.image.link)"
-                      >
-                      <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
+                  <div class="flex-1">
+                    <div class="feeder-comment-nickname flex flex-pack-justify">
+                      <span>{{ item.nickname }}</span>
+                      <!-- <span>{{ $com.getCommonTime(item.createTime, 'yy/mm/dd') }}</span> -->
+                      <span>{{ item.message_time }}</span>
                     </div>
-                    <img v-else class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)">
-                  </div>
-                  <!-- 包含贴子 -->
-                  <div v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
-                    <div class="feeder-comment-3-cover flex">
-                      <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)"></i>
+                    <!-- 纯文本 link text-->
+                    <div v-if="item.type === 0" class="feeder-comment">
+                      <span v-if="item.weblink" v-html="item.newText"></span>
+                      <span v-else>{{ item.text }}</span>
                     </div>
-                    <div>
-                      <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
-                      <div class="feeder-comment-3-summary">{{ item.feed.summary }}</div>
+                    <!-- 包含图片 -->
+                    <div v-else-if="item.type === 1" class="feeder-comment">
+                      <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
+                        <img class="feeder-comment-img" data-index="99" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg"
+                        >
+                        <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
+                      </div>
+                      <img v-else class="feeder-comment-img" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg">
                     </div>
-                  </div>
-                  <!-- 包含视频 -->
-                  <div v-else-if="item.type === 2">
-                    <div v-if="$store.state.GET_MESSAGE_STATE">
-                      <div class="imgbox feed-imgbox">
-                        <video :src="item.video.src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                          x5-video-player-type="h5" x5-video-orientation="portraint"
-                          :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
-                        </video>
+                    <!-- 包含贴子 -->
+                    <div v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
+                      <div class="feeder-comment-3-cover flex">
+                        <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)"></i>
+                      </div>
+                      <div>
+                        <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
+                        <div class="feeder-comment-3-summary">{{ item.feed.summary }}</div>
                       </div>
                     </div>
-                    <div v-else class="imgbox feed-imgbox-else feed-video-bg" 
-                    @click="showVid2(item.video.vid)" 
-                    :data-vid="item.video.vid" :data-bg="item.video.imageUrl" :style="{
-                        backgroundImage: 'url('+defaultImg+')',
-                        }">
-                      <div class="flex flex-align-center flex-pack-center feed-imgbox-else-child" :data-vid="item.video.vid">
-                        <span class="icon-font icon-shipin" :data-vid="item.video.vid"></span>
+                    <!-- 包含视频 -->
+                    <div v-else-if="item.type === 2">
+                      <div v-if="$store.state.GET_MESSAGE_STATE">
+                        <div class="imgbox feed-imgbox">
+                          <video :src="item.video.src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
+                            x5-video-player-type="h5" x5-video-orientation="portraint"
+                            :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
+                          </video>
+                        </div>
+                      </div>
+                      <div v-else class="imgbox feed-imgbox-else feed-video-bg" 
+                      @click="showVid2(item.video.vid)" 
+                      :data-vid="item.video.vid" :data-bg="item.video.imageUrl" :style="{
+                          backgroundImage: 'url('+defaultImg+')',
+                          }">
+                        <div class="flex flex-align-center flex-pack-center feed-imgbox-else-child" :data-vid="item.video.vid">
+                          <span class="icon-font icon-shipin" :data-vid="item.video.vid"></span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            </ul>
-            <div v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-html="$store.state.content.end_html"></div>
+                </li>
+              </ul>
+              <div v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-html="$store.state.content.end_html" @click="openClick($event)"></div>
             </div>
           </div>
         </div>
@@ -736,7 +739,6 @@ export default {
           Array.prototype.forEach.call(videobg, function(x, i) {
             if (x.dataset.bg) {
               setTimeout(() => {
-                // x.src = x.dataset.bg;
                 x.style.backgroundImage = `url('${x.dataset.bg}')`;
               }, 500);
             }
@@ -1029,6 +1031,9 @@ export default {
 .feeder-img-list {
   position: relative;
   overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .feeder-img-list:nth-child(3n) {
@@ -1042,9 +1047,6 @@ export default {
   width: 49.5%;
   height: 0;
   padding-bottom: 49.5%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
 }
 .feeder-img-list-cell-3 {
   width: 33%;
@@ -1052,18 +1054,12 @@ export default {
   padding-bottom: 33%;
   margin-bottom: 0.5%;
   margin-right: 0.5%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
 }
 .feeder-img-list-cell-4 {
   width: 49.5%;
   height: 0;
   padding-bottom: 49.5%;
   margin-bottom: 1%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
 }
 .icon-add {
   font-size: 14px;
