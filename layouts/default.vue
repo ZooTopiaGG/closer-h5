@@ -1,6 +1,5 @@
 <template>
   <div class="default__box" >
-    <lg-preview v-if="$store.state.res.int_type === 0"></lg-preview>
     <div v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
@@ -29,7 +28,7 @@
       </nav>
       <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos">
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true"
-          x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
+          x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-orientation="portraint" x5-playsinline="true" x5-video-player-fullscreen="h5" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
       <div id="wrapper" 
@@ -286,11 +285,16 @@ export default {
       if (tjimg && tjimg.dataset.original) {
         tjimg.src = tjimg.dataset.original;
       }
-      // xxxx
+      // 在浏览器可以点击图片预览
       if (self.$store.state.GET_MESSAGE_STATE) {
-        let preimg = document
-          .querySelector(".feed-1")
-          .getElementsByTagName("img");
+        let preimg;
+        if (document.querySelector(".feed-1")) {
+          preimg = document
+            .querySelector(".feed-1")
+            .getElementsByTagName("img");
+        } else {
+          return;
+        }
         if (preimg) {
           var imgList = [];
           Array.prototype.forEach.call(preimg, (x, i) => {

@@ -164,6 +164,8 @@ export default {
                       webkit-playsinline='true'
                       playsinline='true'
                       x-webkit-airplay='allow'
+                      x5-playsinline="true"
+                      x5-video-player-fullscreen="h5"
                       x5-video-player-type='h5'
                       x5-video-orientation='portraint'
                       poster='${coverArray[1]}' 
