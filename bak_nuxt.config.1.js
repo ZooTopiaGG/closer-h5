@@ -46,15 +46,28 @@ module.exports = {
       },
       {
         innerHTML: `
-        if (typeof document != 'undefined') {
-          document.onreadystatechange = completeLoading;
-        }
-        function completeLoading() {
-          if (document.readyState === 'complete') {
+        var nt = Date.now()
+        document.addEventListener("DOMContentLoaded", function(event) {
+            console.log("DOMContentLoaded====", Date.now() - nt);
             canShowContent()
             try {
               window.webkit.messageHandlers.canShowContent.postMessage(null);
             } catch (e) {}
+        });
+        if (typeof document != 'undefined') {
+          document.onreadystatechange = completeLoading;
+        }
+        function completeLoading() {
+          switch (document.readyState) {
+            case "loading": 
+              console.log('loading====', nt)
+              break;
+            case "interactive":
+              console.log("interactive====", Date.now() - nt);
+              break;
+            case "complete":
+              console.log("complete====", Date.now() - nt);
+              break;
           }
         }
         
