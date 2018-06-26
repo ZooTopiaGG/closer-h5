@@ -137,6 +137,7 @@ module.exports = {
       analyzerMode: 'static'
     },
     // 发布路径 只需设置为根路径
+    publicPath: 'http://h5-sandbox.tiejin.cn/_nuxt/',
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
     vendor: ['axios', 'mint-ui', 'js-cookie'],
     /*
