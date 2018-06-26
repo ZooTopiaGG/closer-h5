@@ -735,21 +735,21 @@ export default {
             self.$store.commit("SET_IMG_LIST", imgList);
           }
         }
+        if (typeof window != "undefined") {
+          let videobg = document.querySelectorAll(".feed-video-bg");
+          if (videobg) {
+            Array.prototype.forEach.call(videobg, function(x, i) {
+              if (x.dataset.bg) {
+                setTimeout(() => {
+                  x.style.backgroundImage = `url('${x.dataset.bg}')`;
+                }, 500);
+              }
+            });
+          }
+        }
       }
       // 阅读量
       self.incrView();
-      if (typeof window != "undefined") {
-        let videobg = document.querySelectorAll(".feed-video-bg");
-        if (videobg) {
-          Array.prototype.forEach.call(videobg, function(x, i) {
-            if (x.dataset.bg) {
-              setTimeout(() => {
-                x.style.backgroundImage = `url('${x.dataset.bg}')`;
-              }, 500);
-            }
-          });
-        }
-      }
     });
   }
 };
