@@ -28,7 +28,12 @@ export const state = () => ({
   visibleMessage: false,
   is_follow: false,
   incr_view: '',
-  h5Cookies: ''
+  h5Cookies: '',
+  get_preview_params: {
+    preShow: false,
+    preIndex: 0
+  },
+  get_img_list: []
 })
 
 export const mutations = {
@@ -75,6 +80,12 @@ export const mutations = {
     }
     state.nvgversion = nvgversion;
     state.nvgtype = nvgtype;
+  },
+  SET_PREVIEW_IMG(state, para) {
+    state.get_preview_params = para
+  },
+  SET_IMG_LIST(state, para) {
+    state.get_img_list = para
   },
   GET_APP_TOKEN(state, para) {
     state.GET_APP_TOKEN = para
