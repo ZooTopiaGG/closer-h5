@@ -46,7 +46,6 @@
               <img class="access-not" v-lazy="$store.state.res.blogo" @click="toCommunity">
               <span class="communityName flex-1">{{ $store.state.res.communityName }}</span>
               <div>
-                <!-- <a href="javasript:;">已关注</a> -->
                 <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor" @click="tjFocus">
                   <span v-if="$store.state.is_follow">已关注</span>
                   <span v-else>
@@ -171,13 +170,13 @@
           <span class="flex-1 ellipsis" v-if="$store.state.res.int_category === 3">
             <span>
               <!-- <span v-if="$store.state.res.isOffical">官方出品</span> -->
-              <!-- <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span> -->
+              <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span>
             </span>
           </span>
           <span class="flex-1 ellipsis" v-else>
             <span>
               <span v-if="$store.state.res.isOffical">官方出品</span>
-              <!-- <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.user.fullname }}</span> -->
+              <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.user.fullname }}</span>
             </span>
           </span>
           <span style="margin-left: 10px">{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd hh:MM') }}</span>
@@ -199,7 +198,7 @@
                 <div class="messager-info-div flex flex-align-center">
                   <img v-lazy="$com.makeFileUrl(item.user.avatar)">
                   <div class="flex flex-v">
-                    <!-- <span class="messager-name">{{ item.user.fullname }}</span> -->
+                    <span class="messager-name">{{ item.user.fullname }}</span>
                     <span class="messager-time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
                   </div>
                 </div>
@@ -217,7 +216,7 @@
               <div v-if="item.replyNumber > 0">
                 <ul class="messager-comments">
                   <li class="messager-comments-cell" v-for="(commentItem, commentIndex) in item.sonList" v-if=" commentIndex <= 3" :key="commentIndex">
-                    <!-- <span>{{ commentItem.user.fullname }}：</span> -->
+                    <span>{{ commentItem.user.fullname }}：</span>
                     <span class="messager-comment">{{ commentItem.content }}</span>
                   </li>
                   <li class="messager-comments-cell" style="color: #5e97cd;" v-if="item.replyNumber > 3" @click="morereply(item)">
@@ -262,13 +261,155 @@
 import Cookie from "js-cookie";
 export default {
   name: "Feed",
+  async asyncData({ params, store, app, query }) {
+    try {
+      let para = {
+        subjectid: params.id
+      };
+      let res = await app.$axios.$get(
+        `${api.command.show}?subjectid=${params.id}`
+      );
+      // 获取密钥
+      if (res.code != 0) {
+        store.commit("GET_EXIST_STATUS", false);
+      } else {
+        // 在外部浏览器时 不可看的状态
+        // 在PC预览 可看的状态
+        if (store.state.GET_MESSAGE_STATE) {
+          // pc端的状态
+          if (query.view && query.view === "pre") {
+            store.commit("GET_EXIST_STATUS", true);
+          } else if (
+            res.result.int_verify === 0 ||
+            ((res.result.int_verify === -1 &&
+              res.result.int_category != 4 &&
+              res.result.int_category != 6) ||
+              res.result.bool_delete)
+          ) {
+            store.commit("GET_EXIST_STATUS", false);
+          } else {
+            store.commit("GET_EXIST_STATUS", true);
+          }
+        }
+        // 视频贴 特殊处理
+        if (res.result.int_type === 1) {
+          store.commit("SET_NO_NAV", false);
+        }
+        // 外部分享时调用
+        if (store.state.GET_MESSAGE_STATE) {
+          let communityFocusStat = await app.$axios.$get(
+            `${api.community.show}?communityid=${res.result.communityid}`
+          );
+          if (communityFocusStat.code === 0) {
+            // 获取关注状态
+            if (communityFocusStat.result.isFollowed) {
+              store.commit(
+                "SET_FOCUS_STAT",
+                communityFocusStat.result.isFollowed
+              );
+            }
+          }
+        }
+        // 验证content
+        if (res.result.content) {
+          var content = JSON.parse(res.result.content);
+          // 解析长图文html
+          if (res.result.int_type === 2) {
+            let _html = await $async.makeHtmlContent(
+              content.html,
+              store.state.GET_MESSAGE_STATE
+            );
+            if (_html) {
+              content.html = _html;
+            }
+            if (res.result.int_category === 3 && content.end_html) {
+              let end_html = await $async.makeHtmlContent(
+                content.end_html,
+                store.state.GET_MESSAGE_STATE
+              );
+              if (end_html) {
+                content.end_html = end_html;
+              }
+            }
+          }
+          if (content.discuss) {
+            var discuss = await content.discuss.map(x => {
+              if (x.text) {
+                let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+                let res = x.text.match(reg);
+                if (res) {
+                  x.weblink = true;
+                  res.map(y => {
+                    // 正则替换文本
+                    let tag = `<a href="${y}" target="_blank">${y}</a>`;
+                    let newtag = x.text.replace(reg, tag);
+                    x.newText = newtag;
+                  });
+                } else {
+                  x.weblink = false;
+                }
+              }
+              return x;
+            });
+            store.commit("SET_DISSCUSS", discuss);
+          }
+          // 返回在渲染页面之前得结果
+          store.commit("SET_CONTENT", content);
+        }
+        store.commit("SET_RES", res.result);
+        // 征稿时，显示征稿列表
+        if (
+          store.state.GET_MESSAGE_STATE &&
+          res.result.int_type === 2 &&
+          res.result.int_category === 1
+        ) {
+          let para = {
+            subjectid: params.id,
+            pagenum: 1,
+            pagesize: 10
+          };
+          let feeds = await app.$axios.$post(
+            `${api.command.collections}`,
+            para
+          );
+          if (feeds.code === 0) {
+            let arr = await feeds.result.data.map(x => {
+              if (x.content) {
+                x.content = JSON.parse(x.content);
+              }
+              return x;
+            });
+            store.commit("SET_FEED_LIST", arr);
+          }
+        }
+      }
+      // 在浏览器 显示留言列表
+      if (store.state.GET_MESSAGE_STATE) {
+        let para1 = {
+          pagesize: 10,
+          pagenum: 1,
+          subjectid: params.id
+        };
+        let data = await app.$axios.$post(`${api.command.comments}`, para1);
+        if (data.code === 0) {
+          return {
+            messagelist: data.result
+          };
+        }
+      }
+    } catch (err) {
+      store.commit("GET_EXIST_STATUS", false);
+      throw err;
+    }
+  },
   head() {
     return {
       // 可以使用this
       title:
-        this.$store.state.res.int_type === 2 && this.$store.state.res.title
+        this.$store.state.res.int_type === 2
           ? this.$store.state.res.title
-          : "贴近Closer"
+          : this.$store.state.content.text &&
+            this.$store.state.content.text.substring(0, 10)
     };
   },
   data() {
@@ -298,8 +439,7 @@ export default {
       options: {},
       vid: "",
       category1: false,
-      incrview: "",
-      messagelist: {}
+      incrview: ""
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -330,6 +470,9 @@ export default {
       sessionStorage.setItem("item", JSON.stringify(item));
       location.href =
         "/feed/morereply?sid=" + item.subjectid + "&cid=" + item.commentid;
+      // this.$router.push({
+      //   path: "/feed/morereply?sid=" + item.subjectid + "&cid=" + item.commentid
+      // });
     },
     // 需要登录的操作 先判断后执行
     async tjFocus() {
@@ -542,151 +685,7 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    },
-    async feed_init() {
-      let self = this;
-      try {
-        let para = {
-          subjectid: self.$route.params.id
-        };
-        let res = await self.$axios.$get(
-          `${api.command.show}?subjectid=${self.$route.params.id}`
-        );
-        // 获取密钥
-        if (res.code != 0) {
-          self.$store.commit("GET_EXIST_STATUS", false);
-        } else {
-          // 在外部浏览器时 不可看的状态
-          // 在PC预览 可看的状态
-          if (self.$store.state.GET_MESSAGE_STATE) {
-            // pc端的状态
-            if (self.$route.query.view && self.$route.query.view === "pre") {
-              self.$store.commit("GET_EXIST_STATUS", true);
-            } else if (
-              res.result.int_verify === 0 ||
-              ((res.result.int_verify === -1 &&
-                res.result.int_category != 4 &&
-                res.result.int_category != 6) ||
-                res.result.bool_delete)
-            ) {
-              self.$store.commit("GET_EXIST_STATUS", false);
-            } else {
-              self.$store.commit("GET_EXIST_STATUS", true);
-            }
-          }
-          // 视频贴 特殊处理
-          if (res.result.int_type === 1) {
-            self.$store.commit("SET_NO_NAV", false);
-          }
-          // 外部分享时调用
-          if (self.$store.state.GET_MESSAGE_STATE) {
-            let communityFocusStat = await self.$axios.$get(
-              `${api.community.show}?communityid=${res.result.communityid}`
-            );
-            if (communityFocusStat.code === 0) {
-              // 获取关注状态
-              if (communityFocusStat.result.isFollowed) {
-                self.$store.commit(
-                  "SET_FOCUS_STAT",
-                  communityFocusStat.result.isFollowed
-                );
-              }
-            }
-          }
-          // 验证content
-          if (res.result.content) {
-            var content = JSON.parse(res.result.content);
-            // 解析长图文html
-            if (res.result.int_type === 2) {
-              let _html = await $async.makeHtmlContent(
-                content.html,
-                self.$store.state.GET_MESSAGE_STATE
-              );
-              if (_html) {
-                content.html = _html;
-              }
-              if (res.result.int_category === 3 && content.end_html) {
-                let end_html = await $async.makeHtmlContent(
-                  content.end_html,
-                  self.$store.state.GET_MESSAGE_STATE
-                );
-                if (end_html) {
-                  content.end_html = end_html;
-                }
-              }
-            }
-            if (content.discuss) {
-              var discuss = await content.discuss.map(x => {
-                if (x.text) {
-                  let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
-                  let res = x.text.match(reg);
-                  if (res) {
-                    x.weblink = true;
-                    res.map(y => {
-                      // 正则替换文本
-                      let tag = `<a href="${y}" target="_blank">${y}</a>`;
-                      let newtag = x.text.replace(reg, tag);
-                      x.newText = newtag;
-                    });
-                  } else {
-                    x.weblink = false;
-                  }
-                }
-                return x;
-              });
-              self.$store.commit("SET_DISSCUSS", discuss);
-            }
-            // 返回在渲染页面之前得结果
-            self.$store.commit("SET_CONTENT", content);
-          }
-          self.$store.commit("SET_RES", res.result);
-          // 征稿时，显示征稿列表
-          if (
-            self.$store.state.GET_MESSAGE_STATE &&
-            res.result.int_type === 2 &&
-            res.result.int_category === 1
-          ) {
-            let para = {
-              subjectid: self.$route.params.id,
-              pagenum: 1,
-              pagesize: 10
-            };
-            let feeds = await self.$axios.$post(
-              `${api.command.collections}`,
-              para
-            );
-            if (feeds.code === 0) {
-              let arr = await feeds.result.data.map(x => {
-                if (x.content) {
-                  x.content = JSON.parse(x.content);
-                }
-                return x;
-              });
-              self.$store.commit("SET_FEED_LIST", arr);
-            }
-          }
-        }
-        // 在浏览器 显示留言列表
-        if (self.$store.state.GET_MESSAGE_STATE) {
-          let para1 = {
-            pagesize: 10,
-            pagenum: 1,
-            subjectid: self.$route.params.id
-          };
-          let data = await self.$axios.$post(`${api.command.comments}`, para1);
-          if (data.code === 0) {
-            self.messagelist = data.result;
-          }
-        }
-        return true;
-      } catch (err) {
-        self.$store.commit("GET_EXIST_STATUS", false);
-        throw err;
-      }
     }
-  },
-  created() {
-    let self = this;
   },
   beforeMount() {
     let self = this;
@@ -700,56 +699,44 @@ export default {
   },
   mounted() {
     let self = this;
-    self.$nextTick(async () => {
-      // 异步处理数据请求
-      let res = await self.feed_init();
-      if (res) {
+    self.$nextTick(() => {
+      // 阅读量
+      // self.incrView();
+      if (typeof window != "undefined") {
         // 处理图片异步加载
-        let images = document.querySelectorAll(".feed-1 img");
-        lazyload(images);
-        // 在浏览器可以点击图片预览
-        if (self.$store.state.GET_MESSAGE_STATE) {
-          if (images) {
-            var imgList = [];
-            Array.prototype.forEach.call(images, (x, i) => {
-              if (x.dataset.index) {
-                imgList.push({
-                  current: {
-                    src: x.dataset.src
-                  },
-                  index: i
-                });
-              }
-              // 点击
-              images[i].onclick = (function() {
-                return function() {
-                  let para = {
-                    preIndex: i,
-                    preShow: true
-                  };
-                  self.$store.commit("SET_PREVIEW_IMG", para);
-                };
-              })(i);
-            });
-            // self.imgList = imgList;
-            self.$store.commit("SET_IMG_LIST", imgList);
-          }
+        // window.onload = function() {
+        let tjcover = document.querySelector(".feed-cover");
+        if (tjcover && tjcover.dataset.src) {
+          setTimeout(() => {
+            tjcover.src = tjcover.dataset.src;
+          }, 0);
         }
-        if (typeof window != "undefined") {
-          let videobg = document.querySelectorAll(".feed-video-bg");
-          if (videobg) {
-            Array.prototype.forEach.call(videobg, function(x, i) {
-              if (x.dataset.bg) {
+        let tjimg = document.getElementById("tjimg");
+        // 图片异步加载
+        if (tjimg) {
+          let tjimg2 = tjimg.getElementsByTagName("img");
+          if (tjimg2) {
+            Array.prototype.forEach.call(tjimg2, function(x, i) {
+              if (x.dataset.src) {
                 setTimeout(() => {
-                  x.style.backgroundImage = `url('${x.dataset.bg}')`;
+                  x.src = x.dataset.src;
                 }, 500);
               }
             });
           }
         }
+        let videobg = document.querySelectorAll(".feed-video-bg");
+        if (videobg) {
+          Array.prototype.forEach.call(videobg, function(x, i) {
+            if (x.dataset.bg) {
+              setTimeout(() => {
+                x.style.backgroundImage = `url('${x.dataset.bg}')`;
+              }, 500);
+            }
+          });
+        }
+        // };
       }
-      // 阅读量
-      self.incrView();
     });
   }
 };

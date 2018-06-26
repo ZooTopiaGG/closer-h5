@@ -12,8 +12,7 @@
         }">
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-align-center" @click="toCommunity">
-            <!-- <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo"> -->
-            <img class="access-not" v-lazy="$store.state.res.blogo">
+            <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
             <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
           </div>
           <div class="flex flex-align-center">
@@ -55,8 +54,8 @@
     <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
     </div>
-    <div v-if="$store.state.get_preview_params.preShow">
-      <preview-list :preview-list="$store.state.get_img_list" :preview-index="$store.state.get_preview_params.preIndex" v-on:preview-show="listenToMyChild"></preview-list>
+    <div v-if="preShow" style="overflow: auto; height: 100vh;">
+      <preview-list :preview-list="imgList" :preview-index="preIndex" v-on:preview-show="listenToMyChild"></preview-list>
     </div>
   </div>
 </template>
@@ -107,12 +106,19 @@ export default {
         }
       }
     },
+    leave() {
+      this.preshow = false;
+    },
+    openSrc(e) {
+      if (e.target.dataset.index) {
+        this.preIndex = e.target.dataset.index;
+        this.preShow = true;
+      } else {
+        return;
+      }
+    },
     listenToMyChild(somedata) {
-      let para = {
-        preIndex: 0,
-        preShow: somedata
-      };
-      this.$store.commit("SET_PREVIEW_IMG", para);
+      this.preShow = somedata;
     },
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
@@ -166,7 +172,6 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log("self.$store.state==", self.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -179,7 +184,7 @@ export default {
     if (self.$store.state.h5Cookies) {
       Cookie.set("h5Cookies", self.$store.state.h5Cookies);
     }
-    self.$nextTick(async () => {
+    self.$nextTick(() => {
       let title, pic, desc;
       if (self.$route.path.indexOf("/community") > -1) {
         // 分享栏目主页
@@ -276,10 +281,42 @@ export default {
       if (wrp) {
         wrp.addEventListener("scroll", this.handleScroll);
       }
-      // let tjimg = document.querySelector(".access-not");
-      // if (tjimg && tjimg.dataset.original) {
-      //   tjimg.src = tjimg.dataset.original;
-      // }
+      let tjimg = document.querySelector(".access-not");
+      if (tjimg && tjimg.dataset.original) {
+        tjimg.src = tjimg.dataset.original;
+      }
+      // 在浏览器可以点击图片预览
+      if (self.$store.state.GET_MESSAGE_STATE) {
+        let preimg;
+        if (document.querySelector(".feed-1")) {
+          preimg = document
+            .querySelector(".feed-1")
+            .getElementsByTagName("img");
+        } else {
+          return;
+        }
+        if (preimg) {
+          var imgList = [];
+          Array.prototype.forEach.call(preimg, (x, i) => {
+            if (x.dataset.index) {
+              imgList.push({
+                current: {
+                  src: x.dataset.src
+                },
+                index: i
+              });
+            }
+            // 点击
+            preimg[i].onclick = (function() {
+              return function() {
+                self.preIndex = i;
+                self.preShow = true;
+              };
+            })(i);
+          });
+          self.imgList = imgList;
+        }
+      }
     });
   }
 };
