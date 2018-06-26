@@ -1,5 +1,5 @@
 <template>
-  <div class="default__box" >
+  <div class="default__box">
     <div v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
