@@ -122,11 +122,15 @@
                     <!-- 包含图片 -->
                     <div v-else-if="item.type === 1" class="feeder-comment">
                       <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
-                        <img class="feeder-comment-img" data-index="99" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg"
+                        <img class="feeder-comment-img" data-index="99" :style="{
+                        height: item.image.height * 73 / item.image.width + 'vw'
+                      }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg"
                         >
                         <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
                       </div>
-                      <img v-else class="feeder-comment-img" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg">
+                      <img v-else class="feeder-comment-img" :style="{
+                        height: item.image.height * 73 / item.image.width + 'vw'
+                      }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg">
                     </div>
                     <!-- 包含贴子 -->
                     <div v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
@@ -1097,6 +1101,7 @@ export default {
 
 .feeder-comment-info {
   margin-top: 0.66vw;
+  width: 13vw;
 }
 
 .feeder-comment-info > i {
@@ -1155,7 +1160,7 @@ export default {
 }
 
 .feeder-comment-img {
-  width: 100%;
+  width: 73vw;
   border-radius: 3px;
 }
 

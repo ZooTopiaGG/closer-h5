@@ -36,12 +36,9 @@ import Cookie from "js-cookie";
 export default {
   async asyncData({ app, error, params, store }) {
     try {
-      if (store.state.GET_MESSAGE_STATE && !store.state.h5Cookies) {
-        let co = await store.dispatch("get_adcookie", {
-          webUdid: true
-        });
-        Cookie.set("h5Cookies", co);
-      }
+      let para = {
+        communityid: params.id
+      };
       let [community, feed, group] = await Promise.all([
         app.$axios.$get(`${api.community.show}?communityid=${params.id}`),
         app.$axios.$get(

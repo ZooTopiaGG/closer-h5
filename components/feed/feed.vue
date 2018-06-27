@@ -128,7 +128,7 @@ export default {
 }
 
 .feedtitle {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.6;
   -webkit-line-clamp: 2;
   margin-top: 2.67vw;
@@ -138,7 +138,7 @@ export default {
 }
 
 .feedcontent {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.6;
   -webkit-line-clamp: 2;
   margin-top: 2.67vw;
