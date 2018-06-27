@@ -19,7 +19,7 @@
             <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
               <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
-                <span class="icon-font icon-add" style="font-size:14px; margin-right: 2px;"></span>
+                <span class="focus-icon">+</span>
                 <span>关注</span>
               </span>
             </mt-button>
@@ -192,7 +192,7 @@ export default {
           : "栏目主页";
         desc = self.$store.state.res.description
           ? self.$store.state.res.description
-          : "贴近一点看身边";
+          : "贴近一点 看身边";
         pic = self.$store.state.res.slogo
           ? self.$store.state.res.slogo
           : self.$store.state.res.blogo;
@@ -208,11 +208,13 @@ export default {
             let description = JSON.parse(
               self.$store.state.group_info.group_info.group.description
             );
-            desc = description.content ? description.content : "贴近一点看身边";
+            desc = description[0].content
+              ? description[0].content
+              : "贴近一点 看身边";
           } else {
-            desc = "贴近一点看身边";
+            desc = "贴近一点 看身边";
           }
-          pic = group.avatar;
+          pic = self.$com.makeFileUrl(group.avatar);
         }
       } else {
         let content = self.$store.state.content;
@@ -447,5 +449,11 @@ nav.appnav ~ .nuxts {
   height: 56.25vw;
   overflow: hidden;
   background: #333;
+}
+.focus-icon {
+  font-size: 16px;
+  margin-right: 2px;
+  position: relative;
+  bottom: 1px;
 }
 </style>

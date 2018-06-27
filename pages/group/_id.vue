@@ -26,7 +26,7 @@
     <div class="intro">
       <div class="title">群简介</div>
       <div class="content">
-        <p class="text-ellipse" v-if="$store.state.group_info.group_info &&  $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
+        <p class="text-ellipse" v-if="$store.state.group_info.group_info && $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
       </div>
     </div>
     <div class="split-box"></div>
