@@ -230,6 +230,7 @@
               </div>
             </li>
           </ul>
+          <no-thing v-else></no-thing>
           <!-- <div class="learn-more" v-if="messagelist.count && messagelist.count>10">
             <span @click="learnMore" class="flex flex-align-center flex-pack-center">
               <span v-if="loading === 1">查看更多留言</span>
@@ -248,7 +249,8 @@
       <div v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="title">
         <span>精彩投稿（{{ $store.state.res.commentNumber }}）</span>
       </div>
-      <dp-feed></dp-feed>
+      <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
+      <no-thing v-else></no-thing>
     </div>
     <div class="tj-dialog" @click.self="hiddenTextArea" v-if="visibleMessage">
       <div class="dpTextArea flex flex-v">
@@ -263,6 +265,7 @@
 </template>
 <script>
 import Cookie from "js-cookie";
+import noThing from "~/components/nothing";
 export default {
   name: "Feed",
   async asyncData({ params, store, app, query }) {
@@ -361,6 +364,9 @@ export default {
           : this.$store.state.content.text &&
             this.$store.state.content.text.substring(0, 10)
     };
+  },
+  components: {
+    noThing
   },
   data() {
     return {
@@ -1218,7 +1224,6 @@ export default {
   text-align: center;
   margin-bottom: 2vw;
 }
-
 .cancel {
   margin-right: 2.67vw;
 }

@@ -9,7 +9,7 @@
       <div class="feeder-img" v-lazy:background-image="require('~/assets/images/401527306489_.pic_hd.jpg')"  v-else></div> 
       <div class="cover-title">{{ res.community.description }}</div> 
     </div>
-    <div class="member">
+    <div v-if="group.data && group.data.length>0" class="member">
       <div class="title">正在招募的群组</div>
       <ul :class="{
                 group: true, 
@@ -22,9 +22,14 @@
         </li>
       </ul>
     </div>
+    <div class="nothing-group" v-else>
+      <p>本号暂未招新，</p>
+      <p>可通过投稿申请建群～</p>
+    </div>
     <div class="split-box"></div>
     <div class="common-feed">
-      <dp-feed></dp-feed>
+      <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
+      <no-thing v-else></no-thing>
     </div>
     <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
@@ -32,6 +37,7 @@
   </div>
 </template>
 <script>
+import noThing from "~/components/nothing";
 export default {
   async asyncData({ app, error, params, store }) {
     try {
@@ -66,6 +72,9 @@ export default {
         ? this.res.community.description
         : this.res.community.name
     };
+  },
+  components: {
+    noThing
   },
   data() {
     return {
@@ -218,5 +227,9 @@ export default {
   height: 124vw;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+.nothing-group {
+  padding: 4vw;
+  color: #808080;
 }
 </style>

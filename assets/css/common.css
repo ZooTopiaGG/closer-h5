@@ -321,6 +321,14 @@ p:empty {
   min-height: 100vh;
 }
 
+.text-ellipse {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
 .ellipsis {
   white-space: nowrap;
   /*文本溢出用"..."表示*/

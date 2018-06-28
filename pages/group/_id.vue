@@ -30,19 +30,24 @@
       </div>
     </div>
     <div class="split-box"></div>
-    <div class="works">
+    <div class="works flex-1">
       <div class="title">群作品</div>
-      <dp-feed></dp-feed>
+      <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
+      <no-thing v-else></no-thing>
     </div>
   </div>
 </template>
 <script>
+import noThing from "~/components/nothing";
 export default {
   middleware: "group",
   asyncData({ req, store }) {
     if (req) {
       store.commit("SET_NO_NAV", false);
     }
+  },
+  components: {
+    noThing
   },
   data() {
     return {
