@@ -14,6 +14,7 @@ export default async function ({
     groupId: params.id
   }
   try {
+    // 获取 feed列表
     let data = await app.$axios.$post(`${api.group.group_subject_list}`, para)
     if (data.code === 0) {
       let arr = await data.result.data.map(x => {
@@ -26,6 +27,7 @@ export default async function ({
         message: `错误代码:${data.code}, ${data.result}`
       })
     }
+    // 获取群组信息
     let data2 = await app.$axios.$post(`${api.group.share_group}`, para2)
     if (data2.code === 0) {
       let monitor_uid = data2.result.group_info ? data2.result.group_info.group.attributes.monitor.uid : '';

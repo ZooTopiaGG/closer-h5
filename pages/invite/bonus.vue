@@ -98,15 +98,6 @@ export default {
   background: url("~/assets/images/bonus@2x.png") no-repeat;
   background-size: cover;
 }
-/* #bonus > img {
-  width: 94.93vw;
-  height: auto;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 0;
-} */
 .bonus-body-desc {
   margin-bottom: 5.51vw;
   font-size: 16px;

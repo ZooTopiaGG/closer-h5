@@ -80,6 +80,7 @@ export default {
     previewList
   },
   methods: {
+    // 下载app
     async downApp() {
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
@@ -106,23 +107,15 @@ export default {
         }
       }
     },
-    leave() {
-      this.preshow = false;
-    },
-    openSrc(e) {
-      if (e.target.dataset.index) {
-        this.preIndex = e.target.dataset.index;
-        this.preShow = true;
-      } else {
-        return;
-      }
-    },
+    // 监听图片预览组件的子组件传来的状态 是否关闭预览
     listenToMyChild(somedata) {
       this.preShow = somedata;
     },
+    // 隐藏登录组件
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     },
+    // 监听滚动
     handleScroll(e) {
       if (
         // 判断是否是长图文或者栏目主页 滚动显示导航背景
@@ -167,9 +160,6 @@ export default {
       }
     }
   },
-  beforeMount() {
-    let self = this;
-  },
   mounted() {
     let self = this;
     if (typeof window != "undefined") {
@@ -181,6 +171,7 @@ export default {
         document.body.appendChild(sct);
       }
     }
+    // 设置cookie
     if (self.$store.state.h5Cookies) {
       Cookie.set("h5Cookies", self.$store.state.h5Cookies);
     }
@@ -279,10 +270,12 @@ export default {
           pic: pic
         });
       }
+      // 监听wrp元素滚动位置
       let wrp = document.getElementById("wrapper");
       if (wrp) {
         wrp.addEventListener("scroll", this.handleScroll);
       }
+      // logo图片预加载
       let tjimg = document.querySelector(".access-not");
       if (tjimg && tjimg.dataset.original) {
         tjimg.src = tjimg.dataset.original;
@@ -299,6 +292,7 @@ export default {
         }
         if (preimg) {
           var imgList = [];
+          // 遍历查找出来的元素type HTMLCOLLECTION
           Array.prototype.forEach.call(preimg, (x, i) => {
             if (x.dataset.index) {
               imgList.push({
@@ -308,7 +302,7 @@ export default {
                 index: i
               });
             }
-            // 点击
+            // 监听点击图片事件 闭包
             preimg[i].onclick = (function() {
               return function() {
                 self.preIndex = i;

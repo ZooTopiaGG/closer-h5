@@ -270,11 +270,12 @@ export default {
       let para = {
         subjectid: params.id
       };
+      // 获取贴子详情
       let res = await app.$axios.$get(
         `${api.command.show}?subjectid=${params.id}`
       );
-      // 获取密钥
       if (res.code != 0) {
+        // 贴子被删除状态
         store.commit("GET_EXIST_STATUS", false);
       } else {
         // 在外部浏览器时 不可看的状态
@@ -405,6 +406,7 @@ export default {
     toCommunity() {
       location.href = `/community/${this.$store.state.res.communityid}`;
     },
+    // 跳转到更多回复页面
     morereply(item) {
       sessionStorage.setItem("item", JSON.stringify(item));
       location.href =
@@ -441,6 +443,7 @@ export default {
     // 2 - 投稿到征稿(用户投的)
     // 3 - 神议论(班长合成的)
     // 5 - 官方普通(栏目运营人员发出的)
+    // 查看更多
     learnMore() {
       this.loading = 2;
       setTimeout(() => {
@@ -448,16 +451,17 @@ export default {
         this.isActive = false;
       }, 3000);
     },
-    // vid
+    // 在app端 神议论贴子 打开原生视频
     showVid2(vid) {
       location.href = `/?vid=${vid}`;
     },
-    // tovid
+    // 在app端 长图文贴子 打开原生视频
     openClick(event) {
       if (event.target.dataset.vid) {
         location.href = `/?vid=${event.target.dataset.vid}`;
       }
     },
+    // 打开 神议论里的贴子
     tofeed(fid) {
       if (this.$store.state.GET_MESSAGE_STATE) {
         this.$router.push({ path: `/feed/${fid}` });
@@ -465,7 +469,7 @@ export default {
         location.href = `closer://feed/${fid}`;
       }
     },
-    // 去留言
+    // 留言操作
     async toMessage(item) {
       let self = this;
       self.item = item;
@@ -485,6 +489,7 @@ export default {
         }
       }
     },
+    // 确认留言
     async sure() {
       let self = this;
       if (self.textarea == "") {
@@ -521,10 +526,11 @@ export default {
         });
       }
     },
+    // 取消留言
     cancel() {
       this.visibleMessage = false;
     },
-    // 去点赞
+    // 点赞操作
     async toSupport(item, index) {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
@@ -634,6 +640,7 @@ export default {
         }
       }
     },
+    // 隐藏留言框
     hiddenTextArea() {
       this.visibleMessage = false;
     },
@@ -671,7 +678,7 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
-      // 阅读量
+      // 获取阅读量
       self.incrView();
       if (self.$store.state.GET_MESSAGE_STATE) {
         self.communityFocusStat();
@@ -679,7 +686,7 @@ export default {
         self.paperList();
       }
       if (typeof window != "undefined") {
-        // 处理图片异步加载
+        // 贴子封面异步加载
         let tjcover = document.querySelector(".feed-cover");
         if (tjcover && tjcover.dataset.src) {
           setTimeout(() => {
@@ -687,7 +694,7 @@ export default {
           }, 0);
         }
         let tjimg = document.getElementById("tjimg");
-        // 图片异步加载
+        // 长图文图片异步加载
         if (tjimg) {
           let tjimg2 = tjimg.getElementsByTagName("img");
           if (tjimg2) {
@@ -700,6 +707,7 @@ export default {
             });
           }
         }
+        // 视频封面异步加载
         let videobg = document.querySelectorAll(".feed-video-bg");
         if (videobg) {
           Array.prototype.forEach.call(videobg, function(x, i) {

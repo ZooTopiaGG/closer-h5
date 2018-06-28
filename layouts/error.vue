@@ -47,6 +47,7 @@ export default {
       }
     }, 1000);
   },
+  // 销毁定时器， 避免影响性能
   destroyed() {
     clearInterval(this.interTimer);
     clearTimeout(this.timeOut);

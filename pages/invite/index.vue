@@ -77,6 +77,7 @@
 export default {
   async asyncData({ app, error, store }) {
     try {
+      // 获取邀请人数
       let data = await app.$axios.$get(`${api.admin.invite_counts}`);
       if (data.code === 0) {
         return {
@@ -121,6 +122,7 @@ export default {
     collapse() {
       this.iscollapse = !this.iscollapse;
     },
+    // 点击邀请好友 唤起原生app操作
     inviteFriends() {
       if (this.$store.state.agent.indexOf("closer-ios") > -1) {
         if (window.WebViewJavascriptBridge) {

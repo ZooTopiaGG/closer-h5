@@ -38,6 +38,7 @@ export default {
       let para = {
         communityid: params.communityid
       };
+      // 获取栏目详情
       let community = await app.$axios.$get(
         `${api.community.show}?communityid=${params.communityid}`
       );
@@ -76,12 +77,15 @@ export default {
     };
   },
   methods: {
+    // 跳转到贴子详情
     tofeeddetails(item) {
       location.href = `/feed/${item.subjectid}`;
     },
+    // 跳转到群组
     togroup(item) {
       location.href = `/group/${item.id}`;
     },
+    // 隐藏登录组件
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     },
@@ -127,8 +131,7 @@ export default {
         type: "else"
       });
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style scoped>
