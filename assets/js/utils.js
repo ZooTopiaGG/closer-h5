@@ -1,10 +1,4 @@
 import api from './api.js'
-let options = {
-  str: '', // 文本字符串
-  flg: '', // 需要插入的值 可为空
-  splitStr1: '', // 需要分割的标签
-  size: ''
-}
 export default {
   createTime(milliseconds, type) {
     let time = new Date(milliseconds);
@@ -69,40 +63,6 @@ export default {
       }
     }
 
-  },
-  //转换音频时长显示
-  transTime(time) {
-    let duration = parseInt(time);
-    let minute = parseInt(duration / 60);
-    let sec = duration % 60 + '';
-    let isM0 = ':';
-    if (minute == 0) {
-      minute = '00';
-    } else if (minute < 10) {
-      minute = '0' + minute;
-    }
-    if (sec.length == 1) {
-      sec = '0' + sec;
-    }
-    return minute + isM0 + sec
-  },
-  getParam(paramName) {
-    let paramValue = "";
-    let isFound = false;
-    if (location.search.indexOf("?") == 0 && location.search.indexOf("=") > 1) {
-      let arrSource = unescape(location.search).substring(1, location.search.length).split("&");
-      let i = 0;
-      while (i < arrSource.length && !isFound) {
-        if (arrSource[i].indexOf("=") > 0) {
-          if (arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase()) {
-            paramValue = arrSource[i].split("=")[1];
-            isFound = true;
-          }
-        }
-        i++;
-      }
-    }
-    return paramValue;
   },
   // 富文本处理
   async makeHtmlContent(html, status) {
@@ -184,7 +144,7 @@ export default {
                       data-vid='${vidArray[1]}' 
                       >
                       <span 
-                        class='icon-font icon-shipin' 
+                        class='icon-shipin-2' 
                         data-vid='${vidArray[1]}' 
                         >
                       </span>
@@ -245,25 +205,6 @@ export default {
     } else {
       return false
     }
-  },
-  isAlipay() {
-    var weibo = navigator.userAgent.toLowerCase();
-    return weibo.indexOf('weibo') != -1
-  },
-  /*判断是否是贴近app*/
-  isCloserApp() {
-    let nvg = navigator.userAgent.toLowerCase();
-    let _result = nvg.indexOf('closer-ios') != -1 || nvg.indexOf('closer-android') != -1;
-    return _result
-  },
-  // 展开收起 速率计算
-  doMove(obj, iTarget, callback) {
-    clearInterval(obj.timer);
-    obj.timer = setInterval(function () {
-      var iSpeed = (iTarget - obj.offsetHeight) / 5;
-      iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
-      iTarget == obj.offsetHeight ? (clearInterval(obj.timer), callback && callback()) : obj.style.height = iSpeed + obj.offsetHeight + "px"
-    }, 30)
   },
   // jsbriadge ---ios
   setupWebViewJavascriptBridge(callback) {

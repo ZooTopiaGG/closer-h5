@@ -34,11 +34,6 @@
       <div class="title">群作品</div>
       <dp-feed></dp-feed>
     </div>
-    <!-- <div class="open-footer">
-      <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
-        打开贴近群组
-      </mt-button>
-    </div> -->
   </div>
 </template>
 <script>
@@ -51,8 +46,6 @@ export default {
   },
   data() {
     return {
-      defaultErrorImg:
-        'this.src="' + require("~/assets/images/default.jpeg") + '"',
       id: ""
     };
   },
@@ -78,15 +71,9 @@ export default {
           this.$route.params.id
         }`;
       }
-      // this.$router.push({
-      //   path: `/down?downurl=closer://group/${this.$route.params.id}`
-      // });
     },
     tofeeddetails(item) {
       location.href = `/feed/${item.subjectid}`;
-      // this.$router.push({
-      //   path: `/feed/${item.subjectid}`
-      // });
     }
   },
   mounted() {}

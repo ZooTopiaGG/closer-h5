@@ -46,31 +46,12 @@ module.exports = {
       },
       {
         innerHTML: `
-        var nt = Date.now()
         document.addEventListener("DOMContentLoaded", function(event) {
-            console.log("DOMContentLoaded====", Date.now() - nt);
             canShowContent()
             try {
               window.webkit.messageHandlers.canShowContent.postMessage(null);
             } catch (e) {}
         });
-        if (typeof document != 'undefined') {
-          document.onreadystatechange = completeLoading;
-        }
-        function completeLoading() {
-          switch (document.readyState) {
-            case "loading": 
-              console.log('loading====', nt)
-              break;
-            case "interactive":
-              console.log("interactive====", Date.now() - nt);
-              break;
-            case "complete":
-              console.log("complete====", Date.now() - nt);
-              break;
-          }
-        }
-        
         function canShowContent() {}`
       },
     ],
@@ -92,12 +73,6 @@ module.exports = {
   // 全局CSS配置
   css: [{
       src: 'mint-ui/lib/style.css',
-    },
-    {
-      src: '~/assets/fonts/iconfont.css'
-    },
-    {
-      src: '~/assets/css/reset.css'
     },
     {
       src: '~/assets/css/style.css'
@@ -136,7 +111,6 @@ module.exports = {
       analyzerMode: 'static'
     },
     // 发布路径 只需设置为根路径
-    // publicPath: 'http://h5-sandbox.tiejin.cn/_nuxt/',
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
     vendor: ['axios', 'mint-ui', 'js-cookie'],
     /*
@@ -178,13 +152,13 @@ module.exports = {
     '~/plugins/mintui.js',
     '~/plugins/axios',
     '~/plugins/async',
-    {
-      src: '~/plugins/vconsole.js',
-      ssr: false
-    },
-    {
-      src: '~/plugins/device.js',
-      ssr: false
-    }
+    // {
+    //   src: '~/plugins/vconsole.js',
+    //   ssr: false
+    // },
+    // {
+    //   src: '~/plugins/device.js',
+    //   ssr: false
+    // }
   ]
 }

@@ -13,7 +13,8 @@
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-1 flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
-            <span class="communityName ellipsis">{{ $store.state.res.communityName }}</span>
+            <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
+            <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
           </div>
           <div class="flex flex-align-center">
             <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
@@ -171,7 +172,6 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(self.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -358,6 +358,7 @@ nav .icon-ios-more {
 }
 
 nav .communityName {
+  max-width: 50vw;
   color: #495060;
   font-size: 15px;
   height: 19px;
@@ -383,7 +384,6 @@ nav.appnav .icon-ios-more {
 
 nav.appnav .communityName {
   color: #fff;
-  max-width: 53.33vw;
 }
 
 nav.scrollnav {
@@ -452,9 +452,9 @@ nav.appnav ~ .nuxts {
   background: #333;
 }
 .focus-icon {
-  font-size: 16px;
+  font-size: 17px;
   margin-right: 2px;
   position: relative;
-  bottom: 1px;
+  bottom: -1px;
 }
 </style>

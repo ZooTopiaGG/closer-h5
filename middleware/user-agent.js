@@ -11,6 +11,10 @@ export default async function (context) {
     context.store.commit('GET_APP_AGENT', {
       nvg: context.userAgent
     })
+    // 当前src
+    if (!context.store.state.current_url) {
+      context.store.commit('SET_CURRENT_URL', context.req.headers.referer)
+    }
     context.store.commit('GET_AGENT', context.userAgent)
     context.store.commit('GET_APP_TOKEN', context.req.headers['authorization'])
     let nvg = context.userAgent.toLowerCase()

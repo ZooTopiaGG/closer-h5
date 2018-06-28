@@ -60,20 +60,15 @@ export default function ({
       config.headers.Authorization = `GroukAuth ${store.state.token}`
     }
   })
-  $axios.onResponse(config => {
-    // console.log('config====', config)
-    // res.writeHead(200, {
-    //   'Set-Cookie': store.state.h5Cookies
-    // });
-  })
-  $axios.onError(error => {
-    const code = parseInt(error.response && error.response.status)
-    if (code === 400) {
-      redirect('/400')
-    } else if (error.code === 500) {
-      redirect('/sorry')
-    } else {
-      redirect('/error')
-    }
-  })
+  // // 待处理
+  // $axios.onError(error => {
+  //   console.log('error======', error)
+  //   const code = parseInt(error.response && error.response.status)
+  //   console.log('code=============================', code)
+  //   if (code) {
+  //     redirect('/error')
+  //   } else {
+  //     redirect('/error/10x')
+  //   }
+  // })
 }

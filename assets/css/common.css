@@ -8,12 +8,6 @@
   overflow: auto;
 }
 
-/*::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 7px;
-    background-color: #eee;
-}*/
-
 /*滚动轨道样式*/
 
 ::-webkit-scrollbar-track {
@@ -269,7 +263,7 @@ button {}
 .summary>p,
 .summary>ol,
 .summary>ul,
-.summary>div:not(.imgbox),
+.summary>div,
 .summary>section,
 .summary>article,
 .summary>aside {
@@ -284,16 +278,8 @@ p:empty {
 .summary img {
   max-width: 100%;
   height: auto;
-  /* margin-bottom: 2.668vw; */
   margin: 0 auto;
-}
-
-.summary img {
   display: block;
-}
-
-.summary .imgbox {
-  margin-bottom: 2.668vw;
 }
 
 .summary video {

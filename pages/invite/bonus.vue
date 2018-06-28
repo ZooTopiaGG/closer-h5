@@ -65,8 +65,6 @@ export default {
         this.openbonus = true;
         let self = this;
         Cookie.set("inviter", self.res);
-        // if (Cookie.get("token")) {
-        //   // 进行其他 ajax 操作
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code

@@ -28,7 +28,8 @@ export const state = () => ({
   visibleMessage: false,
   is_follow: false,
   incr_view: '',
-  h5Cookies: ''
+  h5Cookies: '',
+  current_url: ''
 })
 
 export const mutations = {
@@ -137,6 +138,10 @@ export const mutations = {
   // 获取h5cookies
   SET_H5COOKIES(state, para) {
     state.h5Cookies = para
+  },
+  // 设置当前url
+  SET_CURRENT_URL(state, para) {
+    state.current_url = para
   }
 }
 
