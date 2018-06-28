@@ -245,8 +245,8 @@
       </div>
     </div>
     <!-- 测试 feed流 -->
-    <div v-if="$store.state.GET_MESSAGE_STATE" class="works">
-      <div v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="title">
+    <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="works">
+      <div class="title">
         <span>精彩投稿（{{ $store.state.res.commentNumber }}）</span>
       </div>
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>

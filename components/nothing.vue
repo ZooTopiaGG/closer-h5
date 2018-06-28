@@ -8,7 +8,7 @@
 <style scoped>
 .nothing {
   color: #808080;
-  margin-top: 15vw;
+  margin: 15vw 0;
 }
 .nothing img {
   width: 21.6vw;
