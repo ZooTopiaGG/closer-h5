@@ -13,16 +13,19 @@
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-1 flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
-            <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
-            <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
+            <!-- <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
+            <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span> -->
           </div>
           <div class="flex flex-align-center">
-            <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
-              <span v-if="$store.state.is_follow">已关注</span>
+            <!-- 关注补丁 -->
+            <mt-button  @click="downApp" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
+            <!-- <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor"> -->
+              <!-- <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
                 <span class="focus-icon">+</span>
                 <span>关注</span>
-              </span>
+              </span> -->
+              <span>下载App 送10元现金</span>
             </mt-button>
           </div>
         </div>
@@ -42,11 +45,11 @@
           <nuxt/>
         </keep-alive>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
+      <!-- <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           贴近内打开
         </mt-button>
-      </div>
+      </div> -->
     </div>
     <div class="not-exist flex flex-v flex-align-center" v-else>
       <img src="~/assets/images/home_icon_delete@2x.png" alt="">
@@ -66,7 +69,6 @@
 <script>
 import Cookie from "js-cookie";
 import previewList from "~/components/preview.vue";
-// import dpReply from "~/components/reply.vue";
 export default {
   data() {
     return {
@@ -83,10 +85,9 @@ export default {
   },
   components: {
     previewList
-    // dpReply
   },
   methods: {
-    // 下载app
+    // 下载app补丁
     async downApp() {
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
