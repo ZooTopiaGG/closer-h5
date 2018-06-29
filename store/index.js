@@ -591,6 +591,8 @@ export const actions = {
     let self = this;
     try {
       let para1 = {
+        pagesize: 5,
+        pagenum: 1,
         subjectid: subjectid
       };
       let data = await self.$axios.$post(`${api.command.comments}`, para1);
@@ -603,6 +605,7 @@ export const actions = {
           position: "top"
         });
       }
+      return true
     } catch (err) {
       self.$toast({
         message: err,
