@@ -13,19 +13,17 @@
         <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-1 flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
-            <!-- <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
-            <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span> -->
+            <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
+            <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
           </div>
           <div class="flex flex-align-center">
             <!-- 关注补丁 -->
-            <mt-button  @click="downApp" type="primary" size="small" class="flex tj-focus-btn cursor">
-            <!-- <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor"> -->
-              <!-- <span v-if="$store.state.is_follow">已关注</span>
+            <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
+              <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
                 <span class="focus-icon">+</span>
                 <span>关注</span>
-              </span> -->
-              <span>下载App 送10元现金</span>
+              </span>
             </mt-button>
           </div>
         </div>
