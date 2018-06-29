@@ -18,7 +18,7 @@
           </div>
           <div class="flex flex-align-center">
             <!-- 关注补丁 -->
-            <mt-button  @click="downApp" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
+            <mt-button  @click="downApp" type="primary" size="small" class="flex tj-focus-btn cursor">
             <!-- <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor"> -->
               <!-- <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
