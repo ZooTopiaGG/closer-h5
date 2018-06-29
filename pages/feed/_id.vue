@@ -86,7 +86,7 @@
             <div v-if="$store.state.res.int_category != 1" class="summary tj-sum" v-html="$store.state.content.html" @click="openClick($event)">
             </div>
             <div v-else>
-              <div class="summary" v-html="$store.state.content.html">
+              <div class="summary" v-html="$store.state.content.html" @click="openClick($event)">
               </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
@@ -462,6 +462,7 @@ export default {
     },
     // 在app端 长图文贴子 打开原生视频
     openClick(event) {
+      console.log(event);
       if (event.target.dataset.vid) {
         location.href = `/?vid=${event.target.dataset.vid}`;
       }
