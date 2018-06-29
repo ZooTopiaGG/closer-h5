@@ -125,7 +125,6 @@ export default {
                       x-webkit-airplay='allow'
                       x5-playsinline="true"
                       x5-video-player-fullscreen="h5"
-                      x5-video-player-type='h5'
                       x5-video-orientation='portraint'
                       poster='${coverArray[1]}' 
                       data-cover='${coverArray[1]}'>
