@@ -45,7 +45,7 @@
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
-          下载APP 领十元现金
+          下载APP 领10元现金
         </mt-button>
       </div>
     </div>
