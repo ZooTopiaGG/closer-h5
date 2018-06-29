@@ -162,7 +162,6 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(self.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
