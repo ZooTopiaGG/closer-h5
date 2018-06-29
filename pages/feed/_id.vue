@@ -812,11 +812,12 @@ export default {
 }
 /* 视频特殊处理 */
 .videofeed .box {
-  height: calc(177.87vw - 56.25vw);
+  /* height: calc(100vh - 56.25vw); */
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   margin-top: 56.25vw;
+  box-sizing: border-box;
 }
 .feed-h5-videos {
   width: 100%;
