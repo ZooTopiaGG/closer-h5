@@ -120,12 +120,6 @@ export default {
                     <video src='${urlArray[1]}'
                       controls='controls' 
                       preload='none' 
-                      webkit-playsinline='true'
-                      playsinline='true'
-                      x-webkit-airplay='allow'
-                      x5-playsinline="true"
-                      x5-video-player-fullscreen="h5"
-                      x5-video-orientation='portraint'
                       poster='${coverArray[1]}' 
                       data-cover='${coverArray[1]}'>
                     </video>

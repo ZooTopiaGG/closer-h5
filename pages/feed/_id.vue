@@ -146,8 +146,7 @@
                     <div v-else-if="item.type === 2">
                       <div v-if="$store.state.GET_MESSAGE_STATE">
                         <div class="imgbox feed-imgbox">
-                          <video :src="item.video.src" controls="controls" preload="none" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow"
-                            x5-video-orientation="portraint" x5-playsinline="true" x5-video-player-fullscreen="h5"
+                          <video :src="item.video.src" controls="controls" preload="none" 
                             :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
                           </video>
                         </div>
