@@ -251,10 +251,9 @@
               </li>
             </ul>
           </div>
-          <div class="learn-more" v-if="showMore" @click="downApp">
+          <div class="learn-more" v-if="$store.state.res.commentNumber > 0 & showMore" @click="downApp">
             <span class="flex flex-align-center flex-pack-center">
               <span>点击参与更多讨论</span>
-              <img class="more-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAcCAYAAABsxO8nAAAAAXNSR0IArs4c6QAAAvlJREFUOBGdlU1oE0EUgOfNJmmbVoKoqGilSKmCBaVoqy2il8Ym2U01Eg+tEQSJB28eRaTHHvRUEIogHrRSIrZNN9VGpEEJqPhDwYMxqKi0KeLZxnR3xzfTbrqNaX76Dpt5P/Pte2/eTghB6e11N8qyvIuvNyqUA7QcSRMj9132dl/dMEiScpRvZoxJjJFbCLsbDAYd1QKBb1A8bo9B2ENcugQAIOmoIYGxsfgvoVfwECAepyju/Uwjk4ywZq4DkB+EUr+qTs9yvZyIsnjQ5GT8E6P2diQ/5zqWuYfpLOn39QS4Xk4ka0A6nc72nb8wkpmf24KodvQ5sHfn9rU065/TX15YYwvX+dIKHYq3+7LByBDa7dwHAKN19a6LkUhksTBW+IsZTZss95wkuv6IEYIZogC8A+roVVV1zowxf9fNyAzw+Xx7wViK4iEcWLZBxgbkzMRU/LUZw3/zzbYaretYLPaV2muPYWnqsp3t1BhLyLK73xq3ptlWh3WdSqVyff2hUTyEOjyELvTZCCMBPIRatM8kEglWtjQrkK8V76mQwdgdBNYIH8D92FQ8VDVIwBTPUUPXx3DYdnAdJKmzbI/EWwseTU3kA2aQNM04vNuqzsjv92/XtexjzKaTgxAwv3krtFTUbPPNp73dh3Rdn8H+tAoIkDS1Sz2RyHSm4tKwyWc1Akmcp0YBBnjGwNERjT5Ncb1sRvitwfu3r24YzLiN8Sv3FAw5G1yh8fHxPwKKj5I9UhTFaejZezgzwZUNS0DoFfXJNB7/WlkXFAh4ducW9QkspY1vwfvpNyVwNjoVL3oLFAUphXMC8BEk4sc769vaPFa1/5otJlfTE/lhIyRKbbWdpSAcl2/2wMAAbXDWDDJm3ES7jTvxQx083NEVHh4e/sv1UiJKwyHbZGjZETwheSU4CxJcUtX4g1KbrT4aDoftCHm5CoEMSPRENRAOpAsLP1sRclDQ+Q0oOY7gP8cb69sqWdO2to5Z7MU1SuG6s951vNg1WgnoHzzoEmuHvf3cAAAAAElFTkSuQmCC" alt="">
             </span>
           </div>
         </div>
@@ -730,12 +729,12 @@ export default {
   margin-top: 8px;
   height: 49px;
   line-height: 49px;
-  font-size: 18px;
-  background-color: #fddb00;
+  font-size: 16px;
+  color: #409eff;
 }
 .more-img {
-  width: 9px;
-  height: 14px;
+  width: 6.75px;
+  height: 10.5px;
   margin-left: 5px;
 }
 .lg-preview-nav-arrow {

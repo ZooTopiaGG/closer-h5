@@ -43,11 +43,11 @@
           <nuxt/>
         </keep-alive>
       </div>
-      <!-- <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
-          贴近内打开
+          下载APP 领十元现金
         </mt-button>
-      </div> -->
+      </div>
     </div>
     <div class="not-exist flex flex-v flex-align-center" v-else>
       <img src="~/assets/images/home_icon_delete@2x.png" alt="">
