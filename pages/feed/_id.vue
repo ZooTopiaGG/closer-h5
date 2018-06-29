@@ -230,7 +230,6 @@
               </div>
             </li>
           </ul>
-          <no-thing v-else></no-thing>
           <!-- <div class="learn-more" v-if="messagelist.count && messagelist.count>10">
             <span @click="learnMore" class="flex flex-align-center flex-pack-center">
               <span v-if="loading === 1">查看更多留言</span>
@@ -861,7 +860,9 @@ export default {
 .feeder-comments {
   padding: 0 4vw;
 }
-
+.feeder-comment {
+  font-size: 15px;
+}
 .read-num {
   margin-bottom: 2.668vw;
   color: #888;
@@ -1002,6 +1003,7 @@ export default {
   margin: 2.668vw 0;
   line-height: 1.6;
   text-align: justify;
+  font-size: 15px;
 }
 
 .messager-time {
@@ -1153,7 +1155,7 @@ export default {
 }
 
 .feeder-comment-nickname {
-  font-size: 12px;
+  font-size: 13px;
   color: rgba(148, 146, 142, 1);
   margin-bottom: 2.4vw;
   line-height: 1;
