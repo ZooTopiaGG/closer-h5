@@ -196,8 +196,8 @@
           <div class="message-num">
             {{ $store.state.res.commentNumber }} 条留言
           </div>
-          <ul class="feed-messagebord-list" v-if="messagelist.data && messagelist.data.length > 0">
-            <li class="feed-messagebord-list-cell" v-for="(item, index) in messagelist.data" :key="index">
+          <ul class="feed-messagebord-list" v-if="$store.state.messagelist.data && $store.state.messagelist.data.length > 0">
+            <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
               <div class="messager-info flex flex-align-center flex-pack-justify">
                 <div class="messager-info-div flex flex-align-center">
                   <img v-lazy="$com.makeFileUrl(item.user.avatar)">
@@ -230,16 +230,6 @@
               </div>
             </li>
           </ul>
-          <!-- <div class="learn-more" v-if="messagelist.count && messagelist.count>10">
-            <span @click="learnMore" class="flex flex-align-center flex-pack-center">
-              <span v-if="loading === 1">查看更多留言</span>
-              <span v-else-if="loading===2" class="flex flex-align-center">
-                <span>正在加载</span>
-                <mt-spinner :size="16" type="triple-bounce" color="#495060" style="margin-left:5px"></mt-spinner>
-              </span>
-              <span v-else>到底了，没有更多了</span>
-            </span>
-          </div> -->
         </div>
       </div>
     </div>
@@ -462,7 +452,6 @@ export default {
     },
     // 在app端 长图文贴子 打开原生视频
     openClick(event) {
-      console.log(event);
       if (event.target.dataset.vid) {
         location.href = `/?vid=${event.target.dataset.vid}`;
       }
@@ -481,7 +470,9 @@ export default {
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
-        self.visibleMessage = true;
+        // self.visibleMessage = true;
+        self.$store.commit("SET_MESSAGE_ITEM", item);
+        self.$store.commit("SET_VISIBLE_MESSAGE", true);
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
@@ -494,47 +485,6 @@ export default {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
       }
-    },
-    // 确认留言
-    async sure() {
-      let self = this;
-      if (self.textarea == "") {
-        self.$toast({
-          message: "内容不能为空！",
-          position: "top"
-        });
-        return false;
-      }
-      try {
-        let para = {
-          subjectid: self.item.subjectid,
-          content: self.textarea,
-          lastid: self.item.commentid
-        };
-        let data = await self.$axios.$post(`${api.admin.add_reply}`, para);
-        if (data.code === 0) {
-          self.messageList();
-          self.$toast({
-            message: "留言成功",
-            position: "top"
-          });
-          self.visibleMessage = false;
-        } else {
-          self.$toast({
-            message: data.result,
-            position: "top"
-          });
-        }
-      } catch (err) {
-        self.$toast({
-          message: err,
-          position: "top"
-        });
-      }
-    },
-    // 取消留言
-    cancel() {
-      this.visibleMessage = false;
     },
     // 点赞操作
     async toSupport(item, index) {
@@ -566,31 +516,6 @@ export default {
         let data = await self.$axios.$post(`${api.admin.like}`, para);
         if (data.code === 0) {
           self.$set(item, "isLike", !item.isLike);
-        } else {
-          self.$toast({
-            message: data.result,
-            position: "top"
-          });
-        }
-      } catch (err) {
-        self.$toast({
-          message: err,
-          position: "top"
-        });
-      }
-    },
-    // 留言列表
-    async messageList() {
-      let self = this;
-      try {
-        let para1 = {
-          pagesize: 10,
-          pagenum: 1,
-          subjectid: self.$route.params.id
-        };
-        let data = await self.$axios.$post(`${api.command.comments}`, para1);
-        if (data.code === 0) {
-          self.messagelist = data.result;
         } else {
           self.$toast({
             message: data.result,
@@ -646,10 +571,6 @@ export default {
         }
       }
     },
-    // 隐藏留言框
-    hiddenTextArea() {
-      this.visibleMessage = false;
-    },
     // 阅读数量
     async incrView() {
       let self = this;
@@ -688,7 +609,9 @@ export default {
       self.incrView();
       if (self.$store.state.GET_MESSAGE_STATE) {
         self.communityFocusStat();
-        self.messageList();
+        self.$store.dispatch("message_list", {
+          subjectid: self.$route.params.id
+        });
         self.paperList();
       }
       if (typeof window != "undefined") {

@@ -55,6 +55,9 @@
     <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
     </div>
+    <div class="tj-dialog" @click.self="hiddenTextArea" v-if="$store.state.visibleMessage">
+      <dp-reply></dp-reply>
+    </div>
     <div v-if="preShow" style="overflow: auto; height: 100vh;">
       <preview-list :preview-list="imgList" :preview-index="preIndex" v-on:preview-show="listenToMyChild"></preview-list>
     </div>
@@ -63,6 +66,7 @@
 <script>
 import Cookie from "js-cookie";
 import previewList from "~/components/preview.vue";
+// import dpReply from "~/components/reply.vue";
 export default {
   data() {
     return {
@@ -73,11 +77,13 @@ export default {
       exist: true,
       imgList: [],
       preIndex: 0,
-      preShow: false
+      preShow: false,
+      visibleMessage: false
     };
   },
   components: {
     previewList
+    // dpReply
   },
   methods: {
     // 下载app
@@ -114,6 +120,10 @@ export default {
     // 隐藏登录组件
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
+    },
+    // 隐藏留言框
+    hiddenTextArea() {
+      this.$store.commit("SET_VISIBLE_MESSAGE", false);
     },
     // 监听滚动
     handleScroll(e) {

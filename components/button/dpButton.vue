@@ -29,7 +29,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$refs._button);
     this.$refs._button.setAttribute("class", `button button-${this.type}`);
   }
 };

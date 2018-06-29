@@ -29,7 +29,9 @@ export const state = () => ({
   is_follow: false,
   incr_view: '',
   h5Cookies: '',
-  current_url: ''
+  current_url: '',
+  message_item: {},
+  messagelist: []
 })
 
 export const mutations = {
@@ -130,6 +132,12 @@ export const mutations = {
   },
   SET_VISIBLE_MESSAGE(state, para) {
     state.visibleMessage = para
+  },
+  SET_MESSAGE_ITEM(state, para) {
+    state.message_item = para
+  },
+  SET_MESSAGE_LIET(state, para) {
+    state.messagelist = para
   },
   // 关注
   SET_FOCUS_STAT(state, para) {
@@ -573,5 +581,33 @@ export const actions = {
     if (data.code === 0) {
       return true
     }
-  }
+  },
+  // 留言列表
+  async message_list({
+    commit
+  }, {
+    subjectid
+  }) {
+    let self = this;
+    try {
+      let para1 = {
+        subjectid: subjectid
+      };
+      let data = await self.$axios.$post(`${api.command.comments}`, para1);
+      if (data.code === 0) {
+        // self.messagelist = data.result;
+        commit('SET_MESSAGE_LIET', data.result)
+      } else {
+        self.$toast({
+          message: data.result,
+          position: "top"
+        });
+      }
+    } catch (err) {
+      self.$toast({
+        message: err,
+        position: "top"
+      });
+    }
+  },
 }

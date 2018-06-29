@@ -77,7 +77,6 @@ export default {
         }
       } else {
         // Y>=X 纵向滚动
-        console.log("y>x");
       }
     },
     leave(e) {

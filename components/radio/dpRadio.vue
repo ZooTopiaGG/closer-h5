@@ -56,7 +56,6 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.$refs.radio-button)
     if (this.disabled || this.disabled === "disabled") {
       this.$refs._radio.setAttribute(
         "class",

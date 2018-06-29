@@ -31,9 +31,6 @@
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
       <no-thing v-else></no-thing>
     </div>
-    <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
-      <dp-login></dp-login>
-    </div>
   </div>
 </template>
 <script>
