@@ -713,10 +713,22 @@ export default {
 };
 </script>
 <style>
-#feed,
+.feed2,
 .feed-box,
 .message-box {
   height: 100%;
+}
+/* 视频特殊处理 */
+.videofeed {
+  height: calc(100% - 56.25vw);
+}
+.videofeed .box {
+  /* height: calc(100% - 56.25vw); */
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 56.25vw;
+  box-sizing: border-box;
 }
 .learn-more {
   margin-top: 8px;
@@ -810,15 +822,7 @@ export default {
   font-size: 13px;
   padding-bottom: 0;
 }
-/* 视频特殊处理 */
-.videofeed .box {
-  /* height: calc(100vh - 56.25vw); */
-  overflow: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-top: 56.25vw;
-  box-sizing: border-box;
-}
+
 .feed-h5-videos {
   width: 100%;
   height: 56.25vw;
