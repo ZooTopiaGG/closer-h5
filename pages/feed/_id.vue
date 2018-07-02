@@ -214,10 +214,11 @@
             <ul class="feed-messagebord-list" v-if="$store.state.messagelist.data && $store.state.messagelist.data.length > 0">
               <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
                 <div class="messager-info flex flex-align-center flex-pack-justify">
-                  <div class="messager-info-div flex flex-align-center">
+                  <div class="messager-info-div flex flex-align-center" v-if="item.user">
                     <img v-lazy="$com.makeFileUrl(item.user.avatar)">
                     <div class="flex flex-v">
-                      <span class="messager-name">{{ item.user.fullname }}</span>
+                      <span class="messager-name" v-if="item.user.attributes && item.user.attributes.roster">{{ item.user.attributes.roster.name }}</span>
+                      <span class="messager-name" v-else>{{ item.user.fullname }}</span>
                       <span class="messager-time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
                     </div>
                   </div>
@@ -251,7 +252,7 @@
               </li>
             </ul>
           </div>
-          <div class="learn-more" v-if="$store.state.res.commentNumber > 0 & showMore" @click="downApp">
+          <div class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
             <span class="flex flex-align-center flex-pack-center">
               <span>点击参与更多讨论</span>
             </span>
