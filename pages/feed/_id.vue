@@ -728,10 +728,11 @@ export default {
 }
 .learn-more {
   margin-top: 8px;
-  height: 49px;
   line-height: 49px;
   font-size: 16px;
   color: #409eff;
+  padding-top: 44px;
+  height: 93px;
 }
 .more-img {
   width: 6.75px;
