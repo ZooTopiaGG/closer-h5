@@ -68,7 +68,7 @@
           </div>
         </div>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
-        <div class="feed-doc" id="imgLongFeed" v-else-if="$store.state.res.int_type === 2">
+        <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
           <div class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
             <!--  判断是否在app 内 需要预览 -->
             <img class="feed-cover feed-cover-bgcover" :src="defaultImg" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 

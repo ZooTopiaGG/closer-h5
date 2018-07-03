@@ -77,7 +77,8 @@ style {
   padding: 0;
 }
 
-html body {
+html,
+body {
   background-color: #fff;
   max-width: 750px;
   width: 100%;
@@ -92,6 +93,11 @@ body {
   font-weight: 400;
   font-size: 14px;
   color: #495060;
+}
+
+div,
+img {
+  cursor: pointer;
 }
 
 ul,

@@ -33,7 +33,8 @@
           x-webkit-airplay="allow" x5-video-orientation="portraint" x5-playsinline="true" x5-video-player-fullscreen="h5" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
-      <div id="wrapper" 
+      <div id="wrapper"
+      @click="openSrc($event)" 
       :class="{ 
         'web-class': $store.state.GET_MESSAGE_STATE, 
         nuxts:true, 
@@ -166,6 +167,24 @@ export default {
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
+      }
+    },
+    openSrc(ev) {
+      let self = this;
+      if (ev.target.nodeName === "IMG" && self.imgList.length > 0) {
+        for (var i = 0, len = self.imgList.length; i < len; i++) {
+          if (
+            ev.target.dataset.src == self.imgList[i].current.src &&
+            ev.target.dataset.index == self.imgList[i].index
+          ) {
+            self.preIndex = i;
+            self.preShow = true;
+            return;
+          }
+        }
+      } else {
+        self.preIndex = 0;
+        self.preShow = true;
       }
     }
   },
@@ -313,12 +332,12 @@ export default {
               });
             }
             // 监听点击图片事件 闭包
-            preimg[i].onclick = (function() {
-              return function() {
-                self.preIndex = i;
-                self.preShow = true;
-              };
-            })(i);
+            // preimg[i].onclick = (function() {
+            //   return function() {
+            //     self.preIndex = i;
+            //     self.preShow = true;
+            //   };
+            // })(i);
           });
           self.imgList = imgList;
         }
