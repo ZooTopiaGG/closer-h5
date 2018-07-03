@@ -34,7 +34,6 @@
         </video>
       </div>
       <div id="wrapper"
-      @click="openSrc($event)" 
       :class="{ 
         'web-class': $store.state.GET_MESSAGE_STATE, 
         nuxts:true, 
@@ -168,25 +167,30 @@ export default {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
       }
-    },
-    openSrc(ev) {
-      let self = this;
-      if (ev.target.nodeName === "IMG" && self.imgList.length > 0) {
-        for (var i = 0, len = self.imgList.length; i < len; i++) {
-          if (
-            ev.target.dataset.src == self.imgList[i].current.src &&
-            ev.target.dataset.index == self.imgList[i].index
-          ) {
-            self.preIndex = i;
-            self.preShow = true;
-            return;
-          }
-        }
-      } else {
-        self.preIndex = 0;
-        self.preShow = true;
-      }
     }
+    // 预览图片
+    // openSrc(ev) {
+    //   let self = this;
+    //   if (
+    //     self.$store.state.GET_MESSAGE_STATE &&
+    //     ev.target.nodeName === "IMG" &&
+    //     self.imgList.length > 0
+    //   ) {
+    //     for (var i = 0, len = self.imgList.length; i < len; i++) {
+    //       if (
+    //         ev.target.dataset.src == self.imgList[i].current.src &&
+    //         ev.target.dataset.index == self.imgList[i].index
+    //       ) {
+    //         self.preIndex = i;
+    //         self.preShow = true;
+    //         return;
+    //       }
+    //     }
+    //   } else {
+    //     self.preIndex = 0;
+    //     self.preShow = true;
+    //   }
+    // }
   },
   mounted() {
     let self = this;
@@ -332,12 +336,12 @@ export default {
               });
             }
             // 监听点击图片事件 闭包
-            // preimg[i].onclick = (function() {
-            //   return function() {
-            //     self.preIndex = i;
-            //     self.preShow = true;
-            //   };
-            // })(i);
+            preimg[i].onclick = (function() {
+              return function() {
+                self.preIndex = i;
+                self.preShow = true;
+              };
+            })(i);
           });
           self.imgList = imgList;
         }
