@@ -35,6 +35,7 @@ export const state = () => ({
 })
 
 export const mutations = {
+  // 设置特殊状态
   GET_USER_AGENT(state, para) {
     // 通过中间件。判断在路由之前执行 判断路由类型
     let nvg = para.nvg.toLowerCase();
@@ -42,16 +43,19 @@ export const mutations = {
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result
   },
+  // 设置是否在app的状态
   GET_APP_AGENT(state, para) {
     // 通过中间件。判断在路由之前执行 判断路由类型
     let nvg = para.nvg.toLowerCase();
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1;
     state.GET_APP_NAV = !_result
   },
+  // 设置浏览器内核
   GET_AGENT(state, para) {
     let nvg = para.toLowerCase();
     state.agent = nvg;
   },
+  // 获取手机浏览器版本以及内核
   GET_VERSION(state) {
     let nvg = navigator.userAgent.toLowerCase(),
       nvgtype, nvgversion;
@@ -79,28 +83,35 @@ export const mutations = {
     state.nvgversion = nvgversion;
     state.nvgtype = nvgtype;
   },
+  // 设置获取app传来的token
   GET_APP_TOKEN(state, para) {
     state.GET_APP_TOKEN = para
   },
+  // 设置贴子详情内容
   SET_CONTENT(state, para) {
     state.content = para
   },
+  // 设置神议论结束语
   SET_END_HTML(state, para) {
     state.end_html = para
   },
+  // 设置贴子返回详情
   SET_RES(state, para) {
     state.res = para
   },
+  // 设置神议论列表信息
   SET_DISSCUSS(state, para) {
     state.discuss = para
   },
-  // 
+  // 设置阅读量
   GET_INCR_VIEW(state, para) {
     state.incr_view = para
   },
+  // 设置顶部导航显示状态
   SET_NO_NAV(state, para) {
     state.webNoNav = para
   },
+  // 设置底部悬浮显示状态
   SET_NO_FOOTER(state, para) {
     state.webNoFooter = para
   },
@@ -110,19 +121,23 @@ export const mutations = {
   SET_OPTIONS(state, para) {
     state.options = para
   },
+  // 设置贴子是否被删除
   GET_EXIST_STATUS(state, para) {
     state.exist = para
   },
+  // 设置贴子列表
   SET_FEED_LIST(state, para) {
     state.feed_list = para
   },
+  // 设置群组信息
   SET_GROUP_INFO(state, para) {
     state.group_info = para
   },
-  // 微信授权信息
+  // 设置微信授权后用户信息
   SET_USER(state, para) {
     state.auth = para
   },
+  // 设置token
   SET_TOKEN(state, para) {
     state.token = para
   },
@@ -130,24 +145,27 @@ export const mutations = {
   SET_VISIBLE_LOGIN(state, para) {
     state.visibleLogin = para
   },
+  // 设置留言框的显示与隐藏状态
   SET_VISIBLE_MESSAGE(state, para) {
     state.visibleMessage = para
   },
+  // 设置每条留言信息
   SET_MESSAGE_ITEM(state, para) {
     state.message_item = para
   },
+  // 设置留言列表
   SET_MESSAGE_LIET(state, para) {
     state.messagelist = para
   },
-  // 关注
+  // 设置关注状态
   SET_FOCUS_STAT(state, para) {
     state.is_follow = para
   },
-  // 获取h5cookies
+  // 设置h5cookies到浏览器
   SET_H5COOKIES(state, para) {
     state.h5Cookies = para
   },
-  // 设置当前url
+  // 设置当前url地址
   SET_CURRENT_URL(state, para) {
     state.current_url = para
   }
@@ -374,7 +392,7 @@ export const actions = {
       throw err;
     }
   },
-  // 获取验证码
+  // 获取手机验证码
   async get_code_by_phone({
     commit
   }, {
@@ -389,7 +407,6 @@ export const actions = {
         grouk_captcha_value: grouk_captcha_value
       }
       let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
-      console.log('data====', data)
       if (data.code === 0) {
         Toast({
           message: '发送成功！',
@@ -410,7 +427,7 @@ export const actions = {
       })
     }
   },
-  // 关注，取消关注
+  // 关注，取消关注栏目
   async get_focus_stat({
     commit
   }, {
@@ -447,7 +464,7 @@ export const actions = {
       })
     }
   },
-  // 微信分享
+  // 微信二次分享
   async wx_share({
     commit
   }, {
@@ -561,7 +578,7 @@ export const actions = {
       console.log('e==', e)
     }
   },
-  // 下载调用get_adcookies
+  // 点击下载按钮时调用get_adcookies做统计
   async down_adcookies({
     commit
   }, {
@@ -582,7 +599,7 @@ export const actions = {
       return true
     }
   },
-  // 留言列表
+  // 获取留言列表
   async message_list({
     commit
   }, {

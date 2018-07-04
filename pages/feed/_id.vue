@@ -659,6 +659,17 @@ export default {
   },
   mounted() {
     let self = this;
+    window.addEventListener(
+      "message",
+      function(event) {
+        console.log("event == ", event);
+        console.log("event == ", event.data);
+        // 这里不准确，chrome没有这个属性
+        var origin = event.origin || event.originalEvent.origin;
+        console.log("origin == ", origin);
+      },
+      false
+    );
     self.$nextTick(() => {
       // 获取阅读量
       self.incrView();
