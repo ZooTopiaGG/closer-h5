@@ -178,13 +178,13 @@
         <div v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
           <span class="flex-1 ellipsis" v-if="$store.state.res.int_category === 3">
             <span>
-              <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span>
+              <!-- <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span> -->
             </span>
           </span>
           <span class="flex-1 ellipsis" v-else>
             <span>
               <span v-if="$store.state.res.isOffical">官方出品</span>
-              <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.user.fullname }}</span>
+              <!-- <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.user.fullname }}</span> -->
             </span>
           </span>
           <span style="margin-left: 10px">刚刚</span>
