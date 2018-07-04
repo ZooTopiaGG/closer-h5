@@ -683,26 +683,28 @@ export default {
       }
       if (typeof window != "undefined") {
         // 贴子封面异步加载
-        let tjcover = document.querySelector(".feed-cover");
-        if (tjcover && tjcover.dataset.src) {
-          setTimeout(() => {
-            tjcover.src = tjcover.dataset.src;
-          }, 0);
-        }
-        let tjimg = document.getElementById("tjimg");
-        // 长图文图片异步加载
-        if (tjimg) {
-          let tjimg2 = tjimg.getElementsByTagName("img");
-          if (tjimg2) {
-            Array.prototype.forEach.call(tjimg2, function(x, i) {
-              if (x.dataset.src) {
-                setTimeout(() => {
-                  x.src = x.dataset.src;
-                }, 500);
-              }
-            });
-          }
-        }
+        // let tjcover = document.querySelector(".feed-cover");
+        // if (tjcover && tjcover.dataset.src) {
+        //   setTimeout(() => {
+        //     tjcover.src = tjcover.dataset.src;
+        //   }, 0);
+        // }
+        // let tjimg = document.getElementById("tjimg");
+        // // 长图文图片异步加载
+        // if (tjimg) {
+        //   let tjimg2 = tjimg.getElementsByTagName("img");
+        //   if (tjimg2) {
+        //     Array.prototype.forEach.call(tjimg2, function(x, i) {
+        //       if (x.dataset.src) {
+        //         setTimeout(() => {
+        //           x.src = x.dataset.src;
+        //         }, 500);
+        //       }
+        //     });
+        //   }
+        // }
+        let images = document.querySelectorAll(".feed-1 img");
+        lazyload(images);
         // 视频封面异步加载
         let videobg = document.querySelectorAll(".feed-video-bg");
         if (videobg) {
