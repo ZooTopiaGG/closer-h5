@@ -118,7 +118,8 @@ export default {
                     data-vid='${vidArray[1]}' 
                     >
                     <video src='${urlArray[1]}'
-                      controls='controls' 
+                      style="object-fit:fill"
+                      controls
                       preload='none' 
                       poster='${coverArray[1]}' 
                       data-cover='${coverArray[1]}'>

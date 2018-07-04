@@ -21,7 +21,6 @@
             <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
               <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
-                <span class="focus-icon">+</span>
                 <span>关注</span>
               </span>
             </mt-button>
@@ -346,6 +345,16 @@ export default {
           self.imgList = imgList;
         }
       }
+      // 视频全屏和退出全屏监听
+      // let videos = document.querySelectorAll("video");
+      // Array.prototype.forEach.call(videos, (x, i) => {
+      //   videos[i].addEventListener("x5videoenterfullscreen", function() {
+      //     alert(`第${i}个进入`);
+      //   });
+      //   videos[i].addEventListener("x5videoexitfullscreen", function() {
+      //     console.log(videos[i].parentElement);
+      //   });
+      // });
     });
   }
 };
@@ -458,10 +467,6 @@ nav.appnav ~ .nuxts {
   width: 21.6vw;
   height: 21.07vw;
   margin-bottom: 1.6vw;
-}
-.tj-focus-btn {
-  box-sizing: border-box;
-  margin-right: 4vw;
 }
 .feed-h5-videos {
   width: 100%;
