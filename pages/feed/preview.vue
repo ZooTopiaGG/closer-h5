@@ -51,7 +51,7 @@
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
           <div class="video-doc">
             <div class="videoNav flex flex-align-center">
-              <img class="access-not" v-lazy="$store.state.res.blogo">
+              <img class="access-not" :src="$store.state.res.blogo">
               <span class="communityName ellipsis flex-1">{{ $store.state.res.communityName }}</span>
               <div>
                 <!-- 关注补丁 -->
@@ -177,14 +177,14 @@
         <!-- 发帖者信息 -->
         <div v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
           <span class="flex-1 ellipsis" v-if="$store.state.res.int_category === 3">
-            <span>
-              <!-- <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span> -->
+            <span v-if="$store.state.res.user && $store.state.res.user.fullname">
+              <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span>
             </span>
           </span>
           <span class="flex-1 ellipsis" v-else>
             <span>
               <span v-if="$store.state.res.isOffical">官方出品</span>
-              <!-- <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.user.fullname }}</span> -->
+              <span v-else-if="$store.state.res.user && $store.state.res.user.fullname">{{ $store.state.res.communityName }} @{{ $store.state.res.user.fullname }}</span>
             </span>
           </span>
           <span style="margin-left: 10px">刚刚</span>
