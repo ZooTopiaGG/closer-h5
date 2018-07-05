@@ -125,17 +125,6 @@ export default {
                       data-cover='${coverArray[1]}'>
                     </video>
                   </div>`;
-          //   flg = `<div 
-          //   class='imgbox tiejin-videobox'
-          //   id="wrapper_${vidArray[1]}"
-          //   data-vid='${vidArray[1]}'
-          //   data-vsrc='${urlArray[1]}' 
-          //   >
-          //   <video
-          //     data-vid='${vidArray[1]}'
-          //     poster='${coverArray[1]}'>
-          //   </video>
-          // </div>`;
         } else {
           flg = `<div 
                     class='imgbox video-native-player tiejin-videobox-native feed-video-bg'
