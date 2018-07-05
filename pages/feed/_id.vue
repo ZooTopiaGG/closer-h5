@@ -566,7 +566,7 @@ export default {
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
-            // url: location.href
+            //url: location.href
             url: `${location.protocol}//${
               location.hostname
             }/redirect?redirectUrl=${location.href}`

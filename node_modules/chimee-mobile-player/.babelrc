@@ -1,0 +1,23 @@
+{
+  "ignore": [
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["env",
+          {
+            "modules": false,
+            "targets": {
+              "browsers": [ "last 2 versions", "not ie <= 8"]
+            }
+          }
+        ],
+        "stage-0"
+      ],
+      "plugins": [
+        "transform-decorators-legacy",
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  }
+}

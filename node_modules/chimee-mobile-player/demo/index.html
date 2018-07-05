@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChimePlayer Demo</title>
+    <meta charset="utf-8">
+    <meta name="description" content="ChimePlayer Demo">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" type="text/css" href="./index.css">
+    <link rel="stylesheet" href="../lib/chimee-mobile-player.browser.css">
+    <style>
+        *::-webkit-media-controls-panel {
+            display: none!important;
+            -webkit-appearance: none;
+            }
+
+            /* Old shadow dom for play button */
+
+            *::-webkit-media-controls-play-button {
+            display: none!important;
+            -webkit-appearance: none;
+            }
+
+            /* New shadow dom for play button */
+
+            /* This one works! */
+
+            *::-webkit-media-controls-start-playback-button {
+            display: none!important;
+            -webkit-appearance: none;
+            }
+
+            video .media-controls-container{
+                display: none;
+            }
+                
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ChimePlayer Demo</h1>
+        <p id="tabs_box">
+            Shortcuts:
+            <button type="button"
+            data-type="vod" 
+            data-src="http://cdn.toxicjohann.com/lostStar.mp4"
+            >VOD-MP4</button>
+            <button type="button" 
+            data-type="vod"
+            data-src="http://yunxianchang.live.ujne7.com/vod-system-bj/44_176_20170224113626af3a75cd-3508-4bc3-b51f-366fca3c7e39.m3u8"
+            >VOD-HLS</button>
+            <button type="button" 
+            data-type="live" 
+            data-src="http://ph.live.360vcloud.net/live_customers3/605d90cc6203e78e7ec9/index.m3u8"
+            >LIVE-HLS</button>
+        </p>
+        <p>
+            type: 
+            <select id="type">
+                <option value="vod">vod</option>
+                <option value="live">live</option>
+            </select>
+            &nbsp; &nbsp;
+            src: 
+            <input type="text" id="src" value="http://cdn.toxicjohann.com/lostStar.mp4" size="50">
+            <input type="hidden" id="poster">
+            &nbsp; &nbsp;
+            <button type="button" id="enter">Enter</button>
+        </p>
+    </header>
+    <section id="wrapper" class="chimee-container">
+        <video tabindex="-1"></video>
+    </section>
+    <script src="../lib/chimee-mobile-player.browser.js"></script>
+    <script src="https://s.ssl.qhres.com/static/af3c1d4b462cc178/jquery.js"></script>
+    <script src="https://s5.ssl.qhres.com/static/588b46b97caa0749.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>

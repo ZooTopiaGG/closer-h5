@@ -115,14 +115,13 @@ export default {
         if (status) {
           flg = `<div 
                     class='imgbox tiejin-videobox'
-                    data-vid='${vidArray[1]}' 
+                    id="wrapper_${vidArray[1]}"
+                    data-vid='${vidArray[1]}'
+                    data-vsrc='${urlArray[1]}' 
                     >
-                    <video src='${urlArray[1]}'
-                      style="object-fit:fill"
-                      controls
-                      preload='none' 
-                      poster='${coverArray[1]}' 
-                      data-cover='${coverArray[1]}'>
+                    <video
+                      data-vid='${vidArray[1]}'
+                      poster='${coverArray[1]}'>
                     </video>
                   </div>`;
         } else {

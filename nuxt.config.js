@@ -75,6 +75,9 @@ module.exports = {
       src: 'mint-ui/lib/style.css',
     },
     {
+      src: '~/assets/css/video.css',
+    },
+    {
       src: '~/assets/css/style.css'
     },
     {
