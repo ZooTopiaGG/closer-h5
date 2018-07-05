@@ -1094,10 +1094,9 @@ export default {
   bottom: 2px;
   font-size: 10px;
   color: #fff;
-  padding: 1px 6px;
+  padding: 0 6px;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 8px;
-  line-height: 16px;
 }
 
 .feeder-comments,
