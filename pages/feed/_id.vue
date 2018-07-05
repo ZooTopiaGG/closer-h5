@@ -289,7 +289,7 @@
 </template>
 <script>
 import Cookie from "js-cookie";
-import ChimeeMobilePlayer from "chimee-mobile-player";
+// import ChimeeMobilePlayer from "chimee-mobile-player";
 import noThing from "~/components/nothing";
 export default {
   name: "Feed",
@@ -722,29 +722,29 @@ export default {
           });
         }
         // 视频异步加载
-        let videos = document.querySelectorAll(".tiejin-videobox");
-        if (videos) {
-          Array.prototype.forEach.call(videos, function(x, i) {
-            // if (x.dataset.bg) {
-            //   setTimeout(() => {
-            //     x.style.backgroundImage = `url('${x.dataset.bg}')`;
-            //   }, 500);
-            // }
-            new ChimeeMobilePlayer({
-              wrapper: `#${x.id}`, // video dom容器
-              src: x.dataset.vsrc,
-              autoplay: false,
-              controls: true,
-              playsInline: false,
-              preload: "none",
-              x5VideoPlayerFullscreen: true,
-              x5VideoOrientation: "landscape|portrait",
-              xWebkitAirplay: true,
-              muted: true
-              // removeInnerPlugins: ['chimeeMobiControlbar', 'chimeeState'] // 需要移除的插件
-            });
-          });
-        }
+        // let videos = document.querySelectorAll(".tiejin-videobox");
+        // if (videos) {
+        //   Array.prototype.forEach.call(videos, function(x, i) {
+        //     // if (x.dataset.bg) {
+        //     //   setTimeout(() => {
+        //     //     x.style.backgroundImage = `url('${x.dataset.bg}')`;
+        //     //   }, 500);
+        //     // }
+        //     new ChimeeMobilePlayer({
+        //       wrapper: `#${x.id}`, // video dom容器
+        //       src: x.dataset.vsrc,
+        //       autoplay: false,
+        //       controls: true,
+        //       playsInline: false,
+        //       preload: "none",
+        //       x5VideoPlayerFullscreen: true,
+        //       x5VideoOrientation: "landscape|portrait",
+        //       xWebkitAirplay: true,
+        //       muted: true
+        //       // removeInnerPlugins: ['chimeeMobiControlbar', 'chimeeState'] // 需要移除的插件
+        //     });
+        //   });
+        // }
       }
     });
   }
