@@ -71,7 +71,12 @@ export default {
           await self.$store.dispatch("get_wx_auth", {
             url: `${location.protocol}//${
               location.hostname
+            }/redirect?redirectUrl=${location.protocol}//${
+              location.hostname
             }/invite/openbonus?id=${self.$route.query.inviter}`
+            // url: `${location.protocol}//${
+            //   location.hostname
+            // }/invite/openbonus?id=${self.$route.query.inviter}`
           });
           return;
         } else {

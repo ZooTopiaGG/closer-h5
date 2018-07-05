@@ -154,12 +154,22 @@ export default {
           flag: self.$store.state.is_follow ? 0 : 1
         });
       } else {
+        console.log(
+          `${location.protocol}//${location.hostname}/redirect?redirectUrl=${
+            location.protocol
+          }//${location.hostname}${self.$route.path}`
+        );
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
-            url: `${location.protocol}//${location.hostname}${self.$route.path}`
+            // url: `${location.protocol}//${location.hostname}${self.$route.path}`
+            url: `${location.protocol}//${
+              location.hostname
+            }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
+              self.$route.path
+            }`
           });
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
