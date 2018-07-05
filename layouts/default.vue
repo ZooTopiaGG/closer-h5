@@ -27,9 +27,10 @@
           </div>
         </div>
       </nav>
-      <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos">
-        <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
-        </video>
+      <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos" id="feed-h5-videos">
+        <!-- <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
+        </video> -->
+        <video tabindex="0"></video>
       </div>
       <div id="wrapper"
       :class="{ 
@@ -63,6 +64,7 @@
   </div>
 </template>
 <script>
+import ChimeeMobilePlayer from "chimee-mobile-player";
 import Cookie from "js-cookie";
 import previewList from "~/components/preview.vue";
 export default {
@@ -329,6 +331,24 @@ export default {
             })(i);
           });
           self.imgList = imgList;
+        }
+        if (
+          self.$store.state.res.int_type === 1 &&
+          self.$route.path.indexOf("/feed") > -1
+        ) {
+          new ChimeeMobilePlayer({
+            wrapper: "#feed-h5-videos", // video dom容器
+            src: self.$store.state.content.videos[0].src,
+            autoplay: false,
+            controls: true,
+            playsInline: false,
+            preload: "auto",
+            x5VideoPlayerFullscreen: true,
+            x5VideoOrientation: "landscape|portrait",
+            xWebkitAirplay: true,
+            muted: true
+            // removeInnerPlugins: ['chimeeMobiControlbar', 'chimeeState'] // 需要移除的插件
+          });
         }
       }
       // 视频全屏和退出全屏监听
