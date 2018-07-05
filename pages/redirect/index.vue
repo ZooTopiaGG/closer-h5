@@ -2,6 +2,7 @@
   <div class="redirect">
     <div class="not-exist flex flex-v flex-align-center">
       正在跳转中...
+    </div>
   </div>
 </template>
 <script>
