@@ -21,28 +21,36 @@
               <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
                 <!-- <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)"> -->
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
-                <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
               </div>
             </div>
             <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
               <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">                
-                <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
               </div>
             </div>
             <div class="feeder-img flex" v-else-if="$store.state.content.images && $store.state.content.images.length == 3 || $store.state.content.images && $store.state.content.images.length > 4">
               <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
-                <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
               </div>
             </div>
             <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 4">
               <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
-                <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
               </div>
             </div>
           </div>
@@ -135,7 +143,7 @@
                         height: item.image.height * 73 / item.image.width + 'vw'
                       }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg"
                         >
-                        <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
+                        <!-- <span class="cover_img_type" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span> -->
                       </div>
                       <img v-else class="feeder-comment-img" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
@@ -659,17 +667,6 @@ export default {
   },
   mounted() {
     let self = this;
-    window.addEventListener(
-      "message",
-      function(event) {
-        console.log("event == ", event);
-        console.log("event == ", event.data);
-        // 这里不准确，chrome没有这个属性
-        var origin = event.origin || event.originalEvent.origin;
-        console.log("origin == ", origin);
-      },
-      false
-    );
     self.$nextTick(() => {
       // 获取阅读量
       self.incrView();
@@ -1091,11 +1088,16 @@ export default {
   display: block;
 }
 
-.gif {
+.cover_img_type {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  font-size: 12px;
+  right: 2px;
+  bottom: 2px;
+  font-size: 10px;
+  color: #fff;
+  padding: 1px 6px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  line-height: 16px;
 }
 
 .feeder-comments,
