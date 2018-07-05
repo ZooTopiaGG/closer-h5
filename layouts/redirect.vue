@@ -9,24 +9,15 @@
 export default {
   name: "redirect",
   beforeMount() {
-    console.log(this.$route.query.redirectUrl);
-    console.log(this.$route.query.code);
-    return;
-    // if (this.$route.query.redirectUrl.indexOf("?") > -1) {
-    //   console.log(
-    //     `${this.$route.query.redirectUrl}&code=${this.$route.query.code}`
-    //   );
-    //   location.href = `${this.$route.query.redirectUrl}&code=${
-    //     this.$route.query.code
-    //   }`;
-    // } else {
-    //   console.log(
-    //     `${this.$route.query.redirectUrl}?code=${this.$route.query.code}`
-    //   );
-    //   location.href = `${this.$route.query.redirectUrl}?code=${
-    //     this.$route.query.code
-    //   }`;
-    // }
+    if (this.$route.query.redirectUrl.indexOf("?") > -1) {
+      location.href = `${this.$route.query.redirectUrl}&code=${
+        this.$route.query.code
+      }`;
+    } else {
+      location.href = `${this.$route.query.redirectUrl}?code=${
+        this.$route.query.code
+      }`;
+    }
   }
 };
 </script>
