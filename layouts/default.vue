@@ -138,16 +138,20 @@ export default {
           self.scrollnav = false;
         }
       }
+      // 仅此是安卓手机 才会被监听
       let videosbox = document.querySelectorAll(".tiejin-videobox");
       Array.prototype.forEach.call(videosbox, (x, i) => {
-        videosbox[i].querySelector("video").style.display = "none";
+        if (self.$store.state.nvgtype === "android") {
+          videosbox[i].querySelector("video").style.display = "none";
+        } else {
+          videosbox[i].style.backgroundImage = "none";
+        }
       });
       clearTimeout(self.scrollTimer);
       self.scrollTimer = setTimeout(self.videoScroll, 400);
     },
     // 视频监听
     videoScroll() {
-      console.log("滚动结束了");
       let videosbox = document.querySelectorAll(".tiejin-videobox");
       Array.prototype.forEach.call(videosbox, (x, i) => {
         videosbox[i].querySelector("video").style.display = "block";
