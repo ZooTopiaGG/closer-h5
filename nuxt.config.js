@@ -152,10 +152,10 @@ module.exports = {
     '~/plugins/mintui.js',
     '~/plugins/axios',
     '~/plugins/async',
-    {
-      src: '~/plugins/vconsole.js',
-      ssr: false
-    },
+    // {
+    //   src: '~/plugins/vconsole.js',
+    //   ssr: false
+    // },
     // {
     //   src: '~/plugins/device.js',
     //   ssr: false

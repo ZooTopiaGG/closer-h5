@@ -116,6 +116,7 @@ export default {
           flg = `<div 
                     class='imgbox tiejin-videobox'
                     data-vid='${vidArray[1]}' 
+                    style='background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");'
                     >
                     <video src='${urlArray[1]}'
                       style="object-fit:fill"

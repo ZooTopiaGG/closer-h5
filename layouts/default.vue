@@ -76,7 +76,8 @@ export default {
       imgList: [],
       preIndex: 0,
       preShow: false,
-      visibleMessage: false
+      visibleMessage: false,
+      scrollTimer: 0
     };
   },
   components: {
@@ -124,20 +125,33 @@ export default {
     },
     // 监听滚动
     handleScroll(e) {
+      let self = this;
       if (
         // 判断是否是长图文或者栏目主页 滚动显示导航背景
-        (this.$route.path.indexOf("/feed") > -1 &&
-          this.$store.state.res.int_type === 2) ||
-        this.$route.path.indexOf("/community") > -1
+        (self.$route.path.indexOf("/feed") > -1 &&
+          self.$store.state.res.int_type === 2) ||
+        self.$route.path.indexOf("/community") > -1
       ) {
         if (e.target.scrollTop >= 80) {
-          this.scrollnav = true;
+          self.scrollnav = true;
         } else {
-          this.scrollnav = false;
+          self.scrollnav = false;
         }
-      } else {
-        return false;
       }
+      let videosbox = document.querySelectorAll(".tiejin-videobox");
+      Array.prototype.forEach.call(videosbox, (x, i) => {
+        videosbox[i].querySelector("video").style.display = "none";
+      });
+      clearTimeout(self.scrollTimer);
+      self.scrollTimer = setTimeout(self.videoScroll, 400);
+    },
+    // 视频监听
+    videoScroll() {
+      console.log("滚动结束了");
+      let videosbox = document.querySelectorAll(".tiejin-videobox");
+      Array.prototype.forEach.call(videosbox, (x, i) => {
+        videosbox[i].querySelector("video").style.display = "block";
+      });
     },
     // 跳转栏目主页
     toCommunity() {
@@ -179,7 +193,7 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(this.$store.state);
+    // console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -331,16 +345,6 @@ export default {
           self.imgList = imgList;
         }
       }
-      // 视频全屏和退出全屏监听
-      // let videos = document.querySelectorAll("video");
-      // Array.prototype.forEach.call(videos, (x, i) => {
-      //   videos[i].addEventListener("x5videoenterfullscreen", function() {
-      //     alert(`第${i}个进入`);
-      //   });
-      //   videos[i].addEventListener("x5videoexitfullscreen", function() {
-      //     console.log(videos[i].parentElement);
-      //   });
-      // });
     });
   }
 };

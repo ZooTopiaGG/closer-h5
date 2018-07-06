@@ -491,7 +491,7 @@ export default {
     },
     // 在app端 长图文贴子 打开原生视频
     openClick(event) {
-      if (event.target.dataset.vid) {
+      if (!this.$store.state.GET_MESSAGE_STATE && event.target.dataset.vid) {
         location.href = `/?vid=${event.target.dataset.vid}`;
       }
     },
@@ -731,12 +731,10 @@ export default {
 .message-box {
   height: 100%;
 }
-/* 视频特殊处理 */
 .videofeed {
   height: calc(100% - 56.25vw);
 }
 .videofeed .box {
-  /* height: calc(100% - 56.25vw); */
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -766,9 +764,6 @@ export default {
   border-top: 0;
   border-bottom: 0;
 }
-.video-player {
-  margin: 2.668vw 0;
-}
 .tiejin-imgbox {
   background: #fff;
   width: 100%;
@@ -793,7 +788,6 @@ export default {
   height: auto;
 }
 .tiejin-videobox {
-  background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 56.25vw;
   position: relative;
