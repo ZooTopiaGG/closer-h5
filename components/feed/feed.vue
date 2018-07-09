@@ -3,6 +3,7 @@
     <ul v-if="$store.state.feed_list && $store.state.feed_list.length > 0" class="feed-list flex-1">
         <li class="feed-list-cell" @click="tofeeddetails(item)" v-for="(item, index) in $store.state.feed_list" :key="index">
           <div class="feed-box">
+            <div class="hide-feed-over"></div>
             <div class="feed-cell-content">
               <div class="columnname flex flex-align-center">
                 <img v-lazy="item.blogo">
@@ -18,26 +19,33 @@
                 <div v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :key="index">
-                    <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                    <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images && item.content.images.length === 2" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :key="index">
-                    <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                    <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images && (item.content.images.length === 3 || item.content.images.length > 4)" class="flex feedimgcontent">
                   <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :key="index">
-                    <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                    <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
                   </div>
                 </div>
                 <div v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
                   <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                     :key="index">
-
-                    <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                    <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
                   </div>
                 </div>
               </div>
@@ -89,6 +97,9 @@ export default {
 };
 </script>
 <style scoped>
+.dpFeed {
+  padding-top: 4.66vw;
+}
 .title {
   margin-bottom: 2.67vw;
   font-size: 24px;
@@ -97,7 +108,18 @@ export default {
 }
 
 /*feed流*/
-
+.feed-box {
+  position: relative;
+}
+.hide-feed-over {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  z-index: 99;
+}
 .feed-list-cell {
   border-bottom: 1px solid #f1f1f1;
   margin-bottom: 5.336vw;
@@ -211,6 +233,16 @@ export default {
   height: 64vw;
   overflow: hidden;
   background: #333;
+}
+.cover_img_type {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  font-size: 10px;
+  color: #fff;
+  padding: 0 6px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
 }
 </style>
 

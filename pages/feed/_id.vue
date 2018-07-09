@@ -78,13 +78,13 @@
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
           <div class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
-            <!--  判断是否在app 内 需要预览 -->
+            <!-- 大封面 -->
             <img class="feed-cover feed-cover-bgcover" :src="defaultImg" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
             >
             <div class="hide-over"></div>
           </div>
           <div class="feeder-img feeder-img-cover" v-else>
-            <!--  判断是否在app 内 需要预览 -->
+            <!-- 小封面 -->
             <img class="feed-cover feed-cover-cover" :src="defaultImg" data-index= "0" :data-src="$com.makeFileUrl($store.state.res.cover)">
             <div class="hide-over"></div>
           </div>
@@ -477,14 +477,6 @@ export default {
     // 2 - 投稿到征稿(用户投的)
     // 3 - 神议论(班长合成的)
     // 5 - 官方普通(栏目运营人员发出的)
-    // 查看更多
-    learnMore() {
-      this.loading = 2;
-      setTimeout(() => {
-        this.loading = 3;
-        this.isActive = false;
-      }, 3000);
-    },
     // 在app端 神议论贴子 打开原生视频
     showVid2(vid) {
       location.href = `/?vid=${vid}`;
@@ -535,7 +527,7 @@ export default {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
-        adid: "closer-share"
+        adid: `closer-column-${self.$store.state.res.communityid}` // 栏目id
       });
       if (result) {
         if (this.$route.path.indexOf("/community") > -1) {
@@ -626,12 +618,9 @@ export default {
         self.$store.state.res.int_type === 2 &&
         self.$store.state.res.int_category === 1
       ) {
-        let para = {
-          subjectid: self.$route.params.id,
-          pagenum: 1,
-          pagesize: 10
-        };
-        let feeds = await self.$axios.$post(`${api.command.collections}`, para);
+        let feeds = await self.$axios.$get(
+          `${api.command.collections}?subjectid=${self.$route.params.id}`
+        );
         if (feeds.code === 0) {
           let arr = await feeds.result.data.map(x => {
             if (x.content) {
@@ -641,6 +630,8 @@ export default {
           });
           self.$store.commit("SET_FEED_LIST", arr);
         }
+      } else {
+        return;
       }
     },
     // 阅读数量
@@ -680,10 +671,13 @@ export default {
       // 获取阅读量
       self.incrView();
       if (self.$store.state.GET_MESSAGE_STATE) {
+        // 栏目关注状态
         self.communityFocusStat();
+        // 获取留言列表
         self.$store.dispatch("message_list", {
           subjectid: self.$route.params.id
         });
+        // 征稿列表
         self.paperList();
         self.showMore = true;
       }
@@ -824,423 +818,6 @@ export default {
   height: 13vw;
 }
 </style>
-<style scoped>
-#feed {
-  padding: 0 0 4vw;
-  box-sizing: border-box;
-  font-size: 13px;
-  padding-bottom: 0;
-}
-
-.feed-h5-videos {
-  width: 100%;
-  height: 56.25vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  box-shadow: 0 1px 5px #efefef;
-}
-.feed-h5-videos-player {
-  width: 100%;
-  height: 56.25vw;
-  overflow: hidden;
-  background: #333;
-}
-.works {
-  padding-top: 5.34vw;
-}
-
-.works {
-  padding-bottom: 4vw;
-  position: relative;
-}
-
-.works .title {
-  text-align: left;
-  margin-left: 4.67vw;
-}
-
-.feeder-info,
-.feed-messagebord-type,
-.feed-messagebord,
-.feed-messagebord-list,
-.feeder-title,
-.read-num,
-.feeder-comments {
-  padding: 0 4vw;
-}
-.feeder-comment {
-  font-size: 15px;
-}
-.read-num {
-  margin-bottom: 2.668vw;
-  color: #888;
-}
-
-.feeder-title {
-  font-size: 18px;
-  margin-bottom: 2.668vw;
-  font-weight: bold;
-  white-space: pre-line;
-  line-height: 1.6;
-}
-
-.feeder-title-2 {
-  font-weight: 400;
-  /* margin: 4vw 0 2.13vw; */
-}
-.feeder-title-3 {
-  font-size: 20px;
-  font-weight: bold;
-}
-.feeder-cover {
-  padding: 4vw 4vw 0;
-}
-
-.feeder-cover > img {
-  width: 21.87vw;
-  height: 8.54vw;
-}
-
-.feeder-content {
-  margin-top: 5.34vw;
-}
-
-.feeder-img {
-  width: 100%;
-  flex-wrap: wrap;
-}
-.feed-imgbox {
-  width: 100%;
-  height: 48vw;
-  position: relative;
-  border-radius: 3px;
-}
-.feed-imgbox > video {
-  width: 100%;
-  height: 48vw;
-  background-color: rgba(0, 0, 0, 0.8);
-  overflow: hidden;
-}
-.feed-imgbox-else {
-  background-position: center center;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 48vw;
-  position: relative;
-  border-radius: 3px;
-}
-.feed-imgbox-else > div.feed-imgbox-else-child {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-}
-.hide-over {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
-  z-index: 99;
-}
-
-.messager-info-div > img {
-  width: 9.07vw;
-  height: 9.07vw;
-  max-width: 68px;
-  max-height: 68px;
-  border-radius: 100%;
-  margin-right: 1.33vw;
-  margin-bottom: 3px;
-}
-
-.feeder-info {
-  margin: 2.668vw 0;
-}
-
-.videoNav {
-  height: 60px;
-}
-.feeder-info {
-  color: #94928e;
-}
-
-.feed-messagebord {
-  height: 10.67vw;
-  border-bottom: 1px solid #eee;
-}
-
-.feed-messagebord-type {
-  margin-bottom: 2.668vw;
-  color: #94928e;
-  font-size: 14px;
-}
-
-.feeder-title {
-  text-align: justify;
-}
-
-.feed-publication-number {
-  margin-right: 2.67vw;
-}
-
-.feed-messagebord-left {
-  font-size: 15px;
-  color: #444;
-  font-weight: 600;
-}
-
-.messager-comment {
-  color: #495060;
-}
-
-.messager-name {
-  font-size: 14px;
-}
-
-.feed-messagebord-list-cell {
-  border-bottom: 1px solid #eee;
-  padding: 2.668vw 0 0;
-}
-
-.messager-content {
-  margin: 2.668vw 0;
-  line-height: 1.6;
-  text-align: justify;
-  font-size: 15px;
-}
-
-.messager-time {
-  font-size: 12px;
-  color: #999;
-}
-
-.feeder-img-list {
-  position: relative;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-.feeder-img-list:nth-child(3n) {
-  margin-right: 0 !important;
-}
-.feeder-img-list-cell-1 {
-  width: 100%;
-  height: 100%;
-}
-.feeder-img-list-cell-2 {
-  width: 49.5%;
-  height: 0;
-  padding-bottom: 49.5%;
-}
-.feeder-img-list-cell-3 {
-  width: 33%;
-  height: 0;
-  padding-bottom: 33%;
-  margin-bottom: 0.5%;
-  margin-right: 0.5%;
-}
-.feeder-img-list-cell-4 {
-  width: 49.5%;
-  height: 0;
-  padding-bottom: 49.5%;
-  margin-bottom: 1%;
-}
-.icon-add {
-  font-size: 14px;
-  margin-right: 2px;
-}
-.feeder-img-bgcover {
-  position: relative;
-  width: 100%;
-  height: 124vw;
-}
-.feeder-img-cover {
-  position: relative;
-  width: 100%;
-  height: 57vw;
-}
-.feed-cover-bgcover {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 124vw;
-}
-.feed-cover-cover {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 57vw;
-}
-.feed-cover-list {
-  width: 100%;
-  display: block;
-}
-
-.feeder-cover-list {
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%;
-  display: block;
-}
-
-.cover_img_type {
-  position: absolute;
-  right: 2px;
-  bottom: 2px;
-  font-size: 10px;
-  color: #fff;
-  padding: 0 6px;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 8px;
-}
-
-.feeder-comments,
-.god-discuss-end-tag {
-  margin-top: 6.66vw;
-}
-
-.feeder-comments-cell {
-  box-sizing: border-box;
-  border-bottom: 1px solid rgb(243, 243, 243);
-  margin-bottom: 2.668vw;
-  padding: 2.67vw 2.67vw;
-}
-
-.feeder-comment-info {
-  margin-top: 0.66vw;
-  width: 13vw;
-}
-
-.feeder-comment-info > i {
-  margin-right: 2.67vw;
-  width: 9.07vw;
-  height: 9.07vw;
-  max-width: 68px;
-  max-height: 68px;
-  border-radius: 100%;
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
-.feeder-comment-3 {
-  height: 16.54vw;
-  box-sizing: border-box;
-  padding: 2.67vw;
-  border-radius: 6px;
-  border: 1px solid #d7d7d9;
-  background: #f6f6f6;
-}
-
-.feeder-comment-3-cover > i {
-  display: block;
-  margin-right: 2.67vw;
-  width: 11.47vw;
-  height: 11.47vw;
-  max-width: 86px;
-  max-height: 86px;
-  border-radius: 6px;
-  background-size: cover;
-  background-position: center center;
-}
-
-.feeder-comment-3-title {
-  font-size: 15px;
-  height: 15px;
-  line-height: 1;
-  overflow: hidden;
-  margin-bottom: 2.67vw;
-}
-
-.feeder-comment-3-summary {
-  font-size: 12px;
-  height: 12px;
-  line-height: 1;
-  color: rgba(148, 146, 142, 1);
-  overflow: hidden;
-}
-
-.feeder-comment-nickname {
-  font-size: 13px;
-  color: rgba(148, 146, 142, 1);
-  margin-bottom: 2.4vw;
-  line-height: 1;
-}
-
-.feeder-comment-img {
-  width: 73vw;
-  border-radius: 3px;
-}
-
-.messager-comments {
-  padding: 1.335vw 2.67vw;
-  background-color: #f4f4f4;
-  margin-bottom: 2.67vw;
-}
-
-.messager-comments-cell {
-  box-sizing: border-box;
-  padding: 0.67vw 0;
-}
-.summary {
-  text-align: justify;
-}
-
-.message-num {
-  height: 10.67vw;
-  line-height: 10.67vw;
-  padding: 0 4vw;
-  box-sizing: border-box;
-  font-size: 16px;
-  border-bottom: 1px solid #f5f5f5;
-  margin-bottom: 2.67vw;
-  font-weight: bold;
-}
-.messages > img {
-  width: 18px;
-  height: 15px;
-}
-.supports > img {
-  width: 19px;
-  height: 15px;
-}
-
-.dpTextArea {
-  width: 100%;
-  padding: 0 4vw 4vw;
-  background: #fff;
-  min-height: 180px;
-  box-sizing: border-box;
-  padding-top: 13.07vw;
-}
-
-.tj-btn {
-  width: 100%;
-}
-
-.tj-code-btn {
-  height: 6.9vw;
-  margin: 0 2px 0 5px;
-  font-size: 14px;
-}
-
-.title {
-  height: 8vw;
-  line-height: 8vw;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 2vw;
-}
-.cancel {
-  margin-right: 2.67vw;
-}
+<style scoped lang="less">
+@import "../../assets/css/feedid.less";
 </style>

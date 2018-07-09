@@ -296,6 +296,21 @@ p:empty {
   width: 100% !important;
 }
 
+.isPC .summary>p,
+.isPC .summary>ol,
+.isPC .summary>ul,
+.isPC .summary>div,
+.isPC .summary>section,
+.isPC .summary>article,
+.isPC .summary>aside {
+  margin-bottom: 22px;
+}
+
+p:empty {
+  margin: 0;
+  padding: 0;
+}
+
 .split-box {
   width: 100%;
   height: 2.668vw;

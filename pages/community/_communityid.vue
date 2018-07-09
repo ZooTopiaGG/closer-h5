@@ -163,13 +163,12 @@ export default {
   color: #808080;
 }
 
-.member,
-.works {
+.member {
   padding-top: 5.336vw;
 }
 
-.works {
-  padding-bottom: 4vw;
+.common-feed {
+  padding-bottom: 24.8vw;
   position: relative;
 }
 

@@ -192,6 +192,7 @@ export default {
     let regex = /^1[^01][0-9]\d{8}$/
     return regex.test(str)
   },
+
   /*判断是否是微信 微博 QQ*/
   isWeiXin() {
     if (typeof window != 'undefined') {
@@ -201,6 +202,7 @@ export default {
       return false
     }
   },
+
   // jsbriadge ---ios
   setupWebViewJavascriptBridge(callback) {
     if (window.WebViewJavascriptBridge) {
@@ -218,4 +220,5 @@ export default {
       document.documentElement.removeChild(WVJBIframe)
     }, 0)
   },
+
 }

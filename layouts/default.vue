@@ -1,11 +1,12 @@
 <template>
   <div class="default__box">
     <div v-if="$store.state.exist">
-      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
+      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav && !$store.state.isPC" 
         :class="{
           appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
           scrollnav: scrollnav,
           webNoNav: !$store.state.webNoNav,
+          isPC: $store.state.isPC,
           flex: true,
           'flex-v': true,
           'flex-pack-center': true
@@ -31,17 +32,23 @@
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
+      <div class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE && $store.state.isPC">
+        <img src="~/assets/images/1531133203.png" alt="">
+        <p>手机扫一扫</p>
+        <p>下载贴近App</p>
+      </div>
       <div id="wrapper"
       :class="{ 
         'web-class': $store.state.GET_MESSAGE_STATE, 
         nuxts:true, 
         webNoNav: !$store.state.webNoNav,
+        isPC: $store.state.isPC,
         appnuxts: !$store.state.GET_MESSAGE_STATE }">
         <keep-alive>
           <nuxt/>
         </keep-alive>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPC" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           下载APP 领10元现金
         </mt-button>
@@ -91,7 +98,7 @@ export default {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
-        adid: "closer-share"
+        adid: `closer-column-${self.$store.state.res.communityid}` // 栏目id
       });
       if (result) {
         if (this.$route.path.indexOf("/community") > -1) {
@@ -197,7 +204,7 @@ export default {
   },
   mounted() {
     let self = this;
-    // console.log(this.$store.state);
+    console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -376,11 +383,14 @@ html {
 nav {
   width: 100%;
   height: 13.07vw;
+  max-width: 750px;
   position: fixed;
   top: 0;
   left: 0;
   background: #fff;
   z-index: 100;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 nav .icon-ios-more {
@@ -401,6 +411,27 @@ nav .communityName {
 }
 .webNoNav {
   margin-top: 0;
+}
+.isPC {
+  margin-top: 0;
+  height: 100vh;
+}
+/* 悬浮层 */
+.layer {
+  position: fixed;
+  top: 20px;
+  right: calc((100vw - 750px) / 2 - 140px);
+  color: #717375;
+  width: 140px;
+  height: 180px;
+  border: 1px solid #d9dadc;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.layer img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
 }
 /*app内*/
 

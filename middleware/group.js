@@ -8,7 +8,7 @@ export default async function ({
     flag: 1,
     classid: params.id,
     index: '',
-    pagesize: 5
+    pagesize: 10
   }
   let para2 = {
     groupId: params.id
@@ -38,6 +38,9 @@ export default async function ({
         }
       }
       store.commit('SET_GROUP_INFO', data2.result)
+      store.commit('SET_RES', {
+        communityid: data2.result.group_info.communityid
+      })
     } else {
       error({
         message: `错误代码:${data2.code}, ${data2.result}`
