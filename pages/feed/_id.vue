@@ -204,7 +204,7 @@
         </div>
       </div>
       <!-- 分割线 -->
-      <div v-if="$store.state.GET_MESSAGE_STATE" class="split-box"></div>
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0" class="split-box"></div>
       <!-- 留言板 -->
       <div :class="{
         'feed-2': true,
@@ -264,10 +264,12 @@
           </div>
         </div>
       </div>
-      <div class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
-        <span class="flex flex-align-center flex-pack-center">
-          <span>点击参与更多讨论</span>
-        </span>
+      <div v-if="$store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)">
+        <div class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
+          <span class="flex flex-align-center flex-pack-center">
+            <span>点击参与更多讨论</span>
+          </span>
+        </div>
       </div>
     </div>
     <!-- 测试 feed流 -->
