@@ -1,6 +1,6 @@
 <template>
   <div class="default__box">
-    <div v-if="$store.state.exist">
+    <div class="default_init_box" v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav && !$store.state.isPC" 
         :class="{
           appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
@@ -139,23 +139,23 @@ export default {
           self.$store.state.res.int_type === 2) ||
         self.$route.path.indexOf("/community") > -1
       ) {
-        if (e.target.scrollTop >= 80) {
+        if (e.target.scrollingElement.scrollTop >= 80) {
           self.scrollnav = true;
         } else {
           self.scrollnav = false;
         }
       }
       // 仅此是安卓手机 才会被监听
-      let videosbox = document.querySelectorAll(".tiejin-videobox");
-      Array.prototype.forEach.call(videosbox, (x, i) => {
-        if (self.$store.state.nvgtype === "android") {
-          videosbox[i].querySelector("video").style.display = "none";
-        } else {
-          videosbox[i].style.backgroundImage = "none";
-        }
-      });
-      clearTimeout(self.scrollTimer);
-      self.scrollTimer = setTimeout(self.videoScroll, 400);
+      // let videosbox = document.querySelectorAll(".tiejin-videobox");
+      // Array.prototype.forEach.call(videosbox, (x, i) => {
+      //   if (self.$store.state.nvgtype === "android") {
+      //     videosbox[i].querySelector("video").style.display = "none";
+      //   } else {
+      //     videosbox[i].style.backgroundImage = "none";
+      //   }
+      // });
+      // clearTimeout(self.scrollTimer);
+      // self.scrollTimer = setTimeout(self.videoScroll, 400);
     },
     // 视频监听
     videoScroll() {
@@ -318,10 +318,12 @@ export default {
         });
       }
       // 监听wrp元素滚动位置
-      let wrp = document.getElementById("wrapper");
-      if (wrp) {
-        wrp.addEventListener("scroll", this.handleScroll);
-      }
+      document.addEventListener("scroll", this.handleScroll);
+
+      // let wrp = document.getElementById("wrapper");
+      // if (wrp) {
+      //   document.documentElement.addEventListener("scroll", this.handleScroll);
+      // }
       // logo图片预加载
       let tjimg = document.querySelector(".access-not");
       if (tjimg && tjimg.dataset.original) {
@@ -375,13 +377,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
 }
 
 nav {

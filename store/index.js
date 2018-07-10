@@ -63,9 +63,10 @@ export const mutations = {
       bIsUc = nvg.match(/ucweb/i) == "ucweb",
       bIsAndroid = nvg.match(/android/i) == "android",
       bIsCE = nvg.match(/windows ce/i) == "windows ce",
-      bIsWM = nvg.match(/windows mobile/i) == "windows mobile";
+      bIsWM = nvg.match(/windows mobile/i) == "windows mobile",
+      bIsAPP = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1;
     // result = true 是PC 
-    var result = !(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM)
+    var result = !(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM || bIsAPP)
     state.isPC = result
   },
   // 获取手机浏览器版本以及内核

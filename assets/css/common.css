@@ -335,7 +335,7 @@ p:empty {
 .web-class {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  height: calc(100vh - 13.07vw);
+  /* height: calc(100vh - 13.07vw); */
 }
 
 .webNoNav.web-class {
