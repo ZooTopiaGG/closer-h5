@@ -7,7 +7,9 @@
       box: true,
       'feed-box': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
       'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
-      'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
+      'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1),
+      'feed-box-0': $store.state.res.int_type === 0,
+      'feed-box-1': $store.state.res.int_type === 1
      }">
       <div class="feed-1">
         <!-- 帖子内容 -->
@@ -206,7 +208,7 @@
       <!-- 留言板 -->
       <div :class="{
         'feed-2': true,
-      'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE">
+        'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE">
         <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
         <!-- <div v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
         <div :class="{
@@ -260,12 +262,12 @@
               </li>
             </ul>
           </div>
-          <div class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
-            <span class="flex flex-align-center flex-pack-center">
-              <span>点击参与更多讨论</span>
-            </span>
-          </div>
         </div>
+      </div>
+      <div class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
+        <span class="flex flex-align-center flex-pack-center">
+          <span>点击参与更多讨论</span>
+        </span>
       </div>
     </div>
     <!-- 测试 feed流 -->
@@ -725,6 +727,14 @@ export default {
 .message-box {
   height: 100%;
 }
+.feed-box-0 {
+  min-height: calc(100vh - 13.07vw);
+}
+
+.feed-box-1 {
+  min-height: calc(100vh - 56.25vw);
+}
+
 .videofeed {
   height: calc(100% - 56.25vw);
 }
