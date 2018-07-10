@@ -133,29 +133,23 @@ export default {
     // 监听滚动
     handleScroll(e) {
       let self = this;
-      if (
-        // 判断是否是长图文或者栏目主页 滚动显示导航背景
-        (self.$route.path.indexOf("/feed") > -1 &&
-          self.$store.state.res.int_type === 2) ||
-        self.$route.path.indexOf("/community") > -1
-      ) {
-        if (e.target.scrollingElement.scrollTop >= 80) {
-          self.scrollnav = true;
-        } else {
-          self.scrollnav = false;
+      // 部分手机不能监听 e.target.scrollingElement
+      if (e.target.scrollingElement) {
+        if (
+          // 判断是否是长图文或者栏目主页 滚动显示导航背景
+          (self.$route.path.indexOf("/feed") > -1 &&
+            self.$store.state.res.int_type === 2) ||
+          self.$route.path.indexOf("/community") > -1
+        ) {
+          if (e.target.scrollingElement.scrollTop >= 80) {
+            self.scrollnav = true;
+          } else {
+            self.scrollnav = false;
+          }
         }
+      } else {
+        self.scrollnav = true;
       }
-      // 仅此是安卓手机 才会被监听
-      // let videosbox = document.querySelectorAll(".tiejin-videobox");
-      // Array.prototype.forEach.call(videosbox, (x, i) => {
-      //   if (self.$store.state.nvgtype === "android") {
-      //     videosbox[i].querySelector("video").style.display = "none";
-      //   } else {
-      //     videosbox[i].style.backgroundImage = "none";
-      //   }
-      // });
-      // clearTimeout(self.scrollTimer);
-      // self.scrollTimer = setTimeout(self.videoScroll, 400);
     },
     // 视频监听
     videoScroll() {
@@ -204,7 +198,7 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(this.$store.state);
+    // console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -317,13 +311,8 @@ export default {
           pic: pic
         });
       }
-      // 监听wrp元素滚动位置
+      // 监听document滚动位置
       document.addEventListener("scroll", this.handleScroll);
-
-      // let wrp = document.getElementById("wrapper");
-      // if (wrp) {
-      //   document.documentElement.addEventListener("scroll", this.handleScroll);
-      // }
       // logo图片预加载
       let tjimg = document.querySelector(".access-not");
       if (tjimg && tjimg.dataset.original) {
@@ -367,18 +356,6 @@ export default {
 };
 </script>
 <style>
-html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
 nav {
   width: 100%;
   height: 13.07vw;
