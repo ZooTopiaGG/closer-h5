@@ -741,7 +741,7 @@ export default {
   font-size: 16px;
   color: #409eff;
   padding-top: 44px;
-  height: 93px;
+  height: 49px;
 }
 .more-img {
   width: 6.75px;
