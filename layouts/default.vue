@@ -98,7 +98,7 @@ export default {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
-        adid: `closer-column-${self.$store.state.res.communityid}` // 栏目id
+        adid: window.sessionStorage.getItem("h5Adid") || "closer-share" // 栏目id
       });
       if (result) {
         if (this.$route.path.indexOf("/community") > -1) {
@@ -214,7 +214,11 @@ export default {
         document.body.appendChild(sct);
       }
     }
-    // 设置cookie
+    // 存会话 h5Adid
+    if (self.$route.query.adid) {
+      window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
+    }
+    // 设置 h5cookie埋点
     if (self.$store.state.h5Cookies) {
       Cookie.set("h5Cookies", self.$store.state.h5Cookies);
     }
@@ -427,11 +431,17 @@ nav .communityName {
   border: 1px solid #d9dadc;
   padding: 16px;
   box-sizing: border-box;
+  display: none;
 }
 .layer img {
   width: 100px;
   height: 100px;
   margin-bottom: 10px;
+}
+@media screen and (min-width: 751px) {
+  .layer {
+    display: block;
+  }
 }
 /*app内*/
 

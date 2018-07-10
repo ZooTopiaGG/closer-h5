@@ -527,7 +527,7 @@ export default {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
-        adid: `closer-column-${self.$store.state.res.communityid}` // 栏目id
+        adid: window.sessionStorage.getItem("h5Adid") || "closer-share" // 栏目id
       });
       if (result) {
         if (this.$route.path.indexOf("/community") > -1) {

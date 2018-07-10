@@ -269,6 +269,8 @@ export const actions = {
         plateform: 2,
         code: code,
         protocol: "WEB_SOCKET",
+        udid: Cookie.get('h5Cookies'),
+        adid: window.sessionStorage.getItem('h5Adid') || 'closer-share'
       }
     }
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
@@ -353,7 +355,8 @@ export const actions = {
           phone: phone,
           token: token,
           udid: Cookie.get('h5Cookies'),
-          protocol: 'WEB_SOCKET'
+          protocol: 'WEB_SOCKET',
+          adid: window.sessionStorage.getItem('h5Adid') || 'closer-share'
         }
       }
       let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)
@@ -584,7 +587,6 @@ export const actions = {
       let data = await self.$axios.$post(`${api.share.get_adcookie}`, para)
       if (data.code === 0) {
         commit('SET_H5COOKIES', data.result.udid)
-        // Cookie.set("h5Cookies", data.result.udid);
         return data.result.udid
       }
     } catch (e) {
@@ -627,7 +629,6 @@ export const actions = {
       };
       let data = await self.$axios.$post(`${api.command.comments}`, para1);
       if (data.code === 0) {
-        // self.messagelist = data.result;
         commit('SET_MESSAGE_LIET', data.result)
       } else {
         self.$toast({
