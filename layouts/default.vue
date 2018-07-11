@@ -34,8 +34,8 @@
       </div>
       <div class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE && $store.state.isPC">
         <img src="~/assets/images/1531133203.png" alt="">
-        <p>手机扫一扫</p>
-        <p>下载贴近App</p>
+        <div>手机扫一扫</div>
+        <div>下载贴近App</div>
       </div>
       <div id="wrapper"
       :class="{ 
@@ -50,7 +50,7 @@
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPC" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
-          下载APP 领10元现金
+          下载贴近 更多精彩
         </mt-button>
       </div>
     </div>
@@ -403,7 +403,7 @@ nav .communityName {
   border: 1px solid #d9dadc;
   padding: 16px;
   box-sizing: border-box;
-  display: none;
+  opacity: 0;
 }
 .layer img {
   width: 100px;
@@ -412,7 +412,7 @@ nav .communityName {
 }
 @media screen and (min-width: 751px) {
   .layer {
-    display: block;
+    opacity: 1;
   }
 }
 /*app内*/

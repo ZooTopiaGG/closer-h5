@@ -8,7 +8,7 @@
     </div>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
     <div class="tj-code">
-      <mt-field placeholder="图形验证码" :attr="{ maxlength: 5 }" v-model="img_code_value" class="margin-bottom-40">
+      <mt-field type="password" placeholder="图形验证码" :attr="{ maxlength: 5 }" v-model="img_code_value" class="margin-bottom-40">
         <img class="tj-code-img" @click="sendImgCode" :src="get_img_code">
       </mt-field>
     </div>
