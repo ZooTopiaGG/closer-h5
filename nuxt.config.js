@@ -44,10 +44,6 @@ module.exports = {
       //     }
       //   })()`
       // },
-      // {
-      //   src: 'https://cdnjs.cloudflare.com/ajax/libs/video.js/6.7.3/video.js',
-      //   defer: 'defer'
-      // },
       {
         innerHTML: `
         document.addEventListener("DOMContentLoaded", function(event) {
@@ -61,15 +57,10 @@ module.exports = {
     ],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{
-        rel: 'icon',
-        type: 'image/x-icon',
-        href: '/favicon.ico'
-      },
-      // {
-      //   href: 'https://cdnjs.cloudflare.com/ajax/libs/video.js/6.7.3/video-js.css'
-      // }
-    ],
-
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }],
   },
   // 路由配置 
   router: {

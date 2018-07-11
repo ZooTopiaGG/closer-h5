@@ -11,7 +11,10 @@
       'feed-box-0': $store.state.res.int_type === 0,
       'feed-box-1': $store.state.res.int_type === 1
      }">
-      <div class="feed-1">
+      <div :class="{
+        'feed-1': true,
+        'feed-padding': $store.state.res.commentNumber == 0
+      }">
         <!-- 帖子内容 -->
         <!-- 图片 -->
         <div class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
@@ -60,7 +63,7 @@
         <!-- 视频 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
           <div class="video-doc">
-            <div class="videoNav flex flex-align-center">
+            <div class="videoNav flex flex-align-center" v-if="!$store.state.isPC">
               <img class="access-not" v-lazy="$store.state.res.blogo" @click="toCommunity">
               <span class="communityName ellipsis flex-1">{{ $store.state.res.communityName }}</span>
               <div>
@@ -206,21 +209,22 @@
       <!-- 分割线 -->
       <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0" class="split-box"></div>
       <!-- 留言板 -->
-      <div :class="{
+      <div 
+        :class="{
         'feed-2': true,
-        'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE">
+        'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">
         <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
         <!-- <div v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
         <div :class="{
           'message-box':!($store.state.res.int_type === 2 && $store.state.res.int_category === 1),
           'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
           'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.res.int_category != 1 ">
-          <div class="message-num" v-if="$store.state.res.commentNumber > 0">
+          <div class="message-num">
             {{ $store.state.res.commentNumber }} 条留言
           </div>
           <div :class="{
             'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
-          }">
+            }">
             <ul class="feed-messagebord-list" v-if="$store.state.messagelist.data && $store.state.messagelist.data.length > 0">
               <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
                 <div class="messager-info flex flex-align-center flex-pack-justify">

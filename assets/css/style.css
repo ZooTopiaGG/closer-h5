@@ -40,6 +40,14 @@
 
 /* 播放器样式 */
 
+audio::-webkit-media-controls-enclosure,
+video::-webkit-media-controls-enclosure,
+audio::-webkit-media-controls-panel,
+video::-webkit-media-controls-panel {
+  background: rgba(0, 0, 0, 0);
+  /* display: none; */
+}
+
 /*公用样式*/
 
 .margin-bottom-40 {

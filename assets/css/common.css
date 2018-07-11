@@ -104,7 +104,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   color: #495060;
 }
 
@@ -309,6 +309,12 @@ p:empty {
   width: 100% !important;
 }
 
+/* 在pc端显示 start */
+
+.isPC .summary {
+  padding: 0 20px !important;
+}
+
 .isPC .summary>p,
 .isPC .summary>ol,
 .isPC .summary>ul,
@@ -318,6 +324,156 @@ p:empty {
 .isPC .summary>aside {
   margin-bottom: 22px;
 }
+
+.isPC .summary img,
+.isPC .summary .imgbox,
+.isPC .summary video,
+.isPC .feeder-comment-img {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.isPC .feeder-comment-info {
+  width: auto !important;
+}
+
+.isPC .feedcontent {
+  margin-top: 20px !important;
+  padding: 0 !important;
+}
+
+.isPC .feeder-content {
+  margin-top: 30px !important;
+}
+
+.isPC .works {
+  padding: 20px 0 30px !important;
+}
+
+.isPC .works .title {
+  margin-left: 0 !important;
+}
+
+.isPC .feeder-comments {
+  margin-top: 30px !important;
+}
+
+.isPC .feeder-img {
+  height: 930px !important;
+}
+
+.isPC .member {
+  padding: 40px 20px 20px !important;
+}
+
+.isPC .dpFeed {
+  padding-top: 30px !important;
+}
+
+.isPC .group li {
+  height: auto !important;
+  margin-bottom: 10px !important;
+}
+
+.isPC .columnname {
+  padding-right: 30px !important;
+  margin-bottom: 30px !important;
+}
+
+.isPC .columnname>img {
+  width: 160px !important;
+  height: auto !important;
+  margin-right: 20px !important;
+}
+
+.isPC .feedmain>video {
+  height: 480px !important;
+}
+
+.isPC .feed-list-cell {
+  margin-bottom: 30px !important;
+  padding-bottom: 20px !important;
+}
+
+.isPC .feedtitle {
+  padding: 0 30px 0 0 !important;
+  margin-top: 20px !important;
+}
+
+.isPC .group {
+  max-height: none !important;
+  overflow: inherit !important;
+}
+
+.isPC .group li>img {
+  width: 60px !important;
+  height: 60px !important;
+}
+
+.isPC .group-master {
+  width: 48px !important;
+  height: 48px !important;
+  left: 24px !important;
+  top: -14px !important;
+}
+
+.isPC .feeder-info,
+.isPC .feed-messagebord-type,
+.isPC .feed-messagebord,
+.isPC .feed-messagebord-list,
+.isPC .feeder-title,
+.isPC .read-num,
+.isPC .feeder-comments,
+.isPC .message-num {
+  padding: 0 20px !important;
+}
+
+.isPC .split-box {
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.isPC .messager-content {
+  margin: 20px 0 !important;
+}
+
+.isPC .message-num {
+  height: 60px !important;
+  line-height: normal !important;
+}
+
+.isPC .feed-messagebord-list-cell {
+  padding-top: 20px !important;
+}
+
+.isPC .feeder-title,
+.isPC .read-num,
+.isPC .message-num {
+  margin-bottom: 20px !important;
+}
+
+.isPC~.feed-h5-videos {
+  max-width: 750px;
+  height: 300px;
+  left: calc((100vw - 750px) / 2);
+}
+
+.isPC~.feed-h5-videos>video {
+  height: 300px;
+}
+
+.isPC .videofeed .box {
+  margin-top: 320px;
+  min-height: calc(100vh - 320px);
+}
+
+.isPC .feeder-comments-cell {
+  padding: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+/* 在pc端显示 end */
 
 p:empty {
   margin: 0;

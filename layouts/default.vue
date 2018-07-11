@@ -28,10 +28,6 @@
           </div>
         </div>
       </nav>
-      <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos" id="feed-h5-videos">
-        <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
-        </video>
-      </div>
       <div class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE && $store.state.isPC">
         <img src="~/assets/images/1531133203.png" alt="">
         <div>手机扫一扫</div>
@@ -47,6 +43,10 @@
         <keep-alive>
           <nuxt/>
         </keep-alive>
+      </div>
+      <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos" id="feed-h5-videos">
+        <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
+        </video>
       </div>
       <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPC" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
