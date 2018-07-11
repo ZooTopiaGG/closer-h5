@@ -68,7 +68,7 @@
                 <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor" @click="tjFocus">
                   <span v-if="$store.state.is_follow">已关注</span>
                   <span v-else>
-                    <span class="focus-icon">+</span>
+                    <!-- <span class="focus-icon">+</span> -->
                     <span>关注</span>
                   </span>
                 </mt-button>
