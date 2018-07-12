@@ -63,7 +63,7 @@
         <!-- 视频 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
           <div class="video-doc">
-            <div class="videoNav flex flex-align-center" v-if="!$store.state.isPC">
+            <div class="videoNav flex flex-align-center">
               <img class="access-not" v-lazy="$store.state.res.blogo" @click="toCommunity">
               <span class="communityName ellipsis flex-1">{{ $store.state.res.communityName }}</span>
               <div>
