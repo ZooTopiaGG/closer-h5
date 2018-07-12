@@ -41,8 +41,26 @@ export const mutations = {
     // 通过中间件。判断在路由之前执行 判断路由类型
     let nvg = para.nvg.toLowerCase();
     let refer = para.ref
+    console.log('refer==', refer)
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result
+    let
+      bIsIpad = nvg.match(/ipad/i) == "ipad",
+      bIsIphoneOs = nvg.match(/iphone os/i) == "iphone os",
+      bIsMidp = nvg.match(/midp/i) == "midp",
+      bIsUc7 = nvg.match(/rv:1.2.3.4/i) == "rv:1.2.3.4",
+      bIsUc = nvg.match(/ucweb/i) == "ucweb",
+      bIsAndroid = nvg.match(/android/i) == "android",
+      bIsCE = nvg.match(/windows ce/i) == "windows ce",
+      bIsWM = nvg.match(/windows mobile/i) == "windows mobile",
+      // 是否在app
+      bIsAPP = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
+      // 是否是栏目后台预览
+      bIsView = refer.indexOf('?view=pre') > -1;
+    // bIsPRE = 
+    // result = true 是PC 
+    var result = !(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM || bIsAPP || bIsView)
+    state.isPC = result
   },
   // 设置是否在app的状态
   GET_APP_AGENT(state, para) {
@@ -55,19 +73,6 @@ export const mutations = {
   GET_AGENT(state, para) {
     let nvg = para.toLowerCase();
     state.agent = nvg;
-    let
-      bIsIpad = nvg.match(/ipad/i) == "ipad",
-      bIsIphoneOs = nvg.match(/iphone os/i) == "iphone os",
-      bIsMidp = nvg.match(/midp/i) == "midp",
-      bIsUc7 = nvg.match(/rv:1.2.3.4/i) == "rv:1.2.3.4",
-      bIsUc = nvg.match(/ucweb/i) == "ucweb",
-      bIsAndroid = nvg.match(/android/i) == "android",
-      bIsCE = nvg.match(/windows ce/i) == "windows ce",
-      bIsWM = nvg.match(/windows mobile/i) == "windows mobile",
-      bIsAPP = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1;
-    // result = true 是PC 
-    var result = !(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM || bIsAPP)
-    state.isPC = result
   },
   // 获取手机浏览器版本以及内核
   GET_VERSION(state) {

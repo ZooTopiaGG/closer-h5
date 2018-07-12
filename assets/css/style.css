@@ -45,7 +45,16 @@ video::-webkit-media-controls-enclosure,
 audio::-webkit-media-controls-panel,
 video::-webkit-media-controls-panel {
   background: rgba(0, 0, 0, 0);
-  /* display: none; */
+}
+
+@media screen and (max-width: 751px) {
+  audio::-webkit-media-controls-enclosure,
+  video::-webkit-media-controls-enclosure,
+  audio::-webkit-media-controls-panel,
+  video::-webkit-media-controls-panel {
+    display: none;
+    background: rgba(0, 0, 0, 0);
+  }
 }
 
 /*公用样式*/
