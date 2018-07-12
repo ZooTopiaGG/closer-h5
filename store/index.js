@@ -581,7 +581,7 @@ export const actions = {
       console.log('e==', e)
     }
   },
-  // 点击下载按钮时调用get_adcookie做统计
+  // 点击下载按钮时调用get_adcookies做统计
   async down_adcookies({
     commit
   }, {
@@ -592,7 +592,7 @@ export const actions = {
   }) {
     let self = this,
       para = {
-        webUdid: false,
+        webUdid: true,
         deviceType: deviceType || 'ios',
         deviceVersion: deviceVersion || '11_0_0',
         adid: adid || 'closer-share'
