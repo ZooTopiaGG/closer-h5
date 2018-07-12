@@ -4,9 +4,9 @@
         'flex-v':true }">
     <div class="cover">
       <!-- 如果有置顶贴子封面图就用贴子封面 否则用img， 如果没有img则显示默认图片 750*930-->
-      <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.attributes.coversubject.bigcover)"  v-if="res.community.attributes && res.community.attributes.coversubject"></div> 
-      <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.img)"  v-else-if="res.community.img"></div> 
-      <div class="feeder-img" v-lazy:background-image="defaultImg" v-else></div> 
+      <div class="feeder-img feeder-comunity-cover" v-lazy:background-image="$com.makeFileUrl(res.community.attributes.coversubject.bigcover)"  v-if="res.community.attributes && res.community.attributes.coversubject"></div> 
+      <div class="feeder-img feeder-comunity-cover" v-lazy:background-image="$com.makeFileUrl(res.community.img)"  v-else-if="res.community.img"></div> 
+      <div class="feeder-img feeder-comunity-cover" v-lazy:background-image="defaultImg" v-else></div> 
       <div class="cover-title">{{ res.community.description }}</div> 
     </div>
     <div v-if="group.data && group.data.length>0" class="member">

@@ -60,6 +60,7 @@ let api = {
   },
   share: {
     wechat_config: 'closer_share.wechat_config',
+    // 
     get_adcookie: 'closer_statistics.get_adcookie'
   }
 }
