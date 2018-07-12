@@ -40,6 +40,7 @@ export const mutations = {
     // 通过中间件。判断在路由之前执行 判断路由类型
     let nvg = para.nvg.toLowerCase();
     let refer = para.ref
+    console.log('refer==', refer)
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result
   },

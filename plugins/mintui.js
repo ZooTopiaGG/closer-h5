@@ -5,11 +5,15 @@ import {
   Field,
   Spinner,
   Toast,
-  Lazyload
+  Lazyload,
+  Swipe,
+  SwipeItem
 } from 'mint-ui'
 Vue.component(Field.name, Field)
 Vue.component(Button.name, Button)
 Vue.component(Spinner.name, Spinner)
+Vue.component(Swipe.name, Swipe)
+Vue.component(SwipeItem.name, SwipeItem)
 
 Vue.use(Lazyload, {
   preLoad: 1.3,

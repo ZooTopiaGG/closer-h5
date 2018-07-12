@@ -198,7 +198,7 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(this.$store.state);
+    // console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -359,7 +359,7 @@ export default {
 nav {
   width: 100%;
   height: 14.4vw;
-  max-width: 680px;
+  max-width: 750px;
   position: fixed;
   top: 0;
   left: 0;
@@ -417,6 +417,14 @@ nav.appnav {
   background: rgba(0, 0, 0, 0);
 }
 
+nav.appnav .icon-ios-more {
+  color: #fff;
+}
+
+nav.appnav .communityName {
+  color: #fff;
+}
+
 nav.scrollnav {
   background: #fff;
   /*padding-top: 0;*/
@@ -431,8 +439,8 @@ nav.scrollnav .communityName {
 }
 
 nav.appnav ~ .nuxts {
-  margin-top: 14.4vw;
-  min-height: calc(100vh - 14.4vw);
+  margin-top: 0;
+  min-height: 100vh;
 }
 
 .appnuxts {
@@ -440,10 +448,10 @@ nav.appnav ~ .nuxts {
 }
 
 .access-not {
-  width: 13.87vw;
-  height: 5.87vw;
+  width: 21.87vw;
+  height: 8.54vw;
   margin-right: 2.67vw;
-  border-radius: 3px;
+  border-radius: 0 3px 3px 0;
 }
 
 .icon-ios-more {
