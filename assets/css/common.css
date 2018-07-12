@@ -80,7 +80,7 @@ style {
 html,
 body {
   background-color: #fff;
-  max-width: 750px;
+  max-width: 680px;
   width: 100%;
   margin: 0 auto;
   cursor: pointer;
@@ -276,7 +276,7 @@ button {}
   font-size: 17px;
   line-height: 1.54;
   letter-spacing: 0.5px;
-  padding: 0 4vw;
+  padding: 0 4vw 5.3vw;
 }
 
 .summary>p,
