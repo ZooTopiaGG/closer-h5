@@ -276,7 +276,7 @@ button {}
   font-size: 17px;
   line-height: 1.54;
   letter-spacing: 0.5px;
-  padding: 0 4vw;
+  padding: 0 4vw 5.3vw;
 }
 
 .summary>p,
@@ -309,6 +309,11 @@ p:empty {
   width: 100% !important;
 }
 
+<<<<<<< HEAD
+=======
+/* 在pc端显示 end */
+
+>>>>>>> master
 p:empty {
   margin: 0;
   padding: 0;

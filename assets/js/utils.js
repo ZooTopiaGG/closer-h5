@@ -74,12 +74,14 @@ export default {
       const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
       let size, flag;
+      console.log('pImg===', pImg)
       pImg.forEach((x, i) => {
         let
           srcArray = x.match(regexSrc),
           widthArray = x.match(regexWidth),
           heightArray = x.match(regexHeight),
           nW,
+          _src,
           nH;
         if (widthArray && heightArray) {
           nH = heightArray[1] * 92 / widthArray[1] + "vw";
@@ -87,10 +89,16 @@ export default {
           nH = "auto";
         }
         // fix 图片是中文带路径 补丁
-        let _src = srcArray[1].replace(/\+/g, "%2b");
-        flag = `<div class='imgbox tiejin-imgbox' style="height: ${nH}">
-                          <img style="height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
-                        </div>`;
+        if (srcArray) {
+          _src = srcArray[1].replace(/\+/g, "%2b");
+          flag = `<div class='imgbox tiejin-imgbox' style="height: ${nH}">
+                  <img style="height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
+                </div>`;
+        } else {
+          _src = ''
+          flag = '';
+        }
+
         // 正则替换富文本内的img标签
         // 替换不同文本
         html = html.replace(x, flag);
