@@ -1,12 +1,11 @@
 <template>
   <div class="default__box">
     <div class="default_init_box" v-if="$store.state.exist">
-      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav && !$store.state.isPC" 
+      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
           appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
           scrollnav: scrollnav,
           webNoNav: !$store.state.webNoNav,
-          isPC: $store.state.isPC,
           flex: true,
           'flex-v': true,
           'flex-pack-center': true
@@ -28,7 +27,7 @@
           </div>
         </div>
       </nav>
-      <div class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE && $store.state.isPC">
+      <div class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE">
         <img src="~/assets/images/1531133203.png" alt="">
         <div>手机扫一扫</div>
         <div>下载贴近App</div>
@@ -38,7 +37,6 @@
         'web-class': $store.state.GET_MESSAGE_STATE, 
         nuxts:true, 
         webNoNav: !$store.state.webNoNav,
-        isPC: $store.state.isPC,
         appnuxts: !$store.state.GET_MESSAGE_STATE }">
         <keep-alive>
           <nuxt/>
@@ -48,7 +46,7 @@
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPC" class="open-footer cursor">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           下载贴近 更多精彩
         </mt-button>
@@ -387,10 +385,6 @@ nav .communityName {
 }
 .webNoNav {
   margin-top: 0;
-}
-.isPC {
-  margin-top: 0;
-  height: 100vh;
 }
 /* 悬浮层 */
 .layer {
