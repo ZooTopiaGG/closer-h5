@@ -255,7 +255,9 @@ export const actions = {
           inviter: inv_id,
           nickName: nickName,
           avatar: avatar,
-          protocol: "WEB_SOCKET"
+          protocol: "WEB_SOCKET",
+          udid: Cookie.get('h5Cookies'),
+          adid: Cookie.get('h5Adid') || 'closer-invitenew',
         }
       } else {
         return false
@@ -266,7 +268,7 @@ export const actions = {
         code: code,
         protocol: "WEB_SOCKET",
         udid: Cookie.get('h5Cookies'),
-        adid: window.sessionStorage.getItem('h5Adid') || 'closer-share'
+        adid: Cookie.get('h5Adid') || 'closer-share'
       }
     }
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
@@ -337,6 +339,7 @@ export const actions = {
             token: token,
             inviter: inv.id,
             udid: Cookie.get('h5Cookies'),
+            adid: Cookie.get('h5Adid') || 'closer-invitenew',
             protocol: 'WEB_SOCKET'
           }
         } else {
@@ -352,7 +355,7 @@ export const actions = {
           token: token,
           udid: Cookie.get('h5Cookies'),
           protocol: 'WEB_SOCKET',
-          adid: window.sessionStorage.getItem('h5Adid') || 'closer-share'
+          adid: Cookie.get('h5Adid') || 'closer-share'
         }
       }
       let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)
