@@ -44,8 +44,6 @@ export const mutations = {
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result
     state.isPre = refer.indexOf('?view=pre') > -1
-    console.log('refer===', refer)
-    console.log(refer.indexOf('?view=pre') > -1)
   },
   // 设置是否在app的状态
   GET_APP_AGENT(state, para) {

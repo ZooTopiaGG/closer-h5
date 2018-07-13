@@ -45,7 +45,7 @@
           <nuxt/>
         </keep-alive>
       </div>
-      <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos" id="feed-h5-videos">
+      <div v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" class="feed-h5-videos" id="feed-h5-videos">
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
