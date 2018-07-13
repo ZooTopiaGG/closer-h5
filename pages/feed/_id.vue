@@ -13,7 +13,7 @@
      }">
       <div :class="{
         'feed-1': true,
-        'feed-padding': $store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber == 0
+        'feed-padding': $store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1) && $store.state.res.commentNumber == 0
       }">
         <!-- 帖子内容 -->
         <!-- 图片 -->
