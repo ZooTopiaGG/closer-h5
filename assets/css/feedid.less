@@ -435,3 +435,42 @@
 .cancel {
   margin-right: @commonspace;
 }
+
+/*全局控制 富文本内图片样式*/
+
+.summary {
+  font-size: 17px;
+  line-height: 1.54;
+  letter-spacing: 0.5px;
+  padding: 0 4vw;
+}
+
+.summary>p,
+.summary>ol,
+.summary>ul,
+.summary>div,
+.summary>section,
+.summary>article,
+.summary>aside {
+  margin-bottom: 2.668vw;
+}
+
+p:empty {
+  margin: 0;
+  padding: 0;
+}
+
+.summary img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.summary video {
+  width: 100%;
+}
+
+.sumary iframe {
+  width: 100% !important;
+}

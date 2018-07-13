@@ -47,7 +47,7 @@ video::-webkit-media-controls-panel {
   background: rgba(0, 0, 0, 0);
 }
 
-@media screen and (max-width: 751px) {
+@media screen and (max-width: 680px) {
   audio::-webkit-media-controls-enclosure,
   video::-webkit-media-controls-enclosure,
   audio::-webkit-media-controls-panel,

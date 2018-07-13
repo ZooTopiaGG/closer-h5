@@ -833,7 +833,74 @@ export default {
   width: 13vw;
   height: 13vw;
 }
+@media screen and (min-width: 680px) {
+  .imgbox,
+  .imgbox img {
+    height: auto !important;
+  }
+}
 </style>
 <style scoped lang="less">
 @import "../../assets/css/feedid.less";
+
+@media screen and (min-width: 680px) {
+  .videoNav {
+    display: none;
+  }
+  .feeder-img-cover {
+    max-height: 414px;
+    img {
+      max-height: 414px;
+    }
+  }
+  .feeder-content {
+    margin-top: 30px;
+  }
+  .feeder-title {
+    margin-bottom: 20px;
+  }
+  .feeder-info,
+  .feed-messagebord-type,
+  .feed-messagebord,
+  .feed-messagebord-list,
+  .feeder-title,
+  .read-num,
+  .feeder-comments {
+    padding: 0 20px;
+  }
+  .summary {
+    padding: 0 20px;
+  }
+  .summary > p,
+  .summary > ol,
+  .summary > ul,
+  .summary > div,
+  .summary > section,
+  .summary > article,
+  .summary > aside {
+    margin-bottom: 20px;
+  }
+  .feeder-comments {
+    margin-top: 30px;
+  }
+  .feeder-comments-cell {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .feeder-comment-img {
+    width: 100%;
+    height: auto !important;
+    min-height: 0;
+  }
+  .feeder-comment-info {
+    width: 80px;
+    margin-top: 0;
+    i {
+      margin-right: 20px;
+    }
+  }
+  .feeder-comment-nickname {
+    margin-bottom: 20px;
+  }
+}
 </style>

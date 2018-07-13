@@ -8,6 +8,7 @@ export const state = () => ({
   GET_MESSAGE_STATE: false,
   GET_APP_NAV: false,
   agent: '',
+  isPre: false,
   nvgtype: '',
   nvgversion: '',
   GET_APP_TOKEN: '',
@@ -39,10 +40,12 @@ export const mutations = {
   GET_USER_AGENT(state, para) {
     // 通过中间件。判断在路由之前执行 判断路由类型
     let nvg = para.nvg.toLowerCase();
-    let refer = para.ref
-    console.log('refer==', refer)
+    let refer = para.ref;
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result
+    state.isPre = refer.indexOf('?view=pre') > -1
+    console.log('refer===', refer)
+    console.log(refer.indexOf('?view=pre') > -1)
   },
   // 设置是否在app的状态
   GET_APP_AGENT(state, para) {
