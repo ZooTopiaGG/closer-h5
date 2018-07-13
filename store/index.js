@@ -272,7 +272,6 @@ export const actions = {
       }
     }
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
-    console.log('data====', data)
     if (data.code === 0) {
       // 返回的数据
       let userInfo = {

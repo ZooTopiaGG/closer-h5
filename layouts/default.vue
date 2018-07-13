@@ -167,7 +167,7 @@ export default {
     async tjFocus() {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token") && Cookie.get("token").length < 100) {
+      if (Cookie.get("token")) {
         // 进行其他 ajax 操作
         self.$store.dispatch("get_focus_stat", {
           communityid: self.$store.state.res.communityid,

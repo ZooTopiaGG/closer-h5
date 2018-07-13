@@ -54,13 +54,17 @@ export default function ({
         config.headers.common['Closer-Agent'] = 'Closer-H5';
       }
     }
-    console.log('config===', config)
     // 线上时
     if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts' || config.url === 'closer_report.get_report_types')) {
       config.headers.Authorization = store.state.GET_APP_TOKEN
-    } else if (store.state.token && store.state.token.length < 100) {
+    } else if (store.state.token) {
       // 获取贴子详情不需要token验证
       config.headers.Authorization = `GroukAuth ${store.state.token}`
+      // if (config.url.indexOf('closer_subject.show') > -1 || config.url.indexOf('closer_community.show') > -1 || config.url.indexOf('closer_class.show') > -1 || config.url.indexOf('closer_share.wechat_config') > -1 || config.url.indexOf('closer_subject.incr_view') > -1) {
+      //   return
+      // } else {
+      //   config.headers.Authorization = `GroukAuth ${store.state.token}`
+      // }
     } else {
       return
     }
