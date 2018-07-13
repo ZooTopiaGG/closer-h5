@@ -59,7 +59,7 @@ video::-webkit-media-controls-panel {
   .hasControlVideo video::-webkit-media-controls-enclosure,
   .hasControlVideo audio::-webkit-media-controls-panel,
   .hasControlVideo video::-webkit-media-controls-panel {
-    display: block;
+    display: inherit;
   }
 }
 
