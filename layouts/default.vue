@@ -10,7 +10,7 @@
           'flex-v': true,
           'flex-pack-center': true
         }">
-        <div class="feeder-cover flex flex-align-center flex-pack-justify">
+        <div class="feeder-cover flex flex-align-center flex-pack-justify" v-if="!$store.state.isPre">
           <div class="flex flex-1 flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
             <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
@@ -46,7 +46,7 @@
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPre" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           下载贴近 更多精彩
         </mt-button>
