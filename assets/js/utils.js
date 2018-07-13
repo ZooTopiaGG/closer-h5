@@ -223,12 +223,5 @@ export default {
     setTimeout(function () {
       document.documentElement.removeChild(WVJBIframe)
     }, 0)
-  },
-  // 获取URL 参数
-  getQueryString(str, name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = str.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
-    return null;
   }
 }
