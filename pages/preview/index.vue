@@ -239,8 +239,8 @@ export default {
           console.log("event==", event);
           console.log("event.data====", event.data);
           if (event.data) {
-            let content = JSON.parse(event.data.content);
-            self.$store.commit("SET_CONTENT", content);
+            // let content = JSON.parse(event.data.content);
+            self.$store.commit("SET_CONTENT", event.data.content);
             self.$store.commit("SET_RES", event.data);
           } else {
             setTimeout(() => {
