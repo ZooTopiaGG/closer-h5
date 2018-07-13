@@ -244,8 +244,7 @@ export default {
             self.$store.commit("SET_RES", event.data);
           } else {
             setTimeout(() => {
-              let content = JSON.parse(event.data.content);
-              self.$store.commit("SET_CONTENT", content);
+              self.$store.commit("SET_CONTENT", event.data.content);
               self.$store.commit("SET_RES", event.data);
             }, 800);
           }
