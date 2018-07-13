@@ -1,79 +1,88 @@
 <template>
   <div class="dpFeed">
+    <div class="split-box"></div> 
+    <div class="hots-article flex flex-align-center">
+      热门文章
+    </div> 
     <ul v-if="$store.state.feed_list && $store.state.feed_list.length > 0" class="feed-list flex-1">
-        <li class="feed-list-cell" @click="tofeeddetails(item)" v-for="(item, index) in $store.state.feed_list" :key="index">
-          <div class="feed-box">
-            <div class="hide-feed-over"></div>
-            <div class="feed-cell-content">
-              <div class="columnname flex flex-align-center">
-                <img v-lazy="item.blogo">
-                <span class="name flex-1 ellipsis">{{ item.communityName }}</span>
-                <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
+      <li class="feed-list-cell" @click="tofeeddetails(item)" v-for="(item, index) in $store.state.feed_list" :key="index">
+        <div class="feed-box">
+          <div class="hide-feed-over"></div>
+          <div class="feed-cell-content">
+            <div class="columnname flex flex-align-center">
+              <img v-lazy="item.blogo">
+              <span class="name flex-1 ellipsis">{{ item.communityName }}</span>
+              <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
+            </div>
+            <!-- 贴子详情 -->
+            <!-- 纯图片类型 int_type == 0-->
+            <div class="feedmain" v-if="item.int_type === 0">
+              <div v-if="item.content.text" class="feedtitle text-ellipse">
+                {{ item.content.text }}
               </div>
-              <!-- 贴子详情 -->
-              <!-- 纯图片类型 int_type == 0-->
-              <div class="feedmain" v-if="item.int_type === 0">
-                <div v-if="item.content.text" class="feedtitle text-ellipse">
-                  {{ item.content.text }}
-                </div>
-                <div v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                    :key="index">
-                    <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
-                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                  </div>
-                </div>
-                <div v-if="item.content.images && item.content.images.length === 2" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                    :key="index">
-                    <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
-                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                  </div>
-                </div>
-                <div v-if="item.content.images && (item.content.images.length === 3 || item.content.images.length > 4)" class="flex feedimgcontent">
-                  <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                    :key="index">
-                    <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
-                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                  </div>
-                </div>
-                <div v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
-                  <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                    :key="index">
-                    <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
-                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                  </div>
+              <div v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
+                <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                  :key="index">
+                  <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+              <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+              <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
                 </div>
               </div>
-              <!-- 视频贴 int_type == 1-->
-              <div class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
-                <video :src="item.content.videos[0].src" controls="controls" preload="none"
-                  :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
-                </video>
-                <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
-              </div>
-              <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
-              <div class="feedmain" v-else-if="item.int_type === 2">
-                <div v-if="item.cover" class="feedcover flex">
-                  <img v-lazy="$com.makeFileUrl(item.cover)">
+              <div v-if="item.content.images && item.content.images.length === 2" class="flex flex-pack-justify feedimgcontent">
+                <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                  :key="index">
+                  <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+              <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+              <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
                 </div>
-                <div class="feedtype">
-                  <div v-if="item.title" class="feedtitle text-ellipse">
-                    {{ item.title }}
-                  </div>
-                  <div v-if="item.content.summary" class="feedcontent text-ellipse">
-                    {{ item.content.summary }}
-                  </div>
+              </div>
+              <div v-if="item.content.images && (item.content.images.length === 3 || item.content.images.length > 4)" class="flex feedimgcontent">
+                <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                  :key="index">
+                  <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+              <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+              <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
+                </div>
+              </div>
+              <div v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
+                <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                  :key="index">
+                  <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+              <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+              <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
+                </div>
+              </div>
+            </div>
+            <!-- 视频贴 int_type == 1-->
+            <div class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
+              <video :src="item.content.videos[0].src" controls="controls" preload="none"
+                :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
+              </video>
+              <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
+            </div>
+            <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
+            <div class="feedmain" v-else-if="item.int_type === 2">
+              <div v-if="item.cover" class="feedcover flex">
+                <img v-lazy="$com.makeFileUrl(item.cover)">
+              </div>
+              <div class="feedtype">
+                <div v-if="item.title" class="feedtitle text-ellipse">
+                  {{ item.title }}
+                </div>
+                <div v-if="item.content.summary" class="feedcontent text-ellipse">
+                  {{ item.content.summary }}
                 </div>
               </div>
             </div>
           </div>
-        </li>
-      </ul>
+        </div>
+      </li>
+    </ul>
+    <div class="open-article flex flex-align-center">
+      <mt-button type="primary" size="small" class="open-app">
+        <span>打开贴近app，查看更多精彩文章 ></span>
+      </mt-button>
+    </div> 
   </div>
 </template>
 <script>
@@ -98,7 +107,7 @@ export default {
 </script>
 <style scoped>
 .dpFeed {
-  padding-top: 4.66vw;
+  /* padding-top: 4.66vw; */
 }
 .title {
   margin-bottom: 2.67vw;
@@ -106,7 +115,22 @@ export default {
   font-weight: bold;
   text-align: left;
 }
-
+.hots-article {
+  height: 11.47vw;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 4vw;
+  border-bottom: 1px solid #eaeaea;
+}
+.open-article {
+  height: 14.4vw;
+  padding: 0 4vw;
+}
+.open-app {
+  width: 100%;
+  border-radius: 5px;
+  height: 10.67vw;
+}
 /*feed流*/
 .feed-box {
   position: relative;
@@ -121,8 +145,7 @@ export default {
   z-index: 99;
 }
 .feed-list-cell {
-  border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 5.336vw;
+  border-bottom: 2.668vw solid #f1f1f1;
   padding-bottom: 4.66vw;
 }
 
@@ -134,6 +157,7 @@ export default {
 }
 
 .columnname {
+  padding-top: 4vw;
   padding-right: 4.67vw;
   box-sizing: border-box;
   margin-bottom: 4vw;

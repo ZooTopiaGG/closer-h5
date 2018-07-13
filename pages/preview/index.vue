@@ -229,32 +229,23 @@ export default {
   methods: {},
   beforeMount() {
     let self = this;
+    window.addEventListener(
+      "message",
+      function(event) {
+        console.log("event==", event);
+        console.log("event.data====", event.data);
+        self.$store.commit("SET_CONTENT", event.data.content);
+        self.$store.commit("SET_RES", event.data);
+        // 这里不准确，chrome没有这个属性
+        var origin = event.origin || event.originalEvent.origin;
+        console.log("origin == ", origin);
+      },
+      false
+    );
   },
   mounted() {
     let self = this;
     self.$nextTick(() => {
-      window.addEventListener(
-        "message",
-        function(event) {
-          console.log("event==", event);
-          console.log("event.data====", event.data);
-          if (event.data) {
-            let content = JSON.parse(event.data.content);
-            self.$store.commit("SET_CONTENT", content);
-            self.$store.commit("SET_RES", event.data);
-          } else {
-            setTimeout(() => {
-              let content = JSON.parse(event.data.content);
-              self.$store.commit("SET_CONTENT", content);
-              self.$store.commit("SET_RES", event.data);
-            }, 800);
-          }
-          // 这里不准确，chrome没有这个属性
-          var origin = event.origin || event.originalEvent.origin;
-          console.log("origin == ", origin);
-        },
-        false
-      );
       // 获取阅读量
       if (self.$store.state.GET_MESSAGE_STATE) {
       }

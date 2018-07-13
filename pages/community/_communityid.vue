@@ -36,8 +36,14 @@
 <script>
 import noThing from "~/components/nothing";
 export default {
-  async asyncData({ app, error, params, store }) {
+  async asyncData({ app, error, params, store, query }) {
     try {
+      // 分享后校验adid是否存在
+      if (query && query.adid) {
+        store.commit("SET_ADID", query.adid);
+      } else {
+        store.commit("SET_ADID", "");
+      }
       let para = {
         communityid: params.communityid
       };

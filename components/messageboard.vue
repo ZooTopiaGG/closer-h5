@@ -4,14 +4,16 @@
     :class="{
     'feed-2': true,
     'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">
+    <div class="split-box"></div>
     <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
     <!-- <div v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
     <div :class="{
       'message-box':!($store.state.res.int_type === 2 && $store.state.res.int_category === 1),
       'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
       'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.res.int_category != 1 ">
-      <div class="message-num">
-        {{ $store.state.res.commentNumber }} 条留言
+      <div class="message-num flex flex-pack-justify">
+        <span>精彩留言</span>
+        <span class="writeMessage">写留言</span>
       </div>
       <div :class="{
         'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
@@ -24,7 +26,7 @@
                 <div class="flex flex-v">
                   <span class="messager-name" v-if="item.user.attributes && item.user.attributes.roster">{{ item.user.attributes.roster.name }}</span>
                   <span class="messager-name" v-else>{{ item.user.fullname }}</span>
-                  <span class="messager-time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
+                  <span class="messager-time">{{ $com.createTime(item.long_create_time, 'yy-mm-dd hh:MM') }}</span>
                 </div>
               </div>
               <div class="icon-group flex flex-align-center">
@@ -40,23 +42,28 @@
                 </p>
               </div>
             </div>
-            <div class="messager-content">{{ item.content }}</div>
-            <div v-if="item.replyNumber > 0">
-              <ul class="messager-comments">
-                <li class="messager-comments-cell" v-for="(commentItem, commentIndex) in item.sonList" v-if=" commentIndex <= 3" :key="commentIndex">
-                  <span>{{ commentItem.user.fullname }}：</span>
-                  <span class="messager-comment">{{ commentItem.content }}</span>
-                </li>
-                <!-- 更多回复补丁 -->
-                <li class="messager-comments-cell" style="color: #5e97cd;" v-if="item.replyNumber > 3" @click="downApp">
-                <!-- <li class="messager-comments-cell" style="color: #5e97cd;" v-if="item.replyNumber > 3" @click="morereply(item)"> -->
-                  <span>共{{ item.replyNumber }}条回复</span>
-                </li>
-              </ul>
+            <div class="messager-content">
+              <section>{{ item.content }}</section>
+              <div v-if="item.replyNumber > 0">
+                <ul class="messager-comments">
+                  <li class="messager-comments-cell" v-for="(commentItem, commentIndex) in item.sonList" v-if=" commentIndex <= 3" :key="commentIndex">
+                    <span>{{ commentItem.user.fullname }}：</span>
+                    <span class="messager-comment">{{ commentItem.content }}</span>
+                  </li>
+                  <!-- 更多回复补丁 -->
+                  <li class="messager-comments-cell" v-if="item.replyNumber > 3" @click="downApp">
+                  <!-- <li class="messager-comments-cell" style="color: #5e97cd;" v-if="item.replyNumber > 3" @click="morereply(item)"> -->
+                    <span class="reply-number">共{{ item.replyNumber }}条回复</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </li>
         </ul>
       </div>
+      <div class="look-more flex flex-align-center flex-pack-center">
+        点击查看更多评论 >
+      </div>    
     </div>
   </div>
 </template>
@@ -78,7 +85,7 @@ export default {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
-        adid: window.sessionStorage.getItem("h5Adid") || "closer-share" // 栏目id
+        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
         if (this.$route.path.indexOf("/community") > -1) {
@@ -125,27 +132,72 @@ export default {
 <style scoped lang="less">
 @import "../assets/css/feedid.less";
 @textcolor: #495060;
-.feeder-cover {
-  padding: 5.3vw 4vw;
-  width: 100%;
-  box-sizing: border-box;
-  .access-not {
-    width: 13.87vw;
-    height: 5.87vw;
-    margin-right: 2.67vw;
-    border-radius: 5px;
+@focuscolor: #507caf;
+@bottomcolor: #eaeaea;
+@m20: 2.667vw;
+@basefont: 16px;
+@height: 11.47vw;
+.feed-2 {
+  .message-num {
+    height: @height;
+    line-height: @height;
+    padding: 0 4vw;
+    font-size: @basefont;
+    box-sizing: border-box;
+    border-bottom: 1px solid @bottomcolor;
+    margin-bottom: @m20;
+    font-weight: bold;
+    .writeMessage {
+      color: @focuscolor;
+      font-size: 16px;
+    }
   }
-  .communityName {
-    max-width: 45vw;
-    color: @textcolor;
-    font-size: 14px;
-    height: 19px;
-    overflow-y: hidden;
+  .feed-messagebord-list-cell {
+    padding: @m20 0 0;
+    .messager-info-div {
+      img {
+        width: 9.6vw;
+        height: 9.6vw;
+        max-width: 72px;
+        max-height: 72px;
+        border-radius: 100%;
+        margin-right: @m20;
+      }
+      .messager-name {
+        margin-bottom: 2px;
+      }
+    }
+    .messager-content {
+      margin-left: 12.267vw;
+      line-height: 1.6;
+      text-align: justify;
+      font-size: @basefont - 1;
+      box-sizing: border-box;
+      border-bottom: 1px solid @bottomcolor;
+      .messager-comments {
+        padding: @m20 / 2 @m20;
+        background-color: #f4f4f4;
+        margin: @m20 0 @m20 * 2;
+        .messager-comments-cell {
+          box-sizing: border-box;
+          padding: 0.67vw 0;
+          .reply-number {
+            color: @focuscolor;
+          }
+        }
+      }
+    }
   }
-  .focus {
-    color: #507caf;
-    font-size: 16px;
-    padding-right: 1.35vw;
+  .feed-messagebord-list-cell:last-child {
+    .messager-content {
+      border-bottom: 0;
+    }
+  }
+  .look-more {
+    height: @height;
+    font-size: @basefont;
+    color: @focuscolor;
+    border-top: 1px solid @bottomcolor;
   }
 }
 </style>

@@ -5,7 +5,7 @@
         <p>页面不存在</p>
         <p class="retry">“正在找回 ({{ time }}s) ...”</p>
       </div>
-      <div class="error" v-else-if="error.statusCode.indexOf('50') > -1">
+      <div class="error" v-else-if="error.statusCode === 500 || error.statusCode === 503">
         <p>网络错误</p>
         <p class="retry">“正在重连 ({{ time }}s) ...”</p>
       </div>

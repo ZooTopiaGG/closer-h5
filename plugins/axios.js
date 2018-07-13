@@ -45,8 +45,10 @@ export default function ({
     }
     // 全局设置 启用跨域传cookies
     config.withCredentials = true
-    // console.log('cooccococ====', store.state.GET_APP_NAV)
     if (store.state.GET_APP_NAV) {
+      if (store.state.h5Adid) {
+        config.headers.common['X-Adid'] = store.state.h5Adid
+      }
       config.headers.common['X-Udid'] = store.state.h5Cookies || 'h5-SRjHazKvYslHxwZxjy5tql9G4edf3d';
       if (store.state.h5Cookies) {
         config.headers.common['Closer-Agent'] = 'Closer-H5';
@@ -57,7 +59,13 @@ export default function ({
       config.headers.Authorization = store.state.GET_APP_TOKEN
     } else if (store.state.token) {
       // 获取贴子详情不需要token验证
-      config.headers.Authorization = `GroukAuth ${store.state.token}`
+      if (config.url.indexOf('closer_subject.show') > -1 || config.url.indexOf('closer_community.show') > -1 || config.url.indexOf('closer_class.show') > -1 || config.url.indexOf('closer_share.wechat_config') > -1 || config.url.indexOf('closer_subject.incr_view') > -1) {
+        return
+      } else {
+        config.headers.Authorization = `GroukAuth ${store.state.token}`
+      }
+    } else {
+      return
     }
   })
   // // 待处理

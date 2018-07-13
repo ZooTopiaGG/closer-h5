@@ -30,6 +30,8 @@ export const state = () => ({
   is_follow: false,
   incr_view: '',
   h5Cookies: '',
+  h5Adid: '',
+  isLongVideo: false,
   current_url: '',
   message_item: {},
   messagelist: []
@@ -44,8 +46,6 @@ export const mutations = {
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result
     state.isPre = refer.indexOf('?view=pre') > -1
-    console.log('refer===', refer)
-    console.log(refer.indexOf('?view=pre') > -1)
   },
   // 设置是否在app的状态
   GET_APP_AGENT(state, para) {
@@ -115,6 +115,10 @@ export const mutations = {
   SET_NO_NAV(state, para) {
     state.webNoNav = para
   },
+  // 竖视频
+  ITS_LONG_VIDEO(state, para) {
+    state.isLongVideo = para
+  },
   // 设置底部悬浮显示状态
   SET_NO_FOOTER(state, para) {
     state.webNoFooter = para
@@ -169,6 +173,10 @@ export const mutations = {
   SET_H5COOKIES(state, para) {
     state.h5Cookies = para
   },
+  // 设置adid
+  SET_ADID(state, para) {
+    state.h5Adid = para
+  },
   // 设置当前url地址
   SET_CURRENT_URL(state, para) {
     state.current_url = para
@@ -186,9 +194,11 @@ export const actions = {
       let user = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'user')
       let token = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'token')
       let h5Cookies = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'h5Cookies')
+      let h5Adid = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'h5Adid')
       commit('SET_USER', user)
       commit('SET_TOKEN', token)
       commit('SET_H5COOKIES', h5Cookies)
+      commit('SET_ADID', h5Adid)
     }
   },
   // 获取微信授权code，先获取SET_AUTH 判断cookie是否存在或过期，若过期则调用get_wx_auth
@@ -250,7 +260,9 @@ export const actions = {
           inviter: inv_id,
           nickName: nickName,
           avatar: avatar,
-          protocol: "WEB_SOCKET"
+          protocol: "WEB_SOCKET",
+          udid: Cookie.get('h5Cookies'),
+          adid: Cookie.get('h5Adid') || 'closer-invitenew',
         }
       } else {
         return false
@@ -261,7 +273,7 @@ export const actions = {
         code: code,
         protocol: "WEB_SOCKET",
         udid: Cookie.get('h5Cookies'),
-        adid: window.sessionStorage.getItem('h5Adid') || 'closer-share'
+        adid: Cookie.get('h5Adid') || 'closer-share'
       }
     }
     let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
@@ -332,6 +344,7 @@ export const actions = {
             token: token,
             inviter: inv.id,
             udid: Cookie.get('h5Cookies'),
+            adid: Cookie.get('h5Adid') || 'closer-invitenew',
             protocol: 'WEB_SOCKET'
           }
         } else {
@@ -347,7 +360,7 @@ export const actions = {
           token: token,
           udid: Cookie.get('h5Cookies'),
           protocol: 'WEB_SOCKET',
-          adid: window.sessionStorage.getItem('h5Adid') || 'closer-share'
+          adid: Cookie.get('h5Adid') || 'closer-share'
         }
       }
       let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)

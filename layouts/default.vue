@@ -36,16 +36,13 @@
       <div id="wrapper"
       :class="{ 
         'web-class': $store.state.GET_MESSAGE_STATE, 
+        isLongVideo: $store.state.isLongVideo,
         nuxts:true, 
         webNoNav: !$store.state.webNoNav,
         appnuxts: !$store.state.GET_MESSAGE_STATE }">
         <keep-alive>
           <nuxt/>
         </keep-alive>
-      </div>
-      <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos" id="feed-h5-videos">
-        <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
-        </video>
       </div>
       <!-- <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPre" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
@@ -99,7 +96,7 @@ export default {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
-        adid: window.sessionStorage.getItem("h5Adid") || "closer-share" // 栏目id
+        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
         if (this.$route.path.indexOf("/community") > -1) {
@@ -146,11 +143,6 @@ export default {
           flag: self.$store.state.is_follow ? 0 : 1
         });
       } else {
-        console.log(
-          `${location.protocol}//${location.hostname}/redirect?redirectUrl=${
-            location.protocol
-          }//${location.hostname}${self.$route.path}`
-        );
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
@@ -182,8 +174,11 @@ export default {
       }
     }
     // 存会话 h5Adid
-    if (self.$route.query.adid) {
-      window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
+    if (self.$store.state.h5Adid) {
+      // window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
+      Cookie.set("h5Adid", self.$store.state.h5Adid);
+    } else {
+      Cookie.set("h5Adid", "");
     }
     // 设置 h5cookie埋点
     if (self.$store.state.h5Cookies) {
@@ -358,6 +353,9 @@ nav .communityName {
 .webNoNav {
   margin-top: 0;
 }
+.isLongVideo {
+  margin-top: 0;
+}
 /* 悬浮层 */
 .layer {
   position: fixed;
@@ -413,10 +411,10 @@ nav .communityName {
 .feed-h5-videos {
   width: 100%;
   height: 56.25vw;
-  position: fixed;
+  /* position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 999; */
   box-shadow: 0 1px 5px #efefef;
 }
 .feed-h5-videos-player {

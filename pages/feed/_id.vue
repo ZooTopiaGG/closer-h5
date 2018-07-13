@@ -1,6 +1,5 @@
 <template>
   <div id="feed" :class="{ 
-    videofeed: $store.state.res.int_type === 1,
     feed2: !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
     }">
     <div :class="{ 
@@ -64,17 +63,58 @@
         <!-- 视频 -->
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
           <div class="video-doc">
-            <div class="videoNav flex flex-align-center">
-              <img class="access-not" v-lazy="$store.state.res.blogo" @click="toCommunity">
-              <span class="communityName ellipsis flex-1">{{ $store.state.res.communityName }}</span>
-              <div>
-                <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor" @click="tjFocus">
-                  <span v-if="$store.state.is_follow">已关注</span>
-                  <span v-else>
-                    <span>关注</span>
-                  </span>
-                </mt-button>
-              </div> -->
+            <!-- 恒视频 -->
+            <div v-if="$store.state.content.videos[0].width >= $store.state.content.videos[0].height">
+              <div 
+                v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" 
+                class="feed-h5-videos"
+                :style="{
+                  width: '100vw',
+                  height: $store.state.content.videos[0].height * 100 / $store.state.content.videos[0].width + 'vw'
+                }"
+                id="feed-h5-videos">
+                <video 
+                  :src="$store.state.content.videos[0].src" 
+                  controls="controls" 
+                  preload="none" 
+                  :style="{
+                    'object-fit': 'fill',
+                    width: '100vw',
+                    height: $store.state.content.videos[0].height * 100 / $store.state.content.videos[0].width + 'vw'
+                  }"
+                  :class="{
+                    'feed-h5-videos-player': true
+                  }" 
+                  :poster="$store.state.content.videos[0].imageUrl" 
+                  :data-cover="$store.state.content.videos[0].imageUrl">
+                </video>
+              </div>
+              <logo-tab></logo-tab>
+            </div>
+            <!-- 竖视频 -->
+            <div v-else>
+              <div 
+                v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" 
+                class="feed-h5-videos"
+                :style="{
+                  width: '100vw',
+                  height: 'auto'
+                }"
+                id="feed-h5-videos">
+                <video 
+                  :src="$store.state.content.videos[0].src" 
+                  controls="controls" 
+                  preload="none" 
+                  :style="{
+                    'object-fit': 'fill',
+                    width: '100vw',
+                    height: 'auto'
+                  }"
+                  class="feed-h5-videos-player" 
+                  :poster="$store.state.content.videos[0].imageUrl" 
+                  :data-cover="$store.state.content.videos[0].imageUrl">
+                </video>
+              </div>
               <logo-tab></logo-tab>
             </div>
             <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
@@ -236,16 +276,18 @@
         
       </div>
       <!-- 分割线 -->
-      <div v-if="($store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0) || ($store.state.res.int_type === 2 && $store.state.res.int_category === 1)" class="split-box"></div>
+      <!-- <div v-if="($store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0) || ($store.state.res.int_type === 2 && $store.state.res.int_category === 1)" class="split-box"></div> -->
       <!-- 精彩留言 -->
       <message-board></message-board>
-      <div v-if="$store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)">
+      <!-- 热门文章 -->
+      <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
+      <!-- <div v-if="$store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)">
         <div class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
           <span class="flex flex-align-center flex-pack-center">
             <span>点击参与更多讨论</span>
           </span>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- 测试 feed流 -->
     <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="works">
@@ -304,13 +346,16 @@ export default {
             store.commit("GET_EXIST_STATUS", true);
           }
         }
-        // 视频贴 特殊处理
-        if (res.result.int_type === 1) {
-          store.commit("SET_NO_NAV", false);
-        }
         // 验证content
         if (res.result.content) {
           var content = JSON.parse(res.result.content);
+          // 视频贴 特殊处理
+          if (res.result.int_type === 1) {
+            console.log("content===", content);
+            if (content.videos[0].height > content.videos[0].width) {
+              store.commit("ITS_LONG_VIDEO", true);
+            }
+          }
           // 解析长图文html
           if (res.result.int_type === 2) {
             let _html = await $async.makeHtmlContent(
@@ -510,7 +555,7 @@ export default {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
-        adid: window.sessionStorage.getItem("h5Adid") || "closer-share" // 栏目id
+        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
         if (this.$route.path.indexOf("/community") > -1) {
@@ -596,25 +641,37 @@ export default {
     // 征稿时，显示征稿列表
     async paperList() {
       let self = this;
-      if (
-        self.$store.state.GET_MESSAGE_STATE &&
-        self.$store.state.res.int_type === 2 &&
-        self.$store.state.res.int_category === 1
-      ) {
-        let feeds = await self.$axios.$get(
-          `${api.command.collections}?subjectid=${self.$route.params.id}`
-        );
-        if (feeds.code === 0) {
-          let arr = await feeds.result.data.map(x => {
-            if (x.content) {
-              x.content = JSON.parse(x.content);
-            }
-            return x;
-          });
-          self.$store.commit("SET_FEED_LIST", arr);
-        }
-      } else {
-        return;
+      // if (
+      //   self.$store.state.GET_MESSAGE_STATE &&
+      //   self.$store.state.res.int_type === 2 &&
+      //   self.$store.state.res.int_category === 1
+      // ) {
+      //   let feeds = await self.$axios.$get(
+      //     `${api.command.collections}?subjectid=${self.$route.params.id}`
+      //   );
+      //   if (feeds.code === 0) {
+      //     let arr = await feeds.result.data.map(x => {
+      //       if (x.content) {
+      //         x.content = JSON.parse(x.content);
+      //       }
+      //       return x;
+      //     });
+      //     self.$store.commit("SET_FEED_LIST", arr);
+      //   }
+      // } else {
+      //   return;
+      // }
+      let feeds = await self.$axios.$get(
+        `${api.community.community_subject_list_index}?communityid=9uxMucrcqq`
+      );
+      if (feeds.code === 0) {
+        let arr = await feeds.result.data.map(x => {
+          if (x.content) {
+            x.content = JSON.parse(x.content);
+          }
+          return x;
+        });
+        self.$store.commit("SET_FEED_LIST", arr);
       }
     },
     // 阅读数量
@@ -716,16 +773,6 @@ export default {
   min-height: calc(100vh - 56.25vw);
 }
 
-.videofeed {
-  height: calc(100% - 56.25vw);
-}
-.videofeed .box {
-  overflow: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-top: 56.25vw;
-  box-sizing: border-box;
-}
 .learn-more {
   margin-top: 8px;
   line-height: 49px;

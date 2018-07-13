@@ -227,6 +227,5 @@ export default {
     setTimeout(function () {
       document.documentElement.removeChild(WVJBIframe)
     }, 0)
-  },
-
+  }
 }
