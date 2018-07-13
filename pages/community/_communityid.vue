@@ -38,14 +38,15 @@ import noThing from "~/components/nothing";
 export default {
   async asyncData({ app, error, params, store, query }) {
     try {
+      // 分享后校验adid是否存在
+      if (query && query.adid) {
+        store.commit("SET_ADID", query.adid);
+      } else {
+        store.commit("SET_ADID", "");
+      }
       let para = {
         communityid: params.communityid
       };
-      // 分享后校验adid是否存在
-      if (query && query.adid) {
-        console.log("adid===", adid);
-        store.commit("xAdid", query.adid);
-      }
       // 获取栏目详情
       let community = await app.$axios.$get(
         `${api.community.show}?communityid=${params.communityid}`

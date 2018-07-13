@@ -174,11 +174,6 @@ export default {
           flag: self.$store.state.is_follow ? 0 : 1
         });
       } else {
-        console.log(
-          `${location.protocol}//${location.hostname}/redirect?redirectUrl=${
-            location.protocol
-          }//${location.hostname}${self.$route.path}`
-        );
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
@@ -199,7 +194,7 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(this.$store.state);
+    // console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -210,8 +205,11 @@ export default {
       }
     }
     // 存会话 h5Adid
-    if (self.$route.query.adid) {
-      window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
+    if (self.$store.state.h5Adid) {
+      // window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
+      Cookie.set("h5Adid", self.$store.state.h5Adid);
+    } else {
+      Cookie.set("h5Adid", "");
     }
     // 设置 h5cookie埋点
     if (self.$store.state.h5Cookies) {

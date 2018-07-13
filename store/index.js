@@ -30,6 +30,7 @@ export const state = () => ({
   is_follow: false,
   incr_view: '',
   h5Cookies: '',
+  h5Adid: '',
   current_url: '',
   message_item: {},
   messagelist: []
@@ -167,6 +168,10 @@ export const mutations = {
   SET_H5COOKIES(state, para) {
     state.h5Cookies = para
   },
+  // 设置adid
+  SET_ADID(state, para) {
+    state.h5Adid = para
+  },
   // 设置当前url地址
   SET_CURRENT_URL(state, para) {
     state.current_url = para
@@ -184,9 +189,11 @@ export const actions = {
       let user = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'user')
       let token = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'token')
       let h5Cookies = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'h5Cookies')
+      let h5Adid = Coms.getCookiebyName(decodeURIComponent(decodeURIComponent(req.headers.cookie)), 'h5Adid')
       commit('SET_USER', user)
       commit('SET_TOKEN', token)
       commit('SET_H5COOKIES', h5Cookies)
+      commit('SET_ADID', h5Adid)
     }
   },
   // 获取微信授权code，先获取SET_AUTH 判断cookie是否存在或过期，若过期则调用get_wx_auth
