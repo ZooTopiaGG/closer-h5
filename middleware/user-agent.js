@@ -17,6 +17,7 @@ export default async function (context) {
     if (!context.store.state.current_url) {
       context.store.commit('SET_CURRENT_URL', context.req.headers.referer)
     }
+    console.log('context.req.headers.referer====', context.req.headers.referer)
     context.store.commit('GET_AGENT', context.userAgent)
     // 获取并设置当前TOKEN
     context.store.commit('GET_APP_TOKEN', context.req.headers['authorization'])
