@@ -66,7 +66,7 @@ export default {
   background: #fff;
   min-height: 180px;
   box-sizing: border-box;
-  padding-top: 14.4vw;
+  padding-top: 13.07vw;
 }
 </style>
 

@@ -21,28 +21,36 @@
               <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
                 <!-- <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)"> -->
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
-                <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
               </div>
             </div>
             <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
               <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">                
-                <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
               </div>
             </div>
             <div class="feeder-img flex" v-else-if="$store.state.content.images && $store.state.content.images.length == 3 || $store.state.content.images && $store.state.content.images.length > 4">
               <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
-                <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
               </div>
             </div>
             <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 4">
               <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
-                <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
+                <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
               </div>
             </div>
           </div>
@@ -69,13 +77,13 @@
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
           <div class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
             <!--  判断是否在app 内 需要预览 -->
-            <img class="feed-cover feed-cover-bgcover" :src="defaultImg" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
+            <img class="feed-cover feed-cover-bgcover" :src="$com.makeFileUrl($store.state.res.bigcover)" 
             >
             <div class="hide-over"></div>
           </div>
           <div class="feeder-img feeder-img-cover" v-else>
             <!--  判断是否在app 内 需要预览 -->
-            <img class="feed-cover feed-cover-cover" :src="defaultImg" data-index= "0" :data-src="$com.makeFileUrl($store.state.res.cover)">
+            <img class="feed-cover feed-cover-cover" data-index= "0" :src="$com.makeFileUrl($store.state.res.cover)">
             <div class="hide-over"></div>
           </div>
           <div class="feeder-content" id="tjimg" >
@@ -131,13 +139,13 @@
                       <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
                         <img class="feeder-comment-img" data-index="99" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
-                      }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg"
+                      }" :src="$com.makeFileUrl(item.image.link)"
                         >
                         <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
                       </div>
                       <img v-else class="feeder-comment-img" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
-                      }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg">
+                      }" :src="$com.makeFileUrl(item.image.link)">
                     </div>
                     <!-- 包含贴子 -->
                     <div v-else-if="item.type === 3" class="feeder-comment flex flex-align-center feeder-comment-3">
@@ -221,24 +229,32 @@ export default {
   methods: {},
   beforeMount() {
     let self = this;
-    window.addEventListener(
-      "message",
-      function(event) {
-        console.log("event == ", event);
-        console.log("event == ", event.data);
-        let content = JSON.parse(event.data.content);
-        self.$store.commit("SET_CONTENT", content);
-        self.$store.commit("SET_RES", event.data);
-        // 这里不准确，chrome没有这个属性
-        var origin = event.origin || event.originalEvent.origin;
-        console.log("origin == ", origin);
-      },
-      false
-    );
   },
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      window.addEventListener(
+        "message",
+        function(event) {
+          console.log("event==", event);
+          console.log("event.data====", event.data);
+          if (event.data) {
+            let content = JSON.parse(event.data.content);
+            self.$store.commit("SET_CONTENT", content);
+            self.$store.commit("SET_RES", event.data);
+          } else {
+            setTimeout(() => {
+              let content = JSON.parse(event.data.content);
+              self.$store.commit("SET_CONTENT", content);
+              self.$store.commit("SET_RES", event.data);
+            }, 800);
+          }
+          // 这里不准确，chrome没有这个属性
+          var origin = event.origin || event.originalEvent.origin;
+          console.log("origin == ", origin);
+        },
+        false
+      );
       // 获取阅读量
       if (self.$store.state.GET_MESSAGE_STATE) {
       }
@@ -798,5 +814,43 @@ export default {
 }
 .cancel {
   margin-right: 2.67vw;
+}
+/*全局控制 富文本内图片样式*/
+
+.summary {
+  font-size: 17px;
+  line-height: 1.54;
+  letter-spacing: 0.5px;
+  padding: 0 4vw;
+}
+
+.summary > p,
+.summary > ol,
+.summary > ul,
+.summary > div,
+.summary > section,
+.summary > article,
+.summary > aside {
+  margin-bottom: 2.668vw;
+}
+
+p:empty {
+  margin: 0;
+  padding: 0;
+}
+
+.summary img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.summary video {
+  width: 100%;
+}
+
+.sumary iframe {
+  width: 100% !important;
 }
 </style>

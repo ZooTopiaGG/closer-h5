@@ -13,12 +13,11 @@
      }">
       <div :class="{
         'feed-1': true,
-        'feed-padding': $store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber == 0 && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
+        'feed-padding': $store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber == 0
       }">
         <!-- 帖子内容 -->
         <!-- 图片 -->
         <div class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
-          <logo-tab></logo-tab>
           <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
@@ -65,17 +64,18 @@
         <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
           <div class="video-doc">
             <div class="videoNav flex flex-align-center">
-              <!-- <img class="access-not" v-lazy="$store.state.res.blogo" @click="toCommunity">
+              <img class="access-not" v-lazy="$store.state.res.blogo" @click="toCommunity">
               <span class="communityName ellipsis flex-1">{{ $store.state.res.communityName }}</span>
               <div>
+                <!-- 关注补丁 -->
                 <mt-button :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor" @click="tjFocus">
                   <span v-if="$store.state.is_follow">已关注</span>
                   <span v-else>
+                    <!-- <span class="focus-icon">+</span> -->
                     <span>关注</span>
                   </span>
                 </mt-button>
-              </div> -->
-              <logo-tab></logo-tab>
+              </div>
             </div>
             <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
           </div>
@@ -96,7 +96,7 @@
           <div class="feeder-content" id="tjimg" >
             <!-- 标题 -->
             <div class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </div>
-            <!-- 征稿 截止时间 -->            
+            <!-- 阅读量 -->
             <div class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
               <span>
@@ -104,26 +104,10 @@
                 <span>赞 {{ $store.state.res.like }}</span>
               </span>
             </div>
-            <!-- logo -->
-            <!-- <div class="feeder-cover flex flex-align-center flex-pack-justify">
-              <div class="flex flex-1 flex-align-center" @click="toCommunity">
-                <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
-                <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
-                <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
-              </div>
-              <div class="flex flex-align-center">
-                <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
-                  <span v-if="$store.state.is_follow">已关注</span>
-                  <span v-else>
-                    <span>关注</span>
-                  </span>
-                </mt-button>
-              </div>
-            </div> -->
-            <logo-tab></logo-tab>
-            <div class="summary tj-sum" v-html="$store.state.content.html" @click="openClick($event)">
+            <div class="read-num" v-else>阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></div>
+            <div v-if="$store.state.res.int_category != 1" class="summary tj-sum" v-html="$store.state.content.html" @click="openClick($event)">
             </div>
-            <!-- <div v-else>
+            <div v-else>
               <div class="summary" v-html="$store.state.content.html" @click="openClick($event)">
               </div>
               <div class="feeder-info flex flex-pack-justify flex-align-center">
@@ -138,7 +122,7 @@
                   <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
                 </span>
               </div>
-            </div> -->
+            </div>
             <!-- 神议论列表 -->
             <div v-if="$store.state.res.int_category === 3">
               <ul class="feeder-comments">
@@ -206,8 +190,8 @@
             </div>
           </div>
         </div>
-        <!-- 发帖者信息 神议论和长图文区别 -->
-        <!-- <div v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
+        <!-- 发帖者信息 -->
+        <div v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
           <span class="flex-1 ellipsis" v-if="$store.state.res.int_category === 3">
             <span>
               <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span>
@@ -220,23 +204,10 @@
             </span>
           </span>
           <span style="margin-left: 10px">{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd hh:MM') }}</span>
-        </div> -->
-        <div class="author-list" v-if="$store.state.res.int_category != 3">
-          <p>小编：<span>张山</span></p>
-          <p>作者：<span>历史书</span> <span>历史书</span> </p>
         </div>
-        <div v-else class="author-list">
-          <p>来自 <span>{{ $store.state.res.className }}</span></p>
-        </div>
-        <!-- 阅读量 点赞数 -->
-        <div class="end-data flex flex-align-center flex-pack-justify">
-          <div class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></div>
-          <div>点赞 1W+</div>
-        </div>
-        
       </div>
       <!-- 分割线 -->
-      <div v-if="($store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0) || ($store.state.res.int_type === 2 && $store.state.res.int_category === 1)" class="split-box"></div>
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0" class="split-box"></div>
       <!-- 留言板 -->
       <div 
         :class="{
@@ -327,7 +298,6 @@
 <script>
 import Cookie from "js-cookie";
 import noThing from "~/components/nothing";
-import logoTab from "~/components/logo";
 export default {
   name: "Feed",
   async asyncData({ params, store, app, query }) {
@@ -428,8 +398,7 @@ export default {
     };
   },
   components: {
-    noThing,
-    logoTab
+    noThing
   },
   data() {
     return {
@@ -864,7 +833,74 @@ export default {
   width: 13vw;
   height: 13vw;
 }
+@media screen and (min-width: 680px) {
+  .imgbox,
+  .imgbox img {
+    height: auto !important;
+  }
+}
 </style>
 <style scoped lang="less">
 @import "../../assets/css/feedid.less";
+
+@media screen and (min-width: 680px) {
+  .videoNav {
+    display: none;
+  }
+  .feeder-img-cover {
+    max-height: 414px;
+    img {
+      max-height: 414px;
+    }
+  }
+  .feeder-content {
+    margin-top: 30px;
+  }
+  .feeder-title {
+    margin-bottom: 20px;
+  }
+  .feeder-info,
+  .feed-messagebord-type,
+  .feed-messagebord,
+  .feed-messagebord-list,
+  .feeder-title,
+  .read-num,
+  .feeder-comments {
+    padding: 0 20px;
+  }
+  .summary {
+    padding: 0 20px;
+  }
+  .summary > p,
+  .summary > ol,
+  .summary > ul,
+  .summary > div,
+  .summary > section,
+  .summary > article,
+  .summary > aside {
+    margin-bottom: 20px;
+  }
+  .feeder-comments {
+    margin-top: 30px;
+  }
+  .feeder-comments-cell {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .feeder-comment-img {
+    width: 100%;
+    height: auto !important;
+    min-height: 0;
+  }
+  .feeder-comment-info {
+    width: 80px;
+    margin-top: 0;
+    i {
+      margin-right: 20px;
+    }
+  }
+  .feeder-comment-nickname {
+    margin-bottom: 20px;
+  }
+}
 </style>

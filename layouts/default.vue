@@ -1,6 +1,9 @@
 <template>
   <div class="default__box">
-    <div class="default_init_box" v-if="$store.state.exist">
+    <div :class="{
+      default_init_box: true,
+      hasControlVideo: $store.state.isPre
+    }" v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
           appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
@@ -10,13 +13,14 @@
           'flex-v': true,
           'flex-pack-center': true
         }">
-        <!-- <div class="feeder-cover flex flex-align-center flex-pack-justify">
+        <div class="feeder-cover flex flex-align-center flex-pack-justify" v-if="!$store.state.isPre">
           <div class="flex flex-1 flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
             <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
             <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
           </div>
           <div class="flex flex-align-center">
+            <!-- 关注补丁 -->
             <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
               <span v-if="$store.state.is_follow">已关注</span>
               <span v-else>
@@ -24,8 +28,7 @@
               </span>
             </mt-button>
           </div>
-        </div> -->
-        <top-nav></top-nav>
+        </div>
       </nav>
       <div class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE">
         <img src="~/assets/images/1531133203.png" alt="">
@@ -46,7 +49,7 @@
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPre" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           下载贴近 更多精彩
         </mt-button>
@@ -70,7 +73,6 @@
 <script>
 import Cookie from "js-cookie";
 import previewList from "~/components/preview.vue";
-import topNav from "~/components/topnav.vue";
 export default {
   data() {
     return {
@@ -87,8 +89,7 @@ export default {
     };
   },
   components: {
-    previewList,
-    topNav
+    previewList
   },
   methods: {
     // 下载app补丁
@@ -358,7 +359,7 @@ export default {
 <style>
 nav {
   width: 100%;
-  height: 14.4vw;
+  height: 13.07vw;
   max-width: 680px;
   position: fixed;
   top: 0;
@@ -406,7 +407,7 @@ nav .communityName {
   height: 100px;
   margin-bottom: 10px;
 }
-@media screen and (min-width: 751px) {
+@media screen and (min-width: 681px) {
   .layer {
     opacity: 1;
   }
@@ -415,6 +416,14 @@ nav .communityName {
 
 nav.appnav {
   background: rgba(0, 0, 0, 0);
+}
+
+nav.appnav .icon-ios-more {
+  color: #fff;
+}
+
+nav.appnav .communityName {
+  color: #fff;
 }
 
 nav.scrollnav {
@@ -431,8 +440,8 @@ nav.scrollnav .communityName {
 }
 
 nav.appnav ~ .nuxts {
-  margin-top: 14.4vw;
-  min-height: calc(100vh - 14.4vw);
+  margin-top: 0;
+  min-height: 100vh;
 }
 
 .appnuxts {
@@ -440,10 +449,10 @@ nav.appnav ~ .nuxts {
 }
 
 .access-not {
-  width: 13.87vw;
-  height: 5.87vw;
+  width: 21.87vw;
+  height: 8.54vw;
   margin-right: 2.67vw;
-  border-radius: 3px;
+  border-radius: 0 3px 3px 0;
 }
 
 .icon-ios-more {
@@ -484,4 +493,11 @@ nav.appnav ~ .nuxts {
   position: relative;
   bottom: -1px;
 }
+@media screen and (min-width: 680px) {
+  .circle-btn,
+  nav.appnav {
+    display: none;
+  }
+}
 </style>
+

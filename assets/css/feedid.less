@@ -41,6 +41,7 @@
 .feed-messagebord,
 .feed-messagebord-list,
 .feeder-title,
+.read-num,
 .feeder-comments {
   padding: 0 4vw;
 }
@@ -49,23 +50,14 @@
   font-size: 15px;
 }
 
-.end-data{
+.read-num {
+  margin-bottom: @commonspace;
   color: #888;
-  padding: @commonspace 4vw;
-  border-top: 1px solid #eaeaea;
-}
-
-.author-list {
-  padding: 0 4vw;
-  color: #888;
-}
-.author-list > p > span{
-  margin-right: 2.667vw;
 }
 
 .feeder-title {
   font-size: 18px;
-  margin-bottom: @commonspace * 2;
+  margin-bottom: @commonspace;
   font-weight: bold;
   white-space: pre-line;
   line-height: 1.6;
@@ -78,7 +70,15 @@
 .feeder-title-3 {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 0;
+}
+
+.feeder-cover {
+  padding: 4vw 4vw 0;
+}
+
+.feeder-cover>img {
+  width: 21.87vw;
+  height: 8.54vw;
 }
 
 .feeder-content {
@@ -157,7 +157,7 @@
 }
 
 .feed-messagebord-type {
-  // margin-bottom: @commonspace;
+  margin-bottom: @commonspace;
   color: #94928e;
   font-size: 14px;
 }
@@ -434,4 +434,43 @@
 
 .cancel {
   margin-right: @commonspace;
+}
+
+/*全局控制 富文本内图片样式*/
+
+.summary {
+  font-size: 17px;
+  line-height: 1.54;
+  letter-spacing: 0.5px;
+  padding: 0 4vw;
+}
+
+.summary>p,
+.summary>ol,
+.summary>ul,
+.summary>div,
+.summary>section,
+.summary>article,
+.summary>aside {
+  margin-bottom: 2.668vw;
+}
+
+p:empty {
+  margin: 0;
+  padding: 0;
+}
+
+.summary img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.summary video {
+  width: 100%;
+}
+
+.sumary iframe {
+  width: 100% !important;
 }
