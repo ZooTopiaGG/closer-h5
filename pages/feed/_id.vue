@@ -455,7 +455,7 @@ export default {
     async tjFocus() {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
+      if (Cookie.get("token") && Cookie.get("token").length < 100) {
         // 进行其他 ajax 操作
         self.$store.dispatch("get_focus_stat", {
           communityid: self.$store.state.res.communityid,
@@ -508,7 +508,7 @@ export default {
       let self = this;
       self.item = item;
       // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
+      if (Cookie.get("token") && Cookie.get("token").length < 100) {
         // self.visibleMessage = true;
         self.$store.commit("SET_MESSAGE_ITEM", item);
         self.$store.commit("SET_VISIBLE_MESSAGE", true);
@@ -559,7 +559,7 @@ export default {
     async toSupport(item, index) {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
+      if (Cookie.get("token") && Cookie.get("token").length < 100) {
         self.support(item);
       } else {
         // 前期仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
