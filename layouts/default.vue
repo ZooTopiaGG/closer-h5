@@ -1,6 +1,9 @@
 <template>
   <div class="default__box">
-    <div class="default_init_box" v-if="$store.state.exist">
+    <div :class="{
+      default_init_box: true,
+      hasControlVideo: $store.state.isPre
+    }" v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
           appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,

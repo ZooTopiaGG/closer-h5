@@ -55,6 +55,12 @@ video::-webkit-media-controls-panel {
     display: none;
     background: rgba(0, 0, 0, 0);
   }
+  .hasControlVideo audio::-webkit-media-controls-enclosure,
+  .hasControlVideo video::-webkit-media-controls-enclosure,
+  .hasControlVideo audio::-webkit-media-controls-panel,
+  .hasControlVideo video::-webkit-media-controls-panel {
+    display: block;
+  }
 }
 
 /*公用样式*/
