@@ -95,7 +95,7 @@ export default {
     async toSupport(items) {
       let self = this;
       // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token") && Cookie.get("token").length < 100) {
+      if (Cookie.get("token")) {
         self.support(items);
         return;
       } else {
