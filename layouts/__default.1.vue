@@ -1,9 +1,6 @@
 <template>
   <div class="default__box">
-    <div :class="{
-      default_init_box: true,
-      hasControlVideo: !$store.state.isPre
-    }" v-if="$store.state.exist">
+    <div class="default_init_box" v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
           appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
@@ -13,7 +10,7 @@
           'flex-v': true,
           'flex-pack-center': true
         }">
-        <!-- <div class="feeder-cover flex flex-align-center flex-pack-justify" v-if="!$store.state.isPre">
+        <!-- <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-1 flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
             <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
@@ -49,7 +46,7 @@
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPre" class="open-footer cursor">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           下载贴近 更多精彩
         </mt-button>
@@ -201,7 +198,7 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(this.$store.state);
+    // console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -361,8 +358,8 @@ export default {
 <style>
 nav {
   width: 100%;
-  height: 13.07vw;
-  max-width: 680px;
+  height: 14.4vw;
+  max-width: 750px;
   position: fixed;
   top: 0;
   left: 0;
@@ -409,7 +406,7 @@ nav .communityName {
   height: 100px;
   margin-bottom: 10px;
 }
-@media screen and (min-width: 681px) {
+@media screen and (min-width: 751px) {
   .layer {
     opacity: 1;
   }
@@ -495,11 +492,4 @@ nav.appnav ~ .nuxts {
   position: relative;
   bottom: -1px;
 }
-@media screen and (min-width: 680px) {
-  .circle-btn,
-  nav.appnav {
-    display: none;
-  }
-}
 </style>
-

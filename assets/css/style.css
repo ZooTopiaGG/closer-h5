@@ -86,7 +86,7 @@ video::-webkit-media-controls-panel {
 
 .tj-focus-btn {
   box-sizing: border-box;
-  margin-right: 4vw;
+  /* margin-right: 4vw; */
   text-align: center;
   padding: 0 5vw;
   height: 7vw;
