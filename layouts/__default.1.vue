@@ -1,9 +1,6 @@
 <template>
   <div class="default__box">
-    <div :class="{
-      default_init_box: true,
-      hasControlVideo: !$store.state.isPre
-    }" v-if="$store.state.exist">
+    <div class="default_init_box" v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
           appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
@@ -13,7 +10,7 @@
           'flex-v': true,
           'flex-pack-center': true
         }">
-        <!-- <div class="feeder-cover flex flex-align-center flex-pack-justify" v-if="!$store.state.isPre">
+        <!-- <div class="feeder-cover flex flex-align-center flex-pack-justify">
           <div class="flex flex-1 flex-align-center" @click="toCommunity">
             <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
             <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
@@ -45,11 +42,11 @@
           <nuxt/>
         </keep-alive>
       </div>
-      <div v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" class="feed-h5-videos" id="feed-h5-videos">
+      <div v-if="$store.state.res.int_type === 1 && $route.path.indexOf('/feed')>-1" class="feed-h5-videos" id="feed-h5-videos">
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPre" class="open-footer cursor">
+      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           下载贴近 更多精彩
         </mt-button>
@@ -101,7 +98,7 @@ export default {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
-        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
+        adid: window.sessionStorage.getItem("h5Adid") || "closer-share" // 栏目id
       });
       if (result) {
         if (this.$route.path.indexOf("/community") > -1) {
@@ -176,6 +173,11 @@ export default {
           flag: self.$store.state.is_follow ? 0 : 1
         });
       } else {
+        console.log(
+          `${location.protocol}//${location.hostname}/redirect?redirectUrl=${
+            location.protocol
+          }//${location.hostname}${self.$route.path}`
+        );
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
@@ -207,11 +209,8 @@ export default {
       }
     }
     // 存会话 h5Adid
-    if (self.$store.state.h5Adid) {
-      // window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
-      Cookie.set("h5Adid", self.$store.state.h5Adid);
-    } else {
-      Cookie.set("h5Adid", "");
+    if (self.$route.query.adid) {
+      window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
     }
     // 设置 h5cookie埋点
     if (self.$store.state.h5Cookies) {
@@ -359,8 +358,8 @@ export default {
 <style>
 nav {
   width: 100%;
-  height: 13.07vw;
-  max-width: 680px;
+  height: 14.4vw;
+  max-width: 750px;
   position: fixed;
   top: 0;
   left: 0;
@@ -407,7 +406,7 @@ nav .communityName {
   height: 100px;
   margin-bottom: 10px;
 }
-@media screen and (min-width: 681px) {
+@media screen and (min-width: 751px) {
   .layer {
     opacity: 1;
   }
@@ -493,11 +492,4 @@ nav.appnav ~ .nuxts {
   position: relative;
   bottom: -1px;
 }
-@media screen and (min-width: 680px) {
-  .circle-btn,
-  nav.appnav {
-    display: none;
-  }
-}
 </style>
-

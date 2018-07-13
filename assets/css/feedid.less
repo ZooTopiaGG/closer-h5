@@ -41,7 +41,6 @@
 .feed-messagebord,
 .feed-messagebord-list,
 .feeder-title,
-.read-num,
 .feeder-comments {
   padding: 0 4vw;
 }
@@ -50,14 +49,23 @@
   font-size: 15px;
 }
 
-.read-num {
-  margin-bottom: @commonspace;
+.end-data{
   color: #888;
+  padding: @commonspace 4vw;
+  border-top: 1px solid #eaeaea;
+}
+
+.author-list {
+  padding: 0 4vw;
+  color: #888;
+}
+.author-list > p > span{
+  margin-right: 2.667vw;
 }
 
 .feeder-title {
   font-size: 18px;
-  margin-bottom: @commonspace;
+  margin-bottom: @commonspace * 2;
   font-weight: bold;
   white-space: pre-line;
   line-height: 1.6;
@@ -70,15 +78,7 @@
 .feeder-title-3 {
   font-size: 20px;
   font-weight: bold;
-}
-
-.feeder-cover {
-  padding: 4vw 4vw 0;
-}
-
-.feeder-cover>img {
-  width: 21.87vw;
-  height: 8.54vw;
+  margin-bottom: 0;
 }
 
 .feeder-content {
@@ -157,7 +157,7 @@
 }
 
 .feed-messagebord-type {
-  margin-bottom: @commonspace;
+  // margin-bottom: @commonspace;
   color: #94928e;
   font-size: 14px;
 }
