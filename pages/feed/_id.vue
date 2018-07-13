@@ -317,7 +317,9 @@ export default {
         // 在PC预览 可看的状态
         if (store.state.GET_MESSAGE_STATE) {
           // pc端的状态
-          if (
+          if (query.view && query.view === "pre") {
+            store.commit("GET_EXIST_STATUS", true);
+          } else if (
             res.result.int_verify === 0 ||
             ((res.result.int_verify === -1 &&
               res.result.int_category != 4 &&
