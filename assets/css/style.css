@@ -59,7 +59,7 @@ video::-webkit-media-controls-panel {
   .hasControlVideo video::-webkit-media-controls-enclosure,
   .hasControlVideo audio::-webkit-media-controls-panel,
   .hasControlVideo video::-webkit-media-controls-panel {
-    display: block;
+    display: inherit;
   }
 }
 
@@ -79,9 +79,8 @@ video::-webkit-media-controls-panel {
 
 .circle-btn {
   font-size: 14px;
-  border-radius: 9.6vw;
-  height: 9.6vw;
-  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) */
+  border-radius: 8vw;
+  height: 8vw;
 }
 
 .tj-focus-btn {

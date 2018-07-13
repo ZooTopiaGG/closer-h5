@@ -6,8 +6,6 @@
     }" v-if="$store.state.exist">
       <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
         :class="{
-          appnav: $store.state.res.int_type === 2 || $route.path.indexOf('/community')>-1,
-          scrollnav: scrollnav,
           webNoNav: !$store.state.webNoNav,
           flex: true,
           'flex-v': true,
@@ -49,11 +47,11 @@
         <video :src="$store.state.content.videos[0].src" controls="controls" preload="none" class="feed-h5-videos-player" :poster="$store.state.content.videos[0].imageUrl" :data-cover="$store.state.content.videos[0].imageUrl">
         </video>
       </div>
-      <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPre" class="open-footer cursor">
+      <!-- <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPre" class="open-footer cursor">
         <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
           下载贴近 更多精彩
         </mt-button>
-      </div>
+      </div> -->
     </div>
     <div class="not-exist flex flex-v flex-align-center" v-else>
       <img src="~/assets/images/home_icon_delete@2x.png" alt="">
@@ -132,34 +130,6 @@ export default {
     // 隐藏留言框
     hiddenTextArea() {
       this.$store.commit("SET_VISIBLE_MESSAGE", false);
-    },
-    // 监听滚动
-    handleScroll(e) {
-      let self = this;
-      // 部分手机不能监听 e.target.scrollingElement
-      if (e.target.scrollingElement) {
-        if (
-          // 判断是否是长图文或者栏目主页 滚动显示导航背景
-          (self.$route.path.indexOf("/feed") > -1 &&
-            self.$store.state.res.int_type === 2) ||
-          self.$route.path.indexOf("/community") > -1
-        ) {
-          if (e.target.scrollingElement.scrollTop >= 80) {
-            self.scrollnav = true;
-          } else {
-            self.scrollnav = false;
-          }
-        }
-      } else {
-        self.scrollnav = true;
-      }
-    },
-    // 视频监听
-    videoScroll() {
-      let videosbox = document.querySelectorAll(".tiejin-videobox");
-      Array.prototype.forEach.call(videosbox, (x, i) => {
-        videosbox[i].querySelector("video").style.display = "block";
-      });
     },
     // 跳转栏目主页
     toCommunity() {
@@ -314,8 +284,6 @@ export default {
           pic: pic
         });
       }
-      // 监听document滚动位置
-      document.addEventListener("scroll", this.handleScroll);
       // logo图片预加载
       let tjimg = document.querySelector(".access-not");
       if (tjimg && tjimg.dataset.original) {
@@ -379,8 +347,7 @@ nav .icon-ios-more {
 nav .communityName {
   max-width: 45vw;
   color: #495060;
-  font-size: 15px;
-  height: 19px;
+  font-size: 16px;
   overflow-y: hidden;
 }
 
@@ -413,37 +380,6 @@ nav .communityName {
   .layer {
     opacity: 1;
   }
-}
-/*app内*/
-
-nav.appnav {
-  background: rgba(0, 0, 0, 0);
-}
-
-nav.appnav .icon-ios-more {
-  color: #fff;
-}
-
-nav.appnav .communityName {
-  color: #fff;
-}
-
-nav.scrollnav {
-  background: #fff;
-  /*padding-top: 0;*/
-}
-
-nav.scrollnav .icon-ios-more {
-  color: #495060;
-}
-
-nav.scrollnav .communityName {
-  color: #495060;
-}
-
-nav.appnav ~ .nuxts {
-  margin-top: 0;
-  min-height: 100vh;
 }
 
 .appnuxts {

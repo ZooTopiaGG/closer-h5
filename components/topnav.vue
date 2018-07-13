@@ -17,7 +17,7 @@
       <div class="topnav flex flex-align-center flex-pack-justify">
         <div class="flex flex-1 flex-align-center">
           <img class="topnav-logo" src="~/assets/images/login_logo@2x.png">
-          <span class="communityName ellipsis">贴近一点 看10块</span>
+          <span class="communityName ellipsis">能赚稿费的成都资讯社区</span>
         </div>
         <div class="flex flex-align-center">
           <mt-button type="primary" size="small" class="circle-btn">
@@ -30,7 +30,7 @@
       <div class="topnav flex flex-align-center flex-pack-justify">
         <div class="flex flex-1 flex-align-center">
           <img class="topnav-logo" src="~/assets/images/login_logo@2x.png">
-          <span class="communityName ellipsis">领取10元现金</span>
+          <span class="communityName ellipsis">打开贴近看新闻 领10元现金红包</span>
         </div>
         <div class="flex flex-align-center">
           <mt-button type="primary" size="small" class="circle-btn">
