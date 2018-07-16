@@ -1,8 +1,8 @@
 <template>
-  <div id="feed" :class="{ 
+  <section id="feed" :class="{ 
     feed2: !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
     }">
-    <div :class="{ 
+    <section :class="{ 
       box: true,
       'feed-box': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
       'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
@@ -10,62 +10,62 @@
       'feed-box-0': $store.state.res.int_type === 0,
       'feed-box-1': $store.state.res.int_type === 1
      }">
-      <div :class="{
+      <section :class="{
         'feed-1': true,
         'feed-padding': $store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber == 0 && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
       }">
         <!-- 帖子内容 -->
         <!-- 图片 -->
-        <div class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
+        <section class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
           <logo-tab></logo-tab>
-          <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
+          <section class="feeder-title feeder-title-2">{{ $store.state.content.text }}</section>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
-          <div v-if="$store.state.GET_MESSAGE_STATE">
-            <div class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images && $store.state.content.images.length == 1">
-              <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
+          <section v-if="$store.state.GET_MESSAGE_STATE">
+            <section class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images && $store.state.content.images.length == 1">
+              <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
                 <!-- <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)"> -->
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                 <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
                 <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-              </div>
-            </div>
-            <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
-              <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+              </section>
+            </section>
+            <section class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
+              <section class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">                
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                 <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
                 <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-              </div>
-            </div>
-            <div class="feeder-img flex" v-else-if="$store.state.content.images && $store.state.content.images.length == 3 || $store.state.content.images && $store.state.content.images.length > 4">
-              <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+              </section>
+            </section>
+            <section class="feeder-img flex" v-else-if="$store.state.content.images && $store.state.content.images.length == 3 || $store.state.content.images && $store.state.content.images.length > 4">
+              <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                 <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
                 <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-              </div>
-            </div>
-            <div class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 4">
-              <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+              </section>
+            </section>
+            <section class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 4">
+              <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                 <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
                 <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-              </div>
-            </div>
-          </div>
-        </div>
+              </section>
+            </section>
+          </section>
+        </section>
         <!-- 视频 -->
-        <div class="feed-doc" v-else-if="$store.state.res.int_type === 1">
-          <div class="video-doc">
+        <section class="feed-doc" v-else-if="$store.state.res.int_type === 1">
+          <section class="video-doc">
             <!-- 恒视频 -->
-            <div v-if="$store.state.content.videos[0].width >= $store.state.content.videos[0].height">
-              <div 
+            <section v-if="$store.state.content.videos[0].width >= $store.state.content.videos[0].height">
+              <section 
                 v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" 
                 class="feed-h5-videos"
                 :style="{
@@ -88,12 +88,12 @@
                   :poster="$store.state.content.videos[0].imageUrl" 
                   :data-cover="$store.state.content.videos[0].imageUrl">
                 </video>
-              </div>
+              </section>
               <logo-tab></logo-tab>
-            </div>
+            </section>
             <!-- 竖视频 -->
-            <div v-else>
-              <div 
+            <section v-else>
+              <section 
                 v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" 
                 class="feed-h5-videos"
                 :style="{
@@ -114,59 +114,59 @@
                   :poster="$store.state.content.videos[0].imageUrl" 
                   :data-cover="$store.state.content.videos[0].imageUrl">
                 </video>
-              </div>
+              </section>
               <logo-tab></logo-tab>
-            </div>
-            <div class="feeder-title feeder-title-2">{{ $store.state.content.text }}</div>
-          </div>
-        </div>
+            </section>
+            <section class="feeder-title feeder-title-2">{{ $store.state.content.text }}</section>
+          </section>
+        </section>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
-        <div class="feed-doc" v-else-if="$store.state.res.int_type === 2">
-          <div class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
+        <section class="feed-doc" v-else-if="$store.state.res.int_type === 2">
+          <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
             <!-- 大封面 -->
             <img class="feed-cover feed-cover-bgcover" :src="defaultImg" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
             >
-            <div class="hide-over"></div>
-          </div>
-          <div class="feeder-img feeder-img-cover" v-else>
+            <section class="hide-over"></section>
+          </section>
+          <section class="feeder-img feeder-img-cover" v-else>
             <!-- 小封面 -->
             <img class="feed-cover feed-cover-cover" :src="defaultImg" data-index= "0" :data-src="$com.makeFileUrl($store.state.res.cover)">
-            <div class="hide-over"></div>
-          </div>
-          <div class="feeder-content" id="tjimg" >
+            <section class="hide-over"></section>
+          </section>
+          <section class="feeder-content" id="tjimg" >
             <!-- 标题 -->
-            <div class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </div>
+            <section class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </section>
             <!-- 征稿 截止时间 -->            
-            <div class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
+            <section class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
               <span>
                 <span class="feed-publication-number">投稿 {{$store.state.res.collectionTotalCount}}</span>
                 <!-- <span>赞 {{ $store.state.res.like }}</span> -->
               </span>
-            </div>
+            </section>
             <!-- logo -->
-            <!-- <div class="feeder-cover flex flex-align-center flex-pack-justify">
-              <div class="flex flex-1 flex-align-center" @click="toCommunity">
+            <!-- <section class="feeder-cover flex flex-align-center flex-pack-justify">
+              <section class="flex flex-1 flex-align-center" @click="toCommunity">
                 <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
                 <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
                 <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
-              </div>
-              <div class="flex flex-align-center">
+              </section>
+              <section class="flex flex-align-center">
                 <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
                   <span v-if="$store.state.is_follow">已关注</span>
                   <span v-else>
                     <span>关注</span>
                   </span>
                 </mt-button>
-              </div>
-            </div> -->
+              </section>
+            </section> -->
             <logo-tab></logo-tab>
-            <div class="summary tj-sum" v-html="$store.state.content.html" @click="openClick($event)">
-            </div>
-            <!-- <div v-else>
-              <div class="summary" v-html="$store.state.content.html" @click="openClick($event)">
-              </div>
-              <div class="feeder-info flex flex-pack-justify flex-align-center">
+            <section class="summary tj-sum" v-html="$store.state.content.html" @click="openClick($event)">
+            </section>
+            <!-- <section v-else>
+              <section class="summary" v-html="$store.state.content.html" @click="openClick($event)">
+              </section>
+              <section class="feeder-info flex flex-pack-justify flex-align-center">
                 <span>
                   <span>阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></span>
                 </span>
@@ -177,77 +177,77 @@
                   </span>
                   <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
                 </span>
-              </div>
-            </div> -->
+              </section>
+            </section> -->
             <!-- 神议论列表 -->
-            <div v-if="$store.state.res.int_category === 3">
+            <section v-if="$store.state.res.int_category === 3">
               <ul class="feeder-comments">
                 <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in $store.state.discuss" :key="index">
-                  <div class="feeder-comment-info flex flex-align-center flex-pack-end">
+                  <section class="feeder-comment-info flex flex-align-center flex-pack-end">
                     <i v-lazy:background-image="$com.makeFileUrl(item.avatar)"></i>
-                  </div>
-                  <div class="flex-1">
-                    <div class="feeder-comment-nickname flex flex-pack-justify">
+                  </section>
+                  <section class="flex-1">
+                    <section class="feeder-comment-nickname flex flex-pack-justify">
                       <span>{{ item.nickname }}</span>
                       <!-- <span>{{ $com.getCommonTime(item.createTime, 'yy/mm/dd') }}</span> -->
                       <span>{{ item.message_time }}</span>
-                    </div>
+                    </section>
                     <!-- 纯文本 link text-->
-                    <div v-if="item.type === 0" class="feeder-comment">
+                    <section v-if="item.type === 0" class="feeder-comment">
                       <span v-if="item.weblink" v-html="item.newText"></span>
                       <span v-else>{{ item.text }}</span>
-                    </div>
+                    </section>
                     <!-- 包含图片 -->
-                    <div v-else-if="item.type === 1" class="feeder-comment">
-                      <div v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
+                    <section v-else-if="item.type === 1" class="feeder-comment">
+                      <section v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
                         <img class="feeder-comment-img" data-index="99" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
                       }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg"
                         >
                         <!-- <span class="cover_img_type" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span> -->
-                      </div>
+                      </section>
                       <img v-else class="feeder-comment-img" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
                       }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg">
-                    </div>
+                    </section>
                     <!-- 包含贴子 -->
-                    <div v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
-                      <div class="feeder-comment-3-cover flex">
+                    <section v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
+                      <section class="feeder-comment-3-cover flex">
                         <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)"></i>
-                      </div>
-                      <div>
-                        <div class="feeder-comment-3-title">{{ item.feed.title }}</div>
-                        <div class="feeder-comment-3-summary">{{ item.feed.summary }}</div>
-                      </div>
-                    </div>
+                      </section>
+                      <section>
+                        <section class="feeder-comment-3-title">{{ item.feed.title }}</section>
+                        <section class="feeder-comment-3-summary">{{ item.feed.summary }}</section>
+                      </section>
+                    </section>
                     <!-- 包含视频 -->
-                    <div v-else-if="item.type === 2">
-                      <div v-if="$store.state.GET_MESSAGE_STATE">
-                        <div class="imgbox feed-imgbox">
+                    <section v-else-if="item.type === 2">
+                      <section v-if="$store.state.GET_MESSAGE_STATE">
+                        <section class="imgbox feed-imgbox">
                           <video :src="item.video.src" controls="controls" preload="none" 
                             :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
                           </video>
-                        </div>
-                      </div>
-                      <div v-else class="imgbox feed-imgbox-else feed-video-bg" 
+                        </section>
+                      </section>
+                      <section v-else class="imgbox feed-imgbox-else feed-video-bg" 
                       @click="showVid2(item.video.vid)" 
                       :data-vid="item.video.vid" :data-bg="item.video.imageUrl" :style="{
                           backgroundImage: 'url('+defaultImg+')',
                           }">
-                        <div class="flex flex-align-center flex-pack-center feed-imgbox-else-child" :data-vid="item.video.vid">
+                        <section class="flex flex-align-center flex-pack-center feed-imgbox-else-child" :data-vid="item.video.vid">
                           <span class="icon-shipin-2" :data-vid="item.video.vid"></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                        </section>
+                      </section>
+                    </section>
+                  </section>
                 </li>
               </ul>
-              <div v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-html="$store.state.content.end_html" @click="openClick($event)"></div>
-            </div>
-          </div>
-        </div>
+              <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
+            </section>
+          </section>
+        </section>
         <!-- 发帖者信息 神议论和长图文区别 -->
-        <!-- <div v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
+        <!-- <section v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
           <span class="flex-1 ellipsis" v-if="$store.state.res.int_category === 3">
             <span>
               <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span>
@@ -260,53 +260,53 @@
             </span>
           </span>
           <span style="margin-left: 10px">{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd hh:MM') }}</span>
-        </div> -->
-        <div class="author-list" v-if="$store.state.res.int_category != 3">
+        </section> -->
+        <section class="author-list" v-if="$store.state.res.int_category != 3">
           <p>小编：<span>张山</span></p>
           <p>作者：<span>历史书</span> <span>历史书</span> </p>
-        </div>
-        <div v-else class="author-list">
+        </section>
+        <section v-else class="author-list">
           <p>来自 <span>{{ $store.state.res.className }}</span></p>
-        </div>
+        </section>
         <!-- 阅读量 点赞数 -->
-        <div class="end-data flex flex-align-center flex-pack-justify">
-          <div class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></div>
-          <div>点赞 1W+</div>
-        </div>
+        <section class="end-data flex flex-align-center flex-pack-justify">
+          <section class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></section>
+          <section>点赞 1W+</section>
+        </section>
         
-      </div>
+      </section>
       <!-- 分割线 -->
-      <!-- <div v-if="($store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0) || ($store.state.res.int_type === 2 && $store.state.res.int_category === 1)" class="split-box"></div> -->
+      <!-- <section v-if="($store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0) || ($store.state.res.int_type === 2 && $store.state.res.int_category === 1)" class="split-box"></section> -->
       <!-- 精彩留言 -->
       <message-board></message-board>
       <!-- 热门文章 -->
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
-      <!-- <div v-if="$store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)">
-        <div class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
+      <!-- <section v-if="$store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)">
+        <section class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
           <span class="flex flex-align-center flex-pack-center">
             <span>点击参与更多讨论</span>
           </span>
-        </div>
-      </div> -->
-    </div>
+        </section>
+      </section> -->
+    </section>
     <!-- 测试 feed流 -->
-    <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="works">
-      <div class="title">
+    <section v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="works">
+      <section class="title">
         <span>精彩投稿（{{ $store.state.res.commentNumber }}）</span>
-      </div>
+      </section>
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
       <no-thing v-else></no-thing>
-    </div>
-    <div class="tj-dialog" @click.self="hiddenTextArea" v-if="visibleMessage">
-      <div class="dpTextArea flex flex-v">
+    </section>
+    <section class="tj-dialog" @click.self="hiddenTextArea" v-if="visibleMessage">
+      <section class="dpTextArea flex flex-v">
         <mt-field placeholder="写下你的评论" type="textarea" v-model="textarea" rows="5" class="tj-textarea flex-1"></mt-field>
-        <div class="flex flex-align-end flex-pack-end">
+        <section class="flex flex-align-end flex-pack-end">
           <mt-button type="default" size="small" class="cancel" @click="cancel">取 消</mt-button>
           <mt-button type="primary" size="small" @click="sure">确 定</mt-button>
-        </div>
-      </div>
-    </div>
-  </div>
+        </section>
+      </section>
+    </section>
+  </section>
 </template>
 <script>
 import Cookie from "js-cookie";

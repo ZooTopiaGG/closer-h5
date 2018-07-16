@@ -1,16 +1,16 @@
 <template>
   <div class="feeder-cover flex flex-align-center flex-pack-justify">
     <div class="flex flex-1 flex-align-center">
-      <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
+      <dp-logo class="feed-logo"></dp-logo>
       <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
       <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
     </div>
-    <div class="flex flex-align-center focus" @click="tjFocus">
-      <span>+关注</span>
-    </div>
+    <dp-focus :tjFocus='tjFocus'></dp-focus>
   </div>
 </template>
 <script>
+import dpFocus from "~/components/dpfocus";
+import dpLogo from "~/components/dplogo";
 export default {
   data() {
     return {
@@ -18,8 +18,14 @@ export default {
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg=="
     };
   },
+  components: {
+    dpFocus,
+    dpLogo
+  },
   methods: {
-    tjFocus() {}
+    tjFocus() {
+      console.log(1111);
+    }
   }
 };
 </script>

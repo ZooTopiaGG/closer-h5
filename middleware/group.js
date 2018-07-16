@@ -8,7 +8,7 @@ export default async function ({
     flag: 1,
     classid: params.id,
     index: '',
-    pagesize: 10
+    pagesize: 5
   }
   let para2 = {
     groupId: params.id

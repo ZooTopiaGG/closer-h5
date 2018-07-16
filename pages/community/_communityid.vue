@@ -1,40 +1,53 @@
 <template>
-  <div id="group" :class="{  
+  <section id="group" :class="{  
         flex:true,
         'flex-v':true }">
-    <div class="cover">
-      <!-- 如果有置顶贴子封面图就用贴子封面 否则用img， 如果没有img则显示默认图片 750*930-->
-      <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.attributes.coversubject.bigcover)"  v-if="res.community.attributes && res.community.attributes.coversubject"></div> 
-      <div class="feeder-img" v-lazy:background-image="$com.makeFileUrl(res.community.img)"  v-else-if="res.community.img"></div> 
-      <div class="feeder-img" v-lazy:background-image="defaultImg" v-else></div> 
-      <div class="cover-title">{{ res.community.description }}</div> 
-    </div>
-    <div v-if="group.data && group.data.length>0" class="member">
-      <div class="title">正在招募的群组</div>
+    <section class="community-top flex flex-v flex-align-center flex-pack-justify">
+      <section class="commuinty-logo">
+        <dp-logo></dp-logo>        
+        <section>{{ $store.state.res.name }}</section>
+      </section>
+      <section class="community-desc">
+        <section>用心写出有态度，有深度，有高度的文章</section>
+        <section>请关注我们把～</section>
+      </section>
+      <dp-focus></dp-focus>
+    </section>
+    <section class="split-box"></section>    
+    <section v-if="group.data && group.data.length>0" class="member">
+      <section class="flex flex-align-center flex-pack-justify">
+        <span class="title">正在招募的群组</span>
+        <span class="more-group">更多群组 ></span>
+      </section>
       <ul :class="{
                 group: true, 
                 flex: true, 
-                'flex-align-center': true,
+                'flex-v': true
             }">
-        <li v-for="(item, index) in group.data" :key="index" @click="togroup(item)" class="flex flex-v flex-align-center flex-pack-center">
-          <img v-lazy="$com.makeFileUrl(item.group.avatar)">
-          <span class="ellipsis">{{ item.group.name }}</span>
+        <li v-for="(item, index) in group.data" :key="index" @click="togroup(item)" class="flex flex-align-start">
+          <img class="avatar" v-lazy="$com.makeFileUrl(item.group.avatar)">
+          <section class="info flex flex-v">
+            <span class="name">{{ item.group.name }}</span>
+            <span class="desc">{{ JSON.parse(item.group.description)[0].content }}</span>
+          </section>
         </li>
       </ul>
-    </div>
-    <div class="nothing-group" v-else>
-      <p>本号暂未招新，</p>
+    </section>
+    <section class="nothing-group" v-else>
+      <p>本栏目暂不开放招新</p>
       <p>可通过投稿申请建群～</p>
-    </div>
-    <div class="split-box"></div>
-    <div class="common-feed">
+    </section>
+    <section class="common-feed">
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
       <no-thing v-else></no-thing>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import noThing from "~/components/nothing";
+import dpFocus from "~/components/dpfocus";
+import dpLogo from "~/components/dplogo";
+
 export default {
   async asyncData({ app, error, params, store, query }) {
     try {
@@ -77,7 +90,9 @@ export default {
     };
   },
   components: {
-    noThing
+    noThing,
+    dpFocus,
+    dpLogo
   },
   data() {
     return {
@@ -130,6 +145,7 @@ export default {
         }&pagenum=1&count=5`
       );
       if (group.code === 0) {
+        console.log("self.group==", group.result);
         self.group = group.result;
       }
     }
@@ -148,33 +164,37 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="less">
+@m20: 2.67vw;
+@m15: 2vw;
+@textcolor: #4b4945;
+@scolor: #94928e;
 #group {
   overflow-x: hidden;
 }
 .member {
-  padding: 0 2.67vw 2.67vw;
+  padding: 0 @m20 @m20;
 }
 .title {
-  margin-bottom: 2.67vw;
   font-size: 24px;
   font-weight: bold;
   text-align: left;
 }
-
+.more-group {
+  color: @scolor;
+}
 .content {
-  padding: 0 2vw 2vw;
+  padding: 0 @m15 @m15;
   text-align: justify;
   font-size: 14px;
   color: #808080;
 }
 
 .member {
-  padding-top: 5.336vw;
+  padding-top: @m20 * 2;
 }
 
 .common-feed {
-  padding-bottom: 24.8vw;
   position: relative;
 }
 
@@ -183,33 +203,39 @@ export default {
 }
 
 .group {
-  flex-wrap: wrap;
-  max-height: 53.36vw;
-  overflow: hidden;
-}
-
-.group li {
-  width: 20%;
-  margin-bottom: 2vw;
-  height: 26.7vw;
-  box-sizing: border-box;
-}
-.group li > span {
-  font-size: 13px;
-  text-align: center;
-  width: 18.67vw;
-  height: 24px;
-  line-height: 24px;
-  overflow: hidden;
-}
-.group li > img {
-  max-width: 13.33vw;
-  max-height: 13.33vw;
-  width: 50px;
-  height: 50px;
-  display: block;
-  border-radius: 4px;
-  margin-bottom: 1.335vw;
+  padding: @m15 * 2 0;
+  li {
+    width: 100%;
+    margin-bottom: @m15 * 4;
+    box-sizing: border-box;
+    section.info {
+      max-width: 77.6vw;
+      text-align: justify;
+      .name {
+        font-size: 16px;
+        color: @textcolor;
+        margin-bottom: @m20;
+      }
+      .desc {
+        font-size: 14px;
+        color: @scolor;
+        max-height: @m15 * 8;
+        overflow: hidden;
+      }
+    }
+    img.avatar {
+      width: 14.4vw;
+      height: 14.4vw;
+      max-width: 108px;
+      max-height: 108px;
+      display: block;
+      border-radius: 5px;
+      margin-right: @m20;
+    }
+  }
+  li:last-child {
+    margin-bottom: 0;
+  }
 }
 
 /* 调整的 */
@@ -233,7 +259,27 @@ export default {
   background-repeat: no-repeat;
 }
 .nothing-group {
-  padding: 4vw;
+  padding: @m15 * 2;
   color: #808080;
+}
+.community-top {
+  padding: @m15 * 4 0;
+  text-align: center;
+}
+.commuinty-logo {
+  margin-bottom: @m20 * 2;
+  font-size: 18px;
+  > img {
+    width: 18.93vw;
+    height: @m15 * 4;
+    border-radius: 5px;
+    margin-bottom: @m20;
+  }
+}
+.community-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: @textcolor;
+  margin-bottom: @m15 * 4;
 }
 </style>

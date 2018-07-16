@@ -1,10 +1,10 @@
 <template>
-  <div id="group" :class="{  
+  <section id="group" :class="{  
         flex:true,
         commonbox: true,
         'flex-v':true }">
-    <div class="member">
-      <div class="title">群组成员 {{ $store.state.group_info.group_user_info.length + 1 }}</div>
+    <section class="member">
+      <section class="title">群组成员 {{ $store.state.group_info.group_user_info.length + 1 }}</section>
       <ul :class="{
                 group: true, 
                 flex: true, 
@@ -17,35 +17,47 @@
           </p>
           <span class="ellipsis">{{ $store.state.group_info.group_info.group.attributes.monitor.user.fullname }}</span>
         </li>
-        <li v-for="(item, index) in $store.state.group_info.group_user_info" :key="index" class="flex flex-v flex-align-center flex-pack-center">
+        <li v-for="(item, index) in $store.state.group_info.group_user_info" :key="index" v-if="index < 4" class="flex flex-v flex-align-center flex-pack-center">
           <img v-lazy="$com.makeFileUrl(item.props.roster.avatar)">
           <span class="ellipsis">{{ item.props.roster.name }}</span>
         </li>
       </ul>
-    </div>
-    <div class="intro">
-      <div class="title">群简介</div>
-      <div class="content">
+      <section class="more-member">查看更多群成员 ></section>
+    </section>
+    <section class="intro">
+      <section class="title">
+        <span>群简介</span>
+      </section>
+      <section class="content">
         <p class="text-ellipse" v-if="$store.state.group_info.group_info && $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
-      </div>
-    </div>
-    <div class="split-box"></div>
-    <div class="works flex-1">
-      <div class="title">群作品</div>
+      </section>
+    </section>
+    <section class="intro">
+      <section class="title">
+        <span>当前话题</span>
+      </section>
+      <section class="content">
+        <p class="text-ellipse" v-if="$store.state.group_info.group_info && $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
+      </section>
+    </section>
+    <section class="split-box"></section>
+    <section class="title group-community flex flex-pack-justify flex-align-center">
+      <span>所属贴近号</span>
+      <section class="group-logo flex flex-align-center">
+        <img :src="$store.state.feed_list[0].blogo">
+        <span>{{ $store.state.feed_list[0].communityName }}</span>
+      </section>
+    </section>    
+    <section class="works flex-1">
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
       <no-thing v-else></no-thing>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import noThing from "~/components/nothing";
 export default {
   middleware: "group",
-  asyncData({ req, store }) {
-    if (req) {
-      store.commit("SET_NO_NAV", false);
-    }
-  },
   components: {
     noThing
   },
@@ -54,29 +66,7 @@ export default {
       id: ""
     };
   },
-  beforeRouteLeave(to, from, next) {
-    if (to.path.indexOf("/group") > -1) {
-      this.$store.commit("SET_NO_NAV", false);
-    } else {
-      this.$store.commit("SET_NO_NAV", true);
-    }
-    next();
-  },
   methods: {
-    // async downApp() {
-    //   let self = this;
-    //   let result = await self.$store.dispatch("down_adcookies", {
-    //     webUdid: true,
-    //     deviceType: self.$store.state.nvgtype,
-    //     deviceVersion: self.$store.state.nvgversion,
-    //     adid: "closer-share"
-    //   });
-    //   if (result) {
-    //     location.href = `${api.downHost}?downurl=closer://group/${
-    //       this.$route.params.id
-    //     }`;
-    //   }
-    // },
     tofeeddetails(item) {
       location.href = `/feed/${item.subjectid}`;
     }
@@ -107,13 +97,11 @@ export default {
 }
 
 .member,
-.works,
 .intro {
   padding-top: 5.34vw;
 }
 
 .works {
-  padding-bottom: 24.8vw;
   position: relative;
 }
 
@@ -182,5 +170,25 @@ export default {
   color: #fff;
   display: block;
   margin-left: 2px;
+}
+.group-community {
+  height: 18.67vw;
+  margin: 0;
+  padding: 0 5.33vw;
+  box-sizing: border-box;
+}
+.more-member {
+  text-align: center;
+  color: #507caf;
+  font-size: 14px;
+}
+.group-logo {
+  font-size: 14px;
+}
+.group-logo > img {
+  width: 18.9vw;
+  height: 8vw;
+  border-radius: 5px;
+  margin-right: 2.67vw;
 }
 </style>

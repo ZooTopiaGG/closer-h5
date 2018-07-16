@@ -51,6 +51,7 @@
   width: 100%;
   background: #fff;
   color: @textcolor;
+  box-shadow: 0 1px 5px #efefef;
   .topnav {
     height: 100%;
     .communityName {

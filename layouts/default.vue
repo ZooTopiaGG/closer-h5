@@ -11,21 +11,6 @@
           'flex-v': true,
           'flex-pack-center': true
         }">
-        <!-- <div class="feeder-cover flex flex-align-center flex-pack-justify" v-if="!$store.state.isPre">
-          <div class="flex flex-1 flex-align-center" @click="toCommunity">
-            <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
-            <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
-            <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
-          </div>
-          <div class="flex flex-align-center">
-            <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
-              <span v-if="$store.state.is_follow">已关注</span>
-              <span v-else>
-                <span>关注</span>
-              </span>
-            </mt-button>
-          </div>
-        </div> -->
         <top-nav></top-nav>
       </nav>
       <div class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE">
@@ -44,11 +29,6 @@
           <nuxt/>
         </keep-alive>
       </div>
-      <!-- <div v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoFooter && !$store.state.isPre" class="open-footer cursor">
-        <mt-button type="primary" size="small" @click="downApp" class="circle-btn">
-          下载贴近 更多精彩
-        </mt-button>
-      </div> -->
     </div>
     <div class="not-exist flex flex-v flex-align-center" v-else>
       <img src="~/assets/images/home_icon_delete@2x.png" alt="">
@@ -279,11 +259,11 @@ export default {
           pic: pic
         });
       }
-      // logo图片预加载
-      let tjimg = document.querySelector(".access-not");
-      if (tjimg && tjimg.dataset.original) {
-        tjimg.src = tjimg.dataset.original;
-      }
+      // // logo图片预加载
+      // let tjimg = document.querySelector(".access-not");
+      // if (tjimg && tjimg.dataset.original) {
+      //   tjimg.src = tjimg.dataset.original;
+      // }
       // 在浏览器可以点击图片预览
       if (self.$store.state.GET_MESSAGE_STATE) {
         let preimg;
@@ -382,13 +362,6 @@ nav .communityName {
 
 .appnuxts {
   margin-top: 0;
-}
-
-.access-not {
-  width: 21.87vw;
-  height: 8.54vw;
-  margin-right: 2.67vw;
-  border-radius: 0 3px 3px 0;
 }
 
 .icon-ios-more {
