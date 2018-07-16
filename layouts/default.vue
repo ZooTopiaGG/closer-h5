@@ -384,10 +384,6 @@ nav .communityName {
 .feed-h5-videos {
   width: 100%;
   height: 56.25vw;
-  /* position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999; */
   box-shadow: 0 1px 5px #efefef;
 }
 .feed-h5-videos-player {
