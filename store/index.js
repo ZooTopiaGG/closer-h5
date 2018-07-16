@@ -34,7 +34,9 @@ export const state = () => ({
   isLongVideo: false,
   current_url: '',
   message_item: {},
-  messagelist: []
+  messagelist: [],
+  alert_stat: false,
+  confirm_stat: false
 })
 
 export const mutations = {
@@ -180,6 +182,14 @@ export const mutations = {
   // 设置当前url地址
   SET_CURRENT_URL(state, para) {
     state.current_url = para
+  },
+  // 显示alert弹窗组件
+  SHOW_ALERT(state, para) {
+    state.alert_stat = para
+  },
+  // 显示confirm弹窗组件
+  SHOW_CONFIRM(state, para) {
+    state.confirm_stat = para
   }
 }
 
@@ -466,10 +476,11 @@ export const actions = {
           commit('SET_FOCUS_STAT', false)
         } else {
           commit('SET_FOCUS_STAT', true)
-          Toast({
-            message: '关注成功',
-            position: 'top'
-          })
+          // Toast({
+          //   message: '关注成功',
+          //   position: 'top'
+          // })
+          return true
         }
       } else {
         Toast({

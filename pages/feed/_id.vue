@@ -271,7 +271,10 @@
         <!-- 阅读量 点赞数 -->
         <section class="end-data flex flex-align-center flex-pack-justify">
           <section class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></section>
-          <section>点赞 1W+</section>
+          <section class="flex flex-align-center">
+            <span class="sup-icon"></span>
+            <span> 1W+</span>
+          </section>
         </section>
         
       </section>
@@ -693,16 +696,6 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    }
-  },
-  beforeMount() {
-    let self = this;
-    // 验证code是否存在
-    if (self.$route.query.code) {
-      self.$store.dispatch("get_code_by_login", {
-        code: self.$route.query.code,
-        type: "else"
-      });
     }
   },
   mounted() {

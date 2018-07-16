@@ -4,7 +4,7 @@
     inHtmlLogin: !isAbsolute
   }">
     <div class="title" v-if="isAbsolute">
-      <span>登录后继续操作</span>
+      <span>{{ title }}</span>
     </div>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
     <div class="tj-code">
@@ -50,6 +50,10 @@ export default {
     isAbsolute: {
       type: Boolean,
       default: true
+    },
+    title: {
+      type: String,
+      default: "登录后继续操作"
     }
   },
   methods: {

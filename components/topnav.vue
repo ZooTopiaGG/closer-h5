@@ -7,7 +7,7 @@
           <span class="communityName ellipsis">贴近一点 看身边</span>
         </div>
         <div class="flex flex-align-center">
-          <mt-button type="primary" size="small" class="circle-btn">
+          <mt-button type="primary" size="small" class="circle-btn" @click="downApp">
             <span>下载贴近</span>
           </mt-button>
         </div>
@@ -20,7 +20,7 @@
           <span class="communityName ellipsis">能赚稿费的成都资讯社区</span>
         </div>
         <div class="flex flex-align-center">
-          <mt-button type="primary" size="small" class="circle-btn">
+          <mt-button type="primary" size="small" class="circle-btn"  @click="downApp">
             <span>下载贴近</span>
           </mt-button>
         </div>
@@ -33,7 +33,7 @@
           <span class="communityName ellipsis">打开贴近看新闻 领10元现金红包</span>
         </div>
         <div class="flex flex-align-center">
-          <mt-button type="primary" size="small" class="circle-btn">
+          <mt-button type="primary" size="small" class="circle-btn"  @click="downApp">
             <span>下载贴近</span>
           </mt-button>
         </div>
@@ -42,6 +42,16 @@
   </mt-swipe>
 </template>
 <script>
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    downApp() {
+      location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+    }
+  }
+};
 </script>
 <style scoped lang="less">
 @textcolor: #4b4945;

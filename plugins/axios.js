@@ -59,11 +59,7 @@ export default function ({
       config.headers.Authorization = store.state.GET_APP_TOKEN
     } else if (store.state.token) {
       // 获取贴子详情不需要token验证
-      if (config.url.indexOf('closer_subject.show') > -1 || config.url.indexOf('closer_community.show') > -1 || config.url.indexOf('closer_class.show') > -1 || config.url.indexOf('closer_share.wechat_config') > -1 || config.url.indexOf('closer_subject.incr_view') > -1) {
-        return
-      } else {
-        config.headers.Authorization = `GroukAuth ${store.state.token}`
-      }
+      config.headers.Authorization = `GroukAuth ${store.state.token}`
     } else {
       return
     }

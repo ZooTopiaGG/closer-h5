@@ -1,8 +1,21 @@
 <template>
     <section class="flex flex-align-center focus" @click="tjFocus">
-      <section class="no-focus flex flex-align-center">
-        <i></i>
-        <span>关注</span>
+      <section class="community" v-if="$route.path.indexOf('community') > -1">
+        <section class="yet-focus flex flex-align-center" v-if="$store.state.is_follow">
+          <span>已关注</span>
+        </section>
+        <section class="no-focus flex flex-align-center" v-else>
+          <span>关注栏目</span>
+        </section>
+      </section>
+      <section class="other" v-else>
+        <section class="yet-focus flex flex-align-center" v-if="$store.state.is_follow">
+          <span>已关注</span>
+        </section>
+        <section class="no-focus flex flex-align-center" v-else>
+          <i></i>
+          <span>关注</span>
+        </section>
       </section>
     </section>
 </template>
@@ -24,18 +37,43 @@ export default {
 </script>
 <style scoped lang="less">
 @m20: 2.667vw;
+@primarycolor: #fddb00;
+@defaultcolor: #e9e9e9;
+@textcolor: #4b4945;
 .focus {
   color: #507caf;
   font-size: 16px;
   padding-right: @m20 / 2;
-  .no-focus {
-    i {
-      display: block;
-      width: @m20;
-      height: 2.933vw;
-      margin-right: 0.8vw;
-      background: url("~/assets/images/add@2x.png") no-repeat;
-      background-size: cover;
+  .other {
+    .no-focus {
+      i {
+        display: block;
+        width: @m20;
+        height: 2.933vw;
+        margin-right: 0.8vw;
+        background: url("~/assets/images/add@2x.png") no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+  .community {
+    color: @textcolor;
+    font-size: 18px;
+    text-align: center;
+    section {
+      padding: 1.8667vw 5.8667vw;
+      border-radius: 5px;
+      box-sizing: border-box;
+      > span {
+        min-width: 19.2vw;
+        text-align: center;
+      }
+    }
+    .no-focus {
+      background: @primarycolor;
+    }
+    .yet-focus {
+      background: @defaultcolor;
     }
   }
 }

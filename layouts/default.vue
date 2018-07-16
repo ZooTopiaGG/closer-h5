@@ -1,10 +1,10 @@
 <template>
-  <div class="default__box">
-    <div :class="{
+  <section class="default__box">
+    <section :class="{
       default_init_box: true,
       hasControlVideo: !$store.state.isPre
     }" v-if="$store.state.exist">
-      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav" 
+      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav && !($route.path.indexOf('feed/tomessage') > -1)" 
         :class="{
           webNoNav: !$store.state.webNoNav,
           flex: true,
@@ -13,42 +13,50 @@
         }">
         <top-nav></top-nav>
       </nav>
-      <div class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE">
+      <!-- <section class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE">
         <img src="~/assets/images/1531133203.png" alt="">
-        <div>手机扫一扫</div>
-        <div>下载贴近App</div>
-      </div>
-      <div id="wrapper"
+        <section>手机扫一扫</section>
+        <section>下载贴近App</section>
+      </section> -->
+      <section id="wrapper"
       :class="{ 
         'web-class': $store.state.GET_MESSAGE_STATE, 
         isLongVideo: $store.state.isLongVideo,
         nuxts:true, 
-        webNoNav: !$store.state.webNoNav,
+        webNoNav: !$store.state.webNoNav || ($route.path.indexOf('feed/tomessage') > -1),
         appnuxts: !$store.state.GET_MESSAGE_STATE }">
         <keep-alive>
           <nuxt/>
         </keep-alive>
-      </div>
-    </div>
-    <div class="not-exist flex flex-v flex-align-center" v-else>
+      </section>
+    </section>
+    <section class="not-exist flex flex-v flex-align-center" v-else>
       <img src="~/assets/images/home_icon_delete@2x.png" alt="">
       <span>此贴子已被删除</span>
-    </div>
-    <div class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
+    </section>
+    <section class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login></dp-login>
-    </div>
-    <div class="tj-dialog" @click.self="hiddenTextArea" v-if="$store.state.visibleMessage">
+    </section>
+    <section class="tj-dialog" @click.self="hiddenTextArea" v-if="$store.state.visibleMessage">
       <dp-reply></dp-reply>
-    </div>
-    <div v-if="preShow" style="overflow: auto; height: 100vh;">
+    </section>
+    <section class="tj-dialog" @click.self="hiddenConfirm" v-if="$store.state.confirm_stat">
+      <dp-confirm></dp-confirm>
+    </section>
+    <section class="tj-dialog" @click.self="hiddenAlert" v-if="$store.state.alert_stat">
+      <dp-alert></dp-alert>
+    </section>
+    <section v-if="preShow" style="overflow: auto; height: 100vh;">
       <preview-list :preview-list="imgList" :preview-index="preIndex" v-on:preview-show="listenToMyChild"></preview-list>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import Cookie from "js-cookie";
 import previewList from "~/components/preview.vue";
 import topNav from "~/components/topnav.vue";
+import dpConfirm from "~/components/dpconfirm.vue";
+import dpAlert from "~/components/dpalert.vue";
 export default {
   data() {
     return {
@@ -66,36 +74,38 @@ export default {
   },
   components: {
     previewList,
-    topNav
+    topNav,
+    dpConfirm,
+    dpAlert
   },
   methods: {
     // 下载app补丁
-    async downApp() {
-      let self = this;
-      let result = await self.$store.dispatch("down_adcookies", {
-        webUdid: true,
-        deviceType: self.$store.state.nvgtype,
-        deviceVersion: self.$store.state.nvgversion,
-        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
-      });
-      if (result) {
-        if (this.$route.path.indexOf("/community") > -1) {
-          location.href = `${api.downHost}?downurl=closer://community/${
-            this.$route.params.id
-          }`;
-        } else if (this.$route.path.indexOf("/feed") > -1) {
-          location.href = `${api.downHost}?downurl=closer://feed/${
-            this.$route.params.id
-          }`;
-        } else if (this.$route.path.indexOf("/group") > -1) {
-          location.href = `${api.downHost}?downurl=closer://group/${
-            this.$route.params.id
-          }`;
-        } else {
-          location.href = `${api.downHost}`;
-        }
-      }
-    },
+    // async downApp() {
+    //   let self = this;
+    //   let result = await self.$store.dispatch("down_adcookies", {
+    //     webUdid: true,
+    //     deviceType: self.$store.state.nvgtype,
+    //     deviceVersion: self.$store.state.nvgversion,
+    //     adid: self.$store.state.h5Adid || "closer-share" // 栏目id
+    //   });
+    //   if (result) {
+    //     if (this.$route.path.indexOf("/community") > -1) {
+    //       location.href = `${api.downHost}?downurl=closer://community/${
+    //         this.$route.params.id
+    //       }`;
+    //     } else if (this.$route.path.indexOf("/feed") > -1) {
+    //       location.href = `${api.downHost}?downurl=closer://feed/${
+    //         this.$route.params.id
+    //       }`;
+    //     } else if (this.$route.path.indexOf("/group") > -1) {
+    //       location.href = `${api.downHost}?downurl=closer://group/${
+    //         this.$route.params.id
+    //       }`;
+    //     } else {
+    //       location.href = `${api.downHost}`;
+    //     }
+    //   }
+    // },
     // 监听图片预览组件的子组件传来的状态 是否关闭预览
     listenToMyChild(somedata) {
       this.preShow = somedata;
@@ -108,37 +118,55 @@ export default {
     hiddenTextArea() {
       this.$store.commit("SET_VISIBLE_MESSAGE", false);
     },
-    // 跳转栏目主页
-    toCommunity() {
-      location.href = `/community/${this.$store.state.res.communityid}`;
+    // 隐藏登录组件
+    hiddenAlert() {
+      this.$store.commit("SHOW_ALERT", false);
     },
+    // 隐藏登录组件
+    hiddenConfirm() {
+      this.$store.commit("SHOW_CONFIRM", false);
+    }
+    // 跳转栏目主页
+    // toCommunity() {
+    //   location.href = `/community/${this.$store.state.res.communityid}`;
+    // },
     // 需要登录的操作 先判断后执行
-    async tjFocus() {
-      let self = this;
-      // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
-        // 进行其他 ajax 操作
-        self.$store.dispatch("get_focus_stat", {
-          communityid: self.$store.state.res.communityid,
-          flag: self.$store.state.is_follow ? 0 : 1
-        });
-      } else {
-        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        if ($async.isWeiXin()) {
-          // 通过微信授权 获取code
-          await self.$store.dispatch("get_wx_auth", {
-            // 正式
-            // url: `${location.protocol}//${location.hostname}${self.$route.path}`
-            url: `${location.protocol}//${
-              location.hostname
-            }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
-              self.$route.path
-            }`
-          });
-        } else {
-          self.$store.commit("SET_VISIBLE_LOGIN", true);
-        }
-      }
+    // async tjFocus() {
+    //   let self = this;
+    //   // 渲染页面前 先判断cookies token是否存在
+    //   if (Cookie.get("token")) {
+    //     // 进行其他 ajax 操作
+    //     self.$store.dispatch("get_focus_stat", {
+    //       communityid: self.$store.state.res.communityid,
+    //       flag: self.$store.state.is_follow ? 0 : 1
+    //     });
+    //   } else {
+    //     // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+    //     if ($async.isWeiXin()) {
+    //       // 通过微信授权 获取code
+    //       await self.$store.dispatch("get_wx_auth", {
+    //         // 正式
+    //         // url: `${location.protocol}//${location.hostname}${self.$route.path}`
+    //         url: `${location.protocol}//${
+    //           location.hostname
+    //         }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
+    //           self.$route.path
+    //         }`
+    //       });
+    //     } else {
+    //       self.$store.commit("SET_VISIBLE_LOGIN", true);
+    //     }
+    //   }
+    // }
+  },
+  beforeMount() {
+    let self = this;
+    // 验证code是否存在
+    if (self.$route.query.code) {
+      self.$store.dispatch("get_code_by_login", {
+        code: self.$route.query.code,
+        type: "else"
+      });
     }
   },
   mounted() {
@@ -259,18 +287,13 @@ export default {
           pic: pic
         });
       }
-      // // logo图片预加载
-      // let tjimg = document.querySelector(".access-not");
-      // if (tjimg && tjimg.dataset.original) {
-      //   tjimg.src = tjimg.dataset.original;
-      // }
       // 在浏览器可以点击图片预览
       if (self.$store.state.GET_MESSAGE_STATE) {
         let preimg;
         if (document.querySelector(".feed-1")) {
           preimg = document
             .querySelector(".feed-1")
-            .getElementsByTagName("img");
+            .querySelectorAll("img[data-src]");
         } else {
           return;
         }
@@ -278,21 +301,21 @@ export default {
           var imgList = [];
           // 遍历查找出来的元素type HTMLCOLLECTION
           Array.prototype.forEach.call(preimg, (x, i) => {
-            if (x.dataset.index) {
+            if (x.dataset.index && x.dataset.src) {
               imgList.push({
                 current: {
                   src: x.dataset.src
                 },
                 index: i
               });
+              // 监听点击图片事件 闭包
+              preimg[i].onclick = (function() {
+                return function() {
+                  self.preIndex = i;
+                  self.preShow = true;
+                };
+              })(i);
             }
-            // 监听点击图片事件 闭包
-            preimg[i].onclick = (function() {
-              return function() {
-                self.preIndex = i;
-                self.preShow = true;
-              };
-            })(i);
           });
           self.imgList = imgList;
         }

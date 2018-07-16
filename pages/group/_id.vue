@@ -41,7 +41,7 @@
       </section>
     </section>
     <section class="split-box"></section>
-    <section class="title group-community flex flex-pack-justify flex-align-center">
+    <section class="title group-community flex flex-pack-justify flex-align-center" v-if="$store.state.feed_list.length > 0 && $store.state.feed_list[0].blogo && $store.state.feed_list[0].communityName">
       <span>所属贴近号</span>
       <section class="group-logo flex flex-align-center">
         <img :src="$store.state.feed_list[0].blogo">

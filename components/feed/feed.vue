@@ -5,7 +5,7 @@
       热门文章
     </div> 
     <ul v-if="$store.state.feed_list && $store.state.feed_list.length > 0" class="feed-list flex-1">
-      <li class="feed-list-cell" @click="tofeeddetails(item)" v-for="(item, index) in $store.state.feed_list" :key="index">
+      <li class="feed-list-cell" @click="downApp" v-for="(item, index) in $store.state.feed_list" :key="index">
         <div class="feed-box">
           <div class="hide-feed-over"></div>
           <div class="feed-cell-content">
@@ -79,7 +79,7 @@
       </li>
     </ul>
     <div class="open-article flex flex-align-center">
-      <mt-button type="primary" size="small" class="open-app">
+      <mt-button type="primary" size="small" class="open-app" @click="downApp">
         <span>打开贴近app，查看更多精彩文章 ></span>
       </mt-button>
     </div> 
@@ -98,8 +98,35 @@ export default {
     return {};
   },
   methods: {
-    tofeeddetails(item) {
-      location.href = `/feed/${item.subjectid}`;
+    // tofeeddetails(item) {
+    //   location.href = `/feed/${item.subjectid}`;
+    // },
+    // h5下载补丁
+    async downApp() {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
+      });
+      if (result) {
+        if (self.$route.path.indexOf("/community") > -1) {
+          location.href = `${api.downHost}?downurl=closer://community/${
+            self.$route.params.id
+          }`;
+        } else if (self.$route.path.indexOf("/feed") > -1) {
+          location.href = `${api.downHost}?downurl=closer://feed/${
+            self.$route.params.id
+          }`;
+        } else if (self.$route.path.indexOf("/group") > -1) {
+          location.href = `${api.downHost}?downurl=closer://group/${
+            self.$route.params.id
+          }`;
+        } else {
+          location.href = `${api.downHost}`;
+        }
+      }
     }
   },
   mounted() {}
