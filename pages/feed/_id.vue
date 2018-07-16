@@ -141,44 +141,12 @@
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
               <span>
                 <span class="feed-publication-number">投稿 {{$store.state.res.collectionTotalCount}}</span>
-                <!-- <span>赞 {{ $store.state.res.like }}</span> -->
               </span>
             </section>
             <!-- logo -->
-            <!-- <section class="feeder-cover flex flex-align-center flex-pack-justify">
-              <section class="flex flex-1 flex-align-center" @click="toCommunity">
-                <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
-                <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
-                <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
-              </section>
-              <section class="flex flex-align-center">
-                <mt-button  @click="tjFocus" :type="$store.state.is_follow ? 'default' : 'primary'" size="small" class="flex tj-focus-btn cursor">
-                  <span v-if="$store.state.is_follow">已关注</span>
-                  <span v-else>
-                    <span>关注</span>
-                  </span>
-                </mt-button>
-              </section>
-            </section> -->
             <logo-tab></logo-tab>
             <section class="summary tj-sum" v-html="$store.state.content.html" @click="openClick($event)">
             </section>
-            <!-- <section v-else>
-              <section class="summary" v-html="$store.state.content.html" @click="openClick($event)">
-              </section>
-              <section class="feeder-info flex flex-pack-justify flex-align-center">
-                <span>
-                  <span>阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></span>
-                </span>
-                <span>
-                  <span style="margin-right: 10px;">
-                    <span v-if="$store.state.res.isOffical">官方出品</span>
-                    <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.username }}</span>
-                  </span>
-                  <span>{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd') }}</span>
-                </span>
-              </section>
-            </section> -->
             <!-- 神议论列表 -->
             <section v-if="$store.state.res.int_category === 3">
               <ul class="feeder-comments">
@@ -247,20 +215,6 @@
           </section>
         </section>
         <!-- 发帖者信息 神议论和长图文区别 -->
-        <!-- <section v-if="$store.state.res.int_category != 1" class="feeder-info flex flex-pack-justify flex-align-center">
-          <span class="flex-1 ellipsis" v-if="$store.state.res.int_category === 3">
-            <span>
-              <span>{{ $store.state.res.className }} @{{ $store.state.res.user.fullname }}</span>
-            </span>
-          </span>
-          <span class="flex-1 ellipsis" v-else>
-            <span>
-              <span v-if="$store.state.res.isOffical">官方出品</span>
-              <span v-else>{{ $store.state.res.communityName }} @{{ $store.state.res.user.fullname }}</span>
-            </span>
-          </span>
-          <span style="margin-left: 10px">{{ $com.getCommonTime($store.state.res.long_publish_time, 'yy.mm.dd hh:MM') }}</span>
-        </section> -->
         <section class="author-list" v-if="$store.state.res.int_category != 3">
           <p>小编：<span>张山</span></p>
           <p>作者：<span>历史书</span> <span>历史书</span> </p>
@@ -275,39 +229,20 @@
             <span class="sup-icon"></span>
             <span> 1W+</span>
           </section>
-        </section>
-        
+        </section> 
       </section>
-      <!-- 分割线 -->
-      <!-- <section v-if="($store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0) || ($store.state.res.int_type === 2 && $store.state.res.int_category === 1)" class="split-box"></section> -->
       <!-- 精彩留言 -->
       <message-board></message-board>
       <!-- 热门文章 -->
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
-      <!-- <section v-if="$store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)">
-        <section class="learn-more" v-if="$store.state.res.commentNumber > 0 && showMore" @click="downApp">
-          <span class="flex flex-align-center flex-pack-center">
-            <span>点击参与更多讨论</span>
-          </span>
-        </section>
-      </section> -->
     </section>
-    <!-- 测试 feed流 -->
+    <!-- feed流 -->
     <section v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="works">
       <section class="title">
         <span>精彩投稿（{{ $store.state.res.commentNumber }}）</span>
       </section>
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
       <no-thing v-else></no-thing>
-    </section>
-    <section class="tj-dialog" @click.self="hiddenTextArea" v-if="visibleMessage">
-      <section class="dpTextArea flex flex-v">
-        <mt-field placeholder="写下你的评论" type="textarea" v-model="textarea" rows="5" class="tj-textarea flex-1"></mt-field>
-        <section class="flex flex-align-end flex-pack-end">
-          <mt-button type="default" size="small" class="cancel" @click="cancel">取 消</mt-button>
-          <mt-button type="primary" size="small" @click="sure">确 定</mt-button>
-        </section>
-      </section>
     </section>
   </section>
 </template>
@@ -354,7 +289,6 @@ export default {
           var content = JSON.parse(res.result.content);
           // 视频贴 特殊处理
           if (res.result.int_type === 1) {
-            console.log("content===", content);
             if (content.videos[0].height > content.videos[0].width) {
               store.commit("ITS_LONG_VIDEO", true);
             }
@@ -431,29 +365,14 @@ export default {
       isLike: false,
       defaultImg:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
-      loading: 1, // 按钮执行状态
-      disabled: false, // 按钮可用状态
       res: {},
       content: {
         html: ""
       },
-      isActive: true,
       // 投稿类型
       vid: "",
-      messagelist: "",
       showMore: false
     };
-  },
-  beforeRouteLeave(to, from, next) {
-    if (
-      to.path.indexOf("/feed/morereply") > -1 ||
-      to.path.indexOf("/group") > -1
-    ) {
-      this.$store.commit("SET_NO_NAV", false);
-    } else {
-      this.$store.commit("SET_NO_NAV", true);
-    }
-    next();
   },
   beforeRouteEnter(to, from, next) {
     if (typeof window != "undefined") {
@@ -467,38 +386,6 @@ export default {
     // 跳转栏目主页
     toCommunity() {
       location.href = `/community/${this.$store.state.res.communityid}`;
-    },
-    // 跳转到更多回复页面
-    morereply(item) {
-      sessionStorage.setItem("item", JSON.stringify(item));
-      location.href =
-        "/feed/morereply?sid=" + item.subjectid + "&cid=" + item.commentid;
-    },
-    // 需要登录的操作 先判断后执行
-    async tjFocus() {
-      let self = this;
-      // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
-        // 进行其他 ajax 操作
-        self.$store.dispatch("get_focus_stat", {
-          communityid: self.$store.state.res.communityid,
-          flag: self.$store.state.is_follow ? 0 : 1
-        });
-        return;
-      } else {
-        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        if ($async.isWeiXin()) {
-          // 通过微信授权 获取code
-          await self.$store.dispatch("get_wx_auth", {
-            // url: location.href
-            url: `${location.protocol}//${
-              location.hostname
-            }/redirect?redirectUrl=${location.href}`
-          });
-        } else {
-          self.$store.commit("SET_VISIBLE_LOGIN", true);
-        }
-      }
     },
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
@@ -527,30 +414,30 @@ export default {
       }
     },
     // 留言操作
-    async toMessage(item) {
-      let self = this;
-      self.item = item;
-      // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
-        // self.visibleMessage = true;
-        self.$store.commit("SET_MESSAGE_ITEM", item);
-        self.$store.commit("SET_VISIBLE_MESSAGE", true);
-      } else {
-        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        if ($async.isWeiXin()) {
-          // 通过微信授权 获取code
-          await self.$store.dispatch("get_wx_auth", {
-            url: `${location.protocol}//${
-              location.hostname
-            }/redirect?redirectUrl=${location.href}`
-            // url: location.href
-          });
-        } else {
-          // 显示登录弹窗
-          self.$store.commit("SET_VISIBLE_LOGIN", true);
-        }
-      }
-    },
+    // async toMessage(item) {
+    //   let self = this;
+    //   self.item = item;
+    //   // 渲染页面前 先判断cookies token是否存在
+    //   if (Cookie.get("token")) {
+    //     // self.visibleMessage = true;
+    //     self.$store.commit("SET_MESSAGE_ITEM", item);
+    //     self.$store.commit("SET_VISIBLE_MESSAGE", true);
+    //   } else {
+    //     // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+    //     if ($async.isWeiXin()) {
+    //       // 通过微信授权 获取code
+    //       await self.$store.dispatch("get_wx_auth", {
+    //         url: `${location.protocol}//${
+    //           location.hostname
+    //         }/redirect?redirectUrl=${location.href}`
+    //         // url: location.href
+    //       });
+    //     } else {
+    //       // 显示登录弹窗
+    //       self.$store.commit("SET_VISIBLE_LOGIN", true);
+    //     }
+    //   }
+    // },
     // h5下载补丁
     async downApp() {
       let self = this;
