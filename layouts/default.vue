@@ -19,7 +19,7 @@
         <section>下载贴近App</section>
       </section> -->
       <section id="wrapper"
-      :class="{ 
+        :class="{ 
         'web-class': $store.state.GET_MESSAGE_STATE, 
         isLongVideo: $store.state.isLongVideo,
         nuxts:true, 
@@ -29,6 +29,9 @@
           <nuxt/>
         </keep-alive>
       </section>
+      <footer class="footer-group">
+        <bottom-nav v-if="$route.path.indexOf('group') > -1"></bottom-nav>
+      </footer>
     </section>
     <section class="not-exist flex flex-v flex-align-center" v-else>
       <img src="~/assets/images/home_icon_delete@2x.png" alt="">
@@ -57,6 +60,8 @@ import previewList from "~/components/preview.vue";
 import topNav from "~/components/topnav.vue";
 import dpConfirm from "~/components/dpconfirm.vue";
 import dpAlert from "~/components/dpalert.vue";
+import bottomNav from "~/components/bottomnav.vue";
+
 export default {
   data() {
     return {
@@ -76,36 +81,10 @@ export default {
     previewList,
     topNav,
     dpConfirm,
-    dpAlert
+    dpAlert,
+    bottomNav
   },
   methods: {
-    // 下载app补丁
-    // async downApp() {
-    //   let self = this;
-    //   let result = await self.$store.dispatch("down_adcookies", {
-    //     webUdid: true,
-    //     deviceType: self.$store.state.nvgtype,
-    //     deviceVersion: self.$store.state.nvgversion,
-    //     adid: self.$store.state.h5Adid || "closer-share" // 栏目id
-    //   });
-    //   if (result) {
-    //     if (this.$route.path.indexOf("/community") > -1) {
-    //       location.href = `${api.downHost}?downurl=closer://community/${
-    //         this.$route.params.id
-    //       }`;
-    //     } else if (this.$route.path.indexOf("/feed") > -1) {
-    //       location.href = `${api.downHost}?downurl=closer://feed/${
-    //         this.$route.params.id
-    //       }`;
-    //     } else if (this.$route.path.indexOf("/group") > -1) {
-    //       location.href = `${api.downHost}?downurl=closer://group/${
-    //         this.$route.params.id
-    //       }`;
-    //     } else {
-    //       location.href = `${api.downHost}`;
-    //     }
-    //   }
-    // },
     // 监听图片预览组件的子组件传来的状态 是否关闭预览
     listenToMyChild(somedata) {
       this.preShow = somedata;
@@ -126,43 +105,12 @@ export default {
     hiddenConfirm() {
       this.$store.commit("SHOW_CONFIRM", false);
     }
-    // 跳转栏目主页
-    // toCommunity() {
-    //   location.href = `/community/${this.$store.state.res.communityid}`;
-    // },
-    // 需要登录的操作 先判断后执行
-    // async tjFocus() {
-    //   let self = this;
-    //   // 渲染页面前 先判断cookies token是否存在
-    //   if (Cookie.get("token")) {
-    //     // 进行其他 ajax 操作
-    //     self.$store.dispatch("get_focus_stat", {
-    //       communityid: self.$store.state.res.communityid,
-    //       flag: self.$store.state.is_follow ? 0 : 1
-    //     });
-    //   } else {
-    //     // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-    //     if ($async.isWeiXin()) {
-    //       // 通过微信授权 获取code
-    //       await self.$store.dispatch("get_wx_auth", {
-    //         // 正式
-    //         // url: `${location.protocol}//${location.hostname}${self.$route.path}`
-    //         url: `${location.protocol}//${
-    //           location.hostname
-    //         }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
-    //           self.$route.path
-    //         }`
-    //       });
-    //     } else {
-    //       self.$store.commit("SET_VISIBLE_LOGIN", true);
-    //     }
-    //   }
-    // }
   },
   beforeMount() {
     let self = this;
     // 验证code是否存在
     if (self.$route.query.code) {
+      console.log("self.$route.query.code===", self.$route.query.code);
       self.$store.dispatch("get_code_by_login", {
         code: self.$route.query.code,
         type: "else"
@@ -171,6 +119,7 @@ export default {
   },
   mounted() {
     let self = this;
+    console.log(`${location.protocol}//${location.hostname}`);
     console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
@@ -348,7 +297,12 @@ nav .communityName {
   font-size: 16px;
   overflow-y: hidden;
 }
-
+.footer-group {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+}
 .nuxts {
   margin-top: 13.07vw;
   overflow-x: hidden;

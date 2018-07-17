@@ -1,5 +1,5 @@
 <script>
 export default {
-  layout: "index"
+  layout: "down"
 };
 </script>

@@ -1,91 +1,88 @@
 <template>
-  <div class="dpFeed">
-    <div class="split-box"></div> 
-    <div class="hots-article flex flex-align-center">
+  <section class="dpFeed">
+    <section class="split-box"></section> 
+    <section class="hots-article flex flex-align-center">
       热门文章
-    </div> 
+    </section> 
     <ul v-if="$store.state.feed_list && $store.state.feed_list.length > 0" class="feed-list flex-1">
       <li class="feed-list-cell" @click="downApp" v-for="(item, index) in $store.state.feed_list" :key="index">
-        <div class="feed-box">
-          <div class="hide-feed-over"></div>
-          <div class="feed-cell-content">
-            <div class="columnname flex flex-align-center">
+        <section class="feed-box">
+          <section class="hide-feed-over"></section>
+          <section class="feed-cell-content">
+            <section class="columnname flex flex-align-center">
               <img v-lazy="item.blogo">
               <span class="name flex-1 ellipsis">{{ item.communityName }}</span>
               <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
-            </div>
+            </section>
             <!-- 贴子详情 -->
             <!-- 纯图片类型 int_type == 0-->
-            <div class="feedmain" v-if="item.int_type === 0">
-              <div v-if="item.content.text" class="feedtitle text-ellipse">
+            <section class="feedmain" v-if="item.int_type === 0">
+              <section v-if="item.content.text" class="feedtitle text-ellipse">
                 {{ item.content.text }}
-              </div>
-              <div v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
-                <div class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+              </section>
+              <section v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
+                <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
                   <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
               <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                </div>
-              </div>
-              <div v-if="item.content.images && item.content.images.length === 2" class="flex flex-pack-justify feedimgcontent">
-                <div class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                </section>
+              </section>
+              <section v-if="item.content.images && item.content.images.length === 2" class="flex flex-pack-justify feedimgcontent">
+                <section class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
                   <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
               <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                </div>
-              </div>
-              <div v-if="item.content.images && (item.content.images.length === 3 || item.content.images.length > 4)" class="flex feedimgcontent">
-                <div class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                </section>
+              </section>
+              <section v-if="item.content.images && (item.content.images.length === 3 || item.content.images.length > 4)" class="flex feedimgcontent">
+                <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
                   <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
               <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                </div>
-              </div>
-              <div v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
-                <div class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                </section>
+              </section>
+              <section v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
+                <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
                   <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
               <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                </div>
-              </div>
-            </div>
+                </section>
+              </section>
+            </section>
             <!-- 视频贴 int_type == 1-->
-            <div class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
+            <section class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
               <video :src="item.content.videos[0].src" controls="controls" preload="none"
                 :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
               </video>
-              <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
-            </div>
+              <section v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</section>
+            </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
-            <div class="feedmain" v-else-if="item.int_type === 2">
-              <div v-if="item.cover" class="feedcover flex">
+            <section class="feedmain" v-else-if="item.int_type === 2">
+              <section v-if="item.cover" class="feedcover flex">
                 <img v-lazy="$com.makeFileUrl(item.cover)">
-              </div>
-              <div class="feedtype">
-                <div v-if="item.title" class="feedtitle text-ellipse">
+              </section>
+              <section class="feedtype">
+                <section v-if="item.title" class="feedtitle text-ellipse">
                   {{ item.title }}
-                </div>
-                <div v-if="item.content.summary" class="feedcontent text-ellipse">
+                </section>
+                <section v-if="item.content.summary" class="feedcontent text-ellipse">
                   {{ item.content.summary }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                </section>
+              </section>
+            </section>
+          </section>
+        </section>
       </li>
     </ul>
-    <div class="open-article flex flex-align-center">
-      <mt-button type="primary" size="small" class="open-app" @click="downApp">
-        <span>打开贴近app，查看更多精彩文章 ></span>
-      </mt-button>
-    </div> 
-  </div>
+    <bottom-nav v-if="!($route.path.indexOf('group') > -1)"></bottom-nav>
+  </section>
 </template>
 <script>
+import bottomNav from "~/components/bottomnav.vue";
 export default {
   name: "dpFeed",
   // props: {
@@ -93,6 +90,9 @@ export default {
   //     default: {}
   //   }
   // },
+  components: {
+    bottomNav
+  },
   data() {
     // bname: 'button'
     return {};
@@ -148,15 +148,6 @@ export default {
   font-weight: bold;
   padding: 0 4vw;
   border-bottom: 1px solid #eaeaea;
-}
-.open-article {
-  height: 14.4vw;
-  padding: 0 4vw;
-}
-.open-app {
-  width: 100%;
-  border-radius: 5px;
-  height: 10.67vw;
 }
 /*feed流*/
 .feed-box {

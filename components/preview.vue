@@ -1,21 +1,21 @@
 <template>
     <transition name="fade">
-        <div class="lg-preview-wrapper"
+        <section class="lg-preview-wrapper"
         @click="leave"
         @touchmove="touchmove"
         @touchstart="touchstart"
         @touchend="touchend"
         >
-            <!-- <div class="lg-preview-loading" v-show="preview.loading"><div></div></div> -->
+            <!-- <section class="lg-preview-loading" v-show="preview.loading"><section></section></section> -->
             <img
                 class="lg-preview-img"
                 v-if="previewList[index].current.src"
                 :src="previewList[index].current.src"
             >
-            <div class="lg-preview-title">
+            <section class="lg-preview-title">
                 {{parseInt(previewList[index].index + 1)}} / {{previewList.length}}
-            </div>
-        </div>
+            </section>
+        </section>
     </transition>
 </template>
 

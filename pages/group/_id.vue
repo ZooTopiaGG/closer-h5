@@ -1,6 +1,7 @@
 <template>
   <section id="group" :class="{  
         flex:true,
+        groups: true,
         commonbox: true,
         'flex-v':true }">
     <section class="member">
@@ -22,7 +23,7 @@
           <span class="ellipsis">{{ item.props.roster.name }}</span>
         </li>
       </ul>
-      <section class="more-member">查看更多群成员 ></section>
+      <section class="more-member" @click="firstLogin">查看更多群成员 <i class="right-arrow"></i></section>
     </section>
     <section class="intro">
       <section class="title">
@@ -55,6 +56,7 @@
   </section>
 </template>
 <script>
+import Cookie from "js-cookie";
 import noThing from "~/components/nothing";
 export default {
   middleware: "group",
@@ -69,126 +71,145 @@ export default {
   methods: {
     tofeeddetails(item) {
       location.href = `/feed/${item.subjectid}`;
+    },
+    // 先登录 再下载流程
+    // 需要登录的操作 先判断后执行
+    async firstLogin() {
+      let self = this;
+      // 渲染页面前 先判断cookies token是否存在
+      if (Cookie.get("token")) {
+        self.downApp();
+      } else {
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          await self.$store.dispatch("get_wx_auth", {
+            // 正式
+            url: `${location.protocol}//${location.hostname}`
+          });
+        } else {
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
+      }
     }
   },
   mounted() {}
 };
 </script>
-<style scoped>
-#group {
+<style scoped lang="less">
+@m20: 2.67vw;
+@m15: 2vw;
+.groups {
   overflow-x: hidden;
-}
-.member,
-.intro {
-  padding: 0 2.67vw 2.67vw;
-}
+  .member,
+  .intro {
+    padding: 0 @m20 @m20;
+    padding-top: @m20 * 2;
+  }
+  .title {
+    margin-bottom: @m20;
+    font-size: 16px;
+    margin-left: @m15;
+  }
+  .content {
+    padding: 0 @m15 @m15;
+    text-align: justify;
+    font-size: 14px;
+    color: #808080;
+    p {
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+  }
+  .works {
+    position: relative;
+    padding-bottom: 14.4vw;
+    .title {
+      margin-left: 4.67vw;
+    }
+  }
 
-.title {
-  margin-bottom: 2.67vw;
-  font-size: 16px;
-  margin-left: 2vw;
-}
-
-.content {
-  padding: 0 2vw 2vw;
-  text-align: justify;
-  font-size: 14px;
-  color: #808080;
-}
-
-.member,
-.intro {
-  padding-top: 5.34vw;
-}
-
-.works {
-  position: relative;
-}
-
-.works .title {
-  margin-left: 4.67vw;
-}
-
-.group {
-  flex-wrap: wrap;
-  max-height: 53.4vw;
-  overflow: hidden;
-}
-
-.lookGroup {
-  height: auto;
-  overflow-y: auto;
-}
-
-.group li {
-  width: 20%;
-  margin-bottom: 2vw;
-  height: 26.7vw;
-  box-sizing: border-box;
-}
-.group li > span {
-  font-size: 13px;
-  text-align: center;
-  width: 18.67vw;
-  height: 24px;
-  line-height: 24px;
-  overflow: hidden;
-}
-.group li > img {
-  width: 13.35vw;
-  height: 13.35vw;
-  display: block;
-  border-radius: 100%;
-  margin-bottom: 1.335vw;
-}
-
-.more {
-  margin: 4vw 0 2.67vw;
-}
-
-.content p {
-  margin-bottom: 0;
-  line-height: 1.6;
-}
-.group-master {
-  width: 11.2vw;
-  height: 11.2vw;
-  max-width: 84px;
-  max-height: 84px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: url("~/assets/images/group_icon_tags_n@2x.png") no-repeat;
-  background-size: cover;
-  margin-left: -2px;
-  margin-top: -2px;
-}
-.group-master > span {
-  font-size: 10px;
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  color: #fff;
-  display: block;
-  margin-left: 2px;
-}
-.group-community {
-  height: 18.67vw;
-  margin: 0;
-  padding: 0 5.33vw;
-  box-sizing: border-box;
-}
-.more-member {
-  text-align: center;
-  color: #507caf;
-  font-size: 14px;
-}
-.group-logo {
-  font-size: 14px;
-}
-.group-logo > img {
-  width: 18.9vw;
-  height: 8vw;
-  border-radius: 5px;
-  margin-right: 2.67vw;
+  .group {
+    flex-wrap: wrap;
+    max-height: @m20 * 20;
+    overflow: hidden;
+    li {
+      width: 20%;
+      margin-bottom: @m15;
+      height: @m20 * 10;
+      box-sizing: border-box;
+      > span {
+        font-size: 13px;
+        text-align: center;
+        width: 18.67vw;
+        height: 24px;
+        line-height: 24px;
+        overflow: hidden;
+      }
+      > img {
+        width: 13.35vw;
+        height: 13.35vw;
+        display: block;
+        border-radius: 100%;
+        margin-bottom: @m20 / 2;
+      }
+    }
+  }
+  .lookGroup {
+    height: auto;
+    overflow-y: auto;
+  }
+  .more {
+    margin: @m15*2 0 @m20;
+  }
+  .right-arrow {
+    display: inline-block;
+    width: 2.4vw;
+    height: 2.4vw;
+    background: url("~/assets/images/Shape2@2x.png") no-repeat;
+    background-size: cover;
+    margin-left: @m20 / 2;
+  }
+  .group-master {
+    width: 11.2vw;
+    height: 11.2vw;
+    max-width: 84px;
+    max-height: 84px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: url("~/assets/images/group_icon_tags_n@2x.png") no-repeat;
+    background-size: cover;
+    margin-left: -2px;
+    margin-top: -2px;
+    span {
+      font-size: 10px;
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      color: #fff;
+      display: block;
+      margin-left: 2px;
+    }
+  }
+  .group-community {
+    height: 18.67vw;
+    margin: 0;
+    padding: 0 @m20 * 2;
+    box-sizing: border-box;
+  }
+  .more-member {
+    text-align: center;
+    color: #507caf;
+    font-size: 14px;
+  }
+  .group-logo {
+    font-size: 14px;
+  }
+  .group-logo > img {
+    width: 18.9vw;
+    height: @m15 * 4;
+    border-radius: 5px;
+    margin-right: @m20;
+  }
 }
 </style>

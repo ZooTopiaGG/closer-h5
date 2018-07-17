@@ -24,7 +24,7 @@
                 flex: true, 
                 'flex-v': true
             }">
-        <li v-for="(item, index) in group.data" :key="index" @click="togroup(item)" class="flex flex-align-start">
+        <li v-for="(item, index) in group.data" :key="index" @click="downApp" class="flex flex-align-start">
           <img class="avatar" v-lazy="$com.makeFileUrl(item.group.avatar)">
           <section class="info flex flex-v">
             <span class="name">{{ item.group.name }}</span>
@@ -107,17 +107,32 @@ export default {
     };
   },
   methods: {
-    // 跳转到贴子详情
-    tofeeddetails(item) {
-      location.href = `/feed/${item.subjectid}`;
-    },
-    // 跳转到群组
-    togroup(item) {
-      location.href = `/group/${item.id}`;
-    },
-    // 隐藏登录组件
-    hiddenLogin() {
-      this.$store.commit("SET_VISIBLE_LOGIN", false);
+    // h5下载补丁
+    async downApp() {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
+      });
+      if (result) {
+        if (self.$route.path.indexOf("/community") > -1) {
+          location.href = `${api.downHost}?downurl=closer://community/${
+            self.$route.params.id
+          }`;
+        } else if (self.$route.path.indexOf("/feed") > -1) {
+          location.href = `${api.downHost}?downurl=closer://feed/${
+            self.$route.params.id
+          }`;
+        } else if (self.$route.path.indexOf("/group") > -1) {
+          location.href = `${api.downHost}?downurl=closer://group/${
+            self.$route.params.id
+          }`;
+        } else {
+          location.href = `${api.downHost}`;
+        }
+      }
     },
     // 获取贴子列表
     async getFeedList() {
@@ -170,12 +185,14 @@ export default {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
-            // url: `${location.protocol}//${location.hostname}${self.$route.path}`
-            url: `${location.protocol}//${
-              location.hostname
-            }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
-              self.$route.path
+            url: `${location.protocol}//${location.hostname}${
+              self.$route.fullPath
             }`
+            // url: `${location.protocol}//${
+            //   location.hostname
+            // }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
+            //   self.$route.path
+            // }`
           });
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);

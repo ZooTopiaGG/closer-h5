@@ -1,0 +1,257 @@
+<template>
+  <div class="down_app">
+    <div class="point">
+      <img src="~/assets/images/point@2x.png" alt="">
+    </div>
+    <div class="noweixin">
+      <p>已下载？
+        <a class="goApp" href="javascript:;">打开应用</a>
+      </p>
+    </div>
+    <div class="downtitle">
+      <h3>若已安装了客户端</h3>
+      <p class="flex flex-align-center">1. 请先点击右上角更多
+        <img src="~/assets/images/more@2x.png" alt="">
+      </p>
+      <p>2. 然后选择在 浏览器 中打开</p>
+    </div>
+    <div class="downbody">
+      <img src="~/assets/images/downapp@2x.png" alt="">
+    </div>
+    <div class="downfooter">
+      <img src="~/assets/images/login_logo@2x.png" alt="">
+      <div class="downfooter_desc">
+        <p>下载 「贴近」 客户端</p>
+        <p>贴近一点 看身边</p>
+      </div>
+      <div>
+        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer" class="downApp">立即下载</a>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      b: true
+    };
+  },
+  methods: {
+    initLoad() {
+      let self = this;
+      if (self.isWeiXin()) {
+        document.querySelector(".downtitle").style.display = "block";
+        document.querySelector(".point").style.display = "block";
+      } else {
+        document.querySelector(".noweixin").style.display = "block";
+        setTimeout(() => {
+          if (self.getParam("downurl")) {
+            location.href = self.getParam("downurl");
+            setTimeout(() => {
+              location.href =
+                "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+            }, 1000);
+          } else {
+            location.href =
+              "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+          }
+        }, 1500);
+      }
+      document.querySelector(".goApp").addEventListener(
+        "click",
+        function() {
+          if (this.getParam("downurl")) {
+            location.href = this.getParam("downurl");
+          } else {
+            location.href =
+              "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+            return;
+          }
+        },
+        false
+      );
+    },
+    isWeiXin() {
+      let ua = navigator.userAgent.toLowerCase();
+      var iswx = false,
+        isqq = false,
+        iswb = false;
+      // 微信内置浏览器
+      iswx = /micromessenger/i.test(ua);
+
+      // QQ内置浏览器
+      isqq = /qq/i.test(ua);
+      if (/mqqbrowser/i.test(ua)) {
+        isqq = false;
+      }
+      // 微博内置浏览器
+      iswb = /weibo/i.test(ua);
+      return iswx || isqq || iswb;
+    },
+    getParam(paramName) {
+      var paramValue = "";
+      var isFound = false;
+      if (
+        location.search.indexOf("?") == 0 &&
+        location.search.indexOf("=") > 1
+      ) {
+        var arrSource = unescape(location.search)
+          .substring(1, location.search.length)
+          .split("&");
+        var i = 0;
+        while (i < arrSource.length && !isFound) {
+          if (arrSource[i].indexOf("=") > 0) {
+            if (
+              arrSource[i].split("=")[0].toLowerCase() ==
+              paramName.toLowerCase()
+            ) {
+              paramValue = arrSource[i].split("=")[1];
+              isFound = true;
+            }
+          }
+          i++;
+        }
+      }
+      return paramValue;
+    }
+  },
+  beforeMount() {
+    let self = this;
+    // 验证code是否存在
+    if (self.$route.query.code) {
+      self.$store.dispatch("get_code_by_login", {
+        code: self.$route.query.code,
+        type: "else"
+      });
+    }
+  },
+  mounted() {
+    let self = this;
+    window.onload = function(event) {
+      self.initLoad(event);
+    };
+  }
+};
+</script>
+<style>
+body,
+html {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.down_app {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: justify;
+  justify-content: space-around;
+}
+
+.downfooter {
+  width: 83.33vw;
+  height: 21.33vw;
+  box-sizing: border-box;
+  margin: 0 auto;
+  background: rgb(246, 246, 246);
+  border-radius: 6px;
+  padding: 0 2.67vw;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.downfooter > img {
+  width: 12vw;
+  height: 12vw;
+  max-width: 90px;
+  max-height: 90px;
+}
+
+.downfooter_desc p:nth-child(1) {
+  color: #4b4945;
+}
+
+.downfooter_desc p:nth-child(2) {
+  color: #999;
+  font-size: 10px;
+}
+
+.downbody img {
+  width: 100%;
+  height: 90.125vw;
+}
+
+.downtitle {
+  padding: 0 4vw;
+  font-size: 16px;
+  color: #94928e;
+  display: none;
+}
+
+.downtitle h3 {
+  font-size: 18px;
+  color: #4b4945;
+  margin-top: 0;
+  margin-bottom: 5.336;
+}
+
+.downtitle p > img {
+  width: 7.2vw;
+  height: 3.74vw;
+  margin-left: 5px;
+}
+
+.point {
+  position: fixed;
+  right: 4vw;
+  top: 4vw;
+  display: none;
+}
+
+.point img {
+  width: 23.2vw;
+  height: 17.34vw;
+}
+
+.noweixin {
+  text-align: center;
+  font-size: 16px;
+  display: none;
+}
+
+.noweixin a {
+  color: #94928e;
+  text-decoration: underline;
+}
+
+.downApp {
+  padding: 5px 8px;
+  background: #fddb00;
+  color: #4b4945;
+  outline: none;
+  text-decoration: none;
+  border: 0;
+  border-radius: 4px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+</style>

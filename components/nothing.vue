@@ -1,8 +1,8 @@
 <template>
-  <div class="nothing flex flex-v flex-align-center">
+  <section class="nothing flex flex-v flex-align-center">
       <img src="~/assets/images/nothing@2x.png" alt="">
       <p>此处空空如也</p>
-    </div>
+  </section>
 </template>
 
 <style scoped>
