@@ -1,11 +1,10 @@
 <template>
-  <section id="group" :class="{  
+  <div id="group" :class="{  
         flex:true,
-        groups: true,
         commonbox: true,
         'flex-v':true }">
-    <section class="member">
-      <section class="title">群组成员 {{ $store.state.group_info.group_user_info.length + 1 }}</section>
+    <div class="member">
+      <div class="title">群组成员 {{ $store.state.group_info.group_user_count }}</div>
       <ul :class="{
                 group: true, 
                 flex: true, 
@@ -18,48 +17,35 @@
           </p>
           <span class="ellipsis">{{ $store.state.group_info.group_info.group.attributes.monitor.user.fullname }}</span>
         </li>
-        <li v-for="(item, index) in $store.state.group_info.group_user_info" :key="index" v-if="index < 4" class="flex flex-v flex-align-center flex-pack-center">
+        <li v-for="(item, index) in $store.state.group_info.group_user_info" :key="index" class="flex flex-v flex-align-center flex-pack-center">
           <img v-lazy="$com.makeFileUrl(item.props.roster.avatar)">
           <span class="ellipsis">{{ item.props.roster.name }}</span>
         </li>
       </ul>
-      <section class="more-member" @click="firstLogin">查看更多群成员 <i class="right-arrow"></i></section>
-    </section>
-    <section class="intro">
-      <section class="title">
-        <span>群简介</span>
-      </section>
-      <section class="content">
+    </div>
+    <div class="intro">
+      <div class="title">群简介</div>
+      <div class="content">
         <p class="text-ellipse" v-if="$store.state.group_info.group_info && $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
-      </section>
-    </section>
-    <section class="intro">
-      <section class="title">
-        <span>当前话题</span>
-      </section>
-      <section class="content">
-        <p class="text-ellipse" v-if="$store.state.group_info.group_info && $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
-      </section>
-    </section>
-    <section class="split-box"></section>
-    <section class="title group-community flex flex-pack-justify flex-align-center" v-if="$store.state.feed_list.length > 0 && $store.state.feed_list[0].blogo && $store.state.feed_list[0].communityName">
-      <span>所属贴近号</span>
-      <section class="group-logo flex flex-align-center">
-        <img :src="$store.state.feed_list[0].blogo">
-        <span>{{ $store.state.feed_list[0].communityName }}</span>
-      </section>
-    </section>    
-    <section class="works flex-1">
+      </div>
+    </div>
+    <div class="split-box"></div>
+    <div class="works flex-1">
+      <div class="title">群作品</div>
       <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
       <no-thing v-else></no-thing>
-    </section>
-  </section>
+    </div>
+  </div>
 </template>
 <script>
-import Cookie from "js-cookie";
 import noThing from "~/components/nothing";
 export default {
   middleware: "group",
+  asyncData({ req, store }) {
+    if (req) {
+      store.commit("SET_NO_NAV", false);
+    }
+  },
   components: {
     noThing
   },
@@ -68,148 +54,133 @@ export default {
       id: ""
     };
   },
+  beforeRouteLeave(to, from, next) {
+    if (to.path.indexOf("/group") > -1) {
+      this.$store.commit("SET_NO_NAV", false);
+    } else {
+      this.$store.commit("SET_NO_NAV", true);
+    }
+    next();
+  },
   methods: {
+    // async downApp() {
+    //   let self = this;
+    //   let result = await self.$store.dispatch("down_adcookies", {
+    //     webUdid: true,
+    //     deviceType: self.$store.state.nvgtype,
+    //     deviceVersion: self.$store.state.nvgversion,
+    //     adid: "closer-share"
+    //   });
+    //   if (result) {
+    //     location.href = `${api.downHost}?downurl=closer://group/${
+    //       this.$route.params.id
+    //     }`;
+    //   }
+    // },
     tofeeddetails(item) {
       location.href = `/feed/${item.subjectid}`;
-    },
-    // 先登录 再下载流程
-    // 需要登录的操作 先判断后执行
-    async firstLogin() {
-      let self = this;
-      // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
-        self.downApp();
-      } else {
-        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        if ($async.isWeiXin()) {
-          // 通过微信授权 获取code
-          await self.$store.dispatch("get_wx_auth", {
-            // 正式
-            url: `${location.protocol}//${location.hostname}`
-          });
-        } else {
-          self.$store.commit("SET_VISIBLE_LOGIN", true);
-        }
-      }
     }
   },
   mounted() {}
 };
 </script>
-<style scoped lang="less">
-@m20: 2.67vw;
-@m15: 2vw;
-.groups {
+<style scoped>
+#group {
   overflow-x: hidden;
-  .member,
-  .intro {
-    padding: 0 @m20 @m20;
-    padding-top: @m20 * 2;
-  }
-  .title {
-    margin-bottom: @m20;
-    font-size: 16px;
-    margin-left: @m15;
-  }
-  .content {
-    padding: 0 @m15 @m15;
-    text-align: justify;
-    font-size: 14px;
-    color: #808080;
-    p {
-      margin-bottom: 0;
-      line-height: 1.6;
-    }
-  }
-  .works {
-    position: relative;
-    padding-bottom: 14.4vw;
-    .title {
-      margin-left: 4.67vw;
-    }
-  }
+}
+.member,
+.intro {
+  padding: 0 2.67vw 2.67vw;
+}
 
-  .group {
-    flex-wrap: wrap;
-    max-height: @m20 * 20;
-    overflow: hidden;
-    li {
-      width: 20%;
-      margin-bottom: @m15;
-      height: @m20 * 10;
-      box-sizing: border-box;
-      > span {
-        font-size: 13px;
-        text-align: center;
-        width: 18.67vw;
-        height: 24px;
-        line-height: 24px;
-        overflow: hidden;
-      }
-      > img {
-        width: 13.35vw;
-        height: 13.35vw;
-        display: block;
-        border-radius: 100%;
-        margin-bottom: @m20 / 2;
-      }
-    }
-  }
-  .lookGroup {
-    height: auto;
-    overflow-y: auto;
-  }
-  .more {
-    margin: @m15*2 0 @m20;
-  }
-  .right-arrow {
-    display: inline-block;
-    width: 2.4vw;
-    height: 2.4vw;
-    background: url("~/assets/images/Shape2@2x.png") no-repeat;
-    background-size: cover;
-    margin-left: @m20 / 2;
-  }
-  .group-master {
-    width: 11.2vw;
-    height: 11.2vw;
-    max-width: 84px;
-    max-height: 84px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: url("~/assets/images/group_icon_tags_n@2x.png") no-repeat;
-    background-size: cover;
-    margin-left: -2px;
-    margin-top: -2px;
-    span {
-      font-size: 10px;
-      -webkit-transform: rotate(-45deg);
-      transform: rotate(-45deg);
-      color: #fff;
-      display: block;
-      margin-left: 2px;
-    }
-  }
-  .group-community {
-    height: 18.67vw;
-    margin: 0;
-    padding: 0 @m20 * 2;
-    box-sizing: border-box;
-  }
-  .more-member {
-    text-align: center;
-    color: #507caf;
-    font-size: 14px;
-  }
-  .group-logo {
-    font-size: 14px;
-  }
-  .group-logo > img {
-    width: 18.9vw;
-    height: @m15 * 4;
-    border-radius: 5px;
-    margin-right: @m20;
-  }
+.title {
+  margin-bottom: 2.67vw;
+  font-size: 16px;
+  margin-left: 2vw;
+}
+
+.content {
+  padding: 0 2vw 2vw;
+  text-align: justify;
+  font-size: 14px;
+  color: #808080;
+}
+
+.member,
+.works,
+.intro {
+  padding-top: 5.34vw;
+}
+
+.works {
+  padding-bottom: 24.8vw;
+  position: relative;
+}
+
+.works .title {
+  margin-left: 4.67vw;
+}
+
+.group {
+  flex-wrap: wrap;
+  max-height: 53.4vw;
+  overflow: hidden;
+}
+
+.lookGroup {
+  height: auto;
+  overflow-y: auto;
+}
+
+.group li {
+  width: 20%;
+  margin-bottom: 2vw;
+  height: 26.7vw;
+  box-sizing: border-box;
+}
+.group li > span {
+  font-size: 13px;
+  text-align: center;
+  width: 18.67vw;
+  height: 24px;
+  line-height: 24px;
+  overflow: hidden;
+}
+.group li > img {
+  width: 13.35vw;
+  height: 13.35vw;
+  display: block;
+  border-radius: 100%;
+  margin-bottom: 1.335vw;
+}
+
+.more {
+  margin: 4vw 0 2.67vw;
+}
+
+.content p {
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+.group-master {
+  width: 11.2vw;
+  height: 11.2vw;
+  max-width: 84px;
+  max-height: 84px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: url("~/assets/images/group_icon_tags_n@2x.png") no-repeat;
+  background-size: cover;
+  margin-left: -2px;
+  margin-top: -2px;
+}
+.group-master > span {
+  font-size: 10px;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  color: #fff;
+  display: block;
+  margin-left: 2px;
 }
 </style>
