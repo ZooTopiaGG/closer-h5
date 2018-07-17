@@ -4,7 +4,7 @@
         commonbox: true,
         'flex-v':true }">
     <div class="member">
-      <div class="title">群组成员 {{ $store.state.group_info.group_user_info.length + 1 }}</div>
+      <div class="title">群组成员 {{ $store.state.group_info.group_user_count }}</div>
       <ul :class="{
                 group: true, 
                 flex: true, 
