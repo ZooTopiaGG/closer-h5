@@ -1,11 +1,11 @@
 <template>
-  <div class="dpTextArea flex flex-v">
+  <section class="dpTextArea flex flex-v">
     <mt-field placeholder="写下你的评论" type="textarea" v-model="textarea" rows="5" class="tj-textarea flex-1"></mt-field>
-    <div class="flex flex-align-end flex-pack-end">
+    <section class="flex flex-align-end flex-pack-end">
       <mt-button type="default" size="small" class="cancel" @click="cancel">取 消</mt-button>
       <mt-button type="primary" size="small" @click="sure">确 定</mt-button>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 export default {

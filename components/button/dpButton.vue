@@ -1,7 +1,7 @@
 <template>
-  <div class="dpButton flex">
+  <section class="dpButton flex">
     <button ref="_button" :disabled="disabled" :type="type != 'text' ? 'button' : 'text' " class="button" v-html="bname"></button>
-  </div>
+  </section>
 </template>
 <script>
 export default {

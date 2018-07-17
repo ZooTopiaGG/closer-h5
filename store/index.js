@@ -36,7 +36,8 @@ export const state = () => ({
   message_item: {},
   messagelist: [],
   alert_stat: false,
-  confirm_stat: false
+  confirm_stat: false,
+  version_1_2: false
 })
 
 export const mutations = {
@@ -46,8 +47,13 @@ export const mutations = {
     let nvg = para.nvg.toLowerCase();
     let refer = para.ref;
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
-    state.GET_MESSAGE_STATE = !_result
-    state.isPre = refer.indexOf('?view=pre') > -1
+    state.GET_MESSAGE_STATE = !_result;
+    state.isPre = refer.indexOf('?view=pre') > -1;
+    // 基于 1.1.100 做验证
+    if (nvg.indexOf('version/') > -1) {
+      let b = nvg.split('version/')[1].split('.')
+      state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0]==1 && b[1] == 1 && b[2] && b[2] > 100)
+    }
   },
   // 设置是否在app的状态
   GET_APP_AGENT(state, para) {

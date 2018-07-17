@@ -1,35 +1,35 @@
 <template>
-  <div :class="{
+  <section :class="{
     dpLogin: true,
     inHtmlLogin: !isAbsolute
   }">
-    <div class="title" v-if="isAbsolute">
+    <section class="title" v-if="isAbsolute">
       <span>{{ title }}</span>
-    </div>
+    </section>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
-    <div class="tj-code">
+    <section class="tj-code">
       <mt-field type="text" placeholder="图形验证码" :attr="{ maxlength: 5 }" v-model="img_code_value" class="margin-bottom-40">
         <img class="tj-code-img" @click="sendImgCode" :src="get_img_code">
       </mt-field>
-    </div>
-    <div class="tj-code">
+    </section>
+    <section class="tj-code">
       <mt-field placeholder="验证码" type="tel" :attr="{ maxlength: 6 }" v-model="code" class="margin-bottom-40">
         <mt-button type="default" class="tj-code-btn cursor" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
       </mt-field>
-    </div>
+    </section>
     <mt-button type="primary" :disabled="loading === 1" :class="{
       'cursor': true,
       'margin-top-20': true, 
       'tj-btn': true,
       notweixin: !isAbsolute
     }" @click="toLogin">
-      <div class="flex flex-align-center flex-pack-center">
+      <section class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
         <span v-if="isAbsolute">登 录</span>
         <span v-else>立即下载，提现秒到账</span>
-      </div>
+      </section>
     </mt-button>
-  </div>
+  </section>
 </template>
 <script>
 import Cookie from "js-cookie";

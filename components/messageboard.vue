@@ -1,35 +1,35 @@
 <template>
    <!-- 留言板 -->
-  <div
+  <section
     :class="{
     'feed-2': true,
     'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">
-    <div class="split-box"></div>
+    <section class="split-box"></section>
     <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
-    <!-- <div v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
-    <div :class="{
+    <!-- <section v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
+    <section :class="{
       'message-box':!($store.state.res.int_type === 2 && $store.state.res.int_category === 1),
       'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
       'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.res.int_category != 1 ">
-      <div class="message-num flex flex-pack-justify">
+      <section class="message-num flex flex-pack-justify">
         <span>精彩留言</span>
         <span class="writeMessage" @click="writeMessage">写留言</span>
-      </div>
-      <div :class="{
+      </section>
+      <section :class="{
         'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
         }">
         <ul class="feed-messagebord-list" v-if="$store.state.messagelist.data && $store.state.messagelist.data.length > 0">
           <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
-            <div class="messager-info flex flex-align-center flex-pack-justify">
-              <div class="messager-info-div flex flex-align-center" v-if="item.user">
+            <section class="messager-info flex flex-align-center flex-pack-justify">
+              <section class="messager-info-div flex flex-align-center" v-if="item.user">
                 <img v-lazy="$com.makeFileUrl(item.user.avatar)">
-                <div class="flex flex-v">
+                <section class="flex flex-v">
                   <span class="messager-name" v-if="item.user.attributes && item.user.attributes.roster">{{ item.user.attributes.roster.name }}</span>
                   <span class="messager-name" v-else>{{ item.user.fullname }}</span>
                   <span class="messager-time">{{ $com.createTime(item.long_create_time, 'yy-mm-dd hh:MM') }}</span>
-                </div>
-              </div>
-              <div class="icon-group flex flex-align-center">
+                </section>
+              </section>
+              <section class="icon-group flex flex-align-center">
                 <!-- 留言补丁 -->
                 <!-- <p class="flex flex-align-center cursor messages" style="margin-right:10px" @click="toMessage(item)"> -->
                 <p class="flex flex-align-center cursor messages" style="padding-right:10px; padding-top: 1px;" @click="writeMessage">
@@ -41,11 +41,11 @@
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAgCAYAAABgrToAAAADz0lEQVRYR82YXWgcVRTH/2c2tXWtWBS0aovFl9So1MY3P17andm9d7apL7FaScEv1BeFiB8UkYKIWKmgL340KJhICvtQsDtzNzvb6kORIsTWQrU+VDS0IVYCFkzBZHf+MmiW3e1m2SRrJ+f53HN+c849554zgg5KVjk7yDADsVYBODF1cXp4fHx8bjkuZDmH58/29/cnZv669KWAu+rsCX6wZtl3pFSaWKqfjgBqbQ8KcQDgn4C8LyKXSD4HoAeC75LXrXsgl8tVlgLZGUBlTwiwEcROrxB8FYH09T14fWUueRrAJoTMemMlLxZA103dhVB+BDDpmWADAM6DuMp+G8BeAG95JngzFsCstp8n8RGIUa8Q7K6F0Gn7GbFwkMSQXwiejQXQVXaUOi3Cp/J+6fNaiKxydhE8BOCQZ4LHrzrgTsfZWE7wFwCVa9aEtx8+fHS6FsLNOE9DOCTEUD6OCGplfybAkyIYzvvBnsYIZbV9gMQgwDc8U4ru46JlyVX8X3QOAvg7RNc9xphzjd5dbf8EYnMI2W5M8dii6QBcAai1YwvCR4Ry7UIGKXIryHR0XgQv5P3g40ZdpWzHAsaiqhZiBIJyM3sEy4LE8bwZG67tAPO6dYCusl8G8F4z8CbGL1Mw6PvBJ80ca53OCMOogKy2IicY9fz6LhCdqwKmUqkbVq+S3wF0ici+EDxf8xUKxKMAfApyEqIcSteYMeaPVs5d17mfFd7bCtEi15KyD4KbLPLhI4XS8VqbVcBsNr2FlfCUQE7nTXFLXbvQzisk9xPY75vgtbYisgglV9mjAB4DMeAVgpGmgEqltlqQ7wU4mTdB71UG/BXAHSHYa0zp5IoCzGQy3QmpnCVx0S8E6xsLpZriuCKotfOikB9AMOL5wUDjzYgd0NV2HoRLwR7fD6JWUyexAiqlVlsoT5NMwirf5vvfTK0wQGebBR4FcMozwdZmhR9rBLWy3xXg1VbtK1ZAV9lRS7mv1VsdG6DWej3C2UkRuZxcu+7GXC43u6JSrLU9IMQXEHieH2QXenhii6CrUiOAPEHKS36h+OFKAxSt7CkBbq6wvLlQ+PrnFQW4I72tN7QS4wB/80xpU6u5oprivkymuyKVswAuJCcm78ydOVO9tNkOTzNZ7bxD8nVAPvVMMVrwF5TagdVylR0t2ncDOA9BNBv+K8QtADYAnILIhUVMUleqEmtI9kSjOCx5yPOK37YLCKW29wisnES/LP5fmSFlb6vimHffbGmyXDfVbZUTC+4ky2Gfk3I5DBPnisXiTDt2lrzVtWO8Ezr/AEKTND+nargIAAAAAElFTkSuQmCC">
                   <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAeCAYAAABAFGxuAAACcUlEQVRYR83XT2jTUBgA8O97SxFkgn/YpiAq6smbdhcZA9Ema5JueBJkFw968qDibl5a8Doc4lHB0y5FmGtfXpsErCJFQfGmgh6EghdlijKRtX2fNJujq01WFtfkXd973/fjS/K+F4SYDvwfLsNQR5Fw2ovFIM+5XQ0bNzRsUtfOS6BHHml1SAC6yYU7FwYXCpZMJhP7R/bWgGCkA9EYSMDhxUXn81ZxoWCmeW4cJHvWNTnhZV6yH0QD01O3APB2t+REmLNKdjYimPocAMZ8ks9y4cz0HWaaqaMg8UPbS7/BgIi5ohVBxTJp9R4hXPWrCCJNFy13vq8VmzLU0YakKiImfBJLpYlHHtt2rW+wKT11sgnIAeBAQNIyF056q6jWvvXjYnLi7CnJ2CUEHPwbkCTN87LrGoZ6kRGoALhHkjQDKuVtJYBPDOBJIAzhZ5PooRDum27rPJimacOJAfkRAHe1LyLCa1bJvmvq2h0Auh6mAj57fzClfqxQqHztnPdghjGRRpKic7IPsFb/OiOE89QHpmWQqBABrJHYUR9aWKh8jxeMoMpLTtcDeu1RRlMxIspaJTfn+/IbRjQwCXRaCPdF3GDfdg7uHsrn8814wRDy3HIu+La01eOi/4+SEK5YlnM/djCliYeCemlUX+U7LpwTQZ0kIhjOcWHfiB1MAhpC2P+0wHZoFBX7zZSlfYXC61/xqhiSyy1X3eym4lVM19UxBtD6sdgwtul2McOFM9sTLJsF9uqlWiQAfZvvY28bko2Xy+WlnmBrizCTUY9jna1fFhuM1YQQX3RdP6hIObxZsKB5qdDK8vLK+0ql0uglzh+lOIUuSynHSQAAAABJRU5ErkJggg=="> -->
                 </p>
-              </div>
-            </div>
-            <div class="messager-content">
+              </section>
+            </section>
+            <section class="messager-content">
               <section>{{ item.content }}</section>
-              <div v-if="item.replyNumber > 0">
+              <section v-if="item.replyNumber > 0">
                 <ul class="messager-comments">
                   <li class="messager-comments-cell" v-for="(commentItem, commentIndex) in item.sonList" v-if=" commentIndex <= 3" :key="commentIndex">
                     <span>{{ commentItem.user.fullname }}：</span>
@@ -57,16 +57,16 @@
                     <span class="reply-number">共{{ item.replyNumber }}条回复</span>
                   </li>
                 </ul>
-              </div>
-            </div>
+              </section>
+            </section>
           </li>
         </ul>
-      </div>
-      <div class="look-more flex flex-align-center flex-pack-center" @click="downApp">
-        点击查看更多评论 >
-      </div>    
-    </div>
-  </div>
+      </section>
+      <section class="look-more flex flex-align-center flex-pack-center" @click="firstLogin">
+        点击查看更多评论 <i class="right-arrow"></i>
+      </section>    
+    </section>
+  </section>
 </template>
 <script>
 import Cookie from "js-cookie";
@@ -80,6 +80,26 @@ export default {
     };
   },
   methods: {
+    // 先登录 再下载流程
+    // 需要登录的操作 先判断后执行
+    async firstLogin() {
+      let self = this;
+      // 渲染页面前 先判断cookies token是否存在
+      if (Cookie.get("token")) {
+        self.downApp();
+      } else {
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          // 通过微信授权 获取code
+          await self.$store.dispatch("get_wx_auth", {
+            // 正式
+            url: `${location.protocol}//${location.hostname}`
+          });
+        } else {
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
+      }
+    },
     // h5下载补丁
     async downApp() {
       let self = this;
@@ -188,6 +208,13 @@ export default {
     font-size: @basefont;
     color: @focuscolor;
     border-top: 1px solid @bottomcolor;
+    .right-arrow {
+      width: 2.4vw;
+      height: 2.4vw;
+      background: url("~/assets/images/Shape2@2x.png") no-repeat;
+      background-size: cover;
+      margin-left: @m20;
+    }
   }
   .messages {
     img {

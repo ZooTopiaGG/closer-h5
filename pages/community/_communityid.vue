@@ -185,12 +185,14 @@ export default {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
-            // url: `${location.protocol}//${location.hostname}${self.$route.path}`
-            url: `${location.protocol}//${
-              location.hostname
-            }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
-              self.$route.path
+            url: `${location.protocol}//${location.hostname}${
+              self.$route.fullPath
             }`
+            // url: `${location.protocol}//${
+            //   location.hostname
+            // }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
+            //   self.$route.path
+            // }`
           });
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);

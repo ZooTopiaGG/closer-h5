@@ -1,12 +1,12 @@
 <template>
-  <div class="feeder-cover flex flex-align-center flex-pack-justify">
-    <div class="flex flex-1 flex-align-center">
+  <section class="feeder-cover flex flex-align-center flex-pack-justify" v-if="$store.state.GET_MESSAGE_STATE">
+    <section class="flex flex-1 flex-align-center">
       <dp-logo class="feed-logo"></dp-logo>
       <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
       <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
-    </div>
+    </section>
     <dp-focus :tjFocus="tjFocus"></dp-focus>
-  </div>
+  </section>
 </template>
 <script>
 import Cookie from "js-cookie";
@@ -43,12 +43,14 @@ export default {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
-            // url: `${location.protocol}//${location.hostname}${self.$route.path}`
-            url: `${location.protocol}//${
-              location.hostname
-            }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
-              self.$route.path
+            url: `${location.protocol}//${location.hostname}${
+              self.$route.fullPath
             }`
+            // url: `${location.protocol}//${
+            //   location.hostname
+            // }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
+            //   self.$route.path
+            // }`
           });
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
@@ -61,7 +63,7 @@ export default {
 <style scoped lang="less">
 @textcolor: #495060;
 .feeder-cover {
-  padding: 5.3vw 4vw;
+  padding: 5.3vw 4vw 0;
   width: 100%;
   box-sizing: border-box;
   .access-not {

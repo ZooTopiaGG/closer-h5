@@ -122,16 +122,18 @@
         </section>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <section class="feed-doc" v-else-if="$store.state.res.int_type === 2">
-          <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
-            <!-- 大封面 -->
-            <img class="feed-cover feed-cover-bgcover" :src="defaultImg" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
-            >
-            <section class="hide-over"></section>
-          </section>
-          <section class="feeder-img feeder-img-cover" v-else>
-            <!-- 小封面 -->
-            <img class="feed-cover feed-cover-cover" :src="defaultImg" data-index= "0" :data-src="$com.makeFileUrl($store.state.res.cover)">
-            <section class="hide-over"></section>
+          <section v-if="!$store.state.version_1_2">
+            <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
+              <!-- 大封面 -->
+              <img class="feed-cover feed-cover-bgcover" :src="defaultImg" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
+              >
+              <section class="hide-over"></section>
+            </section>
+            <section class="feeder-img feeder-img-cover" v-else>
+              <!-- 小封面 -->
+              <img class="feed-cover feed-cover-cover" :src="defaultImg" data-index= "0" :data-src="$com.makeFileUrl($store.state.res.cover)">
+              <section class="hide-over"></section>
+            </section>
           </section>
           <section class="feeder-content" id="tjimg" >
             <!-- 标题 -->
@@ -215,34 +217,31 @@
           </section>
         </section>
         <!-- 发帖者信息 神议论和长图文区别 -->
-        <section class="author-list" v-if="$store.state.res.int_category != 3">
-          <p>小编：<span>张山</span></p>
-          <p>作者：<span>历史书</span> <span>历史书</span> </p>
-        </section>
-        <section v-else class="author-list">
-          <p>来自 <span>{{ $store.state.res.className }}</span></p>
+        <section v-if="!$store.state.res.version_1_2">
+          <section class="author-list" v-if="$store.state.res.int_category != 3">
+            <p>小编：<span>张山</span></p>
+            <p>作者：<span>历史书</span> <span>历史书</span> </p>
+          </section>
+          <section v-else class="author-list">
+            <p>来自 <span>{{ $store.state.res.className }}</span></p>
+          </section>
         </section>
         <!-- 阅读量 点赞数 -->
-        <section class="end-data flex flex-align-center flex-pack-justify">
+        <section class="end-data flex flex-align-center flex-pack-justify" v-if="!$store.state.res.version_1_2">
           <section class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></section>
           <section class="flex flex-align-center">
             <span class="sup-icon"></span>
-            <span> 1W+</span>
+            <span> {{ $store.state.res.like }}</span>
           </section>
         </section> 
       </section>
       <!-- 精彩留言 -->
       <message-board></message-board>
-      <!-- 热门文章 -->
-      <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
-    </section>
-    <!-- feed流 -->
-    <section v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.int_type === 2 && $store.state.res.int_category === 1" class="works">
-      <section class="title">
-        <span>精彩投稿（{{ $store.state.res.commentNumber }}）</span>
+      <section>
+        <!-- 热门文章 -->
+        <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
+        <no-thing v-else></no-thing>
       </section>
-      <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
-      <no-thing v-else></no-thing>
     </section>
   </section>
 </template>
@@ -476,10 +475,12 @@ export default {
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
-            //url: location.href
-            url: `${location.protocol}//${
-              location.hostname
-            }/redirect?redirectUrl=${location.href}`
+            url: `${location.protocol}//${location.hostname}${
+              self.$route.fullPath
+            }`
+            // url: `${location.protocol}//${
+            //   location.hostname
+            // }/redirect?redirectUrl=${location.href}`
           });
         } else {
           self.$store.commit("SET_VISIBLE_LOGIN", true);
@@ -531,26 +532,30 @@ export default {
     // 征稿时，显示征稿列表
     async paperList() {
       let self = this;
-      // if (
-      //   self.$store.state.GET_MESSAGE_STATE &&
-      //   self.$store.state.res.int_type === 2 &&
-      //   self.$store.state.res.int_category === 1
-      // ) {
-      //   let feeds = await self.$axios.$get(
-      //     `${api.command.collections}?subjectid=${self.$route.params.id}`
-      //   );
-      //   if (feeds.code === 0) {
-      //     let arr = await feeds.result.data.map(x => {
-      //       if (x.content) {
-      //         x.content = JSON.parse(x.content);
-      //       }
-      //       return x;
-      //     });
-      //     self.$store.commit("SET_FEED_LIST", arr);
-      //   }
-      // } else {
-      //   return;
-      // }
+      if (
+        self.$store.state.GET_MESSAGE_STATE &&
+        self.$store.state.res.int_type === 2 &&
+        self.$store.state.res.int_category === 1
+      ) {
+        let feeds = await self.$axios.$get(
+          `${api.command.collections}?subjectid=${self.$route.params.id}`
+        );
+        if (feeds.code === 0) {
+          let arr = await feeds.result.data.map(x => {
+            if (x.content) {
+              x.content = JSON.parse(x.content);
+            }
+            return x;
+          });
+          self.$store.commit("SET_FEED_LIST", arr);
+        }
+      } else {
+        return;
+      }
+    },
+    // 热门文章 推荐文章
+    async hotList() {
+      let self = this;
       let feeds = await self.$axios.$get(
         `${api.community.community_subject_list_index}?communityid=9uxMucrcqq`
       );
@@ -597,8 +602,16 @@ export default {
         self.$store.dispatch("message_list", {
           subjectid: self.$route.params.id
         });
-        // 征稿列表
-        self.paperList();
+        if (
+          self.$store.state.res.int_type === 2 &&
+          self.$store.state.res.int_category === 1
+        ) {
+          // 征稿列表
+          self.paperList();
+        } else {
+          // 热门文章列表
+          self.hotList();
+        }
         self.showMore = true;
       }
       if (typeof window != "undefined") {

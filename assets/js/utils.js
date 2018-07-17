@@ -74,7 +74,6 @@ export default {
       const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
       let size, flag;
-      console.log('pImg===', pImg)
       pImg.forEach((x, i) => {
         let
           srcArray = x.match(regexSrc),

@@ -107,10 +107,12 @@ export default {
             position: "top"
           });
           await self.$store.dispatch("get_wx_auth", {
-            // url: location.href
-            url: `${location.protocol}//${
-              location.hostname
-            }/redirect?redirectUrl=${location.href}`
+            url: `${location.protocol}//${location.hostname}${
+              self.$route.fullPath
+            }`
+            // url: `${location.protocol}//${
+            //   location.hostname
+            // }/redirect?redirectUrl=${location.href}`
           });
           return;
         } else {
