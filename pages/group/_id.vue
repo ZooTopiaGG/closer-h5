@@ -91,9 +91,20 @@ export default {
             url: `${location.protocol}//${location.hostname}`
           });
         } else {
+          self.$store.commit("GET_LOGIN_TYPE", "toDown");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
       }
+    }
+  },
+  beforeMount() {
+    let self = this;
+    // 验证code是否存在
+    if (self.$route.query.code) {
+      self.$store.dispatch("get_code_by_login", {
+        code: self.$route.query.code,
+        type: "else"
+      });
     }
   },
   mounted() {}

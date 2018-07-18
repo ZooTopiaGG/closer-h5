@@ -1,9 +1,13 @@
 <template>
   <section :class="{
     dpLogin: true,
-    inHtmlLogin: !isAbsolute
+    inHtmlLogin: isAbsolute === 'inviter'
   }">
-    <section class="title" v-if="isAbsolute">
+    
+    <section class="title" v-if="isAbsolute === 'toMessage'">
+      <span>客官，根据国家法律，发表文字评论必须填写手机号，所以拜托啦～</span>
+    </section>
+    <section class="title" v-else-if="isAbsolute != 'inviter'">
       <span>{{ title }}</span>
     </section>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
@@ -21,12 +25,12 @@
       'cursor': true,
       'margin-top-20': true, 
       'tj-btn': true,
-      notweixin: !isAbsolute
+      notweixin: isAbsolute === 'inviter'
     }" @click="toLogin">
       <section class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
-        <span v-if="isAbsolute">登 录</span>
-        <span v-else>立即下载，提现秒到账</span>
+        <span v-if="isAbsolute === 'inviter'">立即下载，提现秒到账</span>
+        <span v-else>登 录</span>
       </section>
     </mt-button>
   </section>
@@ -48,8 +52,8 @@ export default {
   },
   props: {
     isAbsolute: {
-      type: Boolean,
-      default: true
+      type: String,
+      default: "login"
     },
     title: {
       type: String,
@@ -119,6 +123,7 @@ export default {
     },
     async toLogin() {
       let self = this;
+      console.log(self.isAbsolute);
       try {
         self.loading = 1;
         if (!$async.isPhoneNum(self.phone)) {
@@ -160,18 +165,79 @@ export default {
         });
         if (status) {
           self.loading = 2;
-          if (!self.isAbsolute) {
+          self.$store.commit("SET_VISIBLE_LOGIN", false);
+          if (self.isAbsolute === "inviter") {
             // 需要传入打开相应app页面的参数
             // location.href = api.downUrl;
             location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
-          } else {
-            self.$store.commit("SET_VISIBLE_LOGIN", false);
+          } else if (self.isAbsolute === "toFocus") {
+            // self.$store.commit("SHOW_ALERT", true);
+            self.sureFocus();
+          } else if (self.isAbsolute === "toDown") {
+            self.downApp();
+          } else if (self.isAbsolute === "toMessage") {
+            self.sureMessage();
           }
         } else {
           self.loading = 2;
         }
       } catch (err) {
         self.loading = 2;
+      }
+    },
+    // 确认回复
+    async sureMessage() {
+      let self = this,
+        para;
+      if (self.$route.params.id) {
+        para = {
+          subjectid: self.$route.params.messageid,
+          content: window.sessionStorage.getItem("textarea"),
+          lastid: self.$route.params.id
+        };
+      } else {
+        para = {
+          subjectid: self.$route.params.messageid,
+          content: window.sessionStorage.getItem("textarea")
+        };
+      }
+      await self.$store.dispatch("sure_message", para);
+    },
+    // 确认关注
+    async sureFocus() {
+      let self = this;
+      let result = await self.$store.dispatch("get_focus_stat", {
+        communityid: self.$store.state.res.communityid,
+        flag: self.$store.state.is_follow ? 0 : 1
+      });
+      if (result) {
+        self.$store.commit("SHOW_ALERT", true);
+      }
+    },
+    async downApp() {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
+      });
+      if (result) {
+        if (self.$route.path.indexOf("/community") > -1) {
+          location.href = `${location.protocol}//${
+            location.hostname
+          }?downurl=closer://community/${self.$route.params.id}`;
+        } else if (self.$route.path.indexOf("/feed") > -1) {
+          location.href = `${location.protocol}//${
+            location.hostname
+          }?downurl=closer://feed/${self.$route.params.id}`;
+        } else if (self.$route.path.indexOf("/group") > -1) {
+          location.href = `${location.protocol}//${
+            location.hostname
+          }?downurl=closer://group/${self.$route.params.id}`;
+        } else {
+          location.href = `${location.protocol}//${location.hostname}`;
+        }
       }
     }
   }
@@ -236,12 +302,11 @@ export default {
 }
 
 .title {
-  height: 8vw;
-  line-height: 8vw;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 2vw;
+  line-height: 1.7;
 }
 .notweixin {
   margin-top: 20px;

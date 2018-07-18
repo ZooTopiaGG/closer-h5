@@ -46,13 +46,9 @@ export default {
             url: `${location.protocol}//${location.hostname}${
               self.$route.fullPath
             }`
-            // url: `${location.protocol}//${
-            //   location.hostname
-            // }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
-            //   self.$route.path
-            // }`
           });
         } else {
+          self.$store.commit("GET_LOGIN_TYPE", "toFocus");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
       }

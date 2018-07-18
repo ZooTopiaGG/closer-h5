@@ -1,6 +1,6 @@
 <template>
   <section class="dpConfirm">
-    <section class="close">
+    <section class="close" @click="hideConfirm">
       <i></i>
     </section>
     <section class="desc title">
@@ -83,10 +83,13 @@ export default {
   }
   .close {
     height: @m15;
+    min-height: 10px;
     i {
       display: block;
       width: @m15;
       height: @m15;
+      min-width: 10px;
+      min-height: 10px;
       background: url("~/assets/images/Shape@2x.png") no-repeat;
       background-size: cover;
       float: right;

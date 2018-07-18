@@ -15,7 +15,7 @@
     如果已经登录过 则显示 立即下载，提现无门槛
     如果已经领取了 则显示给其他好友发红包 -->
     <div class="openbonus-sign">
-      <dp-login :isAbsolute="false"></dp-login>
+      <dp-login isAbsolute="inviter"></dp-login>
     </div>
   </div>
 </template>

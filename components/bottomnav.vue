@@ -33,6 +33,7 @@ export default {
             url: `${location.protocol}//${location.hostname}`
           });
         } else {
+          self.$store.commit("GET_LOGIN_TYPE", "toDown");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
       }
