@@ -33,12 +33,11 @@
         <bottom-nav v-if="$route.path.indexOf('group') > -1"></bottom-nav>
       </footer>
     </section>
-    <section class="not-exist flex flex-v flex-align-center" v-else>
-      <img src="~/assets/images/home_icon_delete@2x.png" alt="">
-      <span>此贴子已被删除</span>
+    <section v-else>
+      <not-find></not-find>
     </section>
     <section class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
-      <dp-login></dp-login>
+      <dp-login :isAbsolute="$store.state.get_login_type"></dp-login>
     </section>
     <section class="tj-dialog" @click.self="hiddenTextArea" v-if="$store.state.visibleMessage">
       <dp-reply></dp-reply>
@@ -61,6 +60,7 @@ import topNav from "~/components/topnav.vue";
 import dpConfirm from "~/components/dpconfirm.vue";
 import dpAlert from "~/components/dpalert.vue";
 import bottomNav from "~/components/bottomnav.vue";
+import notFind from "~/components/notfind.vue";
 
 export default {
   data() {
@@ -82,7 +82,8 @@ export default {
     topNav,
     dpConfirm,
     dpAlert,
-    bottomNav
+    bottomNav,
+    notFind
   },
   methods: {
     // 监听图片预览组件的子组件传来的状态 是否关闭预览
@@ -107,19 +108,17 @@ export default {
     }
   },
   beforeMount() {
-    let self = this;
-    // 验证code是否存在
-    if (self.$route.query.code) {
-      console.log("self.$route.query.code===", self.$route.query.code);
-      self.$store.dispatch("get_code_by_login", {
-        code: self.$route.query.code,
-        type: "else"
-      });
-    }
+    // let self = this;
+    // // 验证code是否存在
+    // if (self.$route.query.code) {
+    //   self.$store.dispatch("get_code_by_login", {
+    //     code: self.$route.query.code,
+    //     type: "else"
+    //   });
+    // }
   },
   mounted() {
     let self = this;
-    console.log(`${location.protocol}//${location.hostname}`);
     console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");

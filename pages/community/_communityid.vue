@@ -17,7 +17,7 @@
     <section v-if="group.data && group.data.length>0" class="member">
       <section class="flex flex-align-center flex-pack-justify">
         <span class="title">正在招募的群组</span>
-        <span class="more-group">更多群组 ></span>
+        <span class="more-group flex flex-align-center">更多群组 <i class="right-arrow"></i></span>
       </section>
       <ul :class="{
                 group: true, 
@@ -188,20 +188,37 @@ export default {
             url: `${location.protocol}//${location.hostname}${
               self.$route.fullPath
             }`
-            // url: `${location.protocol}//${
-            //   location.hostname
-            // }/redirect?redirectUrl=${location.protocol}//${location.hostname}${
-            //   self.$route.path
-            // }`
           });
         } else {
+          self.$store.commit("GET_LOGIN_TYPE", "toFocus");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
+      }
+    },
+    // 微信登录关注
+    async focusWxLogin() {
+      let self = this;
+      // 验证code是否存在
+      if (self.$route.query.code) {
+        let res = await self.$store.dispatch("get_code_by_login", {
+          code: self.$route.query.code,
+          type: "else"
+        });
+        if (res) {
+          let result = await self.$store.dispatch("get_focus_stat", {
+            communityid: self.$store.state.res.communityid,
+            flag: self.$store.state.is_follow ? 0 : 1
+          });
+          if (result) {
+            self.$store.commit("SHOW_ALERT", true);
+          }
         }
       }
     }
   },
   beforeMount() {
     let self = this;
+    self.focusWxLogin();
     self.getFeedList();
     self.getGroupList();
   }
@@ -282,6 +299,15 @@ export default {
 }
 
 /* 调整的 */
+.right-arrow {
+  width: 1.8666vw;
+  height: 0.9333vw;
+  min-width: 7px;
+  min-height: 14px;
+  background: url("~/assets/images/back5@2x.png") no-repeat;
+  background-size: cover;
+  margin-left: @m20;
+}
 .cover {
   position: relative;
 }

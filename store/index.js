@@ -37,7 +37,8 @@ export const state = () => ({
   messagelist: [],
   alert_stat: false,
   confirm_stat: false,
-  version_1_2: false
+  version_1_2: false,
+  get_login_type: '' // toFocus 来自关注后弹窗 toDown 来自登录后直接跳转下载 inviter 来自奖励金
 })
 
 export const mutations = {
@@ -50,9 +51,9 @@ export const mutations = {
     state.GET_MESSAGE_STATE = !_result;
     state.isPre = refer.indexOf('?view=pre') > -1;
     // 基于 1.1.100 做验证
-    if (nvg.indexOf('version/') > -1) {
-      let b = nvg.split('version/')[1].split('.')
-      state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0]==1 && b[1] == 1 && b[2] && b[2] > 100)
+    if (nvg.indexOf('closerapp/version/') > -1) {
+      let b = nvg.split('closerapp/version/')[1].split('.');
+      state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
     }
   },
   // 设置是否在app的状态
@@ -196,6 +197,10 @@ export const mutations = {
   // 显示confirm弹窗组件
   SHOW_CONFIRM(state, para) {
     state.confirm_stat = para
+  },
+  // 获取登录类型
+  GET_LOGIN_TYPE(state, para) {
+    state.get_login_type = para
   }
 }
 
@@ -652,17 +657,57 @@ export const actions = {
       if (data.code === 0) {
         commit('SET_MESSAGE_LIET', data.result)
       } else {
-        self.$toast({
+        Toast({
           message: data.result,
           position: "top"
         });
       }
       return true
     } catch (err) {
-      self.$toast({
+      Toast({
         message: err,
         position: "top"
       });
     }
   },
+  // 评论以及回复评论
+  async sure_message({
+    commit
+  }, {
+    subjectid,
+    content,
+    lastid
+  }) {
+    let self = this;
+    try {
+      let para;
+      // 子评论id存在 则是回复子评论
+      if (lastid) {
+        para = {
+          subjectid: subjectid,
+          content: content,
+          lastid: lastid
+        };
+      } else {
+        para = {
+          subjectid: subjectid,
+          content: content
+        };
+      }
+      let data = await self.$axios.$post(`${api.admin.add_reply}`, para);
+      if (data.code === 0) {
+        commit("SHOW_CONFIRM", true);
+      } else {
+        Toast({
+          message: data.result,
+          position: "top"
+        });
+      }
+    } catch (err) {
+      Toast({
+        message: err,
+        position: "top"
+      });
+    }
+  }
 }

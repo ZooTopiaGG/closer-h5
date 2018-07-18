@@ -118,7 +118,7 @@ export default {
   },
   beforeMount() {
     let self = this;
-    // 验证code是否存在
+    // 验证code是否存在 并 返回待办事项
     if (self.$route.query.code) {
       self.$store.dispatch("get_code_by_login", {
         code: self.$route.query.code,
@@ -128,9 +128,9 @@ export default {
   },
   mounted() {
     let self = this;
-    window.onload = function(event) {
-      self.initLoad(event);
-    };
+    self.$nextTick(() => {
+      self.initLoad();
+    });
   }
 };
 </script>

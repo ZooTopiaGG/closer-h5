@@ -1,5 +1,8 @@
 <template>
   <section class="dpAlert">
+    <section class="close" @click="hideAlert">
+      <i></i>
+    </section>
     <section class="desc">
       <section>您已成功关注了“深夜成都”贴近号，去快看看这个贴近号下的其他帖子吧~</section>
     </section>
@@ -46,6 +49,9 @@ export default {
           location.href = `${api.downHost}`;
         }
       }
+    },
+    hideAlert() {
+      this.$store.commit("SHOW_ALERT", false);
     }
   },
   props: {}
@@ -62,9 +68,25 @@ export default {
   box-sizing: border-box;
   margin: @m20 * 13 auto 0;
   border-radius: 3px;
+  .close {
+    height: @m15;
+    i {
+      display: block;
+      width: @m15;
+      height: @m15;
+      min-width: 10px;
+      min-height: 10px;
+      background: url("~/assets/images/Shape@2x.png") no-repeat;
+      background-size: cover;
+      float: right;
+    }
+  }
   > section:not(.desc-icon) {
     padding-left: @m20 * 2;
     padding-right: @m20 * 2;
+  }
+  > section.close {
+    padding: @m20 @m20 0 0;
   }
   .title {
     font-weight: bold;
@@ -73,7 +95,7 @@ export default {
     font-size: 18px;
     text-align: justify;
     line-height: 1.8;
-    padding-top: @m20 * 3;
+    padding-top: @m20 * 2;
     padding-bottom: @m20 * 3;
     box-sizing: border-box;
   }

@@ -1,6 +1,8 @@
 <template>
-    <section class="flex flex-align-center focus" @click="tjFocus">
-      <section class="community" v-if="$route.path.indexOf('community') > -1">
+    <section class="focus">
+      <section v-if="$store.state.is_follow" class="disabledBtn"></section>
+      <section  @click="tjFocus">
+        <section class="community" v-if="$route.path.indexOf('community') > -1">
         <section class="yet-focus flex flex-align-center" v-if="$store.state.is_follow">
           <span>已关注</span>
         </section>
@@ -16,6 +18,7 @@
           <i></i>
           <span>关注</span>
         </section>
+      </section>
       </section>
     </section>
 </template>
@@ -44,6 +47,7 @@ export default {
   color: #507caf;
   font-size: 16px;
   padding-right: @m20 / 2;
+  position: relative;
   .other {
     .no-focus {
       i {
@@ -55,6 +59,15 @@ export default {
         background-size: cover;
       }
     }
+  }
+  .disabledBtn {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    background: rgba(0, 0, 0, 0);
   }
   .community {
     color: @textcolor;

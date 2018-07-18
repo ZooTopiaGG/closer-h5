@@ -18,7 +18,7 @@
         <!-- 图片 -->
         <section class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
           <logo-tab></logo-tab>
-          <section class="feeder-title feeder-title-2">{{ $store.state.content.text }}</section>
+          <section class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
           <section v-if="$store.state.GET_MESSAGE_STATE">
@@ -412,31 +412,6 @@ export default {
         location.href = `closer://feed/${fid}`;
       }
     },
-    // 留言操作
-    // async toMessage(item) {
-    //   let self = this;
-    //   self.item = item;
-    //   // 渲染页面前 先判断cookies token是否存在
-    //   if (Cookie.get("token")) {
-    //     // self.visibleMessage = true;
-    //     self.$store.commit("SET_MESSAGE_ITEM", item);
-    //     self.$store.commit("SET_VISIBLE_MESSAGE", true);
-    //   } else {
-    //     // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-    //     if ($async.isWeiXin()) {
-    //       // 通过微信授权 获取code
-    //       await self.$store.dispatch("get_wx_auth", {
-    //         url: `${location.protocol}//${
-    //           location.hostname
-    //         }/redirect?redirectUrl=${location.href}`
-    //         // url: location.href
-    //       });
-    //     } else {
-    //       // 显示登录弹窗
-    //       self.$store.commit("SET_VISIBLE_LOGIN", true);
-    //     }
-    //   }
-    // },
     // h5下载补丁
     async downApp() {
       let self = this;
@@ -464,54 +439,6 @@ export default {
         }
       }
     },
-    // 点赞操作
-    async toSupport(item, index) {
-      let self = this;
-      // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
-        self.support(item);
-      } else {
-        // 前期仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        if ($async.isWeiXin()) {
-          // 通过微信授权 获取code
-          await self.$store.dispatch("get_wx_auth", {
-            url: `${location.protocol}//${location.hostname}${
-              self.$route.fullPath
-            }`
-            // url: `${location.protocol}//${
-            //   location.hostname
-            // }/redirect?redirectUrl=${location.href}`
-          });
-        } else {
-          self.$store.commit("SET_VISIBLE_LOGIN", true);
-        }
-      }
-    },
-    // 点赞接口 closer_reply.like
-    async support(item) {
-      let self = this;
-      try {
-        let para = {
-          subjectid: item.subjectid,
-          commentid: item.commentid,
-          flag: item.isLike ? 0 : 1
-        };
-        let data = await self.$axios.$post(`${api.admin.like}`, para);
-        if (data.code === 0) {
-          self.$set(item, "isLike", !item.isLike);
-        } else {
-          self.$toast({
-            message: data.result,
-            position: "top"
-          });
-        }
-      } catch (err) {
-        self.$toast({
-          message: err,
-          position: "top"
-        });
-      }
-    },
     // 社区信息
     // 外部分享时调用
     async communityFocusStat() {
@@ -532,32 +459,24 @@ export default {
     // 征稿时，显示征稿列表
     async paperList() {
       let self = this;
-      if (
-        self.$store.state.GET_MESSAGE_STATE &&
-        self.$store.state.res.int_type === 2 &&
-        self.$store.state.res.int_category === 1
-      ) {
-        let feeds = await self.$axios.$get(
-          `${api.command.collections}?subjectid=${self.$route.params.id}`
-        );
-        if (feeds.code === 0) {
-          let arr = await feeds.result.data.map(x => {
-            if (x.content) {
-              x.content = JSON.parse(x.content);
-            }
-            return x;
-          });
-          self.$store.commit("SET_FEED_LIST", arr);
-        }
-      } else {
-        return;
+      let feeds = await self.$axios.$get(
+        `${api.command.collections}?subjectid=${self.$route.params.id}`
+      );
+      if (feeds.code === 0) {
+        let arr = await feeds.result.data.map(x => {
+          if (x.content) {
+            x.content = JSON.parse(x.content);
+          }
+          return x;
+        });
+        self.$store.commit("SET_FEED_LIST", arr);
       }
     },
     // 热门文章 推荐文章
     async hotList() {
       let self = this;
       let feeds = await self.$axios.$get(
-        `${api.community.community_subject_list_index}?communityid=9uxMucrcqq`
+        `${api.community.community_subject_list_index}?communityid=9cvwbctrap`
       );
       if (feeds.code === 0) {
         let arr = await feeds.result.data.map(x => {
@@ -588,11 +507,36 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    // 微信登录关注
+    async focusWxLogin() {
+      let self = this;
+      // 验证code是否存在
+      if (self.$route.query.code) {
+        let res = await self.$store.dispatch("get_code_by_login", {
+          code: self.$route.query.code,
+          type: "else"
+        });
+        if (res) {
+          let result = await self.$store.dispatch("get_focus_stat", {
+            communityid: self.$store.state.res.communityid,
+            flag: self.$store.state.is_follow ? 0 : 1
+          });
+          if (result) {
+            self.$store.commit("SHOW_ALERT", true);
+          }
+        }
+      }
     }
+  },
+  beforeMount() {
+    this.focusWxLogin();
   },
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      // 清除留言时保存的数据
+      window.sessionStorage.clear();
       // 获取阅读量
       self.incrView();
       if (self.$store.state.GET_MESSAGE_STATE) {
