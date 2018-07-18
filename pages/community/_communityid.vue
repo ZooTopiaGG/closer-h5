@@ -17,7 +17,7 @@
     <section v-if="group.data && group.data.length>0" class="member">
       <section class="flex flex-align-center flex-pack-justify">
         <span class="title">正在招募的群组</span>
-        <span class="more-group">更多群组 ></span>
+        <span class="more-group flex flex-align-center">更多群组 <i class="right-arrow"></i></span>
       </section>
       <ul :class="{
                 group: true, 
@@ -282,6 +282,15 @@ export default {
 }
 
 /* 调整的 */
+.right-arrow {
+  width: 1.8666vw;
+  height: 0.9333vw;
+  min-width: 7px;
+  min-height: 14px;
+  background: url("~/assets/images/back5@2x.png") no-repeat;
+  background-size: cover;
+  margin-left: @m20;
+}
 .cover {
   position: relative;
 }

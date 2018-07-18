@@ -23,22 +23,24 @@
           <span class="ellipsis">{{ item.props.roster.name }}</span>
         </li>
       </ul>
-      <section class="more-member" @click="firstLogin">查看更多群成员 <i class="right-arrow"></i></section>
+      <section class="more-member" @click="firstLogin">查看更多群成员 <i class="down-arrow"></i></section>
     </section>
-    <section class="intro">
-      <section class="title">
+    <section class="intro" v-if="$store.state.group_info.group_info && JSON.parse($store.state.group_info.group_info.group.description)[0].content">
+      <section class="title flex flex-align-center flex-pack-justify">
         <span>群简介</span>
+        <i class="right-arrow"></i>
       </section>
       <section class="content">
-        <p class="text-ellipse" v-if="$store.state.group_info.group_info && $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
+        <p class="text-ellipse">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
       </section>
     </section>
-    <section class="intro">
-      <section class="title">
+    <section class="intro" v-if="$store.state.group_info.group_info && JSON.parse($store.state.group_info.group_info.announcement)[0].content">
+      <section class="title flex flex-align-center flex-pack-justify">
         <span>当前话题</span>
+        <i class="right-arrow"></i>
       </section>
       <section class="content">
-        <p class="text-ellipse" v-if="$store.state.group_info.group_info && $store.state.group_info.group_info.group">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
+        <p class="text-ellipse">{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
       </section>
     </section>
     <section class="split-box"></section>
@@ -47,6 +49,7 @@
       <section class="group-logo flex flex-align-center">
         <img :src="$store.state.feed_list[0].blogo">
         <span>{{ $store.state.feed_list[0].communityName }}</span>
+        <i class="right-arrow"></i>
       </section>
     </section>    
     <section class="works flex-1">
@@ -110,6 +113,7 @@ export default {
     margin-bottom: @m20;
     font-size: 16px;
     margin-left: @m15;
+    position: relative;
   }
   .content {
     padding: 0 @m15 @m15;
@@ -162,13 +166,22 @@ export default {
   .more {
     margin: @m15*2 0 @m20;
   }
-  .right-arrow {
+  .down-arrow {
     display: inline-block;
     width: 2.4vw;
     height: 2.4vw;
     background: url("~/assets/images/Shape2@2x.png") no-repeat;
     background-size: cover;
     margin-left: @m20 / 2;
+  }
+  .right-arrow {
+    width: 1.8666vw;
+    height: 0.9333vw;
+    min-width: 7px;
+    min-height: 14px;
+    background: url("~/assets/images/back5@2x.png") no-repeat;
+    background-size: cover;
+    margin-left: @m20;
   }
   .group-master {
     width: 11.2vw;

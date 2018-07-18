@@ -50,9 +50,9 @@ export const mutations = {
     state.GET_MESSAGE_STATE = !_result;
     state.isPre = refer.indexOf('?view=pre') > -1;
     // 基于 1.1.100 做验证
-    if (nvg.indexOf('version/') > -1) {
-      let b = nvg.split('version/')[1].split('.')
-      state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0]==1 && b[1] == 1 && b[2] && b[2] > 100)
+    if (nvg.indexOf('closerapp/version/') > -1) {
+      let b = nvg.split('closerapp/version/')[1].split('.');
+      state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
     }
   },
   // 设置是否在app的状态

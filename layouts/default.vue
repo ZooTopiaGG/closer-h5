@@ -110,7 +110,6 @@ export default {
     let self = this;
     // 验证code是否存在
     if (self.$route.query.code) {
-      console.log("self.$route.query.code===", self.$route.query.code);
       self.$store.dispatch("get_code_by_login", {
         code: self.$route.query.code,
         type: "else"
@@ -119,7 +118,6 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(`${location.protocol}//${location.hostname}`);
     console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");

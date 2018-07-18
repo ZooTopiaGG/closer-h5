@@ -18,7 +18,7 @@
         <!-- 图片 -->
         <section class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
           <logo-tab></logo-tab>
-          <section class="feeder-title feeder-title-2">{{ $store.state.content.text }}</section>
+          <section class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
           <section v-if="$store.state.GET_MESSAGE_STATE">
@@ -532,32 +532,24 @@ export default {
     // 征稿时，显示征稿列表
     async paperList() {
       let self = this;
-      if (
-        self.$store.state.GET_MESSAGE_STATE &&
-        self.$store.state.res.int_type === 2 &&
-        self.$store.state.res.int_category === 1
-      ) {
-        let feeds = await self.$axios.$get(
-          `${api.command.collections}?subjectid=${self.$route.params.id}`
-        );
-        if (feeds.code === 0) {
-          let arr = await feeds.result.data.map(x => {
-            if (x.content) {
-              x.content = JSON.parse(x.content);
-            }
-            return x;
-          });
-          self.$store.commit("SET_FEED_LIST", arr);
-        }
-      } else {
-        return;
+      let feeds = await self.$axios.$get(
+        `${api.command.collections}?subjectid=${self.$route.params.id}`
+      );
+      if (feeds.code === 0) {
+        let arr = await feeds.result.data.map(x => {
+          if (x.content) {
+            x.content = JSON.parse(x.content);
+          }
+          return x;
+        });
+        self.$store.commit("SET_FEED_LIST", arr);
       }
     },
     // 热门文章 推荐文章
     async hotList() {
       let self = this;
       let feeds = await self.$axios.$get(
-        `${api.community.community_subject_list_index}?communityid=9uxMucrcqq`
+        `${api.community.community_subject_list_index}?communityid=9cvwbctrap`
       );
       if (feeds.code === 0) {
         let arr = await feeds.result.data.map(x => {
