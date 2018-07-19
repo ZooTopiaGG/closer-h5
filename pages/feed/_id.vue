@@ -217,7 +217,7 @@
           </section>
         </section>
         <!-- 发帖者信息 神议论和长图文区别 -->
-        <section v-if="!$store.state.res.version_1_2">
+        <section v-if="!$store.state.version_1_2">
           <section class="author-list" v-if="$store.state.res.int_category != 3">
             <p>小编：<span>张山</span></p>
             <p>作者：<span>历史书</span> <span>历史书</span> </p>
@@ -227,7 +227,7 @@
           </section>
         </section>
         <!-- 阅读量 点赞数 -->
-        <section class="end-data flex flex-align-center flex-pack-justify" v-if="!$store.state.res.version_1_2">
+        <section class="end-data flex flex-align-center flex-pack-justify" v-if="!$store.state.version_1_2">
           <section class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></section>
           <section class="flex flex-align-center">
             <span class="sup-icon"></span>
