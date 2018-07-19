@@ -236,8 +236,8 @@
         </section> 
       </section>
       <!-- 精彩留言 -->
-      <message-board></message-board>
-      <section>
+      <message-board v-if="$store.state.GET_MESSAGE_STATE"></message-board>
+      <section v-if="$store.state.GET_MESSAGE_STATE">
         <!-- 热门文章 -->
         <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
         <no-thing v-else></no-thing>

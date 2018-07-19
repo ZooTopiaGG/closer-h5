@@ -91,10 +91,10 @@ module.exports = {
   /*
    ** Customize the progress bar color
    */
-  loading: {
-    color: '#FDDB00',
-    height: '2px'
-  },
+  // loading: {
+  //   color: '#FDDB00',
+  //   height: '2px'
+  // },
   // 禁用预加载
   render: {
     resourceHints: false,
