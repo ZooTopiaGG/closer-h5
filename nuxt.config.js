@@ -26,37 +26,30 @@ module.exports = {
       }
     ],
     // 可使用外链形式 引入第三方库
-    script: [
-      // html head 中创建 script 标签
-      // {
-      //   innerHTML: `(function() {
-      //     if (typeof window !== 'undefined') {
-      //       let nvg = navigator.userAgent.toLowerCase()
-      //       // 判断页面当前处于的浏览器或者当前链接，设置html的hidden和auto
-      //       // if (nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || location.href.indexOf('/invite') > -1) {
-      //       //   document.documentElement.style.overflow = "auto"
-      //       // } else {
-      //       //   document.documentElement.style.overflow = "hidden"
-      //       // }
-      //     } else {
-      //       console.log('Do not use window in server')
-      //     }
-      //   })()`
-      // },
-      {
-        innerHTML: `
-        document.addEventListener("DOMContentLoaded", function(event) {
-            canShowContent()
+    script: [{
+      innerHTML: `
+        // document.addEventListener("DOMContentLoaded", function(event) {
+        //     canShowContent()
+        //     try {
+        //       window.webkit.messageHandlers.canShowContent.postMessage(null);
+        //     } catch (e) {}
+        //     if (typeof window.bridge != "undefined") {
+        //       window.bridge.canShowContent();
+        //     }
+        // });
+        document.onreadystatechange = function () {
+          if (document.readyState === "interactive" || document.readyState === "complete") {
+            canShowContent()            
             try {
               window.webkit.messageHandlers.canShowContent.postMessage(null);
             } catch (e) {}
             if (typeof window.bridge != "undefined") {
               window.bridge.canShowContent();
             }
-        });
+          }
+        }
         function canShowContent() {}`
-      },
-    ],
+    }, ],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{
       rel: 'icon',
@@ -91,10 +84,7 @@ module.exports = {
   /*
    ** Customize the progress bar color
    */
-  // loading: {
-  //   color: '#FDDB00',
-  //   height: '2px'
-  // },
+  loading: false,
   // 禁用预加载
   render: {
     resourceHints: false,
