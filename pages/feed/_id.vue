@@ -67,27 +67,45 @@
             <section v-if="$store.state.content.videos[0].width >= $store.state.content.videos[0].height">
               <section 
                 v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" 
-                class="feed-h5-videos"
+                class="feed-h5-videos feed-h5-videos-horizontal"
                 :style="{
                   width: '100vw',
                   height: $store.state.content.videos[0].height * 100 / $store.state.content.videos[0].width + 'vw'
-                }"
-                id="feed-h5-videos">
+                }">
                 <video 
+                  id="feed-h5-videos-horizontal"
                   :src="$store.state.content.videos[0].src" 
-                  controls="controls" 
-                  preload="none" 
+                  preload="auto" 
+                  webkit-playsinline="true" 
+                  x-webkit-airplay="true"  
+                  playsinline="true" 
+                  x5-video-player-type="h5" 
+                  x5-video-orientation="portrait"
+                  x5-video-player-fullscreen="true"
                   :style="{
                     'object-fit': 'fill',
                     width: '100vw',
                     height: $store.state.content.videos[0].height * 100 / $store.state.content.videos[0].width + 'vw'
                   }"
-                  :class="{
-                    'feed-h5-videos-player': true
-                  }" 
                   :poster="$store.state.content.videos[0].imageUrl" 
                   :data-cover="$store.state.content.videos[0].imageUrl">
                 </video>
+                <!-- 未播放时 -->
+                <section class="video-poster" @click="playVideo('feed-h5-videos-horizontal')" v-lazy:background-image="$store.state.content.videos[0].imageUrl">
+                  <span class="shipin"></span>
+                </section>
+                <!-- 正在播放时 -->
+                <section class="video-playing" @click="pauseVideo('feed-h5-videos-horizontal')">
+                </section>
+                <!-- 播放暂停 -->
+                <section class="video-pause" @click="playPauseVideo('feed-h5-videos-horizontal')">
+                  <span class="shipin"></span>
+                </section>
+                <!-- 播放结束 -->
+                <section class="video-ended" @click="playVideo('feed-h5-videos-horizontal')">
+                  <span class="shipin"></span>
+                </section>
+                <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
             </section>
@@ -95,29 +113,50 @@
             <section v-else>
               <section 
                 v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" 
-                class="feed-h5-videos"
+                class="feed-h5-videos feed-h5-videos-vertical"
+                v-lazy:background-image="$store.state.content.videos[0].imageUrl"
                 :style="{
                   width: '100vw',
-                  height: 'auto'
-                }"
-                id="feed-h5-videos">
+                  height: $store.state.content.videos[0].height * 100 / $store.state.content.videos[0].width + 'vw',
+                  overflow: 'hidden'
+                }">
                 <video 
                   :src="$store.state.content.videos[0].src" 
-                  controls="controls" 
-                  preload="none" 
+                  preload="auto"
+                  webkit-playsinline="true" 
+                  x-webkit-airplay="true"  
+                  playsinline="true" 
+                  x5-video-player-type="h5" 
+                  x5-video-orientation="portrait"
+                  x5-video-player-fullscreen="true"
                   :style="{
                     'object-fit': 'fill',
-                    width: '100vw',
+                    width: '100%',
                     height: 'auto'
                   }"
-                  class="feed-h5-videos-player" 
-                  :poster="$store.state.content.videos[0].imageUrl" 
+                  id="feed-h5-videos-vertical"                  
                   :data-cover="$store.state.content.videos[0].imageUrl">
                 </video>
+                <!-- 未播放时 -->
+                <section class="video-poster" @click="playVideo('feed-h5-videos-vertical')" v-lazy:background-image="$store.state.content.videos[0].imageUrl">
+                  <span class="shipin"></span>
+                </section>
+                <!-- 正在播放时 -->
+                <section class="video-playing" @click="pauseVideo('feed-h5-videos-vertical')">
+                </section>
+                <!-- 播放暂停 -->
+                <section class="video-pause" @click="playPauseVideo('feed-h5-videos-vertical')">
+                  <span class="shipin"></span>
+                </section>
+                <!-- 播放结束 -->
+                <section class="video-ended" @click="playVideo('feed-h5-videos-vertical')">
+                  <span class="shipin"></span>
+                </section>
+                <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
             </section>
-            <section class="feeder-title feeder-title-2">{{ $store.state.content.text }}</section>
+            <section class="feeder-title feeder-title-2 feeder-type-1">{{ $store.state.content.text }}</section>
           </section>
         </section>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
@@ -238,8 +277,12 @@
       <!-- 精彩留言 -->
       <message-board v-if="$store.state.GET_MESSAGE_STATE"></message-board>
       <section v-if="$store.state.GET_MESSAGE_STATE">
+        <!-- 征稿列表 -->
+        <section v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1">
+          <dp-feed title="精彩投稿" :feed-list="paper_list"></dp-feed>
+        </section>
         <!-- 热门文章 -->
-        <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
+        <dp-feed v-if="hot_list.length > 0" title="热门文章" :feed-list="hot_list"></dp-feed>
         <no-thing v-else></no-thing>
       </section>
     </section>
@@ -370,7 +413,12 @@ export default {
       },
       // 投稿类型
       vid: "",
-      showMore: false
+      showMore: false,
+      // 征稿列表
+      paper_list: [],
+      // 热门文章列表:
+      hot_list: [],
+      video: {}
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -382,6 +430,81 @@ export default {
     next();
   },
   methods: {
+    // 视频播放
+    playVideo(str) {
+      console.log("开始播放呀");
+      let self = this;
+      // console.log($e.target.previousSibling);
+      let video = document.getElementById(str);
+
+      console.log(document.getElementById(str));
+      // 隐藏poster 封面
+      document.querySelector(".video-poster").style.display = "none";
+      // 隐藏播放结束后的cover
+      document.querySelector(".video-ended").style.display = "none";
+      // 显示正在播放的cover
+      document.querySelector(".video-playing").style.display = "block";
+      // 隐藏暂停时的cover
+      document.querySelector(".video-pause").style.display = "none";
+      video.play();
+      // video.addEventListener("ended", self.playEnd(), false);
+      video.onended = function() {
+        self.playEnd();
+      };
+    },
+    playEnd() {
+      console.log("播放结束啦");
+      // 隐藏poster 封面
+      document.querySelector(".video-poster").style.display = "none";
+      // 显示播放结束后的cover
+      document.querySelector(".video-ended").style.display = "block";
+      // 隐藏正在播放的cover
+      document.querySelector(".video-playing").style.display = "none";
+      // 隐藏暂停时的cover
+      document.querySelector(".video-pause").style.display = "none";
+    },
+    // 已播放结束， 点击重新播放
+    playEndedVideo(str) {
+      console.log("又开始播放啦");
+      let video = document.getElementById(str);
+      // 隐藏poster 封面
+      document.querySelector(".video-poster").style.display = "none";
+      // 显示播放结束后的cover
+      document.querySelector(".video-ended").style.display = "block";
+      // 隐藏正在播放的cover
+      document.querySelector(".video-playing").style.display = "none";
+      // 隐藏暂停时的cover
+      document.querySelector(".video-pause").style.display = "none";
+      video.play();
+    },
+    // 正在播放， 点击暂停
+    pauseVideo(str) {
+      console.log("播放暂停啦");
+      let video = document.getElementById(str);
+      video.pause();
+      // 隐藏poster 封面
+      document.querySelector(".video-poster").style.display = "none";
+      // 隐藏播放结束后的cover
+      document.querySelector(".video-ended").style.display = "none";
+      // 隐藏正在播放的cover
+      document.querySelector(".video-playing").style.display = "none";
+      // 显示暂停时的cover
+      document.querySelector(".video-pause").style.display = "block";
+    },
+    // 已暂停播放， 点击重新播放
+    playPauseVideo(str) {
+      console.log("继续播放呀");
+      let video = document.getElementById(str);
+      video.play();
+      // 隐藏poster 封面
+      document.querySelector(".video-poster").style.display = "none";
+      // 隐藏播放结束后的cover
+      document.querySelector(".video-ended").style.display = "none";
+      // 显示正在播放的cover
+      document.querySelector(".video-playing").style.display = "block";
+      // 隐藏暂停时的cover
+      document.querySelector(".video-pause").style.display = "none";
+    },
     // 跳转栏目主页
     toCommunity() {
       location.href = `/community/${this.$store.state.res.communityid}`;
@@ -470,14 +593,13 @@ export default {
           return x;
         });
         self.$store.commit("SET_FEED_LIST", arr);
+        self.paper_list = arr;
       }
     },
     // 热门文章 推荐文章
     async hotList() {
       let self = this;
-      let feeds = await self.$axios.$get(
-        `${api.community.community_subject_list_index}?communityid=9cvwbctrap`
-      );
+      let feeds = await self.$axios.$get(`${api.command.hot_subjects}`);
       if (feeds.code === 0) {
         let arr = await feeds.result.data.map(x => {
           if (x.content) {
@@ -486,6 +608,7 @@ export default {
           return x;
         });
         self.$store.commit("SET_FEED_LIST", arr);
+        self.hot_list = arr;
       }
     },
     // 阅读数量
@@ -535,6 +658,18 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      document
+        .getElementsByTagName("video")[0]
+        .addEventListener("x5videoexitfullscreen", function() {
+          // 隐藏poster 封面
+          document.querySelector(".video-poster").style.display = "none";
+          // 隐藏播放结束后的cover
+          document.querySelector(".video-ended").style.display = "none";
+          // 隐藏正在播放的cover
+          document.querySelector(".video-playing").style.display = "none";
+          // 显示暂停时的cover
+          document.querySelector(".video-pause").style.display = "block";
+        });
       // 清除留言时保存的数据
       window.sessionStorage.clear();
       // 获取阅读量
@@ -552,10 +687,9 @@ export default {
         ) {
           // 征稿列表
           self.paperList();
-        } else {
-          // 热门文章列表
-          self.hotList();
         }
+        // 热门文章列表
+        self.hotList();
         self.showMore = true;
       }
       if (typeof window != "undefined") {

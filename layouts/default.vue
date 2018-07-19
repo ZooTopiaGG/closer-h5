@@ -228,13 +228,13 @@ export default {
         }
       }
       // 微信二次分享
-      if (self.$store.state.GET_MESSAGE_STATE) {
-        self.$store.dispatch("wx_share", {
-          title: title,
-          desc: desc,
-          pic: pic
-        });
-      }
+      // if (self.$store.state.GET_MESSAGE_STATE) {
+      //   self.$store.dispatch("wx_share", {
+      //     title: title,
+      //     desc: desc,
+      //     pic: pic
+      //   });
+      // }
       // 在浏览器可以点击图片预览
       if (self.$store.state.GET_MESSAGE_STATE) {
         let preimg;
@@ -311,6 +311,19 @@ nav .communityName {
 }
 .isLongVideo {
   margin-top: 0;
+  background: #fff;
+}
+.isLongVideo .feeder-cover {
+  margin-top: -14vw;
+  position: relative;
+  z-index: 9;
+  background: #fff;
+}
+
+.isLongVideo .feeder-type-1 {
+  position: relative;
+  z-index: 9;
+  background: #fff;
 }
 /* 悬浮层 */
 .layer {

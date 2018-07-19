@@ -53,7 +53,7 @@
       </section>
     </section>    
     <section class="works flex-1">
-      <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
+      <dp-feed v-if="$store.state.feed_list.length > 0" :title="title" :feed-list="group_feed_list"></dp-feed>
       <no-thing v-else></no-thing>
     </section>
   </section>
@@ -62,18 +62,100 @@
 import Cookie from "js-cookie";
 import noThing from "~/components/nothing";
 export default {
-  middleware: "group",
+  // middleware: "group",
+  async asyncData({ app, error, params, store }) {
+    let para2 = {
+      groupId: params.id
+    };
+    try {
+      // 获取群组信息
+      let data2 = await app.$axios.$post(`${api.group.share_group}`, para2);
+      if (data2.code === 0) {
+        let monitor_uid = data2.result.group_info
+          ? data2.result.group_info.group.attributes.monitor.uid
+          : "";
+
+        for (let i = 0; i < data2.result.group_user_info.length; i++) {
+          if (data2.result.group_user_info[i].uid === monitor_uid) {
+            data2.result.group_user_info.splice(i, 1);
+          }
+        }
+        store.commit("SET_GROUP_INFO", data2.result);
+        store.commit("SET_RES", {
+          communityid: data2.result.group_info.communityid
+        });
+      } else {
+        error({
+          message: `错误代码:${data2.code}, ${data2.result}`
+        });
+      }
+    } catch (err) {
+      error({
+        message: `${err}`
+      });
+    }
+  },
   components: {
     noThing
   },
   data() {
     return {
-      id: ""
+      id: "",
+      group_feed_list: [],
+      title: "群作品"
     };
   },
   methods: {
     tofeeddetails(item) {
       location.href = `/feed/${item.subjectid}`;
+    },
+    async getGroupFeedList() {
+      let self = this;
+      let para = {
+        flag: 1,
+        classid: self.$route.params.id,
+        index: "",
+        pagesize: 5
+      };
+      // 获取 feed列表
+      let data = await self.$axios.$post(
+        `${api.group.group_subject_list}`,
+        para
+      );
+      if (data.code === 0) {
+        let arr = await data.result.data.map(x => {
+          x.content = JSON.parse(x.content);
+          return x;
+        });
+        // 没有群作品 则显示栏目贴子
+        if (arr.length > 0) {
+          self.$store.commit("SET_FEED_LIST", arr);
+          self.group_feed_list = arr;
+          self.title = "群作品";
+        } else {
+          self.getFeedList();
+        }
+      }
+    },
+    // 获取贴子列表
+    async getFeedList() {
+      let self = this;
+      let feed = await self.$axios.$get(
+        `${api.community.community_subject_list_index}?communityid=${
+          self.$store.state.res.communityid
+        }`
+      );
+      if (feed.code === 0) {
+        let arr = await feed.result.data.map(x => {
+          if (x.content) {
+            x.content = JSON.parse(x.content);
+          }
+          return x;
+        });
+        self.$store.commit("SET_FEED_LIST", arr);
+        self.group_feed_list = arr;
+        self.title = "热门文章";
+      }
     },
     // 先登录 再下载流程
     // 需要登录的操作 先判断后执行
@@ -106,6 +188,7 @@ export default {
         type: "else"
       });
     }
+    self.getGroupFeedList();
   },
   mounted() {}
 };

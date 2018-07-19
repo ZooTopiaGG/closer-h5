@@ -9,7 +9,7 @@ module.exports = {
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1, user-scalable=no'
+        content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
       },
       {
         name: 'format-detection',
@@ -39,7 +39,7 @@ module.exports = {
         // });
         document.onreadystatechange = function () {
           if (document.readyState === "interactive" || document.readyState === "complete") {
-            canShowContent()            
+            canShowContent()
             try {
               window.webkit.messageHandlers.canShowContent.postMessage(null);
             } catch (e) {}

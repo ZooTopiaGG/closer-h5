@@ -38,7 +38,7 @@
       <p>可通过投稿申请建群～</p>
     </section>
     <section class="common-feed">
-      <dp-feed v-if="$store.state.feed_list.length > 0"></dp-feed>
+      <dp-feed v-if="$store.state.feed_list.length > 0" title="热门文章" :feed-list="community_list"></dp-feed>
       <no-thing v-else></no-thing>
     </section>
   </section>
@@ -103,7 +103,8 @@ export default {
       group: {},
       defaultImg:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
-      id: ""
+      id: "",
+      community_list: ""
     };
   },
   methods: {
@@ -150,6 +151,7 @@ export default {
           return x;
         });
         self.$store.commit("SET_FEED_LIST", arr);
+        self.community_list = arr;
       }
     },
     // 获取群组列表

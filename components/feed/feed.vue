@@ -1,11 +1,11 @@
 <template>
   <section class="dpFeed">
-    <section class="split-box"></section> 
+    <section class="split-box" v-if="!($store.state.res.int_type === 2 && $store.state.res.int_category === 1)"></section> 
     <section class="hots-article flex flex-align-center">
-      热门文章
+      {{ title }}
     </section> 
-    <ul v-if="$store.state.feed_list && $store.state.feed_list.length > 0" class="feed-list flex-1">
-      <li class="feed-list-cell" @click="downApp" v-for="(item, index) in $store.state.feed_list" :key="index">
+    <ul v-if="feedList && feedList.length > 0" class="feed-list flex-1">
+      <li class="feed-list-cell" @click="downApp" v-for="(item, index) in feedList" :key="index">
         <section class="feed-box">
           <section class="hide-feed-over"></section>
           <section class="feed-cell-content">
@@ -86,18 +86,25 @@
         </section>
       </li>
     </ul>
-    <bottom-nav v-if="!($route.path.indexOf('group') > -1)"></bottom-nav>
+    <bottom-nav v-if="!($route.path.indexOf('group') > -1) && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)"></bottom-nav>
   </section>
 </template>
 <script>
 import bottomNav from "~/components/bottomnav.vue";
 export default {
   name: "dpFeed",
-  // props: {
-  //   res: {
-  //     default: {}
-  //   }
-  // },
+  props: {
+    feedList: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
+    title: {
+      type: String,
+      default: "热门文章"
+    }
+  },
   components: {
     bottomNav
   },
@@ -137,7 +144,10 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    console.log("res===", this.feedList);
+    console.log("title===", this.title);
+  }
 };
 </script>
 <style scoped>

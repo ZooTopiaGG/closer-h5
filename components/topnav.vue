@@ -33,9 +33,7 @@
 <script>
 export default {
   data() {
-    return {
-      logo: "~/assets/images/login_logo@2x.png"
-    };
+    return {};
   },
   methods: {
     downApp() {
