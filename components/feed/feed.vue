@@ -55,9 +55,17 @@
             </section>
             <!-- 视频贴 int_type == 1-->
             <section class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
-              <video :src="item.content.videos[0].src" controls="controls" preload="none"
+              <!-- <video :src="item.content.videos[0].src" controls="controls" preload="none"
                 :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
-              </video>
+              </video> -->
+              <section class="feeds-video flex flex-align-center flex-pack-center" 
+                v-lazy:background-image="item.content.videos[0].imageUrl"
+                :style="{
+                  width: '100vw',
+                  height: item.content.videos[0].height * 100 / item.content.videos[0].width + 'vw'
+                }">
+                <span class='icon-shipin-2'></span>
+              </section>
               <section v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</section>
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->

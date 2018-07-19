@@ -1,4 +1,3 @@
-var nodeExternals = require('webpack-node-externals')
 module.exports = {
   /*
    ** Headers of the page
@@ -75,9 +74,6 @@ module.exports = {
     },
     {
       src: '~/assets/css/style.css'
-    },
-    {
-      src: '~/assets/css/common.css'
     }
   ],
   modules: [
@@ -150,14 +146,9 @@ module.exports = {
     '~/plugins/components.js',
     '~/plugins/mintui.js',
     '~/plugins/axios',
-    '~/plugins/async',
     // {
     //   src: '~/plugins/vconsole.js',
     //   ssr: false
     // },
-    // {
-    //   src: '~/plugins/device.js',
-    //   ssr: false
-    // }
   ]
 }
