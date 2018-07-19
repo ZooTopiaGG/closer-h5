@@ -50,6 +50,9 @@ module.exports = {
             try {
               window.webkit.messageHandlers.canShowContent.postMessage(null);
             } catch (e) {}
+            if (typeof window.bridge != "undefined") {
+              window.bridge.canShowContent();
+            }
         });
         function canShowContent() {}`
       },
