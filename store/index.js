@@ -204,7 +204,7 @@ export const mutations = {
     state.get_login_type = para
   },
   // 设置来自某个按钮的状态
-  SET_EXTENSION_TEXT() {
+  SET_EXTENSION_TEXT(state, para) {
     state.extension_text = para
   }
 }
