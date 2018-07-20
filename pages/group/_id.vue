@@ -161,6 +161,7 @@ export default {
     // 需要登录的操作 先判断后执行
     async firstLogin() {
       let self = this;
+      self.$store.commit("SET_EXTENSION_TEXT", "more_group_member");
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
         self.downApp();
@@ -175,6 +176,35 @@ export default {
         } else {
           self.$store.commit("GET_LOGIN_TYPE", "toDown");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
+      }
+    },
+    // h5下载补丁
+    async downApp(e, str) {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
+      });
+      if (result) {
+        let _page = "feed",
+          did = self.$route.params.id,
+          url = `closer://group/${self.$route.params.id}`;
+        let res = await self.$store.dispatch("down_statistics", {
+          dataId: did || "",
+          page: _page || "feed",
+          action: "download",
+          extension: str || "more_group_member"
+        });
+        if (res) {
+          if (url) {
+            location.href = `${api.downHost}?downurl=${url}`;
+            return;
+          } else {
+            location.href = `${api.downHost}`;
+          }
         }
       }
     }

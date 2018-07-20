@@ -22,6 +22,7 @@ export default {
     // 留言操作
     async toMessage() {
       let self = this;
+      self.$store.commit("SET_EXTENSION_TEXT", "message");
       if (self.textarea) {
         window.sessionStorage.setItem("textarea", self.textarea);
       } else {

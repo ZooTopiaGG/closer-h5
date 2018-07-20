@@ -98,24 +98,14 @@ export default {
     hiddenTextArea() {
       this.$store.commit("SET_VISIBLE_MESSAGE", false);
     },
-    // 隐藏登录组件
+    // 隐藏alert组件
     hiddenAlert() {
       this.$store.commit("SHOW_ALERT", false);
     },
-    // 隐藏登录组件
+    // 隐藏confirm组件
     hiddenConfirm() {
       this.$store.commit("SHOW_CONFIRM", false);
     }
-  },
-  beforeMount() {
-    // let self = this;
-    // // 验证code是否存在
-    // if (self.$route.query.code) {
-    //   self.$store.dispatch("get_code_by_login", {
-    //     code: self.$route.query.code,
-    //     type: "else"
-    //   });
-    // }
   },
   mounted() {
     let self = this;
@@ -228,13 +218,13 @@ export default {
         }
       }
       // 微信二次分享
-      // if (self.$store.state.GET_MESSAGE_STATE) {
-      //   self.$store.dispatch("wx_share", {
-      //     title: title,
-      //     desc: desc,
-      //     pic: pic
-      //   });
-      // }
+      if (self.$store.state.GET_MESSAGE_STATE) {
+        self.$store.dispatch("wx_share", {
+          title: title,
+          desc: desc,
+          pic: pic
+        });
+      }
       // 在浏览器可以点击图片预览
       if (self.$store.state.GET_MESSAGE_STATE) {
         let preimg;

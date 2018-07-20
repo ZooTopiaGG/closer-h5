@@ -33,13 +33,19 @@ export default {
   methods: {
     async downApp() {
       let self = this;
-      let result = await self.$store.dispatch("down_adcookies", {
+      await self.$store.dispatch("down_adcookies", {
         webUdid: true,
         deviceType: self.$store.state.nvgtype,
         deviceVersion: self.$store.state.nvgversion,
         adid: "closer-invitenew"
       });
-      if (result) {
+      let res = await self.$store.dispatch("down_statistics", {
+        dataId: "",
+        page: "inviter",
+        action: "download",
+        extension: ""
+      });
+      if (res) {
         location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
       }
       // location.href = api.downUrl;

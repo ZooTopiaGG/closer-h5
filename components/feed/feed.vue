@@ -86,7 +86,7 @@
         </section>
       </li>
     </ul>
-    <bottom-nav v-if="!($route.path.indexOf('group') > -1) && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)"></bottom-nav>
+    <bottom-nav v-if="!($route.path.indexOf('group') > -1) && title != '精彩投稿'"></bottom-nav>
   </section>
 </template>
 <script>
@@ -113,11 +113,8 @@ export default {
     return {};
   },
   methods: {
-    // tofeeddetails(item) {
-    //   location.href = `/feed/${item.subjectid}`;
-    // },
     // h5下载补丁
-    async downApp() {
+    async downApp(e, str) {
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
         webUdid: true,
@@ -126,28 +123,40 @@ export default {
         adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
+        let _page, url, did;
         if (self.$route.path.indexOf("/community") > -1) {
-          location.href = `${api.downHost}?downurl=closer://community/${
-            self.$route.params.id
-          }`;
+          _page = "community";
+          did = self.$route.params.communityid;
+          url = `closer://community/${did}`;
         } else if (self.$route.path.indexOf("/feed") > -1) {
-          location.href = `${api.downHost}?downurl=closer://feed/${
-            self.$route.params.id
-          }`;
+          _page = "feed";
+          did = self.$route.params.id;
+          url = `closer://feed/${did}`;
         } else if (self.$route.path.indexOf("/group") > -1) {
-          location.href = `${api.downHost}?downurl=closer://group/${
-            self.$route.params.id
-          }`;
+          _page = "feed";
+          did = self.$route.params.id;
+          url = `closer://group/${self.$route.params.id}`;
         } else {
-          location.href = `${api.downHost}`;
+          _page = "inviter";
+        }
+        let res = await self.$store.dispatch("down_statistics", {
+          dataId: did || "",
+          page: _page || "feed",
+          action: "download",
+          extension: str || "hot_feed"
+        });
+        if (res) {
+          if (url) {
+            location.href = `${api.downHost}?downurl=${url}`;
+            return;
+          } else {
+            location.href = `${api.downHost}`;
+          }
         }
       }
     }
   },
-  mounted() {
-    console.log("res===", this.feedList);
-    console.log("title===", this.title);
-  }
+  mounted() {}
 };
 </script>
 <style scoped>

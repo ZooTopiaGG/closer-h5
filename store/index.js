@@ -38,7 +38,8 @@ export const state = () => ({
   alert_stat: false,
   confirm_stat: false,
   version_1_2: false,
-  get_login_type: '' // toFocus 来自关注后弹窗 toDown 来自登录后直接跳转下载 inviter 来自奖励金
+  get_login_type: '', // toFocus 来自关注后弹窗 toDown 来自登录后直接跳转下载 inviter 来自奖励金,
+  extension_text: '', // 来自某个按钮的点击
 })
 
 export const mutations = {
@@ -201,6 +202,10 @@ export const mutations = {
   // 获取登录类型
   GET_LOGIN_TYPE(state, para) {
     state.get_login_type = para
+  },
+  // 设置来自某个按钮的状态
+  SET_EXTENSION_TEXT() {
+    state.extension_text = para
   }
 }
 
@@ -640,7 +645,29 @@ export const actions = {
       return true
     }
   },
-  // 获取留言列表
+  // 点击下载按钮时统计
+  // 通用h5分享统计，目前主要针对 帖子 栏目 群组 活动
+  async down_statistics({
+    commit
+  }, {
+    dataId,
+    page,
+    action,
+    extension
+  }) {
+    let self = this,
+      para = {
+        dataId,
+        page,
+        action,
+        extension
+      }
+    console.log('para===', para)
+    let data = await self.$axios.$post(`${api.share.common}`, para);
+    if (data.code === 0) {
+      return true
+    }
+  },
   async message_list({
     commit
   }, {

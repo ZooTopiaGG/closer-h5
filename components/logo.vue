@@ -27,6 +27,7 @@ export default {
     // 需要登录的操作 先判断后执行
     async tjFocus() {
       let self = this;
+      self.$store.commit("SET_EXTENSION_TEXT", "follow");
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
         // 进行其他 ajax 操作

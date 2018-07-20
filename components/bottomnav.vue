@@ -21,9 +21,10 @@ export default {
     // 需要登录的操作 先判断后执行
     async firstLogin() {
       let self = this;
+      self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
-        self.downApp();
+        self.downApp("enter_group");
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
@@ -39,7 +40,7 @@ export default {
       }
     },
     // 纯下载
-    async downApp() {
+    async downApp(e, str) {
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
         webUdid: true,
@@ -48,20 +49,35 @@ export default {
         adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
+        let _page, url, did;
         if (self.$route.path.indexOf("/community") > -1) {
-          location.href = `${api.downHost}?downurl=closer://community/${
-            self.$route.params.id
-          }`;
+          _page = "community";
+          did = self.$route.params.communityid;
+          url = `closer://community/${did}`;
         } else if (self.$route.path.indexOf("/feed") > -1) {
-          location.href = `${api.downHost}?downurl=closer://feed/${
-            self.$route.params.id
-          }`;
+          _page = "feed";
+          did = self.$route.params.id;
+          url = `closer://feed/${did}`;
         } else if (self.$route.path.indexOf("/group") > -1) {
-          location.href = `${api.downHost}?downurl=closer://group/${
-            self.$route.params.id
-          }`;
+          _page = "feed";
+          did = self.$route.params.id;
+          url = `closer://group/${self.$route.params.id}`;
         } else {
-          location.href = `${api.downHost}`;
+          _page = "inviter";
+        }
+        let res = await self.$store.dispatch("down_statistics", {
+          dataId: did || "",
+          page: _page || "feed",
+          action: "download",
+          extension: str || "direct_bottom"
+        });
+        if (res) {
+          if (url) {
+            location.href = `${api.downHost}?downurl=${url}`;
+            return;
+          } else {
+            location.href = `${api.downHost}`;
+          }
         }
       }
     }

@@ -84,6 +84,7 @@ export default {
     // 需要登录的操作 先判断后执行
     async firstLogin() {
       let self = this;
+      self.$store.commit("SET_EXTENSION_TEXT", "more_message");
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
         self.downApp();
@@ -102,7 +103,7 @@ export default {
       }
     },
     // h5下载补丁
-    async downApp() {
+    async downApp(e, str) {
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
         webUdid: true,
@@ -111,20 +112,22 @@ export default {
         adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
-        if (self.$route.path.indexOf("/community") > -1) {
-          location.href = `${api.downHost}?downurl=closer://community/${
-            self.$route.params.id
-          }`;
-        } else if (self.$route.path.indexOf("/feed") > -1) {
-          location.href = `${api.downHost}?downurl=closer://feed/${
-            self.$route.params.id
-          }`;
-        } else if (self.$route.path.indexOf("/group") > -1) {
-          location.href = `${api.downHost}?downurl=closer://group/${
-            self.$route.params.id
-          }`;
-        } else {
-          location.href = `${api.downHost}`;
+        let _page = "feed",
+          did = self.$route.params.id,
+          url = `closer://feed/${did}`;
+        let res = await self.$store.dispatch("down_statistics", {
+          dataId: did || "",
+          page: _page || "feed",
+          action: "download",
+          extension: str || "more_reply"
+        });
+        if (res) {
+          if (url) {
+            location.href = `${api.downHost}?downurl=${url}`;
+            return;
+          } else {
+            location.href = `${api.downHost}`;
+          }
         }
       }
     },

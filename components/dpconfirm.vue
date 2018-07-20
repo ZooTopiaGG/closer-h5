@@ -29,7 +29,7 @@ export default {
       this.$store.commit("SHOW_CONFIRM", false);
     },
     // h5下载补丁
-    async downApp() {
+    async downApp(str) {
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
         webUdid: true,
@@ -38,20 +38,35 @@ export default {
         adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
+        let _page, url, did;
         if (self.$route.path.indexOf("/community") > -1) {
-          location.href = `${api.downHost}?downurl=closer://community/${
-            self.$route.params.id
-          }`;
+          _page = "community";
+          did = self.$route.params.communityid;
+          url = `closer://community/${did}`;
         } else if (self.$route.path.indexOf("/feed") > -1) {
-          location.href = `${api.downHost}?downurl=closer://feed/${
-            self.$route.params.id
-          }`;
+          _page = "feed";
+          did = self.$route.params.id;
+          url = `closer://feed/${did}`;
         } else if (self.$route.path.indexOf("/group") > -1) {
-          location.href = `${api.downHost}?downurl=closer://group/${
-            self.$route.params.id
-          }`;
+          _page = "feed";
+          did = self.$route.params.id;
+          url = `closer://group/${self.$route.params.id}`;
         } else {
-          location.href = `${api.downHost}`;
+          _page = "inviter";
+        }
+        let res = await self.$store.dispatch("down_statistics", {
+          dataId: did || "",
+          page: _page || "feed",
+          action: "download",
+          extension: str || "message"
+        });
+        if (res) {
+          if (url) {
+            location.href = `${api.downHost}?downurl=${url}`;
+            return;
+          } else {
+            location.href = `${api.downHost}`;
+          }
         }
       }
     }

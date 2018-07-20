@@ -17,14 +17,14 @@
     <section v-if="group.data && group.data.length>0" class="member">
       <section class="flex flex-align-center flex-pack-justify">
         <span class="title">正在招募的群组</span>
-        <span class="more-group flex flex-align-center">更多群组 <i class="right-arrow"></i></span>
+        <span class="more-group flex flex-align-center" @click="downApp('more_group')">更多群组 <i class="right-arrow"></i></span>
       </section>
       <ul :class="{
                 group: true, 
                 flex: true, 
                 'flex-v': true
             }">
-        <li v-for="(item, index) in group.data" :key="index" @click="downApp" class="flex flex-align-start">
+        <li v-for="(item, index) in group.data" :key="index" @click="downApp('group_list')" class="flex flex-align-start">
           <img class="avatar" v-lazy="$com.makeFileUrl(item.group.avatar)">
           <section class="info flex flex-v">
             <span class="name">{{ item.group.name }}</span>
@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     // h5下载补丁
-    async downApp() {
+    async downApp(str) {
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
         webUdid: true,
@@ -118,20 +118,22 @@ export default {
         adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
-        if (self.$route.path.indexOf("/community") > -1) {
-          location.href = `${api.downHost}?downurl=closer://community/${
-            self.$route.params.id
-          }`;
-        } else if (self.$route.path.indexOf("/feed") > -1) {
-          location.href = `${api.downHost}?downurl=closer://feed/${
-            self.$route.params.id
-          }`;
-        } else if (self.$route.path.indexOf("/group") > -1) {
-          location.href = `${api.downHost}?downurl=closer://group/${
-            self.$route.params.id
-          }`;
-        } else {
-          location.href = `${api.downHost}`;
+        let _page = "community",
+          did = self.$route.params.communityid,
+          url = `closer://community/${did}`;
+        let res = await self.$store.dispatch("down_statistics", {
+          dataId: did || "",
+          page: _page || "feed",
+          action: "download",
+          extension: str || "group_list"
+        });
+        if (res) {
+          if (url) {
+            location.href = `${api.downHost}?downurl=${url}`;
+            return;
+          } else {
+            location.href = `${api.downHost}`;
+          }
         }
       }
     },
@@ -171,6 +173,7 @@ export default {
     // 需要登录的操作 先判断后执行
     async tjFocus() {
       let self = this;
+      self.$store.commit("SET_EXTENSION_TEXT", "follow");
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
         // 进行其他 ajax 操作

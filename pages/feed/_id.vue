@@ -87,24 +87,9 @@
                     width: '100vw',
                     height: $store.state.content.videos[0].height * 100 / $store.state.content.videos[0].width + 'vw'
                   }"
-                  :poster="$store.state.content.videos[0].imageUrl" 
                   :data-cover="$store.state.content.videos[0].imageUrl">
                 </video>
-                <!-- 未播放时 -->
-                <section class="video-poster" @click="playVideo('feed-h5-videos-horizontal')" v-lazy:background-image="$store.state.content.videos[0].imageUrl">
-                  <span class="shipin"></span>
-                </section>
-                <!-- 正在播放时 -->
-                <section class="video-playing" @click="pauseVideo('feed-h5-videos-horizontal')">
-                </section>
-                <!-- 播放暂停 -->
-                <section class="video-pause" @click="playPauseVideo('feed-h5-videos-horizontal')">
-                  <span class="shipin"></span>
-                </section>
-                <!-- 播放结束 -->
-                <section class="video-ended" @click="playVideo('feed-h5-videos-horizontal')">
-                  <span class="shipin"></span>
-                </section>
+                <dp-video elem="feed-h5-videos-horizontal"></dp-video>
                 <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
@@ -137,21 +122,7 @@
                   id="feed-h5-videos-vertical"                  
                   :data-cover="$store.state.content.videos[0].imageUrl">
                 </video>
-                <!-- 未播放时 -->
-                <section class="video-poster" @click="playVideo('feed-h5-videos-vertical')" v-lazy:background-image="$store.state.content.videos[0].imageUrl">
-                  <span class="shipin"></span>
-                </section>
-                <!-- 正在播放时 -->
-                <section class="video-playing" @click="pauseVideo('feed-h5-videos-vertical')">
-                </section>
-                <!-- 播放暂停 -->
-                <section class="video-pause" @click="playPauseVideo('feed-h5-videos-vertical')">
-                  <span class="shipin"></span>
-                </section>
-                <!-- 播放结束 -->
-                <section class="video-ended" @click="playVideo('feed-h5-videos-vertical')">
-                  <span class="shipin"></span>
-                </section>
+                <dp-video elem="feed-h5-videos-vertical"></dp-video>
                 <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
@@ -293,6 +264,7 @@ import Cookie from "js-cookie";
 import noThing from "~/components/nothing";
 import logoTab from "~/components/logo";
 import messageBoard from "~/components/messageboard";
+import dpVideo from "~/components/dpvideo";
 export default {
   name: "Feed",
   async asyncData({ params, store, app, query }) {
@@ -397,7 +369,8 @@ export default {
   components: {
     noThing,
     logoTab,
-    messageBoard
+    messageBoard,
+    dpVideo
   },
   data() {
     return {
@@ -430,81 +403,6 @@ export default {
     next();
   },
   methods: {
-    // 视频播放
-    playVideo(str) {
-      console.log("开始播放呀");
-      let self = this;
-      // console.log($e.target.previousSibling);
-      let video = document.getElementById(str);
-
-      console.log(document.getElementById(str));
-      // 隐藏poster 封面
-      document.querySelector(".video-poster").style.display = "none";
-      // 隐藏播放结束后的cover
-      document.querySelector(".video-ended").style.display = "none";
-      // 显示正在播放的cover
-      document.querySelector(".video-playing").style.display = "block";
-      // 隐藏暂停时的cover
-      document.querySelector(".video-pause").style.display = "none";
-      video.play();
-      // video.addEventListener("ended", self.playEnd(), false);
-      video.onended = function() {
-        self.playEnd();
-      };
-    },
-    playEnd() {
-      console.log("播放结束啦");
-      // 隐藏poster 封面
-      document.querySelector(".video-poster").style.display = "none";
-      // 显示播放结束后的cover
-      document.querySelector(".video-ended").style.display = "block";
-      // 隐藏正在播放的cover
-      document.querySelector(".video-playing").style.display = "none";
-      // 隐藏暂停时的cover
-      document.querySelector(".video-pause").style.display = "none";
-    },
-    // 已播放结束， 点击重新播放
-    playEndedVideo(str) {
-      console.log("又开始播放啦");
-      let video = document.getElementById(str);
-      // 隐藏poster 封面
-      document.querySelector(".video-poster").style.display = "none";
-      // 显示播放结束后的cover
-      document.querySelector(".video-ended").style.display = "block";
-      // 隐藏正在播放的cover
-      document.querySelector(".video-playing").style.display = "none";
-      // 隐藏暂停时的cover
-      document.querySelector(".video-pause").style.display = "none";
-      video.play();
-    },
-    // 正在播放， 点击暂停
-    pauseVideo(str) {
-      console.log("播放暂停啦");
-      let video = document.getElementById(str);
-      video.pause();
-      // 隐藏poster 封面
-      document.querySelector(".video-poster").style.display = "none";
-      // 隐藏播放结束后的cover
-      document.querySelector(".video-ended").style.display = "none";
-      // 隐藏正在播放的cover
-      document.querySelector(".video-playing").style.display = "none";
-      // 显示暂停时的cover
-      document.querySelector(".video-pause").style.display = "block";
-    },
-    // 已暂停播放， 点击重新播放
-    playPauseVideo(str) {
-      console.log("继续播放呀");
-      let video = document.getElementById(str);
-      video.play();
-      // 隐藏poster 封面
-      document.querySelector(".video-poster").style.display = "none";
-      // 隐藏播放结束后的cover
-      document.querySelector(".video-ended").style.display = "none";
-      // 显示正在播放的cover
-      document.querySelector(".video-playing").style.display = "block";
-      // 隐藏暂停时的cover
-      document.querySelector(".video-pause").style.display = "none";
-    },
     // 跳转栏目主页
     toCommunity() {
       location.href = `/community/${this.$store.state.res.communityid}`;
@@ -533,33 +431,6 @@ export default {
         this.$router.push({ path: `/feed/${fid}` });
       } else {
         location.href = `closer://feed/${fid}`;
-      }
-    },
-    // h5下载补丁
-    async downApp() {
-      let self = this;
-      let result = await self.$store.dispatch("down_adcookies", {
-        webUdid: true,
-        deviceType: self.$store.state.nvgtype,
-        deviceVersion: self.$store.state.nvgversion,
-        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
-      });
-      if (result) {
-        if (this.$route.path.indexOf("/community") > -1) {
-          location.href = `${api.downHost}?downurl=closer://community/${
-            this.$route.params.id
-          }`;
-        } else if (this.$route.path.indexOf("/feed") > -1) {
-          location.href = `${api.downHost}?downurl=closer://feed/${
-            this.$route.params.id
-          }`;
-        } else if (this.$route.path.indexOf("/group") > -1) {
-          location.href = `${api.downHost}?downurl=closer://group/${
-            this.$route.params.id
-          }`;
-        } else {
-          location.href = `${api.downHost}`;
-        }
       }
     },
     // 社区信息
@@ -658,18 +529,6 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
-      // document
-      //   .getElementsByTagName("video")[0]
-      //   .addEventListener("x5videoexitfullscreen", function() {
-      //     // 隐藏poster 封面
-      //     document.querySelector(".video-poster").style.display = "none";
-      //     // 隐藏播放结束后的cover
-      //     document.querySelector(".video-ended").style.display = "none";
-      //     // 隐藏正在播放的cover
-      //     document.querySelector(".video-playing").style.display = "none";
-      //     // 显示暂停时的cover
-      //     document.querySelector(".video-pause").style.display = "block";
-      //   });
       // 清除留言时保存的数据
       window.sessionStorage.clear();
       // 获取阅读量

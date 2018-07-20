@@ -36,8 +36,39 @@ export default {
     return {};
   },
   methods: {
-    downApp() {
-      location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+    async downApp(e, str) {
+      let self = this;
+      let result = await self.$store.dispatch("down_adcookies", {
+        webUdid: true,
+        deviceType: self.$store.state.nvgtype,
+        deviceVersion: self.$store.state.nvgversion,
+        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
+      });
+      if (result) {
+        let _page, did;
+        if (self.$route.path.indexOf("/community") > -1) {
+          _page = "community";
+          did = self.$route.params.communityid;
+        } else if (self.$route.path.indexOf("/feed") > -1) {
+          _page = "feed";
+          did = self.$route.params.id;
+        } else if (self.$route.path.indexOf("/group") > -1) {
+          _page = "feed";
+          did = self.$route.params.id;
+        } else {
+          _page = "inviter";
+        }
+        let res = await self.$store.dispatch("down_statistics", {
+          dataId: did || "",
+          page: _page || "feed",
+          action: "download",
+          extension: str || "direct_top"
+        });
+        if (res) {
+          location.href =
+            "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+        }
+      }
     }
   }
 };
