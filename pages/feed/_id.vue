@@ -222,7 +222,7 @@
                   </section>
                 </li>
               </ul>
-              <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
+              <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-lazy-container="{ selector: 'img' }" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
             </section>
           </section>
         </section>

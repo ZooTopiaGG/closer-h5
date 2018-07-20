@@ -88,11 +88,10 @@ export default {
           nH = "auto";
         }
         // fix 图片是中文带路径 补丁
-        // <img style="height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
         if (srcArray) {
           _src = srcArray[1].replace(/\+/g, "%2b");
-          flag = `<div class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH}; min-height: 13.33vw; background: #e7e7e7;">
-                  <img style="height: ${nH}" data-index="${i+1}" data-src='${_src}'/>
+          flag = `<div class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH};">
+                    <img style="height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
                 </div>`;
         } else {
           _src = ''

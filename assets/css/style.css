@@ -514,12 +514,12 @@ p:empty {
   height: 13vw;
 }
 
-/* img[lazy=loaded] {
-  animation: fade 0.5s;
+img[lazy=loaded] {
+  animation: fade 0.4s;
 }
 
 img {
-  transition: all 0.5s;
+  transition: all 0.4s;
 }
 
 @keyframes fade {
@@ -529,4 +529,31 @@ img {
   100% {
     opacity: 1;
   }
-} */
+}
+
+@-webkit-keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
