@@ -143,9 +143,9 @@ module.exports = {
     '~/plugins/components.js',
     '~/plugins/mintui.js',
     '~/plugins/axios',
-    // {
-    //   src: '~/plugins/vconsole.js',
-    //   ssr: false
-    // },
+    {
+      src: '~/plugins/vconsole.js',
+      ssr: false
+    },
   ]
 }

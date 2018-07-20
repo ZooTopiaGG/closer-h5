@@ -534,6 +534,21 @@ export default {
   },
   mounted() {
     let self = this;
+    self.$Lazyload.$on("loaded", function(
+      {
+        bindType,
+        el,
+        naturalHeight,
+        naturalWidth,
+        $parent,
+        src,
+        loading,
+        error
+      },
+      formCache
+    ) {
+      console.log(el, src);
+    });
     self.$nextTick(() => {
       // 清除留言时保存的数据
       window.sessionStorage.clear();
