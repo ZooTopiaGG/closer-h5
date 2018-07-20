@@ -658,18 +658,18 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
-      document
-        .getElementsByTagName("video")[0]
-        .addEventListener("x5videoexitfullscreen", function() {
-          // 隐藏poster 封面
-          document.querySelector(".video-poster").style.display = "none";
-          // 隐藏播放结束后的cover
-          document.querySelector(".video-ended").style.display = "none";
-          // 隐藏正在播放的cover
-          document.querySelector(".video-playing").style.display = "none";
-          // 显示暂停时的cover
-          document.querySelector(".video-pause").style.display = "block";
-        });
+      // document
+      //   .getElementsByTagName("video")[0]
+      //   .addEventListener("x5videoexitfullscreen", function() {
+      //     // 隐藏poster 封面
+      //     document.querySelector(".video-poster").style.display = "none";
+      //     // 隐藏播放结束后的cover
+      //     document.querySelector(".video-ended").style.display = "none";
+      //     // 隐藏正在播放的cover
+      //     document.querySelector(".video-playing").style.display = "none";
+      //     // 显示暂停时的cover
+      //     document.querySelector(".video-pause").style.display = "block";
+      //   });
       // 清除留言时保存的数据
       window.sessionStorage.clear();
       // 获取阅读量
