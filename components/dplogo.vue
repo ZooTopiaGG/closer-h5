@@ -1,5 +1,5 @@
 <template>
-    <img class="access-not" :src="defaultImg" :data-original="$store.state.res.blogo">
+    <img class="access-not" :src="defaultImg" v-lazy="$store.state.res.blogo">
 </template>
 <script>
 export default {

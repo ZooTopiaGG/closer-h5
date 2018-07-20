@@ -4,7 +4,7 @@
       <i></i>
     </section>
     <section class="desc">
-      <section>您已成功关注了“深夜成都”贴近号，去快看看这个贴近号下的其他帖子吧~</section>
+      <section>您已成功关注了“{{ $store.state.res.communityName }}”贴近号，去快看看这个贴近号下的其他帖子吧~</section>
     </section>
     <section class="desc-icon">
       <img src="~/assets/images/bnanner1@4x@2x.png" alt="">

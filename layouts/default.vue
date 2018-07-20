@@ -231,7 +231,7 @@ export default {
         if (document.querySelector(".feed-1")) {
           preimg = document
             .querySelector(".feed-1")
-            .querySelectorAll("img[data-src]");
+            .querySelectorAll("img[data-index]");
         } else {
           return;
         }

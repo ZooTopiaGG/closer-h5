@@ -135,13 +135,13 @@
           <section v-if="!$store.state.version_1_2">
             <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
               <!-- 大封面 -->
-              <img class="feed-cover feed-cover-bgcover" :src="defaultImg" data-index= "0"  :data-src="$com.makeFileUrl($store.state.res.bigcover)" 
+              <img class="feed-cover feed-cover-bgcover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
               >
               <section class="hide-over"></section>
             </section>
             <section class="feeder-img feeder-img-cover" v-else>
               <!-- 小封面 -->
-              <img class="feed-cover feed-cover-cover" :src="defaultImg" data-index= "0" :data-src="$com.makeFileUrl($store.state.res.cover)">
+              <img class="feed-cover feed-cover-cover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               <section class="hide-over"></section>
             </section>
           </section>
@@ -157,7 +157,7 @@
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
-            <section class="summary tj-sum" v-html="$store.state.content.html" @click="openClick($event)">
+            <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
             </section>
             <!-- 神议论列表 -->
             <section v-if="$store.state.res.int_category === 3">
@@ -182,13 +182,13 @@
                       <section v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
                         <img class="feeder-comment-img" data-index="99" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
-                      }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg"
+                      }" v-lazy="$com.makeFileUrl(item.image.link)" :src="defaultImg"
                         >
                         <!-- <span class="cover_img_type" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span> -->
                       </section>
                       <img v-else class="feeder-comment-img" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
-                      }" :data-src="$com.makeFileUrl(item.image.link)" :src="defaultImg">
+                      }" v-lazy="$com.makeFileUrl(item.image.link)" :src="defaultImg">
                     </section>
                     <!-- 包含贴子 -->
                     <section v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
@@ -358,12 +358,18 @@ export default {
     }
   },
   head() {
+    var _title = () => {
+      if (this.$store.state.res.int_type === 2 && this.$store.state.res.title) {
+        return `贴近 - TieJin.cn -${this.$store.state.res.title}`;
+      } else {
+        if (this.$store.state.content.text) {
+          let t = this.$store.state.content.text.substring(0, 10);
+          return `贴近 - TieJin.cn -${t}`;
+        }
+      }
+    };
     return {
-      title:
-        this.$store.state.res.int_type === 2 && this.$store.state.res.title
-          ? this.$store.state.res.title
-          : this.$store.state.content.text &&
-            this.$store.state.content.text.substring(0, 10)
+      title: _title()
     };
   },
   components: {
@@ -553,26 +559,26 @@ export default {
       }
       if (typeof window != "undefined") {
         // 贴子封面异步加载
-        let tjcover = document.querySelector(".feed-cover");
-        if (tjcover && tjcover.dataset.src) {
-          setTimeout(() => {
-            tjcover.src = tjcover.dataset.src;
-          }, 0);
-        }
-        let tjimg = document.getElementById("tjimg");
+        // let tjcover = document.querySelector(".feed-cover");
+        // if (tjcover && tjcover.dataset.src) {
+        //   setTimeout(() => {
+        //     tjcover.src = tjcover.dataset.src;
+        //   }, 0);
+        // }
+        // let tjimg = document.getElementById("tjimg");
         // 长图文图片异步加载
-        if (tjimg) {
-          let tjimg2 = tjimg.getElementsByTagName("img");
-          if (tjimg2) {
-            Array.prototype.forEach.call(tjimg2, function(x, i) {
-              if (x.dataset.src) {
-                setTimeout(() => {
-                  x.src = x.dataset.src;
-                }, 500);
-              }
-            });
-          }
-        }
+        // if (tjimg) {
+        //   let tjimg2 = tjimg.getElementsByTagName("img");
+        //   if (tjimg2) {
+        //     Array.prototype.forEach.call(tjimg2, function(x, i) {
+        //       if (x.dataset.src) {
+        //         setTimeout(() => {
+        //           x.src = x.dataset.src;
+        //         }, 500);
+        //       }
+        //     });
+        //   }
+        // }
         // 视频封面异步加载
         let videobg = document.querySelectorAll(".feed-video-bg");
         if (videobg) {

@@ -8,6 +8,15 @@ module.exports = {
         charset: 'utf-8'
       },
       {
+        name: 'keywords',
+        content: '贴近,本地, 资讯, 城市, 都市, 社群, 城市温度运营商, 贴近一点看身边, 我的都市朋友圈, 华人文化, 上海切近信息科技有限公司, closer'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: '“贴近”一个基于城市的内容分发与兴趣社群产品，为用户提供城市发展新鲜资讯、都市生活新锐观点和市井社交新潮玩法，致力于成为城市温度运营商。'
+      },
+      {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
       },
@@ -18,11 +27,6 @@ module.exports = {
       {
         'http-equiv': "X-UA-Compatible",
         content: 'IE=edge,chrome=1'
-      },
-      {
-        hid: 'description',
-        name: 'description',
-        content: '贴近Closer'
       }
     ],
     // 可使用外链形式 引入第三方库

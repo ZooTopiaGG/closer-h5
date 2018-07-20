@@ -514,7 +514,19 @@ p:empty {
   height: 13vw;
 }
 
-img[lazy=loading],
-img[lazy=loaded] {
-  border: none;
+/* img[lazy=loaded] {
+  animation: fade 0.5s;
 }
+
+img {
+  transition: all 0.5s;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} */

@@ -2,7 +2,7 @@
   <section class="top-nav">
     <section class="topnav flex flex-align-center flex-pack-justify">
         <section class="topnav-left flex flex-1 flex-align-center">
-          <img class="topnav-logo" v-lazy="require('~/assets/images/login_logo@2x.png')">
+          <img class="topnav-logo" :src="defaultImg" v-lazy="require('~/assets/images/login_logo@2x.png')">
           <mt-swipe :auto="4000" :show-indicators="false" class="mtswipe flex-1">
             <mt-swipe-item>
               <section class="communityName flex flex-v flex-pack-center">
@@ -33,7 +33,10 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      defaultImg:
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg=="
+    };
   },
   methods: {
     async downApp(e, str) {
@@ -105,6 +108,7 @@ export default {
       max-width: 86px;
       max-height: 86px;
       margin-right: 2.67vw;
+      border-radius: 5px;
     }
   }
 }
