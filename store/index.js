@@ -662,7 +662,6 @@ export const actions = {
         action,
         extension
       }
-    console.log('para===', para)
     let data = await self.$axios.$post(`${api.share.common}`, para);
     if (data.code === 0) {
       return true

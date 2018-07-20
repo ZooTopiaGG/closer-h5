@@ -123,7 +123,7 @@ export default {
     },
     async toLogin() {
       let self = this;
-      console.log(self.isAbsolute);
+      // console.log(self.isAbsolute);
       try {
         self.loading = 1;
         if (!$async.isPhoneNum(self.phone)) {

@@ -165,7 +165,6 @@ export default {
         }&pagenum=1&count=5`
       );
       if (group.code === 0) {
-        console.log("self.group==", group.result);
         self.group = group.result;
       }
     },

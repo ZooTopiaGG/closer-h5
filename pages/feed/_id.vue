@@ -178,17 +178,19 @@
                       <span v-else>{{ item.text }}</span>
                     </section>
                     <!-- 包含图片 -->
-                    <section v-else-if="item.type === 1" class="feeder-comment">
+                    <section v-else-if="item.type === 1" class="feeder-comment" v-lazy-container="{ selector: 'img' }">
                       <section v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
                         <img class="feeder-comment-img" data-index="99" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
-                      }" v-lazy="$com.makeFileUrl(item.image.link)" :src="defaultImg"
+                      }" :src="defaultImg" :data-src="$com.makeFileUrl(item.image.link)"
                         >
                         <!-- <span class="cover_img_type" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span> -->
                       </section>
-                      <img v-else class="feeder-comment-img" :style="{
+                      <section  v-else>
+                        <img class="feeder-comment-img" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
-                      }" v-lazy="$com.makeFileUrl(item.image.link)" :src="defaultImg">
+                      }" :src="defaultImg" :data-src="$com.makeFileUrl(item.image.link)">
+                      </section>
                     </section>
                     <!-- 包含贴子 -->
                     <section v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
@@ -534,21 +536,7 @@ export default {
   },
   mounted() {
     let self = this;
-    self.$Lazyload.$on("loaded", function(
-      {
-        bindType,
-        el,
-        naturalHeight,
-        naturalWidth,
-        $parent,
-        src,
-        loading,
-        error
-      },
-      formCache
-    ) {
-      console.log(el, src);
-    });
+
     self.$nextTick(() => {
       // 清除留言时保存的数据
       window.sessionStorage.clear();
