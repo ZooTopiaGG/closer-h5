@@ -5,7 +5,7 @@
       {{ title }}
     </section> 
     <ul v-if="feedList && feedList.length > 0" class="feed-list flex-1">
-      <li class="feed-list-cell" @click="downApp" v-for="(item, index) in feedList" :key="index">
+      <li class="feed-list-cell" @click="downApp($event, '', item.subjectid)" v-for="(item, index) in feedList" :key="index">
         <section class="feed-box">
           <section class="hide-feed-over"></section>
           <section class="feed-cell-content">
@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     // h5下载补丁
-    async downApp(e, str) {
+    async downApp(e, str, id) {
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
         webUdid: true,
@@ -123,21 +123,21 @@ export default {
         adid: self.$store.state.h5Adid || "closer-share" // 栏目id
       });
       if (result) {
-        let _page, url, did;
+        let _page,
+          status = true,
+          did;
         if (self.$route.path.indexOf("/community") > -1) {
           _page = "community";
           did = self.$route.params.communityid;
-          url = `closer://community/${did}`;
         } else if (self.$route.path.indexOf("/feed") > -1) {
           _page = "feed";
           did = self.$route.params.id;
-          url = `closer://feed/${did}`;
         } else if (self.$route.path.indexOf("/group") > -1) {
-          _page = "feed";
+          _page = "group";
           did = self.$route.params.id;
-          url = `closer://group/${self.$route.params.id}`;
         } else {
           _page = "inviter";
+          status = false;
         }
         let res = await self.$store.dispatch("down_statistics", {
           dataId: did || "",
@@ -146,8 +146,8 @@ export default {
           extension: str || "hot_feed"
         });
         if (res) {
-          if (url) {
-            location.href = `${api.downHost}?downurl=${url}`;
+          if (status) {
+            location.href = `${api.downHost}?downurl=closer://feed/${id}`;
             return;
           } else {
             location.href = `${api.downHost}`;

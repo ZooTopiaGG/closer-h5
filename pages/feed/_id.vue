@@ -561,27 +561,6 @@ export default {
         self.showMore = true;
       }
       if (typeof window != "undefined") {
-        // 贴子封面异步加载
-        // let tjcover = document.querySelector(".feed-cover");
-        // if (tjcover && tjcover.dataset.src) {
-        //   setTimeout(() => {
-        //     tjcover.src = tjcover.dataset.src;
-        //   }, 0);
-        // }
-        // let tjimg = document.getElementById("tjimg");
-        // 长图文图片异步加载
-        // if (tjimg) {
-        //   let tjimg2 = tjimg.getElementsByTagName("img");
-        //   if (tjimg2) {
-        //     Array.prototype.forEach.call(tjimg2, function(x, i) {
-        //       if (x.dataset.src) {
-        //         setTimeout(() => {
-        //           x.src = x.dataset.src;
-        //         }, 500);
-        //       }
-        //     });
-        //   }
-        // }
         // 视频封面异步加载
         let videobg = document.querySelectorAll(".feed-video-bg");
         if (videobg) {
@@ -670,7 +649,7 @@ export default {
   overflow: hidden;
 }
 .tiejin-videobox-native {
-  background-position: 50% 50%;
+  background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
   height: 56.25vw;

@@ -366,7 +366,7 @@ export default {
   overflow: hidden;
 }
 .tiejin-videobox-native {
-  background-position: 50% 50%;
+  background-position: cover;
   background-repeat: no-repeat;
   width: 100%;
   height: 56.25vw;
