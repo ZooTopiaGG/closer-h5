@@ -162,6 +162,7 @@ export default {
 @basefont: 16px;
 @height: 11.47vw;
 .feed-2 {
+  display: block;
   .message-num {
     height: @height;
     line-height: @height;
@@ -234,6 +235,11 @@ export default {
     img {
       margin-right: @m20 / 2;
     }
+  }
+}
+@media screen and (min-width: 681px) {
+  .feed-2 {
+    display: none;
   }
 }
 </style>

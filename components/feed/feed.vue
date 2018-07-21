@@ -162,6 +162,7 @@ export default {
 <style scoped>
 .dpFeed {
   /* padding-top: 4.66vw; */
+  display: block;
 }
 .title {
   margin-bottom: 2.67vw;
@@ -312,6 +313,11 @@ export default {
   padding: 0 6px;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 8px;
+}
+@media screen and (min-width: 681px) {
+  .dpFeed {
+    display: none;
+  }
 }
 </style>
 

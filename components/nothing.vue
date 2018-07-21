@@ -15,4 +15,9 @@
   height: 23.4vw;
   margin-bottom: 10px;
 }
+@media screen and (min-width: 681px) {
+  .nothing {
+    display: none;
+  }
+}
 </style>

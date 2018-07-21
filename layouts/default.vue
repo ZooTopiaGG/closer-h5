@@ -13,11 +13,11 @@
         }">
         <top-nav></top-nav>
       </nav>
-      <!-- <section class="layer flex flex-v flex-align-center flex-pack-center" v-if="$store.state.GET_MESSAGE_STATE">
+      <section class="layer" v-if="$store.state.GET_MESSAGE_STATE">
         <img src="~/assets/images/1531133203.png" alt="">
         <section>手机扫一扫</section>
         <section>下载贴近App</section>
-      </section> -->
+      </section>
       <section id="wrapper"
         :class="{ 
         'web-class': $store.state.GET_MESSAGE_STATE, 
@@ -315,29 +315,6 @@ nav .communityName {
   z-index: 9;
   background: #fff;
 }
-/* 悬浮层 */
-.layer {
-  position: fixed;
-  top: 20px;
-  right: calc((100vw - 680px) / 2 - 140px);
-  color: #717375;
-  width: 140px;
-  height: 180px;
-  border: 1px solid #d9dadc;
-  padding: 16px;
-  box-sizing: border-box;
-  opacity: 0;
-}
-.layer img {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 10px;
-}
-@media screen and (min-width: 681px) {
-  .layer {
-    opacity: 1;
-  }
-}
 
 .appnuxts {
   margin-top: 0;
@@ -377,10 +354,35 @@ nav .communityName {
   position: relative;
   bottom: -1px;
 }
-@media screen and (min-width: 680px) {
+.layer {
+  display: none;
+}
+@media screen and (min-width: 681px) {
   .circle-btn,
-  nav.appnav {
+  .default__box nav {
     display: none;
+  }
+  .nuxts {
+    margin-top: 0;
+  }
+  /* 悬浮层 */
+  .layer {
+    position: fixed;
+    top: 20px;
+    right: calc((100vw - 680px) / 2 - 160px);
+    color: #717375;
+    width: 140px;
+    height: 180px;
+    border: 1px solid #d9dadc;
+    padding: 16px;
+    box-sizing: border-box;
+    text-align: center;
+    display: block;
+  }
+  .layer img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
   }
 }
 </style>

@@ -129,6 +129,8 @@ export default {
   background-size: cover;
   width: 16vw;
   height: 16vw;
+  max-width: 80px;
+  max-height: 80px;
   transform: translate(-50%, -50%);
 }
 </style>

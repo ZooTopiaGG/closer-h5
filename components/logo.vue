@@ -82,4 +82,9 @@ export default {
     padding-right: 1.35vw;
   }
 }
+@media screen and (min-width: 681px) {
+  .feeder-cover {
+    display: none;
+  }
+}
 </style>
