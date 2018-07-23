@@ -89,7 +89,7 @@
                   }"
                   :data-cover="$store.state.content.videos[0].imageUrl">
                 </video>
-                <dp-video elem="feed-h5-videos-horizontal"></dp-video>
+                <dp-video elem="feed-h5-videos-horizontal" :duration="$store.state.content.videos[0].duration"></dp-video>
                 <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
@@ -122,7 +122,7 @@
                   id="feed-h5-videos-vertical"                  
                   :data-cover="$store.state.content.videos[0].imageUrl">
                 </video>
-                <dp-video elem="feed-h5-videos-vertical"></dp-video>
+                <dp-video elem="feed-h5-videos-vertical" :duration="$store.state.content.videos[0].duration"></dp-video>
                 <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
@@ -178,18 +178,18 @@
                       <span v-else>{{ item.text }}</span>
                     </section>
                     <!-- 包含图片 -->
-                    <section v-else-if="item.type === 1" class="feeder-comment" v-lazy-container="{ selector: 'img' }">
+                    <section v-else-if="item.type === 1" class="feeder-comment">
                       <section v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
                         <img class="feeder-comment-img" data-index="99" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
-                      }" :src="defaultImg" :data-src="$com.makeFileUrl(item.image.link)"
+                      }" :src="defaultImg" v-lazy="$com.makeFileUrl(item.image.link)"
                         >
                         <!-- <span class="cover_img_type" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span> -->
                       </section>
                       <section  v-else>
                         <img class="feeder-comment-img" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
-                      }" :src="defaultImg" :data-src="$com.makeFileUrl(item.image.link)">
+                      }" :src="defaultImg" v-lazy="$com.makeFileUrl(item.image.link)">
                       </section>
                     </section>
                     <!-- 包含贴子 -->
@@ -429,8 +429,33 @@ export default {
     },
     // 在app端 长图文贴子 打开原生视频
     openClick(event) {
-      if (!this.$store.state.GET_MESSAGE_STATE && event.target.dataset.vid) {
-        location.href = `/?vid=${event.target.dataset.vid}`;
+      if (
+        !this.$store.state.GET_MESSAGE_STATE &&
+        this.$store.state.version_1_2
+      ) {
+        // location.href = `/?vid=${event.target.dataset.vid}`;
+        if (this.$store.state.agent.indexOf("closer-ios") > -1) {
+          if (window.WebViewJavascriptBridge) {
+            this.$com.setupWebViewJavascriptBridge(function(bridge) {
+              bridge.callHandler("playVideo", {
+                vid: event.target.dataset.vid,
+                uid: event.target.dataset.uid
+              });
+            });
+          } else {
+            // 兼容 老版本
+            location.href = `/?vid=${event.target.dataset.vid}`;
+          }
+        } else {
+          if (typeof window.bridge != "undefined") {
+            window.bridge.playVideo(
+              event.target.dataset.vid,
+              event.target.dataset.uid
+            );
+          } else {
+            location.href = `/?vid=${event.target.dataset.vid}`;
+          }
+        }
       }
     },
     // 打开 神议论里的贴子
@@ -567,8 +592,12 @@ export default {
           Array.prototype.forEach.call(videobg, function(x, i) {
             if (x.dataset.bg) {
               setTimeout(() => {
-                x.style.backgroundImage = `url('${x.dataset.bg}')`;
-              }, 500);
+                if (self.$store.state.GET_MESSAGE_STATE) {
+                  x.setAttribute("poster", x.dataset.bg);
+                } else {
+                  x.style.backgroundImage = `url('${x.dataset.bg}')`;
+                }
+              }, 300);
             }
           });
         }
@@ -641,7 +670,8 @@ export default {
   width: 100%;
   height: 56.25vw;
   position: relative;
-  background: #333;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");
+  background-size: cover;
 }
 .tiejin-videobox > video {
   width: 100%;

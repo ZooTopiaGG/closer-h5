@@ -97,7 +97,6 @@ export default {
           _src = ''
           flag = '';
         }
-
         // 正则替换富文本内的img标签
         // 替换不同文本
         html = html.replace(x, flag);
@@ -110,44 +109,66 @@ export default {
       const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
+      const regexPoster = /poster=[\'\"]?([^\'\"]*)[\'\"]?/i;
       let flg;
       pVideo.forEach((x, i) => {
         // 匹配imageurl属性下的值
-        let urlArray = x.match(regexUrl);
-        // 匹配vid属性下的值
-        let vidArray = x.match(regexVid);
-        let coverArray = x.match(regexCover);
+        let urlArray = x.match(regexUrl),
+          // 匹配vid属性下的值
+          vidArray = x.match(regexVid),
+          coverArray = x.match(regexCover),
+          posterArray = x.match(regexPoster),
+          v, u, c
         // // 替换插入需要的值flg
+        if (vidArray) {
+          v = vidArray[1]
+        } else {
+          v = ''
+        }
+        if (urlArray) {
+          u = urlArray[1]
+        } else {
+          u = ''
+        }
+        if (coverArray) {
+          c = coverArray[1]
+        } else {
+          if (posterArray) {
+            c = posterArray[1]
+          } else {
+            c = ''
+          }
+        }
         // let temp = pVideo[i].split('<p>');
         if (status) {
           flg = `<div 
                     class='imgbox tiejin-videobox'
-                    data-vid='${vidArray[1]}' 
-                    style='background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");'
+                    data-vid='${v}'
+                    data-uid='${u}'
                     >
                     <video src='${urlArray[1]}'
+                      class='feed-video-bg'
                       style="object-fit:fill"
                       controls
-                      preload='none' 
-                      poster='${coverArray[1]}' 
-                      data-cover='${coverArray[1]}'>
+                      preload='none'
+                      data-bg='${c}'>
                     </video>
                   </div>`;
         } else {
           flg = `<div 
                     class='imgbox video-native-player tiejin-videobox-native feed-video-bg'
-                    data-vid='${vidArray[1]}'
-                    data-bg='${coverArray[1]}'
+                    data-vid='${v}'
+                    data-bg='${c}'
                     style='background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");'>
                     <div 
                       class='flex 
                       flex-align-center 
                       flex-pack-center'
-                      data-vid='${vidArray[1]}' 
+                      data-vid='${v}'
                       >
                       <span 
                         class='icon-shipin-2' 
-                        data-vid='${vidArray[1]}' 
+                        data-vid='${v}'
                         >
                       </span>
                     </div>
@@ -198,6 +219,32 @@ export default {
   isPhoneNum(str) {
     let regex = /^1[^01][0-9]\d{8}$/
     return regex.test(str)
+  },
+  // 毫秒转换时间
+  toCurrent(d) {
+    let m = Math.round(d / 1000);
+    if (m >= 60) {
+      let f = Math.floor(m / 60),
+        c = m - 60 * f,
+        a, z;
+      if (f < 10) {
+        a = `0${f}`
+      } else {
+        a = `${f}`
+      }
+      if (c < 10) {
+        z = `0${c}`
+      } else {
+        z = `${c}`
+      }
+      return `${a}:${z}`
+    } else if (m < 60) {
+      if (m < 10) {
+        return `00:0${m}`
+      } else {
+        return `00:${m}`
+      }
+    }
   },
 
   /*判断是否是微信 微博 QQ*/

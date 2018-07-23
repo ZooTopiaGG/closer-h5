@@ -14,7 +14,7 @@
         <top-nav></top-nav>
       </nav>
       <section class="layer" v-if="$store.state.GET_MESSAGE_STATE">
-        <img src="~/assets/images/1531133203.png" alt="">
+        <img :src="defaultImg" v-lazy="require('~/assets/images/1531133203.png')" alt="">
         <section>手机扫一扫</section>
         <section>下载贴近App</section>
       </section>
@@ -109,7 +109,7 @@ export default {
   },
   mounted() {
     let self = this;
-    // console.log(this.$store.state);
+    console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件

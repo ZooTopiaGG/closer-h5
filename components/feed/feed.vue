@@ -20,7 +20,7 @@
               <section v-if="item.content.text" class="feedtitle text-ellipse">
                 {{ item.content.text }}
               </section>
-              <section v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
+              <!-- <section v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
                 <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
                   <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -35,44 +35,59 @@
               <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
               <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
                 </section>
-              </section>
-              <section v-if="item.content.images && (item.content.images.length === 3 || item.content.images.length > 4)" class="flex feedimgcontent">
+              </section> -->
+              <section v-if="item.content.images && item.content.images.length > 0" class="flex feedimgcontent">
                 <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
                   <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-              <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
-              <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
+                  <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
+                  <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
+                  <span class="more-image" v-if="index === item.content.images.length -1 && item.content.images.length > 3">{{ item.content.images.length }}张更多</span>
                 </section>
               </section>
-              <section v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
+              <!-- <section v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
                 <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
                   <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
               <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
                 </section>
-              </section>
+              </section> -->
             </section>
             <!-- 视频贴 int_type == 1-->
             <section class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
               <!-- <video :src="item.content.videos[0].src" controls="controls" preload="none"
                 :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
               </video> -->
+              <section v-if="item.content.text" class="feedtitle feed-videos-title text-ellipse">{{ item.content.text }}</section>
+              
               <section class="feeds-video flex flex-align-center flex-pack-center" 
+                v-if="item.content.videos[0].width > item.content.videos[0].height"
                 v-lazy:background-image="item.content.videos[0].imageUrl"
                 :style="{
                   width: '100vw',
                   height: item.content.videos[0].height * 100 / item.content.videos[0].width + 'vw'
                 }">
                 <span class='icon-shipin-2'></span>
+                <section class="duration flex flex-align-center flex-pack-center">
+                  <span>00:00/{{ $com.toCurrent(item.content.videos[0].duration) }}</span>
+                </section>
               </section>
-              <section v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</section>
+              <section class="feeds-video flex flex-align-center flex-pack-center" 
+                v-else
+                v-lazy:background-image="item.content.videos[0].imageUrl"
+                :style="{
+                  width: item.content.videos[0].width * 100 / item.content.videos[0].height + 'vw',
+                  height: '82.93vw'
+                }">
+                <span class='icon-shipin-2'></span>
+                <section class="duration flex flex-align-center flex-pack-center">
+                  <span>00:00/{{ $com.toCurrent(item.content.videos[0].duration) }}</span>
+                </section>
+              </section>
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
             <section class="feedmain" v-else-if="item.int_type === 2">
-              <section v-if="item.cover" class="feedcover flex">
-                <img v-lazy="$com.makeFileUrl(item.cover)">
-              </section>
               <section class="feedtype">
                 <section v-if="item.title" class="feedtitle text-ellipse">
                   {{ item.title }}
@@ -80,6 +95,9 @@
                 <section v-if="item.content.summary" class="feedcontent text-ellipse">
                   {{ item.content.summary }}
                 </section>
+              </section>
+              <section v-if="item.cover" class="feedcover feed-cover-image flex">
+                <img v-lazy="$com.makeFileUrl(item.cover)">
               </section>
             </section>
           </section>
@@ -212,7 +230,9 @@ export default {
 .time {
   color: #808080;
 }
-
+.feed-cover-image {
+  margin: 2.67vw 4.67vw 0 4.67vw;
+}
 .feedcover > img {
   width: 100%;
   height: 100%;
@@ -223,6 +243,9 @@ export default {
   line-height: 1.6;
   -webkit-line-clamp: 2;
   margin-top: 2.67vw;
+}
+.feed-videos-title {
+  margin-bottom: 2.67vw;
 }
 .feedtype .feedtitle {
   font-weight: bold;
@@ -238,8 +261,16 @@ export default {
 .feedimgcontent {
   flex-wrap: wrap;
   margin-top: 2.67vw;
+  padding: 0 4.67vw;
 }
-
+.more-image {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 14px;
+}
 .feeder-img-list {
   position: relative;
   overflow: hidden;
@@ -265,11 +296,10 @@ export default {
   background-repeat: no-repeat;
 }
 .feeder-img-list-cell-3 {
-  width: 33%;
+  width: 32.5%;
   height: 0;
-  padding-bottom: 33%;
-  margin-bottom: 0.5%;
-  margin-right: 0.5%;
+  padding-bottom: 32.5%;
+  margin-right: 0.83%;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -313,6 +343,25 @@ export default {
   padding: 0 6px;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 8px;
+}
+.feeds-video {
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: 4.67vw;
+  position: relative;
+}
+.duration {
+  position: absolute;
+  right: 2.67vw;
+  bottom: 2.67vw;
+  z-index: 99;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+  height: 6.667vw;
+  width: 21.33vw;
+  box-sizing: border-box;
+  font-size: 12px;
 }
 @media screen and (min-width: 681px) {
   .dpFeed {
