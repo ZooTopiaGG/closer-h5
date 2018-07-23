@@ -212,12 +212,14 @@
                         </section>
                       </section>
                       <section v-else class="imgbox feed-imgbox-else feed-video-bg" 
-                      @click="showVid2(item.video.vid)" 
+                      @click="showVid2($event)"
+                      :data-uid="item.video.src"
                       :data-vid="item.video.vid" :data-bg="item.video.imageUrl" :style="{
                           backgroundImage: 'url('+defaultImg+')',
                           }">
-                        <section class="flex flex-align-center flex-pack-center feed-imgbox-else-child" :data-vid="item.video.vid">
-                          <span class="icon-shipin-2" :data-vid="item.video.vid"></span>
+                        <section class="flex flex-align-center flex-pack-center feed-imgbox-else-child" :data-vid="item.video.vid" :data-uid="item.video.src"
+                      >
+                          <span class="icon-shipin-2" :data-vid="item.video.vid" :data-uid="item.video.src"></span>
                         </section>
                       </section>
                     </section>
@@ -424,54 +426,24 @@ export default {
     // 3 - 神议论(班长合成的)
     // 5 - 官方普通(栏目运营人员发出的)
     // 在app端 神议论贴子 打开原生视频
-    showVid2(vid) {
-      if (!this.$store.state.GET_MESSAGE_STATE) {
-        if (this.$store.state.version_1_2) {
-          if (this.$store.state.agent.indexOf("closer-ios") > -1) {
-            if (window.WebViewJavascriptBridge) {
-              this.$com.setupWebViewJavascriptBridge(function(bridge) {
-                bridge.callHandler("playVideo", {
-                  vid: vid || null,
-                  uid: null
-                });
-              });
-            }
-          } else {
-            if (typeof window.bridge != "undefined") {
-              window.bridge.playVideo(vid, null);
-            }
-          }
-        } else {
-          location.href = `/?vid=${vid}`;
-        }
-      }
+    showVid2(event) {
+      this.$com.h5PlayVideo(
+        event.target.dataset.uid,
+        event.target.dataset.vid,
+        this.$store.state.GET_MESSAGE_STATE,
+        this.$store.state.version_1_2,
+        this.$store.state.agent.indexOf("closer-ios") > -1
+      );
     },
     // 在app端 长图文贴子 打开原生视频
     openClick(event) {
-      if (!this.$store.state.GET_MESSAGE_STATE) {
-        let vid = event.target.dataset.vid ? event.target.dataset.vid : null,
-          uid = event.target.dataset.uid ? event.target.dataset.uid : null;
-        // location.href = `/?vid=${event.target.dataset.vid}`;
-        if (this.$store.state.version_1_2) {
-          if (this.$store.state.agent.indexOf("closer-ios") > -1) {
-            if (window.WebViewJavascriptBridge) {
-              this.$com.setupWebViewJavascriptBridge(function(bridge) {
-                bridge.callHandler("playVideo", {
-                  vid: vid,
-                  uid: uid
-                });
-              });
-            }
-          } else {
-            if (typeof window.bridge != "undefined") {
-              window.bridge.playVideo(vid, uid);
-            }
-          }
-        } else {
-          // 兼容 老版本
-          location.href = `/?vid=${event.target.dataset.vid}`;
-        }
-      }
+      this.$com.h5PlayVideo(
+        event.target.dataset.uid,
+        event.target.dataset.vid,
+        this.$store.state.GET_MESSAGE_STATE,
+        this.$store.state.version_1_2,
+        this.$store.state.agent.indexOf("closer-ios") > -1
+      );
     },
     // 打开 神议论里的贴子
     tofeed(fid) {

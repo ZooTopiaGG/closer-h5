@@ -15,6 +15,9 @@
       <section class="duration flex flex-align-center flex-pack-center" v-if="duration > 0">
         <span>{{ $com.toCurrent(currentTime * 1000) }}/{{ $com.toCurrent(duration) }}</span>
       </section>
+      <section class="launchFullScreen flex flex-align-center flex-pack-center" @click="handlerFullScreen">
+        <img src="~/assets/images/Group@2x.png" alt="icon">
+      </section>
   </section>
 </template>
 <script>
@@ -92,6 +95,24 @@ export default {
       self.playing.style.display = "block";
       // 隐藏暂停时的cover
       self.pause.style.display = "none";
+    },
+    launchFullScreen(element) {
+      console.log(element.requestFullscreen);
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    },
+    // 绑定全屏事件
+    handlerFullScreen() {
+      let self = this;
+      console.log(11111);
+      self.launchFullScreen(self.video);
     }
   },
   mounted() {
@@ -116,3 +137,37 @@ export default {
   }
 };
 </script>
+<style scoped lang="less">
+@m20: 2.67vw;
+.duration {
+  position: absolute;
+  left: @m20;
+  bottom: @m20;
+  z-index: 99;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+  height: 6.667vw;
+  width: 21.33vw;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+.isLongVideo .duration {
+  bottom: 16.67vw;
+}
+.launchFullScreen {
+  position: absolute;
+  right: @m20;
+  bottom: @m20;
+  z-index: 99;
+  img {
+    width: 6.933vw;
+    height: 6.933vw;
+  }
+}
+.isLongVideo .launchFullScreen {
+  bottom: 16.67vw;
+}
+</style>
+

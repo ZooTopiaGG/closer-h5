@@ -166,10 +166,12 @@ export default {
                       flex-align-center 
                       flex-pack-center'
                       data-vid='${v}'
+                      data-uid='${u}'
                       >
                       <span 
                         class='icon-shipin-2' 
                         data-vid='${v}'
+                        data-uid='${u}'
                         >
                       </span>
                     </div>
@@ -274,5 +276,31 @@ export default {
     setTimeout(function () {
       document.documentElement.removeChild(WVJBIframe)
     }, 0)
+  },
+  // 唤起原生播放ship
+  h5PlayVideo(u, v, c, d, e) {
+    if (!c) {
+      let vid = v ? v : null,
+        uid = u ? u : null;
+      if (d) {
+        if (e) {
+          if (window.WebViewJavascriptBridge) {
+            this.setupWebViewJavascriptBridge(function (bridge) {
+              bridge.callHandler("playVideo", {
+                vid: vid,
+                uid: uid
+              });
+            });
+          }
+        } else {
+          if (typeof window.bridge != "undefined") {
+            window.bridge.playVideo(vid, uid);
+          }
+        }
+      } else {
+        // 兼容 老版本
+        location.href = `/?vid=${vid}`;
+      }
+    }
   }
 }
