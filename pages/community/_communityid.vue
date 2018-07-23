@@ -162,7 +162,7 @@ export default {
       let group = await self.$axios.$get(
         `${api.group.recruiting}?communityid=${
           self.$route.params.communityid
-        }&pagenum=1&count=5`
+        }&pagenum=1&count=3`
       );
       if (group.code === 0) {
         self.group = group.result;

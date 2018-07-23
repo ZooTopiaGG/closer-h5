@@ -88,16 +88,28 @@
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
             <section class="feedmain" v-else-if="item.int_type === 2">
-              <section class="feedtype">
-                <section v-if="item.title" class="feedtitle text-ellipse">
-                  {{ item.title }}
+              <section v-if="item.int_cover_mode != 1">
+                <section class="feedtype">
+                  <section v-if="item.title" class="feedtitle text-ellipse">
+                    {{ item.title }}
+                  </section>
+                  <section v-if="item.content.summary" class="feedcontent text-ellipse">
+                    {{ item.content.summary }}
+                  </section>
                 </section>
-                <section v-if="item.content.summary" class="feedcontent text-ellipse">
-                  {{ item.content.summary }}
+                <section v-if="item.cover" class="feedcover feed-cover-image flex">
+                  <img v-lazy="$com.makeFileUrl(item.cover)">
                 </section>
               </section>
-              <section v-if="item.cover" class="feedcover feed-cover-image flex">
-                <img v-lazy="$com.makeFileUrl(item.cover)">
+              <section v-else class="flex flex-pack-justify">
+                <section class="feedtype">
+                  <section v-if="item.title" class="feedtitle feed-mode-1 text-ellipse">
+                    {{ item.title }}
+                  </section>
+                </section>
+                <section v-if="item.cover" class="feedcover feed-mode-1-image flex">
+                  <span class="mode-1" v-lazy:background-image="$com.makeFileUrl(item.cover)"></span>
+                </section>
               </section>
             </section>
           </section>
@@ -237,13 +249,31 @@ export default {
   width: 100%;
   height: 100%;
 }
-
 .feedtitle {
   font-size: 18px;
   line-height: 1.6;
   -webkit-line-clamp: 2;
   margin-top: 2.67vw;
 }
+
+.feed-mode-1 {
+  margin-top: 0;
+  -webkit-line-clamp: 3;
+  line-height: 1.5;
+  font-size: 17px;
+}
+.feed-mode-1-image {
+  width: 30.4vw;
+  height: 20vw;
+  margin-right: 4.67vw;
+}
+.feed-mode-1-image span {
+  width: 30.4vw;
+  height: 20vw;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .feed-videos-title {
   margin-bottom: 2.67vw;
 }
@@ -363,6 +393,7 @@ export default {
   box-sizing: border-box;
   font-size: 12px;
 }
+
 @media screen and (min-width: 681px) {
   .dpFeed {
     display: none;

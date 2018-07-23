@@ -233,8 +233,8 @@
         <!-- 发帖者信息 神议论和长图文区别 -->
         <section v-if="!$store.state.version_1_2">
           <section class="author-list" v-if="$store.state.res.int_category != 3">
-            <p>小编：<span>张山</span></p>
-            <p>作者：<span>历史书</span> <span>历史书</span> </p>
+            <p v-if="$store.state.res.nickname">小编：<span>{{ $store.state.res.nickname }}</span></p>
+            <p v-if="$store.state.res.authors">作者：{{ $store.state.res.authors }} </p>
           </section>
           <section v-else class="author-list">
             <p>来自 <span>{{ $store.state.res.className }}</span></p>
