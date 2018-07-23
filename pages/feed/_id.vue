@@ -438,8 +438,8 @@ export default {
           if (window.WebViewJavascriptBridge) {
             this.$com.setupWebViewJavascriptBridge(function(bridge) {
               bridge.callHandler("playVideo", {
-                vid: event.target.dataset.vid,
-                uid: event.target.dataset.uid
+                vid: event.target.dataset.vid || null,
+                uid: event.target.dataset.uid || null
               });
             });
           } else {
@@ -449,8 +449,8 @@ export default {
         } else {
           if (typeof window.bridge != "undefined") {
             window.bridge.playVideo(
-              event.target.dataset.vid,
-              event.target.dataset.uid
+              event.target.dataset.vid || null,
+              event.target.dataset.uid || null
             );
           } else {
             location.href = `/?vid=${event.target.dataset.vid}`;
