@@ -425,36 +425,51 @@ export default {
     // 5 - 官方普通(栏目运营人员发出的)
     // 在app端 神议论贴子 打开原生视频
     showVid2(vid) {
-      location.href = `/?vid=${vid}`;
+      if (!this.$store.state.GET_MESSAGE_STATE) {
+        if (this.$store.state.version_1_2) {
+          if (this.$store.state.agent.indexOf("closer-ios") > -1) {
+            if (window.WebViewJavascriptBridge) {
+              this.$com.setupWebViewJavascriptBridge(function(bridge) {
+                bridge.callHandler("playVideo", {
+                  vid: vid || null,
+                  uid: null
+                });
+              });
+            }
+          } else {
+            if (typeof window.bridge != "undefined") {
+              window.bridge.playVideo(vid, null);
+            }
+          }
+        } else {
+          location.href = `/?vid=${vid}`;
+        }
+      }
     },
     // 在app端 长图文贴子 打开原生视频
     openClick(event) {
-      if (
-        !this.$store.state.GET_MESSAGE_STATE &&
-        this.$store.state.version_1_2
-      ) {
+      if (!this.$store.state.GET_MESSAGE_STATE) {
+        let vid = event.target.dataset.vid ? event.target.dataset.vid : null,
+          uid = event.target.dataset.uid ? event.target.dataset.uid : null;
         // location.href = `/?vid=${event.target.dataset.vid}`;
-        if (this.$store.state.agent.indexOf("closer-ios") > -1) {
-          if (window.WebViewJavascriptBridge) {
-            this.$com.setupWebViewJavascriptBridge(function(bridge) {
-              bridge.callHandler("playVideo", {
-                vid: event.target.dataset.vid || null,
-                uid: event.target.dataset.uid || null
+        if (this.$store.state.version_1_2) {
+          if (this.$store.state.agent.indexOf("closer-ios") > -1) {
+            if (window.WebViewJavascriptBridge) {
+              this.$com.setupWebViewJavascriptBridge(function(bridge) {
+                bridge.callHandler("playVideo", {
+                  vid: vid,
+                  uid: uid
+                });
               });
-            });
+            }
           } else {
-            // 兼容 老版本
-            location.href = `/?vid=${event.target.dataset.vid}`;
+            if (typeof window.bridge != "undefined") {
+              window.bridge.playVideo(vid, uid);
+            }
           }
         } else {
-          if (typeof window.bridge != "undefined") {
-            window.bridge.playVideo(
-              event.target.dataset.vid || null,
-              event.target.dataset.uid || null
-            );
-          } else {
-            location.href = `/?vid=${event.target.dataset.vid}`;
-          }
+          // 兼容 老版本
+          location.href = `/?vid=${event.target.dataset.vid}`;
         }
       }
     },
