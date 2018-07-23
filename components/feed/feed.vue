@@ -5,7 +5,7 @@
       {{ title }}
     </section> 
     <ul v-if="feedList && feedList.length > 0" class="feed-list flex-1">
-      <li class="feed-list-cell" @click="downApp($event, '', item.subjectid)" v-for="(item, index) in feedList" :key="index">
+      <li v-if="index < 5" class="feed-list-cell" @click="downApp($event, '', item.subjectid)" v-for="(item, index) in feedList" :key="index">
         <section class="feed-box">
           <section class="hide-feed-over"></section>
           <section class="feed-cell-content">
