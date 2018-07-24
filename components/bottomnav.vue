@@ -73,12 +73,10 @@ export default {
         });
         if (res) {
           if (url) {
-            location.href = `${location.protocol}//${
-              location.hostname
-            }?downurl=${url}`;
+            location.href = `${api.downHost}?downurl=${url}`;
             return;
           } else {
-            `${location.protocol}//${location.hostname}`;
+            location.href = `${api.downHost}`;
           }
         }
       }
