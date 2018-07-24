@@ -427,6 +427,9 @@ export default {
     // 5 - 官方普通(栏目运营人员发出的)
     // 在app端 神议论贴子 打开原生视频
     showVid2(event) {
+      if (!(event.target.dataset.vid || event.target.dataset.uid)) {
+        return;
+      }
       this.$com.h5PlayVideo(
         event.target.dataset.uid,
         event.target.dataset.vid,
@@ -437,6 +440,9 @@ export default {
     },
     // 在app端 长图文贴子 打开原生视频
     openClick(event) {
+      if (!(event.target.dataset.vid || event.target.dataset.uid)) {
+        return;
+      }
       this.$com.h5PlayVideo(
         event.target.dataset.uid,
         event.target.dataset.vid,
@@ -672,7 +678,7 @@ export default {
   height: 56.25vw;
   position: relative;
 }
-.tiejin-videobox-native > div {
+.tiejin-videobox-native > section {
   position: absolute;
   left: 0;
   top: 0;

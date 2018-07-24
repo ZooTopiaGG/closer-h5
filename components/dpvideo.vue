@@ -154,7 +154,7 @@ export default {
 }
 
 .isLongVideo .duration {
-  bottom: 16.67vw;
+  bottom: 16.67vw + @m20;
 }
 .launchFullScreen {
   position: absolute;
@@ -167,7 +167,7 @@ export default {
   }
 }
 .isLongVideo .launchFullScreen {
-  bottom: 16.67vw;
+  bottom: 16.67vw + @m20;
 }
 </style>
 

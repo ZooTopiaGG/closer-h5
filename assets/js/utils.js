@@ -90,9 +90,9 @@ export default {
         // fix 图片是中文带路径 补丁
         if (srcArray) {
           _src = srcArray[1].replace(/\+/g, "%2b");
-          flag = `<div class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH};">
+          flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH};">
                     <img style="height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
-                </div>`;
+                </section>`;
         } else {
           _src = ''
           flag = '';
@@ -141,7 +141,7 @@ export default {
         }
         // let temp = pVideo[i].split('<p>');
         if (status) {
-          flg = `<div 
+          flg = `<section 
                     class='imgbox tiejin-videobox'
                     data-vid='${v}'
                     data-uid='${u}'
@@ -153,15 +153,15 @@ export default {
                       preload='none'
                       data-bg='${c}'>
                     </video>
-                  </div>`;
+                  </section>`;
         } else {
-          flg = `<div 
+          flg = `<section 
                     class='imgbox video-native-player tiejin-videobox-native feed-video-bg'
                     data-vid='${v}'
                     data-uid='${u}'
                     data-bg='${c}'
                     style='background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");'>
-                    <div 
+                    <section 
                       class='flex 
                       flex-align-center 
                       flex-pack-center'
@@ -174,8 +174,8 @@ export default {
                         data-uid='${u}'
                         >
                       </span>
-                    </div>
-                  </div>`;
+                    </section>
+                  </section>`;
         }
         html = html.replace(x, flg);
       });
@@ -192,9 +192,9 @@ export default {
         let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
         let newsplit1 = newstr.split(heightArray[0]);
         let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
-        let flag = `<div class="imgbox tiejin-iframe">
+        let flag = `<section class="imgbox tiejin-iframe">
                   ${newstr1}</iframe>
-                </div>`;
+                </section>`;
         html = html.replace(x, flag);
       });
     }

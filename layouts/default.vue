@@ -304,7 +304,7 @@ nav .communityName {
   background: #fff;
 }
 .isLongVideo .feeder-cover {
-  margin-top: -14vw;
+  margin-top: -16.67vw;
   position: relative;
   z-index: 9;
   background: #fff;
