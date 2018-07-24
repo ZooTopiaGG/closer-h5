@@ -294,7 +294,7 @@ export default {
           }
         } else {
           if (typeof window.bridge != "undefined") {
-            window.bridge.playVideo(vid, url);
+            window.bridge.playVideo(vid, uid);
           }
         }
       } else {
