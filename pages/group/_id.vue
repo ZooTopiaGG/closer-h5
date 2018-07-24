@@ -283,10 +283,6 @@ export default {
       }
     }
   }
-  .lookGroup {
-    height: auto;
-    overflow-y: auto;
-  }
   .more {
     margin: @m15*2 0 @m20;
   }

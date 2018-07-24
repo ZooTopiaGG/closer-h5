@@ -676,9 +676,7 @@ export const actions = {
         adid: adid || 'closer-share'
       }
     let data = await self.$axios.$post(`${api.share.get_adcookie}`, para)
-    if (data.code === 0) {
-      return true
-    }
+    return true
   },
   // 点击下载按钮时统计
   // 通用h5分享统计，目前主要针对 帖子 栏目 群组 活动

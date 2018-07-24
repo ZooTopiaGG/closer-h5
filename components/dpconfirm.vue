@@ -41,7 +41,7 @@ export default {
         let _page, url, did;
         if (self.$route.path.indexOf("/community") > -1) {
           _page = "community";
-          did = self.$route.params.communityid;
+          did = self.$route.params.id;
           url = `closer://community/${did}`;
         } else if (self.$route.path.indexOf("/feed") > -1) {
           _page = "feed";

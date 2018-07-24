@@ -58,12 +58,9 @@ export default {
       } else {
         store.commit("SET_ADID", "");
       }
-      let para = {
-        communityid: params.communityid
-      };
       // 获取栏目详情
       let community = await app.$axios.$get(
-        `${api.community.show}?communityid=${params.communityid}`
+        `${api.community.show}?communityid=${params.id}`
       );
       if (community.code === 0) {
         // 设置communityid到res状态
@@ -72,7 +69,7 @@ export default {
         if (community.result.isFollowed) {
           store.commit("SET_FOCUS_STAT", community.result.isFollowed);
         }
-        community.result.communityid = params.communityid;
+        community.result.communityid = params.id;
         return {
           res: {
             community: community.result
@@ -119,7 +116,7 @@ export default {
       });
       if (result) {
         let _page = "community",
-          did = self.$route.params.communityid,
+          did = self.$route.params.id,
           url = `closer://community/${did}`;
         let res = await self.$store.dispatch("down_statistics", {
           dataId: did || "",
@@ -142,7 +139,7 @@ export default {
       let self = this;
       let feed = await self.$axios.$get(
         `${api.community.community_subject_list_index}?communityid=${
-          self.$route.params.communityid
+          self.$route.params.id
         }`
       );
       if (feed.code === 0) {
@@ -161,7 +158,7 @@ export default {
       let self = this;
       let group = await self.$axios.$get(
         `${api.group.recruiting}?communityid=${
-          self.$route.params.communityid
+          self.$route.params.id
         }&pagenum=1&count=3`
       );
       if (group.code === 0) {
@@ -312,25 +309,7 @@ export default {
   background-size: cover;
   margin-left: @m20;
 }
-.cover {
-  position: relative;
-}
-.cover-title {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  width: 80%;
-  text-align: center;
-}
-.feeder-img {
-  position: relative;
-  width: 100%;
-  height: 124vw;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
+
 .nothing-group {
   padding: @m15 * 2;
   color: #808080;

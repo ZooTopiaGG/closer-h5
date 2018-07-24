@@ -165,10 +165,6 @@ export default {
 };
 </script>
 <style type="text/css">
-.dp-text-color {
-  color: #fddb00;
-}
-
 #report .ivu-radio-group {
   display: flex;
   flex-wrap: wrap;

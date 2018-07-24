@@ -616,29 +616,6 @@ export default {
   min-height: calc(100vh - 56.25vw);
 }
 
-.learn-more {
-  margin-top: 8px;
-  line-height: 49px;
-  font-size: 16px;
-  color: #409eff;
-  padding-top: 44px;
-  height: 49px;
-}
-.more-img {
-  width: 6.75px;
-  height: 10.5px;
-  margin-left: 5px;
-}
-.lg-preview-nav-arrow {
-  border-top: 2px solid #333 !important;
-  border-left: 2px solid #333 !important;
-}
-.feeder-comments .dp-border-show {
-  border-left: 1px solid #fddb00;
-  border-right: 0;
-  border-top: 0;
-  border-bottom: 0;
-}
 .tiejin-imgbox {
   background: #fff;
   width: 100%;
