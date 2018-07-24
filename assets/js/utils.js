@@ -288,13 +288,13 @@ export default {
             this.setupWebViewJavascriptBridge(function (bridge) {
               bridge.callHandler("playVideo", {
                 vid: vid,
-                uid: uid
+                url: uid
               });
             });
           }
         } else {
           if (typeof window.bridge != "undefined") {
-            window.bridge.playVideo(vid, uid);
+            window.bridge.playVideo(vid, url);
           }
         }
       } else {

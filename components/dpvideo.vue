@@ -97,7 +97,8 @@ export default {
       self.pause.style.display = "none";
     },
     launchFullScreen(element) {
-      console.log(element.requestFullscreen);
+      console.log(element);
+      return;
       if (element.requestFullscreen) {
         element.requestFullscreen();
       } else if (element.mozRequestFullScreen) {
