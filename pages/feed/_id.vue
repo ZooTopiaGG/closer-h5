@@ -243,9 +243,12 @@
         <!-- 阅读量 点赞数 -->
         <section class="end-data flex flex-align-center flex-pack-justify" v-if="!$store.state.version_1_2">
           <section class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></section>
-          <section class="flex flex-align-center">
+          <section class="flex flex-align-center" v-if="$store.state.GET_MESSAGE_STATE">
             <span class="sup-icon"></span>
             <span> {{ $store.state.res.like }}</span>
+          </section>
+          <section class="flex flex-align-center" v-else>
+            <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
           </section>
         </section> 
       </section>

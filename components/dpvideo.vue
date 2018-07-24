@@ -12,11 +12,24 @@
         <span class="shipin"></span>
       </section>
       <!-- 时间 -->
-      <section class="duration flex flex-align-center flex-pack-center" v-if="duration > 0">
-        <span>{{ $com.toCurrent(currentTime * 1000) }}/{{ $com.toCurrent(duration) }}</span>
-      </section>
-      <section class="launchFullScreen flex flex-align-center flex-pack-center" @click="handlerFullScreen">
-        <img src="~/assets/images/Group@2x.png" alt="icon">
+      <section class="v2-controls flex flex-v flex-pack-justify">
+        <section class="v2-top-controls flex flex-align-center flex-pack-justify">
+          <section class="v2-duration flex flex-align-center flex-pack-center" v-if="duration > 0">
+            <span>{{ $com.toCurrent(currentTime * 1000) }}/{{ $com.toCurrent(duration) }}</span>
+          </section>
+          <section class="v2-launchFullScreen flex flex-align-center" @click="handlerFullScreen">
+            <img src="~/assets/images/Group@2x.png" alt="icon">
+          </section>
+        </section>
+        <section class="v2-process">
+          <section class="v2-line"></section>
+          <section class="v2-process-line flex">
+            <section class="v2-ball-line" :style="{
+              width: v2_width+'vw'
+            }"></section>
+            <span class="v2-ball"></span>
+          </section>
+        </section>
       </section>
   </section>
 </template>
@@ -38,7 +51,8 @@ export default {
       poster: {},
       playing: {},
       pause: {},
-      currentTime: 0
+      currentTime: 0,
+      v2_width: 0.0001
     };
   },
   methods: {
@@ -62,6 +76,8 @@ export default {
     playTimeUpdate() {
       let self = this;
       self.currentTime = Math.round(self.video.currentTime);
+      self.v2_width = 100 * self.currentTime * 1000 / self.duration;
+      self.v2_width = self.v2_width > 100 ? 97 : self.v2_width;
     },
     playEnd() {
       let self = this;
@@ -75,7 +91,6 @@ export default {
     // 正在播放， 点击暂停
     pauseVideo() {
       let self = this;
-      let video = document.getElementById(self.elem);
       self.video.pause();
       // 隐藏poster 封面
       self.poster.style.display = "none";
@@ -97,28 +112,31 @@ export default {
       self.pause.style.display = "none";
     },
     launchFullScreen(element) {
-      console.log(element);
-      return;
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
-      } else if (element.mozRequestFullScreen) {
-        element.mozRequestFullScreen();
-      } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen();
-      } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
+      var element = element || document.documentElement;
+      console.log(element.requestFullscreen);
+      console.log(element.mozRequestFullScreen);
+      console.log(element.webkitRequestFullscreen);
+      console.log(element.msRequestFullscreen);
+      console.log(element.requestFullScreen);
+      console.log(typeof element.webkitRequestFullScreen === "function");
+      console.log(typeof element.webkitEnterFullscreen === "function");
+      // android，请求全屏
+      if (typeof element.webkitRequestFullScreen === "function") {
+        element.webkitRequestFullScreen();
+      }
+      //ios，请求全屏
+      if (typeof element.webkitEnterFullscreen === "function") {
+        element.webkitEnterFullscreen();
       }
     },
     // 绑定全屏事件
     handlerFullScreen() {
       let self = this;
-      console.log(11111);
       self.launchFullScreen(self.video);
     }
   },
   mounted() {
     let self = this;
-    console.log(self.duration);
     self.video = document.getElementById(self.elem);
     self.poster = document.querySelector(".video-poster");
     self.playing = document.querySelector(".video-playing");
@@ -133,6 +151,23 @@ export default {
           // 显示暂停时的cover
           self.pause.style.display = "block";
         });
+
+        // android 监听屏幕全屏事件，进入全屏播放视频，退出全屏时自动暂停播放
+        self.video.addEventListener("webkitfullscreenchange", function(event) {
+          if (document.webkitIsFullScreen) {
+            self.playVideo();
+          } else {
+            self.pauseVideo();
+          }
+        });
+
+        // ios 监听屏幕全屏事件，进入全屏播放视频，退出全屏时自动暂停播放
+        self.video.addEventListener("webkitbeginfullscreen", function() {
+          self.playVideo();
+        });
+        self.video.addEventListener("webkitendfullscreen", function() {
+          self.pauseVideo();
+        });
       }
     });
   }
@@ -140,35 +175,60 @@ export default {
 </script>
 <style scoped lang="less">
 @m20: 2.67vw;
-.duration {
+@primarycolor: #fddb00;
+.v2-controls {
+  width: 100%;
   position: absolute;
-  left: @m20;
-  bottom: @m20;
-  z-index: 99;
+  left: 0;
+  bottom: 0;
   color: #fff;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 25px;
-  height: 6.667vw;
-  width: 21.33vw;
+  z-index: 999;
   box-sizing: border-box;
-  font-size: 12px;
-}
+  .v2-top-controls {
+    padding: 0 @m20;
+    margin-bottom: @m20;
+    .v2-duration {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 25px;
+      height: 6.667vw;
+      width: 21.33vw;
+      box-sizing: border-box;
+      font-size: 12px;
+    }
+    .v2-launchFullScreen {
+      img {
+        width: 6.933vw;
+        height: 6.933vw;
+      }
+    }
+  }
 
-.isLongVideo .duration {
-  bottom: 16.67vw + @m20;
-}
-.launchFullScreen {
-  position: absolute;
-  right: @m20;
-  bottom: @m20;
-  z-index: 99;
-  img {
-    width: 6.933vw;
-    height: 6.933vw;
+  .v2-process {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    .v2-process-line {
+      position: absolute;
+      left: 0;
+      top: 0;
+      .v2-ball-line {
+        background: @primarycolor;
+        height: 2px;
+      }
+      .v2-ball {
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        background: @primarycolor;
+        position: relative;
+        top: -4px;
+      }
+    }
   }
 }
-.isLongVideo .launchFullScreen {
-  bottom: 16.67vw + @m20;
+.isLongVideo .v2-controls {
+  bottom: 16.67vw;
 }
 </style>
 
