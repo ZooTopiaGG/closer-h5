@@ -177,10 +177,12 @@ export default {
         });
         if (res) {
           if (status) {
-            location.href = `${api.downHost}?downurl=closer://feed/${id}`;
+            location.href = `${location.protocol}//${
+              location.hostname
+            }?downurl=closer://feed/${id}`;
             return;
           } else {
-            location.href = `${api.downHost}`;
+            location.href = `${location.protocol}//${location.hostname}`;
           }
         }
       }

@@ -58,7 +58,9 @@ export default {
         extension: ""
       });
       if (res) {
-        location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
+        location.href = `${location.protocol}//${
+          location.hostname
+        }?downurl=closer://jump/to/mine`;
       }
       // location.href = api.downUrl;
     }
