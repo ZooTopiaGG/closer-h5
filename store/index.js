@@ -439,20 +439,30 @@ export const actions = {
     }
   },
   // 获取手机验证码
-  async get_code_by_phone({
+  async get_code_by_phone_v2({
     commit
   }, {
     phone,
-    grouk_captcha_value
+    grouk_captcha_value,
+    type
   }) {
     let self = this
     // 点击必须登录的按钮，可获取cookie进行判断 信息
     try {
-      let para = {
-        phone: phone,
-        grouk_captcha_value: grouk_captcha_value
+      let para, data;
+      if (type && type === 'bind') {
+        para = {
+          phone,
+          type
+        }
+        data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
+      } else {
+        para = {
+          phone,
+          grouk_captcha_value
+        }
+        data = await self.$axios.$post(`${api.admin.get_code_by_phone_v2}`, para)
       }
-      let data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
       if (data.code === 0) {
         Toast({
           message: '发送成功！',
@@ -472,6 +482,31 @@ export const actions = {
         position: 'top'
       })
     }
+  },
+  // 绑定手机
+  async bind_phone({
+    commit
+  }, {
+    phone,
+    code
+  }) {
+    let self = this,
+      para = {
+        phone,
+        code
+      }
+    try {
+      let data = await self.$axios.$post(`${api.admin.bind_phone}`, para)
+      if (data.code === 0) {
+        return true
+      } else {
+        Toast({
+          message: data.result,
+          position: 'top'
+        })
+        return false
+      }
+    } catch (e) {}
   },
   // 关注，取消关注栏目
   async get_focus_stat({

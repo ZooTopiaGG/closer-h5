@@ -34,34 +34,43 @@ export default {
       }
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
-        let para;
-        if (self.$route.params.id) {
-          para = {
-            subjectid: self.$route.params.messageid,
-            content: self.textarea,
-            lastid: self.$route.params.id
-          };
+        if (JSON.parse(Cookie.get("user")).phones) {
+          let para;
+          if (self.$route.params.id) {
+            para = {
+              subjectid: self.$route.params.messageid,
+              content: self.textarea,
+              lastid: self.$route.params.id
+            };
+          } else {
+            para = {
+              subjectid: self.$route.params.messageid,
+              content: self.textarea
+            };
+          }
+          self.$store.dispatch("sure_message", para);
         } else {
-          para = {
-            subjectid: self.$route.params.messageid,
-            content: self.textarea
-          };
-        }
-        self.$store.dispatch("sure_message", para);
-      } else {
-        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        if ($async.isWeiXin()) {
-          // 通过微信授权 获取code
-          await self.$store.dispatch("get_wx_auth", {
-            url: `${location.protocol}//${location.hostname}${
-              self.$route.fullPath
-            }`
-          });
-        } else {
-          self.$store.commit("GET_LOGIN_TYPE", "toMessage");
-          // 显示登录弹窗
+          // 唤起绑定手机流程
+          self.$store.commit("GET_LOGIN_TYPE", "toMessageBind");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
+      } else {
+        self.$store.commit("GET_LOGIN_TYPE", "toMessage");
+        // 显示登录弹窗
+        self.$store.commit("SET_VISIBLE_LOGIN", true);
+        // // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        // if ($async.isWeiXin()) {
+        //   // 通过微信授权 获取code
+        //   await self.$store.dispatch("get_wx_auth", {
+        //     url: `${location.protocol}//${location.hostname}${
+        //       self.$route.fullPath
+        //     }`
+        //   });
+        // } else {
+        //   self.$store.commit("GET_LOGIN_TYPE", "toMessage");
+        //   // 显示登录弹窗
+        //   self.$store.commit("SET_VISIBLE_LOGIN", true);
+        // }
       }
     },
     // 登录
@@ -87,7 +96,7 @@ export default {
               content: window.sessionStorage.getItem("textarea")
             };
           }
-          await self.$store.dispatch("sure_message", para);
+          // await self.$store.dispatch("sure_message", para);
         }
       }
     }

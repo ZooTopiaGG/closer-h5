@@ -10,7 +10,7 @@
       <section>快去app看看其他精彩留言吧～</section>
     </section>
     <section class="button-group flex">
-      <span class="wait" @click="hideConfirm">
+      <span class="wait" @click="backFeed">
         再等等
       </span>
       <span class="ok" @click="downApp">好的</span>
@@ -69,6 +69,10 @@ export default {
           }
         }
       }
+    },
+    backFeed() {
+      this.$store.commit("SHOW_CONFIRM", false);
+      this.$router.push({ path: `/feed/${this.$route.params.messageid}` });
     }
   }
 };

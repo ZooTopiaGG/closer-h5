@@ -4,14 +4,14 @@
     inHtmlLogin: isAbsolute === 'inviter'
   }">
     
-    <section class="title" v-if="isAbsolute === 'toMessage'">
+    <section class="title" v-if="isAbsolute === 'toMessage' || isAbsolute === 'toMessageBind'">
       <span>客官，根据国家法律，发表文字评论必须填写手机号，所以拜托啦～</span>
     </section>
     <section class="title" v-else-if="isAbsolute != 'inviter'">
       <span>{{ title }}</span>
     </section>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
-    <section class="tj-code">
+    <section class="tj-code" v-if="isAbsolute != 'toMessageBind'">
       <mt-field type="text" placeholder="图形验证码" :attr="{ maxlength: 5 }" v-model="img_code_value" class="margin-bottom-40">
         <img class="tj-code-img" @click="sendImgCode" :src="get_img_code">
       </mt-field>
@@ -21,7 +21,7 @@
         <mt-button type="default" class="tj-code-btn cursor" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
       </mt-field>
     </section>
-    <mt-button type="primary" :disabled="loading === 1" :class="{
+    <mt-button type="primary" v-if="isAbsolute != 'toMessageBind'" :disabled="loading === 1" :class="{
       'cursor': true,
       'margin-top-20': true, 
       'tj-btn': true,
@@ -31,6 +31,17 @@
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
         <span v-if="isAbsolute === 'inviter'">立即下载，提现秒到账</span>
         <span v-else>登 录</span>
+      </section>
+    </mt-button>
+    <mt-button type="primary" v-else :disabled="loading === 1" :class="{
+      'cursor': true,
+      'margin-top-20': true, 
+      'tj-btn': true,
+      notweixin: isAbsolute === 'inviter'
+    }" @click="toBind">
+      <section class="flex flex-align-center flex-pack-center">
+        <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
+        <span>绑定手机</span>
       </section>
     </mt-button>
   </section>
@@ -80,21 +91,23 @@ export default {
         });
         return false;
       }
-      if (!self.img_code_value) {
-        self.isdisabled = false;
-        self.$toast({
-          message: "图形验证码不能为空",
-          position: "top"
-        });
-        return false;
-      } else {
-        if (self.img_code_value.length < 5) {
+      if (self.isAbsolute != "toMessageBind") {
+        if (!self.img_code_value) {
           self.isdisabled = false;
           self.$toast({
-            message: "图形验证码格式错误",
+            message: "图形验证码不能为空",
             position: "top"
           });
           return false;
+        } else {
+          if (self.img_code_value.length < 5) {
+            self.isdisabled = false;
+            self.$toast({
+              message: "图形验证码格式错误",
+              position: "top"
+            });
+            return false;
+          }
         }
       }
       let timer = setInterval(() => {
@@ -107,20 +120,31 @@ export default {
           self.sendName = `正在发送 ${time} s`;
         }
       }, 1000);
-
-      let result = await self.$store.dispatch("get_code_by_phone", {
-        phone: self.phone,
-        grouk_captcha_value: self.img_code_value
-      });
+      let para;
+      if (self.isAbsolute != "toMessageBind") {
+        para = {
+          phone: self.phone,
+          grouk_captcha_value: self.img_code_value
+        };
+      } else {
+        para = {
+          phone: self.phone,
+          type: "bind"
+        };
+      }
+      let result = await self.$store.dispatch("get_code_by_phone_v2", para);
       if (!result) {
         self.isdisabled = false;
         self.sendName = "重新发送";
-        self.get_img_code = `${
-          api.filePath
-        }/captcha/image?tempstamp=${Date.now()}`;
+        if (self.isAbsolute != "toMessageBind") {
+          self.get_img_code = `${
+            api.filePath
+          }/captcha/image?tempstamp=${Date.now()}`;
+        }
         clearInterval(timer);
       }
     },
+    // 登录
     async toLogin() {
       let self = this;
       // console.log(self.isAbsolute);
@@ -176,6 +200,53 @@ export default {
           } else if (self.isAbsolute === "toDown") {
             self.downApp();
           } else if (self.isAbsolute === "toMessage") {
+            self.sureMessage();
+          }
+        } else {
+          self.loading = 2;
+        }
+      } catch (err) {
+        self.loading = 2;
+      }
+    },
+    // 绑定手机号
+    async toBind() {
+      let self = this;
+      try {
+        self.loading = 1;
+        if (!$async.isPhoneNum(self.phone)) {
+          self.loading = 2;
+          self.$toast({
+            message: "手机号格式错误",
+            position: "top"
+          });
+          return false;
+        }
+        if (!self.code) {
+          self.loading = 2;
+          self.$toast({
+            message: "验证码错误",
+            position: "top"
+          });
+          return false;
+        }
+        if (isNaN(self.code) || self.code.length != 6) {
+          self.loading = 2;
+          self.$toast({
+            message: "验证码错误",
+            position: "top"
+          });
+          return false;
+        }
+        let para = {
+          phone: self.phone,
+          code: self.code
+        };
+        let status = await self.$store.dispatch("bind_phone", para);
+        if (status) {
+          self.loading = 2;
+          self.$store.commit("SET_VISIBLE_LOGIN", false);
+          if (self.isAbsolute === "toMessageBind") {
             self.sureMessage();
           }
         } else {
