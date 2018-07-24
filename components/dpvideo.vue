@@ -230,5 +230,28 @@ export default {
 .isLongVideo .v2-controls {
   bottom: 16.67vw;
 }
+@media screen and (min-width: 680px) {
+  @m10: 10px;
+  .v2-controls {
+    .v2-top-controls {
+      padding: 0 @m10;
+      margin-bottom: @m10;
+      .v2-duration {
+        border-radius: 25px;
+        height: 25px;
+        width: 80px;
+      }
+      .v2-launchFullScreen {
+        img {
+          width: 26px;
+          height: 26px;
+        }
+      }
+    }
+  }
+  .isLongVideo .v2-controls {
+    bottom: 5px;
+  }
+}
 </style>
 

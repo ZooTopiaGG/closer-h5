@@ -1,9 +1,8 @@
 <template>
    <!-- 留言板 --> 
-   <section>
+   <section class="feed-2">
      <section
       :class="{
-      'feed-2': true,
       'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">
       <section class="split-box"></section>
       <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
