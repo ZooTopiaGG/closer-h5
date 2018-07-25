@@ -43,7 +43,7 @@
                 </section>
               </section>
               <section class="messager-content">
-                <section>{{ item.content }}</section>
+                <section class="messager-content-1">{{ item.content }}</section>
                 <section v-if="item.replyNumber > 0">
                   <ul class="messager-comments">
                     <li class="messager-comments-cell" v-for="(commentItem, commentIndex) in item.sonList" v-if=" commentIndex <= 3" :key="commentIndex">
@@ -236,10 +236,13 @@ export default {
       font-size: @basefont - 1;
       box-sizing: border-box;
       border-bottom: 1px solid @bottomcolor;
+      .messager-content-1 {
+        margin-bottom: @m20;
+      }
       .messager-comments {
         padding: @m20 / 2 @m20;
         background-color: #f4f4f4;
-        margin: @m20 0 @m20 * 2;
+        margin: 0 0 @m20 * 2;
         .messager-comments-cell {
           box-sizing: border-box;
           padding: 0.67vw 0;
@@ -277,7 +280,7 @@ export default {
 .nomessage {
   height: 26.67vw;
   box-sizing: border-box;
-  margin-top: @m20 / 2;
+  padding-top: @m20 / 2;
   background: #f4f4f4;
   color: @focuscolor;
   font-size: @basefont;

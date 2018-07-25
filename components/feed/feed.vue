@@ -1,6 +1,6 @@
 <template>
   <section class="dpFeed">
-    <section class="split-box" v-if="!($store.state.res.int_type === 2 && $store.state.res.int_category === 1)"></section> 
+    <section class="split-box"></section> 
     <section class="hots-article flex flex-align-center">
       {{ title }}
     </section> 

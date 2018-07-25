@@ -14,7 +14,18 @@ export default {
     let seconds = time.getSeconds();
     seconds = seconds < 10 ? ('0' + seconds) : seconds;
     if (type === 'yy-mm-dd hh:MM') {
-      return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
+      let n = Date.now();
+      let n2 = new Date(n);
+      let y2 = n2.getFullYear();
+      let m2 = n2.getMonth() + 1;
+      m2 = m2 < 10 ? ('0' + m2) : m2;
+      let d2 = n2.getDate();
+      d2 = d2 < 10 ? ('0' + d2) : d2;
+      if (y2 === y && m2 === m && d2 === d) {
+        return h + ':' + minute;
+      } else {
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
+      }
     } else if (type === 'yy-mm-dd MM:ss') {
       return y + '-' + m + '-' + d + ' ' + minute + ':' + seconds;
     } else if (type === '年/月/日') {

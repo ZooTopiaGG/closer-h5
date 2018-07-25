@@ -253,11 +253,11 @@
         </section> 
       </section>
       <!-- 精彩留言 -->
-      <message-board v-if="$store.state.GET_MESSAGE_STATE"></message-board>
+      <message-board v-if="$store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)"></message-board>
       <section v-if="$store.state.GET_MESSAGE_STATE">
         <!-- 征稿列表 -->
         <section v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1">
-          <dp-feed title="精彩投稿" :feed-list="paper_list"></dp-feed>
+          <dp-feed title="精彩投稿" :feed-list="paper_list" v-if="paper_list.length > 0"></dp-feed>
         </section>
         <!-- 热门文章 -->
         <dp-feed v-if="hot_list.length > 0" title="热门文章" :feed-list="hot_list"></dp-feed>
