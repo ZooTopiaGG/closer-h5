@@ -32,24 +32,12 @@ module.exports = {
     // 可使用外链形式 引入第三方库
     script: [{
       innerHTML: `
-        // document.addEventListener("DOMContentLoaded", function(event) {
-        //     canShowContent()
-        //     try {
-        //       window.webkit.messageHandlers.canShowContent.postMessage(null);
-        //     } catch (e) {}
-        //     if (typeof window.bridge != "undefined") {
-        //       window.bridge.canShowContent();
-        //     }
-        // });
         document.onreadystatechange = function () {
           if (document.readyState === "interactive" || document.readyState === "complete") {
             canShowContent()
             try {
               window.webkit.messageHandlers.canShowContent.postMessage(null);
             } catch (e) {}
-            if (typeof window.bridge != "undefined") {
-              window.bridge.canShowContent();
-            }
           }
         }
         function canShowContent() {}`
