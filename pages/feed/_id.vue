@@ -275,7 +275,8 @@ import dpVideo from "~/components/dpvideo";
 export default {
   name: "Feed",
   async asyncData({ params, store, app, query }) {
-    if (store.state.GET_MESSAGE_STATE && !store.state.version_1_2) {
+    // 1.2 版本之前以及 非App内 使用asyncData
+    if (!store.state.version_1_2) {
       try {
         let para = {
           subjectid: params.id
@@ -462,6 +463,7 @@ export default {
         location.href = `closer://feed/${fid}`;
       }
     },
+    // 1.2版本之后 在app内使用纯前端调用
     async getFeedDetails() {
       let app = this,
         store = app.$store,
