@@ -161,14 +161,7 @@ export default {
           extension: str || "more_reply"
         });
         if (res) {
-          if (url) {
-            location.href = `${location.protocol}//${
-              location.hostname
-            }?downurl=${url}`;
-            return;
-          } else {
-            location.href = `${location.protocol}//${location.hostname}`;
-          }
+          self.$com.downApp(url);
         }
       }
     },

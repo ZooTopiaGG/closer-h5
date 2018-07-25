@@ -50,7 +50,6 @@ export default {
           location.hostname
         }?downurl=closer://jump/to/mine`;
       }
-      // location.href = api.downUrl;
     }
   },
   data() {

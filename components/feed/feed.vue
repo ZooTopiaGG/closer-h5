@@ -176,14 +176,8 @@ export default {
           extension: str || "hot_feed"
         });
         if (res) {
-          if (status) {
-            location.href = `${location.protocol}//${
-              location.hostname
-            }?downurl=closer://feed/${id}`;
-            return;
-          } else {
-            location.href = `${location.protocol}//${location.hostname}`;
-          }
+          let url = `closer://feed/${id}`;
+          self.$com.downApp(url);
         }
       }
     }

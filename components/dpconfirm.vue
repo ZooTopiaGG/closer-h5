@@ -61,14 +61,7 @@ export default {
           extension: str || "message"
         });
         if (res) {
-          if (url) {
-            location.href = `${location.protocol}//${
-              location.hostname
-            }?downurl=${url}`;
-            return;
-          } else {
-            location.href = `${location.protocol}//${location.hostname}`;
-          }
+          self.$com.downApp(url);
         }
       }
     },

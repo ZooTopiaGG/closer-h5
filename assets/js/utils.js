@@ -270,7 +270,25 @@ export default {
       return false
     }
   },
-
+  downApp(url) {
+    if (url) {
+      if (!this.isWeiXin()) {
+        location.href = `${url}`;
+        setTimeout(() => {
+          location.href = `${location.protocol}//${
+            location.host
+          }?downurl=${url}`;
+        }, 1500)
+        return;
+      }
+      location.href = `${location.protocol}//${
+        location.host
+      }?downurl=${url}`;
+      return;
+    } else {
+      location.href = `${location.protocol}//${location.hostname}`;
+    }
+  },
   // jsbriadge ---ios
   setupWebViewJavascriptBridge(callback) {
     if (window.WebViewJavascriptBridge) {
