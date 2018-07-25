@@ -88,7 +88,7 @@
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
             <section class="feedmain" v-else-if="item.int_type === 2">
-              <section v-if="item.int_cover_mode != 1">
+              <!-- <section v-if="item.int_cover_mode != 1">
                 <section class="feedtype">
                   <section v-if="item.title" class="feedtitle text-ellipse">
                     {{ item.title }}
@@ -100,8 +100,8 @@
                 <section v-if="item.cover" class="feedcover feed-cover-image flex">
                   <img v-lazy="$com.makeFileUrl(item.cover)">
                 </section>
-              </section>
-              <section v-else class="flex flex-pack-justify">
+              </section> -->
+              <section class="flex flex-pack-justify">
                 <section class="feedtype">
                   <section v-if="item.title" class="feedtitle feed-mode-1 text-ellipse">
                     {{ item.title }}
