@@ -385,26 +385,7 @@ export default {
         store = app.$store,
         params = app.$route.params,
         query = app.$route.query;
-      let res = await app.$com.commonDetails(app, store, params, query);
-      if (res) {
-        if (typeof window != "undefined") {
-          // 视频封面异步加载
-          let videobg = document.querySelectorAll(".feed-video-bg");
-          if (videobg) {
-            Array.prototype.forEach.call(videobg, function(x, i) {
-              if (x.dataset.bg) {
-                setTimeout(() => {
-                  if (app.$store.state.GET_MESSAGE_STATE) {
-                    x.setAttribute("poster", x.dataset.bg);
-                  } else {
-                    x.style.backgroundImage = `url('${x.dataset.bg}')`;
-                  }
-                }, 300);
-              }
-            });
-          }
-        }
-      }
+      await app.$com.commonDetails(app, store, params, query);
     },
     // 社区信息
     // 外部分享时调用
@@ -529,22 +510,21 @@ export default {
       }
       if (typeof window != "undefined") {
         // 老版本
-        if (!self.$store.state.version_1_2) {
-          // 视频封面异步加载
-          let videobg = document.querySelectorAll(".feed-video-bg");
-          if (videobg) {
-            Array.prototype.forEach.call(videobg, function(x, i) {
-              if (x.dataset.bg) {
-                setTimeout(() => {
-                  if (self.$store.state.GET_MESSAGE_STATE) {
-                    x.setAttribute("poster", x.dataset.bg);
-                  } else {
-                    x.style.backgroundImage = `url('${x.dataset.bg}')`;
-                  }
-                }, 300);
-              }
-            });
-          }
+        // 视频封面异步加载
+        let videobg = document.querySelectorAll(".feed-video-bg");
+        console.log(videobg);
+        if (videobg) {
+          Array.prototype.forEach.call(videobg, function(x, i) {
+            if (x.dataset.bg) {
+              setTimeout(() => {
+                if (self.$store.state.GET_MESSAGE_STATE) {
+                  x.setAttribute("poster", x.dataset.bg);
+                } else {
+                  x.style.backgroundImage = `url('${x.dataset.bg}')`;
+                }
+              }, 300);
+            }
+          });
         }
       }
     });
