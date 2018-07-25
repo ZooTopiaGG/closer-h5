@@ -21,7 +21,7 @@
           <section class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
-          <section v-if="$store.state.GET_MESSAGE_STATE">
+          <section class="feeder-images" v-if="$store.state.GET_MESSAGE_STATE">
             <section class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images && $store.state.content.images.length == 1">
               <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
                 <!-- <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)"> -->
