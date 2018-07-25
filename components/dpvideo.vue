@@ -142,7 +142,10 @@ export default {
     self.playing = document.querySelector(".video-playing");
     self.pause = document.querySelector(".video-pause");
     self.$nextTick(() => {
-      if (self.$store.state.res.int_type === 1) {
+      if (
+        self.$store.state.res.int_type === 1 &&
+        self.$store.state.GET_MESSAGE_STATE
+      ) {
         self.video.addEventListener("x5videoexitfullscreen", function() {
           // 隐藏poster 封面
           self.poster.style.display = "none";
@@ -160,7 +163,6 @@ export default {
             self.pauseVideo();
           }
         });
-
         // ios 监听屏幕全屏事件，进入全屏播放视频，退出全屏时自动暂停播放
         self.video.addEventListener("webkitbeginfullscreen", function() {
           self.playVideo();
