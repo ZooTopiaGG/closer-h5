@@ -157,6 +157,9 @@
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
+            <section class="feeder-cover flex flex-align-center" v-if="!$store.state.GET_MESSAGE_STATE">
+              <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
+            </section>
             <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
             </section>
             <!-- 神议论列表 -->
@@ -391,7 +394,7 @@ export default {
             Array.prototype.forEach.call(videobg, function(x, i) {
               if (x.dataset.bg) {
                 setTimeout(() => {
-                  if (self.$store.state.GET_MESSAGE_STATE) {
+                  if (app.$store.state.GET_MESSAGE_STATE) {
                     x.setAttribute("poster", x.dataset.bg);
                   } else {
                     x.style.backgroundImage = `url('${x.dataset.bg}')`;
@@ -501,7 +504,6 @@ export default {
   },
   mounted() {
     let self = this;
-
     self.$nextTick(() => {
       // 清除留言时保存的数据
       window.sessionStorage.clear();
@@ -525,23 +527,26 @@ export default {
         self.hotList();
         self.showMore = true;
       }
-      // if (typeof window != "undefined") {
-      //   // 视频封面异步加载
-      //   let videobg = document.querySelectorAll(".feed-video-bg");
-      //   if (videobg) {
-      //     Array.prototype.forEach.call(videobg, function(x, i) {
-      //       if (x.dataset.bg) {
-      //         setTimeout(() => {
-      //           if (self.$store.state.GET_MESSAGE_STATE) {
-      //             x.setAttribute("poster", x.dataset.bg);
-      //           } else {
-      //             x.style.backgroundImage = `url('${x.dataset.bg}')`;
-      //           }
-      //         }, 300);
-      //       }
-      //     });
-      //   }
-      // }
+      if (typeof window != "undefined") {
+        // 老版本
+        if (!self.$store.state.version_1_2) {
+          // 视频封面异步加载
+          let videobg = document.querySelectorAll(".feed-video-bg");
+          if (videobg) {
+            Array.prototype.forEach.call(videobg, function(x, i) {
+              if (x.dataset.bg) {
+                setTimeout(() => {
+                  if (self.$store.state.GET_MESSAGE_STATE) {
+                    x.setAttribute("poster", x.dataset.bg);
+                  } else {
+                    x.style.backgroundImage = `url('${x.dataset.bg}')`;
+                  }
+                }, 300);
+              }
+            });
+          }
+        }
+      }
     });
   }
 };
