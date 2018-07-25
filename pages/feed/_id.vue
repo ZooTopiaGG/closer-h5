@@ -513,6 +513,12 @@ export default {
         // 视频封面异步加载
         let videobg = document.querySelectorAll(".feed-video-bg");
         console.log(videobg);
+        let t = Date.now();
+        console.log(t);
+        window.onload = function() {
+          console.log(videobg);
+          console.log(Date.now() - t);
+        };
         if (videobg) {
           Array.prototype.forEach.call(videobg, function(x, i) {
             if (x.dataset.bg) {
