@@ -270,9 +270,28 @@ export default {
       return false
     }
   },
+  isJumpOut() {
+    if (typeof window != 'undefined') {
+      let ua = navigator.userAgent.toLowerCase();
+      var iswx = false,
+        isqq = false,
+        iswb = false;
+      // 微信内置浏览器
+      iswx = /micromessenger/i.test(ua);
+
+      // QQ内置浏览器
+      isqq = /qq/i.test(ua);
+      if (/mqqbrowser/i.test(ua)) {
+        isqq = false;
+      }
+      // 微博内置浏览器
+      iswb = /weibo/i.test(ua);
+      return iswx || isqq || iswb;
+    }
+  },
   downApp(url) {
     if (url) {
-      if (!this.isWeiXin()) {
+      if (!this.isJumpOut()) {
         location.href = `${url}`;
         setTimeout(() => {
           location.href = `${location.protocol}//${
