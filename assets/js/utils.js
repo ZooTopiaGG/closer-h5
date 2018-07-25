@@ -76,94 +76,93 @@ export default {
 
   },
   // 公用方法
-  async commonDetails(app, store, params, query) {
-    try {
-      // 获取贴子详情
-      let res = await app.$axios.$get(
-        `${api.command.show}?subjectid=${params.id}`
-      );
-      if (res.code != 0) {
-        // 贴子被删除状态
-        store.commit("GET_EXIST_STATUS", false);
-      } else {
-        // 在外部浏览器时 不可看的状态
-        // 在PC预览 可看的状态
-        if (store.state.GET_MESSAGE_STATE) {
-          // pc端的状态
-          if (query.view && query.view === "pre") {
-            store.commit("GET_EXIST_STATUS", true);
-          } else if (
-            res.result.int_verify === 0 ||
-            ((res.result.int_verify === -1 &&
-                res.result.int_category != 4 &&
-                res.result.int_category != 6) ||
-              res.result.bool_delete)
-          ) {
-            store.commit("GET_EXIST_STATUS", false);
-          } else {
-            store.commit("GET_EXIST_STATUS", true);
-          }
-        }
-        // 验证content
-        if (res.result.content) {
-          var content = JSON.parse(res.result.content);
-          // 视频贴 特殊处理
-          if (res.result.int_type === 1) {
-            if (content.videos[0].height > content.videos[0].width) {
-              store.commit("ITS_LONG_VIDEO", true);
-            }
-          }
-          // 解析长图文html
-          if (res.result.int_type === 2) {
-            let _html = await $async.makeHtmlContent(
-              content.html,
-              store.state.GET_MESSAGE_STATE
-            );
-            if (_html) {
-              content.html = _html;
-            }
-            if (res.result.int_category === 3 && content.end_html) {
-              let end_html = await $async.makeHtmlContent(
-                content.end_html,
-                store.state.GET_MESSAGE_STATE
-              );
-              if (end_html) {
-                content.end_html = end_html;
-              }
-            }
-          }
-          if (content.discuss) {
-            var discuss = await content.discuss.map(x => {
-              if (x.text) {
-                let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
-                let res = x.text.match(reg);
-                if (res) {
-                  x.weblink = true;
-                  res.map(y => {
-                    // 正则替换文本
-                    let tag = `<a href="${y}" target="_blank">${y}</a>`;
-                    let newtag = x.text.replace(reg, tag);
-                    x.newText = newtag;
-                  });
-                } else {
-                  x.weblink = false;
-                }
-              }
-              return x;
-            });
-            store.commit("SET_DISSCUSS", discuss);
-          }
-          // 返回在渲染页面之前得结果
-          store.commit("SET_CONTENT", content);
-        }
-        store.commit("SET_RES", res.result);
-        return true;
-      }
-    } catch (err) {
-      store.commit("GET_EXIST_STATUS", false);
-      throw err;
-    }
-  },
+  // async commonDetails(app, store, params, query) {
+  //   try {
+  //     // 获取贴子详情
+  //     let res = await app.$axios.$get(
+  //       `${api.command.show}?subjectid=${params.id}`
+  //     );
+  //     if (res.code != 0) {
+  //       // 贴子被删除状态
+  //       store.commit("GET_EXIST_STATUS", false);
+  //     } else {
+  //       // 在外部浏览器时 不可看的状态
+  //       // 在PC预览 可看的状态
+  //       if (store.state.GET_MESSAGE_STATE) {
+  //         // pc端的状态
+  //         if (query.view && query.view === "pre") {
+  //           store.commit("GET_EXIST_STATUS", true);
+  //         } else if (
+  //           res.result.int_verify === 0 ||
+  //           ((res.result.int_verify === -1 &&
+  //               res.result.int_category != 4 &&
+  //               res.result.int_category != 6) ||
+  //             res.result.bool_delete)
+  //         ) {
+  //           store.commit("GET_EXIST_STATUS", false);
+  //         } else {
+  //           store.commit("GET_EXIST_STATUS", true);
+  //         }
+  //       }
+  //       // 验证content
+  //       if (res.result.content) {
+  //         var content = JSON.parse(res.result.content);
+  //         // 视频贴 特殊处理
+  //         if (res.result.int_type === 1) {
+  //           if (content.videos[0].height > content.videos[0].width) {
+  //             store.commit("ITS_LONG_VIDEO", true);
+  //           }
+  //         }
+  //         // 解析长图文html
+  //         if (res.result.int_type === 2) {
+  //           let _html = await $async.makeHtmlContent(
+  //             content.html,
+  //             store.state.GET_MESSAGE_STATE
+  //           );
+  //           if (_html) {
+  //             content.html = _html;
+  //           }
+  //           if (res.result.int_category === 3 && content.end_html) {
+  //             let end_html = await $async.makeHtmlContent(
+  //               content.end_html,
+  //               store.state.GET_MESSAGE_STATE
+  //             );
+  //             if (end_html) {
+  //               content.end_html = end_html;
+  //             }
+  //           }
+  //         }
+  //         if (content.discuss) {
+  //           var discuss = await content.discuss.map(x => {
+  //             if (x.text) {
+  //               let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+  //               let res = x.text.match(reg);
+  //               if (res) {
+  //                 x.weblink = true;
+  //                 res.map(y => {
+  //                   // 正则替换文本
+  //                   let tag = `<a href="${y}" target="_blank">${y}</a>`;
+  //                   let newtag = x.text.replace(reg, tag);
+  //                   x.newText = newtag;
+  //                 });
+  //               } else {
+  //                 x.weblink = false;
+  //               }
+  //             }
+  //             return x;
+  //           });
+  //           store.commit("SET_DISSCUSS", discuss);
+  //         }
+  //         // 返回在渲染页面之前得结果
+  //         store.commit("SET_CONTENT", content);
+  //       }
+  //       store.commit("SET_RES", res.result);
+  //     }
+  //   } catch (err) {
+  //     store.commit("GET_EXIST_STATUS", false);
+  //     throw err;
+  //   }
+  // },
   // 富文本处理
   async makeHtmlContent(html, status) {
     let _html;
