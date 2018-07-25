@@ -102,7 +102,7 @@
                 </section>
               </section> -->
               <section class="flex flex-pack-justify">
-                <section class="feedtype">
+                <section class="feedtype feed-left-width">
                   <section v-if="item.title" class="feedtitle feed-mode-1 text-ellipse">
                     {{ item.title }}
                   </section>
@@ -275,6 +275,14 @@ export default {
 }
 .feedtype .feedtitle {
   font-weight: bold;
+}
+
+.feed-left-width {
+  width: calc(100vw - 8vw - 30.4vw);
+  box-sizing: border-box;
+}
+.feed-left-width .feedtitle {
+  padding: 0 0 0 4.67vw;
 }
 
 .feedcontent {
