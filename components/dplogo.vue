@@ -1,5 +1,5 @@
 <template>
-    <img class="access-not" :src="defaultImg" v-lazy="$store.state.res.blogo">
+    <img class="access-not" :src="defaultImg" v-lazy="$store.state.res.blogo" @click="toCommunity">
 </template>
 <script>
 export default {
@@ -9,6 +9,13 @@ export default {
       defaultImg:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg=="
     };
+  },
+  methods: {
+    toCommunity() {
+      this.$router.push({
+        path: `/community/${this.$store.state.res.communityid}`
+      });
+    }
   },
   mounted() {
     this.$nextTick(() => {

@@ -579,7 +579,6 @@ export const actions = {
             imgUrl: pic, // 分享图标
             success: function () {
               // 用户确认分享后执行的回调函数
-              Toast('分享成功');
             },
             cancel: function () {
               // 用户取消分享后执行的回调函数
@@ -596,7 +595,6 @@ export const actions = {
             success: function () {
               // 用户确认分享后执行的回调函数
               //layer.msg('分享成功');
-              Toast('分享成功');
             },
             cancel: function () {
               // 用户取消分享后执行的回调函数
@@ -610,7 +608,6 @@ export const actions = {
             imgUrl: pic, // 分享图标
             success: function () {
               // 用户确认分享后执行的回调函数
-              Toast('分享成功');
             },
             cancel: function () {
               // 用户取消分享后执行的回调函数
@@ -624,7 +621,6 @@ export const actions = {
             imgUrl: pic, // 分享图标
             success: function () {
               // 用户确认分享后执行的回调函数
-              Toast('分享成功');
             },
             cancel: function () {
               // 用户取消分享后执行的回调函数

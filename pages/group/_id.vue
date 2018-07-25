@@ -5,7 +5,7 @@
         commonbox: true,
         'flex-v':true }">
     <section class="member">
-      <section class="title">群组成员 {{ $store.state.group_info.group_user_info.length + 1 }}</section>
+      <section class="title">群组成员 {{ $store.state.group_info.group_user_count }}</section>
       <ul :class="{
                 group: true, 
                 flex: true, 
@@ -23,7 +23,7 @@
           <span class="ellipsis">{{ item.props.roster.name }}</span>
         </li>
       </ul>
-      <section class="more-member" @click="firstLogin">查看更多群成员 <i class="down-arrow"></i></section>
+      <section class="more-member" v-if="$store.state.group_info.group_user_count > 5" @click="firstLogin">查看更多群成员 <i class="down-arrow"></i></section>
     </section>
     <section class="intro" v-if="$store.state.group_info.group_info && JSON.parse($store.state.group_info.group_info.group.description)[0].content">
       <section class="title flex flex-align-center flex-pack-justify">
@@ -46,7 +46,7 @@
     <section class="split-box"></section>
     <section class="title group-community flex flex-pack-justify flex-align-center" v-if="$store.state.feed_list.length > 0 && $store.state.feed_list[0].blogo && $store.state.feed_list[0].communityName">
       <span>所属贴近号</span>
-      <section class="group-logo flex flex-align-center">
+      <section class="group-logo flex flex-align-center" @click="toCommunity">
         <img v-lazy="$store.state.feed_list[0].blogo">
         <span>{{ $store.state.feed_list[0].communityName }}</span>
         <i class="right-arrow"></i>
@@ -106,8 +106,10 @@ export default {
     };
   },
   methods: {
-    tofeeddetails(item) {
-      location.href = `/feed/${item.subjectid}`;
+    toCommunity() {
+      this.$router.push({
+        path: `/community/${this.$store.state.res.communityid}`
+      });
     },
     async getGroupFeedList() {
       let self = this;
