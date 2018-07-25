@@ -222,9 +222,9 @@ export default {
 }
 
 .columnname > img {
-  width: 21.87vw;
-  height: 8.54vw;
-  border-radius: 0 4px 4px 0;
+  width: 18.93vw;
+  height: 8vw;
+  border-radius: 0 5px 5px 0;
   margin-right: 4vw;
 }
 
