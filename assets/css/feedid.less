@@ -227,6 +227,7 @@
 .feeder-img-bgcover {
   position: relative;
   width: 100%;
+  max-width: 680px;
   height: 124vw;
 }
 
@@ -408,12 +409,15 @@
   .videoNav {
     display: none;
   }
-  .feeder-img-cover {
-    max-height: 414px;
+  .feeder-img-cover, .feeder-img-bgcover {
+    max-width: 680px;
+    height: auto;
     img {
-      max-height: 414px;
+      max-width: 680px;
+      height: auto;
     }
   }
+  
   .feeder-content {
     margin-top: 15px;
   }
