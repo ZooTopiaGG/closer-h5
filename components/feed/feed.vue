@@ -73,7 +73,7 @@
                   <span>00:00/{{ $com.toCurrent(item.content.videos[0].duration) }}</span>
                 </section>
               </section>
-              <section class="feeds-video flex flex-align-center flex-pack-center" 
+              <section class="feeds-video feeds-video-vertical flex flex-align-center flex-pack-center" 
                 v-else
                 v-lazy:background-image="item.content.videos[0].imageUrl"
                 :style="{
@@ -381,8 +381,10 @@ export default {
 .feeds-video {
   background-size: cover;
   background-repeat: no-repeat;
-  margin-left: 4.67vw;
   position: relative;
+}
+.feeds-video-vertical {
+  margin-left: 4.67vw;
 }
 .duration {
   position: absolute;
