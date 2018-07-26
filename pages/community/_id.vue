@@ -24,7 +24,7 @@
                 flex: true, 
                 'flex-v': true
             }">
-        <li v-for="(item, index) in group.data" :key="index" @click="downApp('group_list')" class="flex flex-align-start">
+        <li v-for="(item, index) in group.data" :key="index" @click="downApp(item.group.teamID)" class="flex flex-align-start">
           <img class="avatar" v-lazy="$com.makeFileUrl(item.group.avatar)">
           <section class="info flex flex-v">
             <span class="name">{{ item.group.name }}</span>
@@ -107,6 +107,9 @@ export default {
   methods: {
     // h5下载补丁
     async downApp(str) {
+      // 点击群组进入群组详情页
+      // this.$router.push({ path: `/group/${str}` });
+      
       let self = this;
       let result = await self.$store.dispatch("down_adcookies", {
         webUdid: true,

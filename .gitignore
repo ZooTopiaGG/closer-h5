@@ -1,8 +1,9 @@
 # dependencies
-# node_modules
+/node_modules
 
 # logs
 npm-debug.log
+/package-lock.json
 
 # Nuxt build
 .nuxt
