@@ -180,23 +180,26 @@ export default {
           heightArray = x.match(regexHeight),
           nW,
           _src,
-          nH;
+          nH,
+          minH;
         if (widthArray && heightArray) {
-          if (widthArray < 375) {
-            nW = widthArray + 'px';
-            nH = heightArray + 'px';
+          if (widthArray[1] < 200) {
+            nW = widthArray[1] + 'px';
+            nH = heightArray[1] + 'px';
           } else {
             nW = '100%';
             nH = heightArray[1] * 92 / widthArray[1] + "vw";
           }
+          minH = nH;
         } else {
           nW = '100%';
           nH = "auto";
+          minH = '28.27vw';
         }
         // fix 图片是中文带路径 补丁
         if (srcArray) {
           _src = srcArray[1].replace(/\+/g, "%2b");
-          flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH};">
+          flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH};min-height: ${minH}">
                     <img style="width: ${nW};height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
                 </section>`;
         } else {

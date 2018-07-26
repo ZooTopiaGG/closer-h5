@@ -622,7 +622,6 @@ export default {
 .tiejin-imgbox {
   background: #fff;
   width: 100%;
-  min-height: 28.27vw;
   position: relative;
 }
 .tiejin-imgbox > span {
