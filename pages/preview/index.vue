@@ -152,81 +152,12 @@
             <section class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
               <span>
-                <span class="feed-publication-number">投稿 {{$store.state.res.collectionTotalCount}}</span>
+                <span class="feed-publication-number">投稿 0</span>
               </span>
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
-            <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
-            </section>
-            <!-- 神议论列表 -->
-            <section v-if="$store.state.res.int_category === 3">
-              <ul class="feeder-comments">
-                <li class="feeder-comments-cell flex flex-align-start" v-for="(item, index) in $store.state.discuss" :key="index">
-                  <section class="feeder-comment-info flex flex-align-center flex-pack-end">
-                    <i v-lazy:background-image="$com.makeFileUrl(item.avatar)"></i>
-                  </section>
-                  <section class="flex-1">
-                    <section class="feeder-comment-nickname flex flex-pack-justify">
-                      <span>{{ item.nickname }}</span>
-                      <!-- <span>{{ $com.getCommonTime(item.createTime, 'yy/mm/dd') }}</span> -->
-                      <span>{{ item.message_time }}</span>
-                    </section>
-                    <!-- 纯文本 link text-->
-                    <section v-if="item.type === 0" class="feeder-comment">
-                      <span v-if="item.weblink" v-html="item.newText"></span>
-                      <span v-else>{{ item.text }}</span>
-                    </section>
-                    <!-- 包含图片 -->
-                    <section v-else-if="item.type === 1" class="feeder-comment">
-                      <section v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
-                        <img class="feeder-comment-img" data-index="99" :style="{
-                        height: item.image.height * 73 / item.image.width + 'vw'
-                      }" :src="defaultImg" v-lazy="$com.makeFileUrl(item.image.link)"
-                        >
-                        <!-- <span class="cover_img_type" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span> -->
-                      </section>
-                      <section  v-else>
-                        <img class="feeder-comment-img" :style="{
-                        height: item.image.height * 73 / item.image.width + 'vw'
-                      }" :src="defaultImg" v-lazy="$com.makeFileUrl(item.image.link)">
-                      </section>
-                    </section>
-                    <!-- 包含贴子 -->
-                    <section v-else-if="item.type === 3" @click="tofeed(item.feed.feedId)" class="feeder-comment flex flex-align-center feeder-comment-3">
-                      <section class="feeder-comment-3-cover flex">
-                        <i v-if="item.feed.imageUrl" v-lazy:background-image="$com.makeFileUrl(item.feed.imageUrl)"></i>
-                      </section>
-                      <section>
-                        <section class="feeder-comment-3-title">{{ item.feed.title }}</section>
-                        <section class="feeder-comment-3-summary">{{ item.feed.summary }}</section>
-                      </section>
-                    </section>
-                    <!-- 包含视频 -->
-                    <section v-else-if="item.type === 2">
-                      <section v-if="$store.state.GET_MESSAGE_STATE">
-                        <section class="imgbox feed-imgbox">
-                          <video :src="item.video.src" controls="controls" preload="none" 
-                            :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
-                          </video>
-                        </section>
-                      </section>
-                      <section v-else class="imgbox feed-imgbox-else feed-video-bg" 
-                      @click="showVid2($event)"
-                      :data-uid="item.video.src"
-                      :data-vid="item.video.vid" :data-bg="item.video.imageUrl" :style="{
-                          backgroundImage: 'url('+defaultImg+')',
-                          }">
-                        <section class="flex flex-align-center flex-pack-center feed-imgbox-else-child" :data-vid="item.video.vid" :data-uid="item.video.src"
-                      >
-                          <span class="icon-shipin-2" :data-vid="item.video.vid" :data-uid="item.video.src"></span>
-                        </section>
-                      </section>
-                    </section>
-                  </section>
-                </li>
-              </ul>
-              <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-lazy-container="{ selector: 'img' }" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
+            <section class="summary tj-sum" v-html="$store.state.content.html">
             </section>
           </section>
         </section>
@@ -242,13 +173,13 @@
         </section>
         <!-- 阅读量 点赞数 -->
         <section class="end-data flex flex-align-center flex-pack-justify" v-if="!$store.state.version_1_2">
-          <section class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></section>
+          <section class="read-num">阅读 <span class="incrviewnum">0</span></section>
           <section class="flex flex-align-center" v-if="$store.state.GET_MESSAGE_STATE">
             <span class="sup-icon"></span>
-            <span> {{ $store.state.res.like }}</span>
+            <span> 0 </span>
           </section>
           <section class="flex flex-align-center" v-else>
-            <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
+            <span> 刚刚 </span>
           </section>
         </section> 
       </section>
@@ -299,10 +230,7 @@ export default {
       async function(event) {
         console.log("event==", event);
         console.log("event.data====", event.data);
-        let html = await self.$com.makeHtmlContent(event.data.content.html);
-        if (html) {
-          self.$store.commit("SET_CONTENT", event.data.content);
-        }
+        self.$store.commit("SET_CONTENT", event.data.content);
         self.$store.commit("SET_RES", event.data);
         // 这里不准确，chrome没有这个属性
         var origin = event.origin || event.originalEvent.origin;
