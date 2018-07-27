@@ -296,10 +296,13 @@ export default {
     let self = this;
     window.addEventListener(
       "message",
-      function(event) {
+      async function(event) {
         console.log("event==", event);
         console.log("event.data====", event.data);
-        self.$store.commit("SET_CONTENT", event.data.content);
+        let html = await self.$com.makeHtmlContent(event.data.content.html);
+        if (html) {
+          self.$store.commit("SET_CONTENT", event.data.content);
+        }
         self.$store.commit("SET_RES", event.data);
         // 这里不准确，chrome没有这个属性
         var origin = event.origin || event.originalEvent.origin;
