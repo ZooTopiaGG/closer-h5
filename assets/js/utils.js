@@ -387,21 +387,56 @@ export default {
       return iswx || isqq || iswb;
     }
   },
-  downApp(url) {
+  getParam(paramName, str) {
+    var paramValue = "";
+    var isFound = false;
+    if (
+      str.indexOf("?") > -1 &&
+      str.indexOf("=") > -1
+    ) {
+      var arrSource = unescape(str).substring(str.indexOf("?") + 1, str.length).split('&')
+      var i = 0;
+      while (i < arrSource.length && !isFound) {
+        if (arrSource[i].indexOf("=") > -1) {
+          if (
+            arrSource[i].split("=")[0].toLowerCase() ==
+            paramName.toLowerCase()
+          ) {
+            paramValue = arrSource[i].split("=")[1];
+            isFound = true;
+          }
+        }
+        i++;
+      }
+    }
+    return paramValue;
+  },
+  async downApp(url) {
     if (url) {
       if (!this.isJumpOut()) {
-        location.href = `${url}`;
+        if (url.indexOf('?from=group') > -1) {
+          let id = await this.getParam('groupid', url);
+          location.href = `closer://group/${id}`;
+        } else if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+          location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
+        } else {
+          location.href = url;
+        }
         setTimeout(() => {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
         }, 1500)
         return;
+      } else {
+        if (url.indexOf('?from=group') > -1) {
+          location.href = url
+        } else if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+          location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
+        } else {
+          location.href = `${location.protocol}//${location.host}?downurl=${url}`;
+        }
       }
-      location.href = `${location.protocol}//${
-        location.host
-      }?downurl=${url}`;
-      return;
     } else {
-      location.href = `${location.protocol}//${location.hostname}`;
+      location.href = `${location.protocol}//${location.host}`;
     }
   },
   // jsbriadge ---ios
@@ -479,7 +514,7 @@ export default {
             store.state.current_time / store.state.duration_time;
           progress = progress.toFixed(2);
         } else {
-          progress = "0.5";
+          progress = 0.5;
           _page = "article";
         }
       } else if (route.path.indexOf("/group") > -1) {
@@ -502,8 +537,9 @@ export default {
         if (redirectUrl) {
           this.downApp(redirectUrl);
           return
+        } else {
+          this.downApp(url);
         }
-        this.downApp(url);
       }
     }
   }

@@ -63,6 +63,7 @@ export default {
   padding: 5.3vw 4vw 0;
   width: 100%;
   box-sizing: border-box;
+  margin-bottom: -1px;
   .access-not {
     width: 13.87vw;
     height: 5.87vw;

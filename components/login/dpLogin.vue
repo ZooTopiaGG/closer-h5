@@ -193,7 +193,9 @@ export default {
           if (self.isAbsolute === "inviter") {
             // 需要传入打开相应app页面的参数
             // location.href = api.downUrl;
-            location.href = `${api.downHost}?downurl=closer://jump/to/mine`;
+            location.href = `${location.protocol}//${
+              location.host
+            }?downurl=closer://jump/to/mine`;
           } else if (self.isAbsolute === "toFocus") {
             // self.$store.commit("SHOW_ALERT", true);
             self.sureFocus();
@@ -286,12 +288,22 @@ export default {
       }
     },
     async downApp(str) {
-      let self = this;
+      let self = this,
+        redirectUrl;
+      if (
+        self.$store.state.extension_text === "more_group_member" ||
+        self.$store.state.extension_text === "enter_group"
+      ) {
+        redirectUrl = `${location.protocol}//${
+          location.host
+        }?from=group&groupid=${self.$route.params.id}`;
+      }
       self.$com.down_statistics(
         self.$store,
         self.$route,
         str,
-        self.$store.state.extension_text
+        self.$store.state.extension_text,
+        redirectUrl
       );
     }
   }
