@@ -37,12 +37,12 @@
                 </section>
               </section> -->
               <section v-if="item.content.images && item.content.images.length > 0" class="flex feedimgcontent">
-                <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                <section class="feeder-img-list feeder-img-list-cell-3" v-if="index < 3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
                   <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
                   <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                  <span class="more-image" v-if="index === item.content.images.length -1 && item.content.images.length > 3">{{ item.content.images.length }}张更多</span>
+                  <span class="more-image flex flex-align-center flex-pack-center" v-if="index === 2 && item.content.images.length > 3">{{ item.content.images.length - 3 }}张更多</span>
                 </section>
               </section>
               <!-- <section v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
@@ -273,11 +273,13 @@ export default {
 }
 .more-image {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   color: #fff;
   font-size: 14px;
+  background: rgba(0,0,0,0.3);
 }
 .feeder-img-list {
   position: relative;
