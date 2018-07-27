@@ -220,11 +220,11 @@ export const mutations = {
     state.enter_time = para
   },
   // get current time
-  GET_CURRENT_TIME() {
+  GET_CURRENT_TIME(state, para) {
     state.current_time = para
   },
   // get video duration
-  GET_VIDEO_DURATION() {
+  GET_VIDEO_DURATION(state, para) {
     state.duration_time = para
   }
 }
