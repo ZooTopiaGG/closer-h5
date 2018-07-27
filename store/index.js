@@ -458,6 +458,35 @@ export const actions = {
       throw err;
     }
   },
+  // 绑定手机 重新获取信息
+  async refresh_user_info({
+    commit
+  }) {
+    let self = this,
+      data = await self.$axios.$get(`${api.admin.user_show}`)
+    if (data.code === 0) {
+      let userInfo = {
+        gender: data.result.gender,
+        phones: data.result.phones,
+        updateTime: data.result.updateTime,
+        avatar: data.result.avatar,
+        createTime: data.result.createTime,
+        teamID: data.result.teamID,
+        // 姓名
+        fullname: data.result.fullname,
+        security_signal: data.result.security_signal,
+        objectID: data.result.objectID,
+        email: data.result.email,
+        username: data.result.username,
+        status: data.result.status
+      };
+      Cookie.set('user', userInfo, {
+        expires: 7
+      })
+      commit('SET_USER', userInfo)
+      return true
+    }
+  },
   // 获取手机验证码
   async get_code_by_phone_v2({
     commit
@@ -518,6 +547,7 @@ export const actions = {
     try {
       let data = await self.$axios.$post(`${api.admin.bind_phone}`, para)
       if (data.code === 0) {
+        self.dispatch('refresh_user_info')
         return true
       } else {
         Toast({
