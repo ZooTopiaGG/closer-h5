@@ -120,18 +120,22 @@ export default {
         let sct = document.createElement("script");
         sct.src = "https://res.wx.qq.com/open/js/jweixin-1.2.0.js";
         document.body.appendChild(sct);
+        // 存会话 h5Adid
+        if (self.$store.state.h5Adid) {
+          // window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
+          Cookie.set("h5Adid", self.$store.state.h5Adid);
+        } else {
+          Cookie.set("h5Adid", "");
+        }
+        // 设置 h5cookie埋点
+        if (self.$store.state.h5Cookies) {
+          Cookie.set("h5Cookies", self.$store.state.h5Cookies);
+        }
+        // 如果用户已经登录，则异步刷新用户信息
+        if (self.$store.state.auth && self.$store.state.token) {
+          self.$store.dispatch("refresh_user_info");
+        }
       }
-    }
-    // 存会话 h5Adid
-    if (self.$store.state.h5Adid) {
-      // window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
-      Cookie.set("h5Adid", self.$store.state.h5Adid);
-    } else {
-      Cookie.set("h5Adid", "");
-    }
-    // 设置 h5cookie埋点
-    if (self.$store.state.h5Cookies) {
-      Cookie.set("h5Cookies", self.$store.state.h5Cookies);
     }
     self.$nextTick(() => {
       let title, pic, desc;
