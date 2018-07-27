@@ -764,7 +764,7 @@ export const actions = {
         pagenum: 1,
         subjectid: subjectid
       };
-      let data = await self.$axios.$post(`${api.command.comments}`, para1);
+      let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${subjectid}&timestamp=${Date.now()}`);
       if (data.code === 0) {
         commit('SET_MESSAGE_LIET', data.result)
       } else {
