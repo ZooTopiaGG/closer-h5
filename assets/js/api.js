@@ -64,7 +64,7 @@ let api = {
   share: {
     wechat_config: 'closer_share.wechat_config',
     get_adcookie: 'closer_statistics.get_adcookie',
-    common: 'closer_statistics.common'
+    common: 'closer_statistics.user_action_v2',
   }
 }
 

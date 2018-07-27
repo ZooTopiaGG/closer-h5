@@ -24,7 +24,7 @@
                 flex: true, 
                 'flex-v': true
             }">
-        <li v-for="(item, index) in group.data" :key="index" @click="downApp('group_list')" class="flex flex-align-start">
+        <li v-for="(item, index) in group.data" :key="index" @click="toGroup(item.id)" class="flex flex-align-start">
           <img class="avatar" v-lazy="$com.makeFileUrl(item.group.avatar)">
           <section class="info flex flex-v">
             <span class="name">{{ item.group.name }}</span>
@@ -101,33 +101,18 @@ export default {
       defaultImg:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
       id: "",
-      community_list: ""
+      community_list: []
     };
   },
   methods: {
+    // 跳转到群组
+    toGroup(id) {
+      this.$router.push({ path: `/group/${id}` });
+    },
     // h5下载补丁
     async downApp(str) {
       let self = this;
-      let result = await self.$store.dispatch("down_adcookies", {
-        webUdid: true,
-        deviceType: self.$store.state.nvgtype,
-        deviceVersion: self.$store.state.nvgversion,
-        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
-      });
-      if (result) {
-        let _page = "community",
-          did = self.$route.params.id,
-          url = `closer://community/${did}`;
-        let res = await self.$store.dispatch("down_statistics", {
-          dataId: did || "",
-          page: _page || "feed",
-          action: "download",
-          extension: str || "group_list"
-        });
-        if (res) {
-          self.$com.downApp(url);
-        }
-      }
+      self.$com.down_statistics(self.$store, self.$route, str, "more_group");
     },
     // 获取贴子列表
     async getFeedList() {

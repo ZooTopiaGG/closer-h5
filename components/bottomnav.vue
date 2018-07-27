@@ -42,39 +42,7 @@ export default {
     // 纯下载
     async downApp(e, str) {
       let self = this;
-      let result = await self.$store.dispatch("down_adcookies", {
-        webUdid: true,
-        deviceType: self.$store.state.nvgtype,
-        deviceVersion: self.$store.state.nvgversion,
-        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
-      });
-      if (result) {
-        let _page, url, did;
-        if (self.$route.path.indexOf("/community") > -1) {
-          _page = "community";
-          did = self.$route.params.id;
-          url = `closer://community/${did}`;
-        } else if (self.$route.path.indexOf("/feed") > -1) {
-          _page = "feed";
-          did = self.$route.params.id;
-          url = `closer://feed/${did}`;
-        } else if (self.$route.path.indexOf("/group") > -1) {
-          _page = "feed";
-          did = self.$route.params.id;
-          url = `closer://group/${self.$route.params.id}`;
-        } else {
-          _page = "inviter";
-        }
-        let res = await self.$store.dispatch("down_statistics", {
-          dataId: did || "",
-          page: _page || "feed",
-          action: "download",
-          extension: str || "direct_bottom"
-        });
-        if (res) {
-          self.$com.downApp(url);
-        }
-      }
+      self.$com.down_statistics(self.$store, self.$route, str, "direct_bottom");
     }
   }
 };

@@ -107,6 +107,9 @@ export default {
       this.$store.commit("SHOW_CONFIRM", false);
     }
   },
+  beforeMount() {
+    this.$store.commit("SET_ENTER_TIME", Date.now());
+  },
   mounted() {
     let self = this;
     console.log(this.$store.state);
