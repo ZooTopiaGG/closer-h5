@@ -4,6 +4,7 @@
 # logs
 npm-debug.log
 /package-lock.json
+/yarn.lock
 
 # Nuxt build
 .nuxt

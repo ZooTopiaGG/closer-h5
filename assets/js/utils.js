@@ -257,7 +257,6 @@ export default {
                     >
                     <video src='${urlArray[1]}'
                       class='feed-video-bg'
-                      style="background: #000"
                       controls
                       preload='none'
                       data-bg='${c}'>
