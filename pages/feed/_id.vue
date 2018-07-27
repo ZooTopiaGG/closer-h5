@@ -647,7 +647,8 @@ export default {
 .tiejin-videobox > video {
   width: 100%;
   height: 56.25vw;
-  backdrop-filter: blur(50px);
+  background: #000;
+  object-fit: contain;
   overflow: hidden;
 }
 .tiejin-videobox-native {
