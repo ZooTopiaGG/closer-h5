@@ -251,6 +251,7 @@ export default {
           if (self.isAbsolute === "toMessageBind") {
             self.sureMessage();
           }
+          // 通过token获取用户信息 来更新user
         } else {
           self.loading = 2;
         }
