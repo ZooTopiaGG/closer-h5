@@ -227,7 +227,7 @@ export default {
     let self = this;
     window.addEventListener(
       "message",
-      async function(event) {
+      function(event) {
         console.log("event==", event);
         console.log("event.data====", event.data);
         self.$store.commit("SET_CONTENT", event.data.content);
