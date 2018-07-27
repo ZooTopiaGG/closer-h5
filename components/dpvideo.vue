@@ -78,6 +78,8 @@ export default {
       self.currentTime = Math.round(self.video.currentTime);
       self.v2_width = 100 * self.currentTime * 1000 / self.duration;
       self.v2_width = self.v2_width > 100 ? 97 : self.v2_width;
+      // 存储当前时间
+      self.$store.commit("GET_CURRENT_TIME", self.currentTime);
     },
     playEnd() {
       let self = this;
@@ -113,13 +115,6 @@ export default {
     },
     launchFullScreen(element) {
       var element = element || document.documentElement;
-      console.log(element.requestFullscreen);
-      console.log(element.mozRequestFullScreen);
-      console.log(element.webkitRequestFullscreen);
-      console.log(element.msRequestFullscreen);
-      console.log(element.requestFullScreen);
-      console.log(typeof element.webkitRequestFullScreen === "function");
-      console.log(typeof element.webkitEnterFullscreen === "function");
       // android，请求全屏
       if (typeof element.webkitRequestFullScreen === "function") {
         element.webkitRequestFullScreen();
@@ -137,6 +132,8 @@ export default {
   },
   mounted() {
     let self = this;
+    // 存储总时长
+    self.$store.commit("GET_VIDEO_DURATION", self.duration);
     self.video = document.getElementById(self.elem);
     self.poster = document.querySelector(".video-poster");
     self.playing = document.querySelector(".video-playing");

@@ -419,10 +419,6 @@ export default {
     next();
   },
   methods: {
-    // 跳转栏目主页
-    toCommunity() {
-      location.href = `/community/${this.$store.state.res.communityid}`;
-    },
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
     // 贴子类型：int_category（判断是否有留言功能）

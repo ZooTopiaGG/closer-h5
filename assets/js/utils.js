@@ -392,9 +392,7 @@ export default {
       if (!this.isJumpOut()) {
         location.href = `${url}`;
         setTimeout(() => {
-          location.href = `${location.protocol}//${
-            location.host
-          }?downurl=${url}`;
+          location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
         }, 1500)
         return;
       }
@@ -446,6 +444,66 @@ export default {
       } else {
         // 兼容 老版本
         location.href = `/?vid=${vid}`;
+      }
+    }
+  },
+  // 合并json
+  mergeJsonObject(jsonbject1, jsonbject2) {
+    var resultJsonObject = {};
+    for (var attr in jsonbject1) {
+      resultJsonObject[attr] = jsonbject1[attr];
+    }
+    for (var attr in jsonbject2) {
+      resultJsonObject[attr] = jsonbject2[attr];
+    }
+    return resultJsonObject;
+  },
+  // 统计方法
+  async down_statistics(store, route, str, defaultStr, redirectUrl) {
+    let result = await store.dispatch("down_adcookies");
+    if (result) {
+      let _page, url, did = route.params.id,
+        progress;
+      if (route.path.indexOf("/community") > -1) {
+        _page = "community";
+        url = `closer://community/${did}`;
+      } else if (route.path.indexOf("/feed") > -1) {
+        _page = "article";
+        url = `closer://feed/${did}`;
+        if (store.state.res.int_type === 0) {
+          _page = "article";
+          progress = 1;
+        } else if (store.state.res.int_type === 1) {
+          _page = "video";
+          progress =
+            store.state.current_time / store.state.duration_time;
+          progress = progress.toFixed(2);
+        } else {
+          progress = "0.5";
+          _page = "article";
+        }
+      } else if (route.path.indexOf("/group") > -1) {
+        _page = "group";
+        url = `closer://group/${did}`;
+      } else {
+        _page = "inviter";
+      }
+      let p1 = {
+        objectType: _page || "article", //		'统计对象类型（文章 视频 栏目 群组 H5分享的群组，栏目，帖子）,参数取值:article video community group'
+        objectId: route.params.id || "", //		'统计对象唯一标识'
+        position: str || defaultStr, //		'点击位置，若action为download时必填,参数取值：top bottom'
+        progress: progress || 0, //		'浏览进度，文章为阅读的进度，图集为当前阅读的图片/总的图片数，视频为当前播放时间/总时间 小数点两位：0.95'
+        recommendId: route.params.id || "" //		'本次推荐的唯一标识 推荐内容ID'
+      };
+      let res = await store.dispatch("down_statistics", {
+        p1
+      });
+      if (res) {
+        if (redirectUrl) {
+          this.downApp(redirectUrl);
+          return
+        }
+        this.downApp(url);
       }
     }
   }

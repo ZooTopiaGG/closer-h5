@@ -10,6 +10,7 @@ export const state = () => ({
   agent: '',
   isPre: false,
   nvgtype: '',
+  nvgTypeToPowerCase: '',
   nvgversion: '',
   GET_APP_TOKEN: '',
   content: '',
@@ -40,6 +41,9 @@ export const state = () => ({
   version_1_2: false,
   get_login_type: '', // toFocus 来自关注后弹窗 toDown 来自登录后直接跳转下载 inviter 来自奖励金,
   extension_text: '', // 来自某个按钮的点击
+  enter_time: 0,
+  current_time: 0,
+  duration_time: 0,
 })
 
 export const mutations = {
@@ -72,11 +76,12 @@ export const mutations = {
   // 获取手机浏览器版本以及内核
   GET_VERSION(state) {
     let nvg = navigator.userAgent.toLowerCase(),
-      nvgtype, nvgversion;
+      nvgtype, nvgversion, nvgTypeToPowerCase;
     // window.navigator.appVersion 获取手机版本
     if (nvg.indexOf('android') > -1 || nvg.indexOf('adr') > -1 || nvg.indexOf('linux') > -1) {
       // android终端
-      nvgtype = 'android'
+      nvgtype = 'android';
+      nvgTypeToPowerCase = 'Android';
       // android版本
       if (!!nvg.match(new RegExp("android\\s(\\d+(?:\\.\\d*)+)"))) {
         let v = nvg.match(new RegExp("android\\s(\\d+(?:\\.\\d*)+)"))
@@ -85,6 +90,7 @@ export const mutations = {
     } else if (nvg.indexOf('iphone') > -1 || nvg.indexOf('ipad') > -1 || nvg.indexOf('safari') > -1) {
       // ios终端
       nvgtype = 'ios'
+      nvgTypeToPowerCase = 'IOS'
       // ios版本 new RegExp("version/(\\d+(?:\\.\\d*)?)") // 匹配尽量少的一项
       // new RegExp("version/(\\d+(?:\\.\\d*)+)") 匹配尽量多的项
       if (!!nvg.match(new RegExp("version/(\\d+(?:\\.\\d*)+)"))) {
@@ -93,9 +99,11 @@ export const mutations = {
       }
     } else {
       nvgtype = 'windows'
+      nvgTypeToPowerCase = 'Windows'
     }
     state.nvgversion = nvgversion;
     state.nvgtype = nvgtype;
+    state.nvgTypeToPowerCase = nvgTypeToPowerCase
   },
   // 设置获取app传来的token
   GET_APP_TOKEN(state, para) {
@@ -206,6 +214,18 @@ export const mutations = {
   // 设置来自某个按钮的状态
   SET_EXTENSION_TEXT(state, para) {
     state.extension_text = para
+  },
+  // enter page time 
+  SET_ENTER_TIME(state, para) {
+    state.enter_time = para
+  },
+  // get current time
+  GET_CURRENT_TIME() {
+    state.current_time = para
+  },
+  // get video duration
+  GET_VIDEO_DURATION() {
+    state.duration_time = para
   }
 }
 
@@ -657,19 +677,15 @@ export const actions = {
   },
   // 点击下载按钮时调用get_adcookies做统计
   async down_adcookies({
+    state,
     commit
-  }, {
-    webUdid,
-    deviceType,
-    deviceVersion,
-    adid
   }) {
     let self = this,
       para = {
-        webUdid: true,
-        deviceType: deviceType || 'ios',
-        deviceVersion: deviceVersion || '11_0_0',
-        adid: adid || 'closer-share'
+        webUdid: false,
+        deviceType: state.nvgtype || 'ios',
+        deviceVersion: state.nvgversion || '11_0_0',
+        adid: state.h5Adid || 'closer-share'
       }
     let data = await self.$axios.$post(`${api.share.get_adcookie}`, para)
     return true
@@ -677,20 +693,30 @@ export const actions = {
   // 点击下载按钮时统计
   // 通用h5分享统计，目前主要针对 帖子 栏目 群组 活动
   async down_statistics({
+    state,
     commit
   }, {
-    dataId,
-    page,
-    action,
-    extension
+    p1
   }) {
+    if (Cookie.get("user")) {
+      var userId = JSON.parse(Cookie.get("user")).objectID || "";
+    }
     let self = this,
-      para = {
-        dataId,
-        page,
-        action,
-        extension
+      p2 = {
+        userId: userId || "", // '用户ID，用户全网唯一标示，级别从高到底：userId>deviceId>cookie，userId，deviceId，cookie三个中必须要传一个'
+        deviceId: "", //	'设备ID，移动设备的唯一标示，比如iOS系统的IDFA、IDFV，安卓系统的IMEI，mac地址等 ，userId，deviceId，cookie三个中必须要传一个'
+        cookie: Cookie.get("h5Cookies") || "", //	'cookie，以H5接入时使用，userId，deviceId，cookie三个中必须要传一个'
+        platform: "H5", //	'设备平台,参数取值:Android IOS H5'
+        attachPlatform: state.nvgTypeToPowerCase || "", //	'H5的载体，当platform为H5时，如果设备为安卓设备，则传Android，IOS设备则传IOS，其他不传'
+        communityId: state.res.communityid || "", //		'栏目id,统计对象有该属性则需要填写'
+        title: state.res.title || "", //		'标题 如果是文章或视频该参数需要上传'
+        action: "download", //		'行为类型(曝光 浏览结束点击返回 负反馈 点击下载)，参数取值:exposure back feedback download'
+        dreason: "", //		'负反馈内容，当action为feedback时必填，格式为：["负反馈内容1", "负反馈内容2"]'
+        time: Date.now(), //		'行为发生的时间戳，单位毫秒'
+        cost: Date.now() - state.enter_time || 0, //		'浏览时长/曝光时长，单位毫秒'
+        totalTime: state.duration_time || 0, //		'内容总时长，单位毫秒
       }
+    let para = await Coms.mergeJsonObject(p1, p2);
     let data = await self.$axios.$post(`${api.share.common}`, para);
     if (data.code === 0) {
       return true

@@ -145,41 +145,15 @@ export default {
   methods: {
     // h5下载补丁
     async downApp(e, str, id) {
-      let self = this;
-      let result = await self.$store.dispatch("down_adcookies", {
-        webUdid: true,
-        deviceType: self.$store.state.nvgtype,
-        deviceVersion: self.$store.state.nvgversion,
-        adid: self.$store.state.h5Adid || "closer-share" // 栏目id
-      });
-      if (result) {
-        let _page,
-          status = true,
-          did;
-        if (self.$route.path.indexOf("/community") > -1) {
-          _page = "community";
-          did = self.$route.params.id;
-        } else if (self.$route.path.indexOf("/feed") > -1) {
-          _page = "feed";
-          did = self.$route.params.id;
-        } else if (self.$route.path.indexOf("/group") > -1) {
-          _page = "group";
-          did = self.$route.params.id;
-        } else {
-          _page = "inviter";
-          status = false;
-        }
-        let res = await self.$store.dispatch("down_statistics", {
-          dataId: did || "",
-          page: _page || "feed",
-          action: "download",
-          extension: str || "hot_feed"
-        });
-        if (res) {
-          let url = `closer://feed/${id}`;
-          self.$com.downApp(url);
-        }
-      }
+      let self = this,
+        redirectUrl = `closer://feed/${id}`;
+      self.$com.down_statistics(
+        self.$store,
+        self.$route,
+        str,
+        "hot_feed",
+        redirectUrl
+      );
     }
   },
   mounted() {}
