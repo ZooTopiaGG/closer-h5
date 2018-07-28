@@ -416,22 +416,22 @@ export default {
         if (url.indexOf('?from=group') > -1) {
           let id = await this.getParam('groupid', url);
           location.href = `closer://group/${id}`;
-        } else if (url.indexOf('?downurl=closer://') > -1) {
-          location.href = this.getParam('downurl', url);
-        } else {
+        } else if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
+        } else {
+          location.href = url;
         }
         setTimeout(() => {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
         }, 1500)
         return;
       } else {
-        if (url.indexOf('?from=group') > -1) {
+        if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
           location.href = url
         } else if (url.indexOf('?downurl=closer://') > -1) {
-          location.href = `${location.protocol}//${location.host}?downurl=${this.getParam('downurl', url)}`;
-        } else {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
+        } else {
+          location.href = `${location.protocol}//${location.host}?downurl=${url}`;
         }
       }
     } else {
@@ -533,6 +533,9 @@ export default {
       let res = await store.dispatch("down_statistics", {
         p1
       });
+      console.log('url===', url)
+      console.log('redirectUrl===', redirectUrl)
+      return
       if (res) {
         if (redirectUrl) {
           this.downApp(redirectUrl);

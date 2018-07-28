@@ -65,9 +65,7 @@ export default {
           location.host
         }?from=group&groupid=${self.$route.params.id}`;
       } else if (str === "direct_bottom") {
-        redirectUrl = `${location.protocol}//${
-          location.host
-        }?downurl=closer://jump/to/home`;
+        redirectUrl = "closer://jump/to/home";
       }
       self.$com.down_statistics(
         self.$store,
