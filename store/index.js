@@ -38,7 +38,7 @@ export const state = () => ({
   messagelist: '',
   alert_stat: false,
   confirm_stat: false,
-  version_1_2: false,
+  version_1_2: true, // 默认 1.2版本以上
   get_login_type: '', // toFocus 来自关注后弹窗 toDown 来自登录后直接跳转下载 inviter 来自奖励金,
   extension_text: '', // 来自某个按钮的点击
   enter_time: 0,
@@ -59,6 +59,8 @@ export const mutations = {
     if (nvg.indexOf('closerapp/version/') > -1) {
       let b = nvg.split('closerapp/version/')[1].split('.');
       state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
+    } else {
+      state.version_1_2 = false
     }
   },
   // 设置是否在app的状态

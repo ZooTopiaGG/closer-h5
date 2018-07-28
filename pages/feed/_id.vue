@@ -132,7 +132,7 @@
         </section>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <section class="feed-doc" v-else-if="$store.state.res.int_type === 2">
-          <section v-if="!$store.state.version_1_2">
+          <section v-if="!$store.state.version_1_2 || $store.state.GET_MESSAGE_STATE">
             <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
               <!-- 大封面 -->
               <img class="feed-cover feed-cover-bgcover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
