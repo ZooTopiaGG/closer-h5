@@ -599,6 +599,14 @@ export default {
         }
       }
     });
+    // 懒加载监听
+    self.$Lazyload.$on('loaded', function ({ el, src }) {  
+      let h = el.style.paddingBottom,
+      f = el.dataset.feedlazy
+      if (f === 'feedlazy' && h && parseInt(h) != 0) {
+        el.style.cssText= `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;`; 
+      }
+    })
   }
 };
 </script>

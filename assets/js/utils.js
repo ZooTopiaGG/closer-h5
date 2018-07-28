@@ -180,6 +180,7 @@ export default {
           heightArray = x.match(regexHeight),
           nW,
           _src,
+          newM,
           nH,
           minH;
         if (widthArray && heightArray) {
@@ -188,7 +189,7 @@ export default {
             nH = heightArray[1] + 'px';
           } else {
             nW = '100%';
-            nH = heightArray[1] * 92 / widthArray[1] + "vw";
+            nH = heightArray[1] * 100 / widthArray[1] + "%";
           }
           minH = nH;
         } else {
@@ -199,16 +200,17 @@ export default {
         // fix 图片是中文带路径 补丁
         if (srcArray) {
           _src = srcArray[1].replace(/\+/g, "%2b");
-          flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH};min-height: ${minH}">
-                    <img style="width: ${nW};height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
-                </section>`;
+          newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" class="imgbox" data-src=`);
+          // flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;max-width: 100%;height: ${nH};min-height: ${minH}">
+          //           <img style="width: ${nW};height: ${nH}; max-width: 100%;" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
+          //       </section>`;
         } else {
           _src = ''
-          flag = '';
+          newM = '';
         }
         // 正则替换富文本内的img标签
         // 替换不同文本
-        html = html.replace(x, flag);
+        html = html.replace(x, newM);
       });
     }
     const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;

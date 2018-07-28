@@ -486,7 +486,6 @@ export const actions = {
         expires: 7
       })
       commit('SET_USER', userInfo)
-      console.log('userInfo===', userInfo)
       return true
     }
   },
