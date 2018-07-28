@@ -133,6 +133,7 @@ export default {
         }
         // 如果用户已经登录，则异步刷新用户信息
         if (Cookie.get("user") && Cookie.get("token")) {
+          console.log(Cookie.get("user"));
           self.$store.dispatch("refresh_user_info");
         }
       }
