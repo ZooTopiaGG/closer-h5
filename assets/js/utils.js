@@ -533,9 +533,9 @@ export default {
       let res = await store.dispatch("down_statistics", {
         p1
       });
-      console.log('url===', url)
-      console.log('redirectUrl===', redirectUrl)
-      return
+      // console.log('url===', url)
+      // console.log('redirectUrl===', redirectUrl)
+      // return
       if (res) {
         if (redirectUrl) {
           this.downApp(redirectUrl);
