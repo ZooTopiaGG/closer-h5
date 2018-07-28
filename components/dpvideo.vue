@@ -77,7 +77,7 @@ export default {
       let self = this;
       self.currentTime = Math.round(self.video.currentTime);
       self.v2_width = 100 * self.currentTime * 1000 / self.duration;
-      self.v2_width = self.v2_width > 100 ? 97 : self.v2_width;
+      self.v2_width = self.v2_width > 97 ? 97 : self.v2_width;
       // 存储当前时间
       self.$store.commit("GET_CURRENT_TIME", self.currentTime);
     },

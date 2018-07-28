@@ -35,7 +35,7 @@ export const state = () => ({
   isLongVideo: false,
   current_url: '',
   message_item: {},
-  messagelist: [],
+  messagelist: '',
   alert_stat: false,
   confirm_stat: false,
   version_1_2: false,
@@ -740,7 +740,7 @@ export const actions = {
         attachPlatform: state.nvgTypeToPowerCase || "", //	'H5的载体，当platform为H5时，如果设备为安卓设备，则传Android，IOS设备则传IOS，其他不传'
         communityId: state.res.communityid || "", //		'栏目id,统计对象有该属性则需要填写'
         title: state.res.title || "", //		'标题 如果是文章或视频该参数需要上传'
-        action: "download", //		'行为类型(曝光 浏览结束点击返回 负反馈 点击下载)，参数取值:exposure back feedback download'
+        action: "click", //		'行为类型(曝光 浏览结束点击返回 负反馈 点击下载)，参数取值:exposure back feedback download'
         dreason: "", //		'负反馈内容，当action为feedback时必填，格式为：["负反馈内容1", "负反馈内容2"]'
         time: Date.now(), //		'行为发生的时间戳，单位毫秒'
         cost: Date.now() - state.enter_time || 0, //		'浏览时长/曝光时长，单位毫秒'
@@ -764,7 +764,7 @@ export const actions = {
         pagenum: 1,
         subjectid: subjectid
       };
-      let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${subjectid}&timestamp=${Date.now()}`);
+      let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${subjectid}`);
       if (data.code === 0) {
         commit('SET_MESSAGE_LIET', data.result)
       } else {

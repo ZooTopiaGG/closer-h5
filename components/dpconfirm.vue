@@ -35,7 +35,7 @@ export default {
     },
     backFeed() {
       this.$store.commit("SHOW_CONFIRM", false);
-      this.$router.push({ path: `/feed/${this.$route.params.messageid}` });
+      location.href = `/feed/${this.$route.params.messageid}`;
     }
   }
 };

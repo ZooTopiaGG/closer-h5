@@ -9,7 +9,7 @@
       </section>
       <section class="community-desc">
         <section>用心写出有态度，有深度，有高度的文章</section>
-        <section>请关注我们把～</section>
+        <section>请关注我们吧～</section>
       </section>
       <dp-focus :tjFocus="tjFocus"></dp-focus>
     </section>

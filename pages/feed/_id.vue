@@ -369,7 +369,7 @@ export default {
   },
   head() {
     var _title = () => {
-      if (this.$store.state.res.int_type === 2 && this.$store.state.res.title) {
+      if (this.$store.state.res.title) {
         return `贴近 - TieJin.cn - ${this.$store.state.res.title}`;
       } else {
         if (this.$store.state.content.text) {

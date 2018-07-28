@@ -223,7 +223,7 @@ html {
     }
   }
   .downtitle {
-    padding: 0 4vw;
+    padding: 8vw 4vw 0;
     font-size: 16px;
     color: @mcolor;
     display: none;
@@ -250,7 +250,7 @@ html {
 
   .groupdowntitle {
     padding: @m20;
-    margin: 0 4.67vw;
+    margin: 6vw 4.67vw 0;
     background: rgba(253, 219, 0, 0.2);
     border-radius: 5px;
   }
