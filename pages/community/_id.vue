@@ -28,7 +28,7 @@
           <img class="avatar" v-lazy="$com.makeFileUrl(item.group.avatar)">
           <section class="info flex flex-v">
             <span class="name">{{ item.group.name }}</span>
-            <span class="desc">{{ JSON.parse(item.group.description)[0].content }}</span>
+            <span class="desc text-ellipse">{{ JSON.parse(item.group.description)[0].content }}</span>
           </section>
         </li>
       </ul>
@@ -262,6 +262,7 @@ export default {
         color: @scolor;
         max-height: @m15 * 8;
         overflow: hidden;
+        -webkit-line-clamp: 3;
       }
     }
     img.avatar {

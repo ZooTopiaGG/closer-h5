@@ -74,12 +74,6 @@ export default {
         let monitor_uid = data2.result.group_info
           ? data2.result.group_info.group.attributes.monitor.uid
           : "";
-
-        for (let i = 0; i < data2.result.group_user_info.length; i++) {
-          if (data2.result.group_user_info[i].uid === monitor_uid) {
-            data2.result.group_user_info.splice(i, 1);
-          }
-        }
         store.commit("SET_GROUP_INFO", data2.result);
         store.commit("SET_RES", {
           communityid: data2.result.group_info.communityid
