@@ -1,7 +1,7 @@
 
 <template>
   <section class="open-article flex flex-align-center">
-    <mt-button type="primary" size="small" class="open-app" @click="downApp" v-if="!($route.path.indexOf('group') > -1)">
+    <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')" v-if="!($route.path.indexOf('group') > -1)">
       <span v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1"><span>立即投稿，赚取稿费</span><i class="down-arrow"></i></span>      
       <span v-else><span>打开贴近app，查看更多精彩文章</span><i class="down-arrow"></i></span>
     </mt-button>
@@ -58,6 +58,10 @@ export default {
         redirectUrl = `${location.protocol}//${
           location.host
         }?from=group&groupid=${self.$route.params.id}`;
+      } else if (str === "direct_bottom") {
+        redirectUrl = `${location.protocol}//${
+          location.host
+        }?downurl=closer://jump/to/home`;
       }
       self.$com.down_statistics(
         self.$store,
