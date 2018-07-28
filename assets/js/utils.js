@@ -180,6 +180,7 @@ export default {
           heightArray = x.match(regexHeight),
           nW,
           _src,
+          newM,
           nH,
           minH;
         if (widthArray && heightArray) {
@@ -188,7 +189,7 @@ export default {
             nH = heightArray[1] + 'px';
           } else {
             nW = '100%';
-            nH = heightArray[1] * 92 / widthArray[1] + "vw";
+            nH = heightArray[1] * 100 / widthArray[1] + "%";
           }
           minH = nH;
         } else {
@@ -199,16 +200,17 @@ export default {
         // fix 图片是中文带路径 补丁
         if (srcArray) {
           _src = srcArray[1].replace(/\+/g, "%2b");
-          flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH};min-height: ${minH}">
-                    <img style="width: ${nW};height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
-                </section>`;
+          newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" class="imgbox" data-src=`);
+          // flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;max-width: 100%;height: ${nH};min-height: ${minH}">
+          //           <img style="width: ${nW};height: ${nH}; max-width: 100%;" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
+          //       </section>`;
         } else {
           _src = ''
-          flag = '';
+          newM = '';
         }
         // 正则替换富文本内的img标签
         // 替换不同文本
-        html = html.replace(x, flag);
+        html = html.replace(x, newM);
       });
     }
     const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
@@ -426,9 +428,9 @@ export default {
         }, 1500)
         return;
       } else {
-        if (url.indexOf('?from=group') > -1) {
+        if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
           location.href = url
-        } else if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+        } else if (url.indexOf('?downurl=closer://') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
         } else {
           location.href = `${location.protocol}//${location.host}?downurl=${url}`;
@@ -497,7 +499,7 @@ export default {
     let result = await store.dispatch("down_adcookies");
     if (result) {
       let _page, url, did = route.params.id,
-        progress;
+        progress, _str;
       if (route.path.indexOf("/community") > -1) {
         _page = "community";
         url = `closer://community/${did}`;
@@ -522,16 +524,20 @@ export default {
       } else {
         _page = "inviter";
       }
+      _str = typeof (str) === 'string' && str ? str : defaultStr;
       let p1 = {
         objectType: _page || "article", //		'统计对象类型（文章 视频 栏目 群组 H5分享的群组，栏目，帖子）,参数取值:article video community group'
         objectId: route.params.id || "", //		'统计对象唯一标识'
-        position: str || defaultStr, //		'点击位置，若action为download时必填,参数取值：top bottom'
+        position: _str, //		'点击位置，若action为download时必填,参数取值：top bottom'
         progress: progress || 0, //		'浏览进度，文章为阅读的进度，图集为当前阅读的图片/总的图片数，视频为当前播放时间/总时间 小数点两位：0.95'
         recommendId: route.params.id || "" //		'本次推荐的唯一标识 推荐内容ID'
       };
       let res = await store.dispatch("down_statistics", {
         p1
       });
+      // console.log('url===', url)
+      // console.log('redirectUrl===', redirectUrl)
+      // return
       if (res) {
         if (redirectUrl) {
           this.downApp(redirectUrl);

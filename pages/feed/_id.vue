@@ -132,7 +132,7 @@
         </section>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <section class="feed-doc" v-else-if="$store.state.res.int_type === 2">
-          <section v-if="!$store.state.version_1_2">
+          <section v-if="!$store.state.version_1_2 || $store.state.GET_MESSAGE_STATE">
             <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
               <!-- 大封面 -->
               <img class="feed-cover feed-cover-bgcover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
@@ -316,6 +316,8 @@ export default {
             if (content.videos[0].height > content.videos[0].width) {
               store.commit("ITS_LONG_VIDEO", true);
             }
+          } else {
+            store.commit("ITS_LONG_VIDEO", false);
           }
           // 解析长图文html
           if (res.result.int_type === 2) {
@@ -369,7 +371,7 @@ export default {
   },
   head() {
     var _title = () => {
-      if (this.$store.state.res.int_type === 2 && this.$store.state.res.title) {
+      if (this.$store.state.res.title) {
         return `贴近 - TieJin.cn - ${this.$store.state.res.title}`;
       } else {
         if (this.$store.state.content.text) {
@@ -597,6 +599,14 @@ export default {
         }
       }
     });
+    // 懒加载监听
+    self.$Lazyload.$on('loaded', function ({ el, src }) {  
+      let h = el.style.paddingBottom,
+      f = el.dataset.feedlazy
+      if (f === 'feedlazy' && h && parseInt(h) != 0) {
+        el.style.cssText= `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;`; 
+      }
+    })
   }
 };
 </script>

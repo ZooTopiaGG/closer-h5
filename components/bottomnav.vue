@@ -1,7 +1,7 @@
 
 <template>
   <section class="open-article flex flex-align-center">
-    <mt-button type="primary" size="small" class="open-app" @click="downApp" v-if="!($route.path.indexOf('group') > -1)">
+    <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')" v-if="!($route.path.indexOf('group') > -1)">
       <span v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1"><span>立即投稿，赚取稿费</span><i class="down-arrow"></i></span>      
       <span v-else><span>打开贴近app，查看更多精彩文章</span><i class="down-arrow"></i></span>
     </mt-button>
@@ -30,6 +30,10 @@ export default {
       self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
+        await self.$store.dispatch("join_group", {
+          join_limit: self.$store.state.group_info.group_info.join_limit,
+          classid: self.$route.params.id
+        });
         self.downApp(e, "enter_group");
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
@@ -39,13 +43,18 @@ export default {
             // 正式
             url: `${location.protocol}//${
               location.hostname
-            }?from=group&groupid=${self.$route.params.id}`
+            }?from=group&groupid=${self.$route.params.id}&limit=${
+              self.$store.state.group_info.group_info.join_limit
+            }`
           });
         } else {
           self.$store.commit("GET_LOGIN_TYPE", "toDown");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
       }
+      setTimeout(() => {
+        self.loading = 2;
+      }, 1500);
     },
     // 纯下载
     async downApp(e, str) {
@@ -55,6 +64,8 @@ export default {
         redirectUrl = `${location.protocol}//${
           location.host
         }?from=group&groupid=${self.$route.params.id}`;
+      } else if (str === "direct_bottom") {
+        redirectUrl = "closer://jump/to/home";
       }
       self.$com.down_statistics(
         self.$store,

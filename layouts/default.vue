@@ -122,7 +122,6 @@ export default {
         document.body.appendChild(sct);
         // 存会话 h5Adid
         if (self.$store.state.h5Adid) {
-          // window.sessionStorage.setItem("h5Adid", self.$route.query.adid);
           Cookie.set("h5Adid", self.$store.state.h5Adid);
         } else {
           Cookie.set("h5Adid", "");
@@ -132,7 +131,7 @@ export default {
           Cookie.set("h5Cookies", self.$store.state.h5Cookies);
         }
         // 如果用户已经登录，则异步刷新用户信息
-        if (self.$store.state.auth && self.$store.state.token) {
+        if (Cookie.get("user") && Cookie.get("token")) {
           self.$store.dispatch("refresh_user_info");
         }
       }

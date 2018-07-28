@@ -58,7 +58,7 @@ export default {
   methods: {
     initLoad() {
       let self = this;
-      if (!self.isWeiXin()) {
+      if (self.isWeiXin()) {
         document.querySelector(".downtitle").style.display = "block";
         document.querySelector(".point").style.display = "block";
       } else {
@@ -113,33 +113,13 @@ export default {
       // 微博内置浏览器
       iswb = /weibo/i.test(ua);
       return iswx || isqq || iswb;
+    },
+    async join_group() {
+      await self.$store.dispatch("join_group", {
+        join_limit: self.$route.query.limit,
+        classid: self.$route.query.groupid
+      });
     }
-    // getParam(paramName) {
-    //   var paramValue = "";
-    //   var isFound = false;
-    //   if (
-    //     location.search.indexOf("?") == 0 &&
-    //     location.search.indexOf("=") > 1
-    //   ) {
-    //     var arrSource = unescape(location.search)
-    //       .substring(1, location.search.length)
-    //       .split("&");
-    //     var i = 0;
-    //     while (i < arrSource.length && !isFound) {
-    //       if (arrSource[i].indexOf("=") > 0) {
-    //         if (
-    //           arrSource[i].split("=")[0].toLowerCase() ==
-    //           paramName.toLowerCase()
-    //         ) {
-    //           paramValue = arrSource[i].split("=")[1];
-    //           isFound = true;
-    //         }
-    //       }
-    //       i++;
-    //     }
-    //   }
-    //   return paramValue;
-    // }
   },
   beforeMount() {
     let self = this;
@@ -149,6 +129,9 @@ export default {
         code: self.$route.query.code,
         type: "else"
       });
+    }
+    if (self.$route.query.from === "group") {
+      self.join_group();
     }
   },
   mounted() {
@@ -249,7 +232,7 @@ html {
     }
   }
   .downtitle {
-    padding: 0 4vw;
+    padding: 8vw 4vw 0;
     font-size: 16px;
     color: @mcolor;
     display: none;
@@ -276,7 +259,7 @@ html {
 
   .groupdowntitle {
     padding: @m20;
-    margin: 0 4.67vw;
+    margin: 6vw 4.67vw 0;
     background: rgba(253, 219, 0, 0.2);
     border-radius: 5px;
   }

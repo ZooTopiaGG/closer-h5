@@ -29,13 +29,13 @@ export default {
       this.$store.commit("SHOW_CONFIRM", false);
     },
     // h5下载补丁
-    async downApp(str) {
+    async downApp(e, str) {
       let self = this;
       self.$com.down_statistics(self.$store, self.$route, str, "message");
     },
     backFeed() {
       this.$store.commit("SHOW_CONFIRM", false);
-      this.$router.push({ path: `/feed/${this.$route.params.messageid}` });
+      location.href = `/feed/${this.$route.params.messageid}`;
     }
   }
 };
