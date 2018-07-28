@@ -173,7 +173,7 @@ export default {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
-            url: `${location.protocol}//${location.hostname}?from=group`
+            url: `${location.protocol}//${location.hostname}`
           });
         } else {
           self.$store.commit("GET_LOGIN_TYPE", "toDown");
@@ -183,14 +183,12 @@ export default {
     },
     // h5下载补丁
     async downApp(e, str) {
-      let self = this,
-        redirectUrl = `${location.protocol}//${location.host}?from=group`;
+      let self = this;
       self.$com.down_statistics(
         self.$store,
         self.$route,
         str,
-        "more_group_member",
-        redirectUrl
+        "more_group_member"
       );
     }
   },
