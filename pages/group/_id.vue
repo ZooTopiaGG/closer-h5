@@ -312,6 +312,10 @@ export default {
     margin: 0;
     padding: 0 @m20 * 2;
     box-sizing: border-box;
+    > span {
+      width: 30vw;
+      min-width: 30vw;
+    }
   }
   .more-member {
     text-align: center;
