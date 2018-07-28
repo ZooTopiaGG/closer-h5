@@ -316,6 +316,8 @@ export default {
             if (content.videos[0].height > content.videos[0].width) {
               store.commit("ITS_LONG_VIDEO", true);
             }
+          } else {
+            store.commit("ITS_LONG_VIDEO", false);
           }
           // 解析长图文html
           if (res.result.int_type === 2) {

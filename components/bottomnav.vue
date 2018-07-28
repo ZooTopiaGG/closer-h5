@@ -41,13 +41,14 @@ export default {
               location.hostname
             }?from=group&groupid=${self.$route.params.id}`
           });
-          self.loading = 2;
         } else {
           self.$store.commit("GET_LOGIN_TYPE", "toDown");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
-          self.loading = 2;
         }
       }
+      setTimeout(() => {
+        self.loading = 2;
+      }, 1500);
     },
     // 纯下载
     async downApp(e, str) {
