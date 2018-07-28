@@ -823,5 +823,32 @@ export const actions = {
         position: "top"
       });
     }
+  },
+  // 加入群组
+  async join_group({
+    commit
+  }, {
+    classid,
+    join_limit
+  }) {
+    let self = this,
+      para,
+      url, fullname;
+    if (Cookie.get('user')) {
+      fullname = JSON.parse(Cookie.get('user')).fullname
+    }
+    if (join_limit === 0) {
+      url = api.group.join
+    } else if (join_limit === 1) {
+      url = api.group.apply_join
+    } else {
+      return true
+    }
+    para = {
+      classid,
+      postscript: `我是${fullname}，申请入群～`
+    }
+    let data = await self.$axios.$post(`${url}`, para);
+    return true
   }
 }

@@ -417,7 +417,6 @@ export default {
           let id = await this.getParam('groupid', url);
           location.href = `closer://group/${id}`;
         } else if (url.indexOf('?downurl=closer://') > -1) {
-          console.log(this.getParam('downurl', url))
           location.href = this.getParam('downurl', url);
         } else {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';

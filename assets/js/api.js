@@ -59,7 +59,9 @@ let api = {
     // 正在招募的群组
     recruiting: 'closer_class.recruiting',
     group_subject_list: 'closer_subject.class_subject_list_index',
-    share_group: 'closer_share.outer_group'
+    share_group: 'closer_share.outer_group',
+    join: 'closer_classuser.join',
+    apply_join: 'closer_classuser.apply_join',
   },
   share: {
     wechat_config: 'closer_share.wechat_config',

@@ -30,6 +30,10 @@ export default {
       self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
       // 渲染页面前 先判断cookies token是否存在
       if (Cookie.get("token")) {
+        await self.$store.dispatch("join_group", {
+          join_limit: self.$store.state.group_info.group_info.join_limit,
+          classid: self.$route.params.id
+        });
         self.downApp(e, "enter_group");
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
@@ -39,7 +43,9 @@ export default {
             // 正式
             url: `${location.protocol}//${
               location.hostname
-            }?from=group&groupid=${self.$route.params.id}`
+            }?from=group&groupid=${self.$route.params.id}&limit=${
+              self.$store.state.group_info.group_info.join_limit
+            }`
           });
         } else {
           self.$store.commit("GET_LOGIN_TYPE", "toDown");

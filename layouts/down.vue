@@ -113,6 +113,12 @@ export default {
       // 微博内置浏览器
       iswb = /weibo/i.test(ua);
       return iswx || isqq || iswb;
+    },
+    async join_group() {
+      await self.$store.dispatch("join_group", {
+        join_limit: self.$route.query.limit,
+        classid: self.$route.query.groupid
+      });
     }
   },
   beforeMount() {
@@ -123,6 +129,9 @@ export default {
         code: self.$route.query.code,
         type: "else"
       });
+    }
+    if (self.$route.query.from === "group") {
+      self.join_group();
     }
   },
   mounted() {
