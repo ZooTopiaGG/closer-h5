@@ -45,7 +45,7 @@ export default function ({
     }
     // 全局设置 启用跨域传cookies
     config.withCredentials = true
-    if (store.state.GET_APP_NAV) {
+    if (!store.state.GET_IS_APP) {
       if (store.state.h5Adid) {
         config.headers.common['X-Adid'] = store.state.h5Adid
       }
