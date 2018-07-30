@@ -25,22 +25,22 @@
       </ul>
       <section class="more-member" v-if="$store.state.group_info.group_user_count > 5" @click="firstLogin">查看更多群成员 <i class="down-arrow"></i></section>
     </section>
-    <section class="intro" v-if="$store.state.group_info.group_info && JSON.parse($store.state.group_info.group_info.group.description)[0].content">
+    <section class="intro" v-if="$store.state.group_info.group_info && description">
       <section class="title flex flex-align-center flex-pack-justify">
         <span>群简介</span>
         <i class="right-arrow"></i>
       </section>
       <section class="content">
-        <p class="text-ellipse">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
+        <p class="text-ellipse">{{ description }}</p>
       </section>
     </section>
-    <section class="intro" v-if="$store.state.group_info.group_info && JSON.parse($store.state.group_info.group_info.announcement)[0].content">
+    <section class="intro" v-if="$store.state.group_info.group_info && announcement">
       <section class="title flex flex-align-center flex-pack-justify">
         <span>当前话题</span>
         <i class="right-arrow"></i>
       </section>
       <section class="content">
-        <p class="text-ellipse">{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
+        <p class="text-ellipse">{{ announcement }}</p>
       </section>
     </section>
     <section class="split-box"></section>
@@ -91,6 +91,22 @@ export default {
   },
   components: {
     noThing
+  },
+  computed: {
+    description() {
+      try{
+        return JSON.parse(this.$store.state.group_info.group_info.group.description)[0].content
+      } catch (e){
+        return this.$store.state.group_info.group_info.group.description
+      }
+    },
+    announcement() {
+      try {
+        return JSON.parse(this.$store.state.group_info.group_info.announcement)[0].content
+      } catch(e) {
+        return this.$store.state.group_info.group_info.announcement
+      }
+    }
   },
   data() {
     return {

@@ -20,7 +20,8 @@ let api = {
     // 回复 评论
     add_reply: 'closer_reply.add_reply',
     // 邀请人书
-    invite_counts: 'closer_user.invite_counts'
+    invite_counts: 'closer_user.invite_counts',
+    // message: 
   },
   command: {
     // 贴子详情

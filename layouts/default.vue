@@ -112,7 +112,11 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(this.$store.state);
+    this.$store.commit('GET_USER_AGENT', {
+      nvg: navigator.userAgent,
+      ref: location.pathname
+    })
+    console.log(this.$store.state);    
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -158,12 +162,17 @@ export default {
           let group = self.$store.state.group_info.group_info.group;
           title = group.name ? group.name : "贴近群组";
           if (group.description) {
-            let description = JSON.parse(
-              self.$store.state.group_info.group_info.group.description
-            );
-            desc = description[0].content
+            let description;
+            try{
+              description = JSON.parse(
+                self.$store.state.group_info.group_info.group.description
+              );
+              desc = description[0].content
               ? description[0].content
               : "贴近一点 看身边";
+            }catch(e) {
+              desc = self.$store.state.group_info.group_info.group.description;
+            }
           } else {
             desc = "贴近一点 看身边";
           }

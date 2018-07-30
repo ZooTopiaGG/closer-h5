@@ -1,6 +1,6 @@
 <template>
   <section class="dpConfirm">
-    <section class="close" @click="hideConfirm">
+    <section class="close" @click="backFeed">
       <i></i>
     </section>
     <section class="desc title">
@@ -31,11 +31,12 @@ export default {
     // h5下载补丁
     async downApp(e, str) {
       let self = this;
-      self.$com.down_statistics(self.$store, self.$route, str, "message");
+      await self.$com.down_statistics(self.$store, self.$route, str, "message");
+      self.$store.commit("SHOW_CONFIRM", false);
     },
     backFeed() {
       this.$store.commit("SHOW_CONFIRM", false);
-      location.href = `/feed/${this.$route.params.messageid}`;
+      this.$router.push({ path: `/feed/${this.$route.params.messageid}`, hash: 'messageboard' });
     }
   }
 };

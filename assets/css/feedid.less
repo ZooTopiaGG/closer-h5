@@ -1,12 +1,27 @@
 @commonspace: 2.668vw;
+@m15: 2vw;
 @width: 100vw;
 @height: 100vh;
+@5625: 56.25vw;
 #feed {
-  padding: 0 0 4vw;
+  padding: 0 0 @m15*2;
   box-sizing: border-box;
   font-size: 13px;
   padding-bottom: 0;
 }
+
+
+.feed2 {
+  height: 100%;
+}
+.feed-box-0 {
+  min-height: calc(100vh - 13.07vw);
+}
+
+.feed-box-1 {
+  min-height: calc(100vh - @5625);
+}
+
 .feed-h5-videos {
   position: relative;
 }
@@ -22,7 +37,7 @@
 }
 
 .works {
-  padding-top: 5.34vw;
+  padding-top: @commonspace * 2;
   position: relative;
 }
 
@@ -37,11 +52,11 @@
 .feed-messagebord-list,
 .feeder-title,
 .feeder-comments {
-  padding: 0 4vw;
+  padding: 0 @m15*2;
 }
 .feeder-type-0,
 .feeder-type-1 {
-  padding-top: 5.33vw;
+  padding-top: @commonspace * 2;
 }
 .feeder-comment {
   font-size: 15px;
@@ -49,12 +64,12 @@
 
 .end-data{
   color: #888;
-  padding: @commonspace 4vw;
+  padding: @commonspace @m15*2;
   border-top: 1px solid #eaeaea;
 }
 
 .author-list {
-  padding: 5.33vw 4vw 0;
+  padding: @commonspace * 2 @m15*2 0;
   color: #888;
 }
 .author-list > p {
@@ -179,7 +194,7 @@
   color: #999;
 }
 .feeder-images {
-  padding: @commonspace * 2 4vw 0;
+  padding: @commonspace * 2 @m15*2 0;
 }
 .feeder-img-list {
   position: relative;
@@ -255,7 +270,7 @@
 }
 
 .feeder-cover {
-  padding: @commonspace * 2 4vw 0;
+  padding: @commonspace * 2 @m15*2 0;
   font-size: 14px;
   color: #888;
 }
@@ -368,7 +383,7 @@
 
 .dpTextArea {
   width: 100%;
-  padding: 0 4vw 4vw;
+  padding: 0 @m15*2 @m15*2;
   background: #fff;
   min-height: 180px;
   box-sizing: border-box;
@@ -386,12 +401,12 @@
 }
 
 .title {
-  height: 8vw;
-  line-height: 8vw;
+  height: @m15 *4;
+  line-height: @m15 *4;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 2vw;
+  margin-bottom: @m15;
 }
 
 .cancel {
@@ -417,6 +432,10 @@
       max-width: 680px;
       height: auto;
     }
+  }
+  .imgbox,
+  .imgbox img {
+    height: auto !important;
   }
   
   .feeder-content {

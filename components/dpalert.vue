@@ -27,7 +27,8 @@ export default {
     // 纯下载
     async downApp(e, str) {
       let self = this;
-      self.$com.down_statistics(self.$store, self.$route, str, "follow");
+      await self.$com.down_statistics(self.$store, self.$route, str, "follow");
+      this.$store.commit("SHOW_ALERT", false);      
     },
     hideAlert() {
       this.$store.commit("SHOW_ALERT", false);

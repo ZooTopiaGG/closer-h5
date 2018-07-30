@@ -45,7 +45,7 @@ export default function ({
     }
     // 全局设置 启用跨域传cookies
     config.withCredentials = true
-    if (store.state.GET_APP_NAV) {
+    if (!store.state.GET_IS_APP) {
       if (store.state.h5Adid) {
         config.headers.common['X-Adid'] = store.state.h5Adid
       }
@@ -54,12 +54,18 @@ export default function ({
         config.headers.common['Closer-Agent'] = 'Closer-H5';
       }
     }
+    let t;
+    try {
+      t = Cookie.get('token')
+    } catch (e) {
+      t = store.state.token
+    }
     // 线上时
     if (store.state.GET_APP_TOKEN && (config.url === 'closer_report.add' || config.url === 'closer_user.invite_counts' || config.url === 'closer_report.get_report_types')) {
       config.headers.Authorization = store.state.GET_APP_TOKEN
-    } else if (store.state.token) {
+    } else if (t) {
       // 获取贴子详情不需要token验证
-      config.headers.Authorization = `GroukAuth ${store.state.token}`
+      config.headers.Authorization = `GroukAuth ${t}`
     } else {
       return
     }
