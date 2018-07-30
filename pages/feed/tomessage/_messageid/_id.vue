@@ -58,19 +58,6 @@ export default {
         self.$store.commit("GET_LOGIN_TYPE", "toMessage");
         // 显示登录弹窗
         self.$store.commit("SET_VISIBLE_LOGIN", true);
-        // // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
-        // if ($async.isWeiXin()) {
-        //   // 通过微信授权 获取code
-        //   await self.$store.dispatch("get_wx_auth", {
-        //     url: `${location.protocol}//${location.hostname}${
-        //       self.$route.fullPath
-        //     }`
-        //   });
-        // } else {
-        //   self.$store.commit("GET_LOGIN_TYPE", "toMessage");
-        //   // 显示登录弹窗
-        //   self.$store.commit("SET_VISIBLE_LOGIN", true);
-        // }
       }
     },
     // 登录

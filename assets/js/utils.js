@@ -419,7 +419,7 @@ export default {
   async down_statistics(store, route, str, defaultStr, redirectUrl) {
     let result = await store.dispatch("down_adcookies");
     if (result) {
-      let _page, url, did = route.params.id,
+      let _page, url, did = route.params.id || route.params.messageid,
         progress, _str;
       if (route.path.indexOf("/community") > -1) {
         _page = "community";
@@ -456,9 +456,6 @@ export default {
       let res = await store.dispatch("down_statistics", {
         p1
       });
-      // console.log('url===', url)
-      // console.log('redirectUrl===', redirectUrl)
-      // return
       if (res) {
         if (redirectUrl) {
           this.downApp(redirectUrl);

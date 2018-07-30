@@ -109,7 +109,6 @@ export default {
   },
   beforeMount() {
     this.$store.commit("SET_ENTER_TIME", Date.now());
-    console.log(navigator.userAgent)
     this.$store.commit('GET_UA_FORNT', navigator.userAgent)
   },
   mounted() {
