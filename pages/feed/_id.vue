@@ -276,7 +276,7 @@ import messageBoard from "~/components/messageboard";
 import dpVideo from "~/components/dpvideo";
 export default {
   name: "Feed",
-  async asyncData({ params, store, app, query }) {
+  async fetch({ params, store, app, query }) {
     try {
       let para = {
         subjectid: params.id
