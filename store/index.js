@@ -839,5 +839,16 @@ export const actions = {
     }
     let data = await self.$axios.$post(`${url}`, para);
     return true
-  }
+  },
+  // 栏目小秘书消息
+  // async send_message({commit}, {
+  //   para
+  // }){
+  //   let self = this;
+  //   try {
+
+  //   } catch(e){
+
+  //   }
+  // } 
 }
