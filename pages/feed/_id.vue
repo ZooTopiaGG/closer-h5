@@ -4,8 +4,6 @@
     }">
     <section :class="{ 
       box: true,
-      'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
-      'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1),
       'feed-box-0': $store.state.res.int_type === 0,
       'feed-box-1': $store.state.res.int_type === 1
      }">
