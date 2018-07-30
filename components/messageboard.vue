@@ -1,6 +1,6 @@
 <template>
    <!-- 留言板 --> 
-   <section class="feed-2">
+   <section class="feed-2" id="messageboard">
      <section
       :class="{
       'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">

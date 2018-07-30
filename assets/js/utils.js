@@ -451,7 +451,7 @@ export default {
         objectId: route.params.id || "", //		'统计对象唯一标识'
         position: _str, //		'点击位置，若action为download时必填,参数取值：top bottom'
         progress: progress || 0, //		'浏览进度，文章为阅读的进度，图集为当前阅读的图片/总的图片数，视频为当前播放时间/总时间 小数点两位：0.95'
-        recommendId: route.params.id || "" //		'本次推荐的唯一标识 推荐内容ID'
+        recommendId: "" //		'本次推荐的唯一标识 推荐内容ID'
       };
       let res = await store.dispatch("down_statistics", {
         p1

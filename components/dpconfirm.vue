@@ -36,7 +36,7 @@ export default {
     },
     backFeed() {
       this.$store.commit("SHOW_CONFIRM", false);
-      location.href = `/feed/${this.$route.params.messageid}`;
+      this.$router.push({ path: `/feed/${this.$route.params.messageid}`, hash: 'messageboard' });
     }
   }
 };
