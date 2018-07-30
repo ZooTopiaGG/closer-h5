@@ -155,9 +155,10 @@
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
-            <section class="feeder-cover flex flex-align-center" v-if="!$store.state.GET_MESSAGE_STATE">
+            <!-- 暂时隐藏 -->
+            <!-- <section class="feeder-cover flex flex-align-center" v-if="!$store.state.GET_MESSAGE_STATE">
               <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
-            </section>
+            </section> -->
             <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
             </section>
             <!-- 神议论列表 -->
