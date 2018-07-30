@@ -55,13 +55,6 @@ export const mutations = {
     let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
     state.GET_MESSAGE_STATE = !_result;
     state.isPre = refer.indexOf('?view=pre') > -1;
-    // 基于 1.1.100 做验证
-    if (nvg.indexOf('closerapp/version/') > -1) {
-      let b = nvg.split('closerapp/version/')[1].split('.');
-      state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
-    } else {
-      state.version_1_2 = false
-    }
   },
   // 设置是否在app的状态
   GET_APP_AGENT(state, para) {
@@ -106,6 +99,17 @@ export const mutations = {
     state.nvgversion = nvgversion;
     state.nvgtype = nvgtype;
     state.nvgTypeToPowerCase = nvgTypeToPowerCase
+  },
+  // 前端获取UA
+  GET_UA_FORNT(state, para) {
+    let nvg = para.toLowerCase();
+    // 基于 1.1.100 做验证
+    if (nvg.indexOf('closerapp/version/') > -1) {
+      let b = nvg.split('closerapp/version/')[1].split('.');
+      state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
+    } else {
+      state.version_1_2 = false
+    }
   },
   // 设置获取app传来的token
   GET_APP_TOKEN(state, para) {

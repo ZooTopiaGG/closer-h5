@@ -200,7 +200,7 @@ export default {
         // fix 图片是中文带路径 补丁
         if (srcArray) {
           _src = srcArray[1].replace(/\+/g, "%2b");
-          newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" class="imgbox" data-src=`);
+          newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" class="imgbox" data-index="${i+1}" data-src=`);
           // flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;max-width: 100%;height: ${nH};min-height: ${minH}">
           //           <img style="width: ${nW};height: ${nH}; max-width: 100%;" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
           //       </section>`;
@@ -296,13 +296,13 @@ export default {
       const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
       piFrame.forEach((x, i) => {
-        let widthArray = x.match(regexWidth);
-        let heightArray = x.match(regexHeight);
-        let newsplit = x.split(widthArray[0]);
-        let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
-        let newsplit1 = newstr.split(heightArray[0]);
-        let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
-        let flag = `<section class="imgbox tiejin-iframe">
+        let widthArray = x.match(regexWidth),
+         heightArray = x.match(regexHeight),
+         newsplit = x.split(widthArray[0]),
+         newstr = `${newsplit[0]}width="100%"${newsplit[1]}`,
+         newsplit1 = newstr.split(heightArray[0]),
+         newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`,
+         flag = `<section class="imgbox tiejin-iframe">
                   ${newstr1}</iframe>
                 </section>`;
         html = html.replace(x, flag);

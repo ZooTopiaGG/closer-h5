@@ -551,6 +551,7 @@ p:empty {
 .summary>article,
 .summary>aside {
   margin-bottom: 2.668vw;
+  word-break: break-all;
 }
 
 p:empty {

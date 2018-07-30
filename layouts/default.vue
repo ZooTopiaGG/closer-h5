@@ -109,6 +109,8 @@ export default {
   },
   beforeMount() {
     this.$store.commit("SET_ENTER_TIME", Date.now());
+    console.log(navigator.userAgent)
+    this.$store.commit('GET_UA_FORNT', navigator.userAgent)
   },
   mounted() {
     let self = this;
@@ -158,12 +160,17 @@ export default {
           let group = self.$store.state.group_info.group_info.group;
           title = group.name ? group.name : "贴近群组";
           if (group.description) {
-            let description = JSON.parse(
-              self.$store.state.group_info.group_info.group.description
-            );
-            desc = description[0].content
+            let description;
+            try{
+              description = JSON.parse(
+                self.$store.state.group_info.group_info.group.description
+              );
+              desc = description[0].content
               ? description[0].content
               : "贴近一点 看身边";
+            }catch(e) {
+              desc = self.$store.state.group_info.group_info.group.description;
+            }
           } else {
             desc = "贴近一点 看身边";
           }

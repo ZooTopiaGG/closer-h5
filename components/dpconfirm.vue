@@ -1,6 +1,6 @@
 <template>
   <section class="dpConfirm">
-    <section class="close" @click="hideConfirm">
+    <section class="close" @click="backFeed">
       <i></i>
     </section>
     <section class="desc title">
