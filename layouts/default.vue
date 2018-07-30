@@ -90,10 +90,6 @@ export default {
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     },
-    // 隐藏留言框
-    hiddenTextArea() {
-      this.$store.commit("SET_VISIBLE_MESSAGE", false);
-    },
     // 隐藏alert组件
     hiddenAlert() {
       this.$store.commit("SHOW_ALERT", false);
