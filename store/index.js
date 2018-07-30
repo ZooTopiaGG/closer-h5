@@ -68,7 +68,7 @@ export const mutations = {
     let nvg = para.toLowerCase();
     state.agent = nvg;
   },
-  // 获取手机浏览器版本以及内核
+  // 前端获取手机浏览器版本以及内核
   GET_VERSION(state) {
     let nvg = navigator.userAgent.toLowerCase(),
       nvgtype, nvgversion, nvgTypeToPowerCase;
