@@ -109,11 +109,14 @@ export default {
   },
   beforeMount() {
     this.$store.commit("SET_ENTER_TIME", Date.now());
-    this.$store.commit('GET_UA_FORNT', navigator.userAgent)
   },
   mounted() {
     let self = this;
-    console.log(this.$store.state);
+    this.$store.commit('GET_USER_AGENT', {
+      nvg: navigator.userAgent,
+      ref: location.pathname
+    })
+    console.log(this.$store.state);    
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
