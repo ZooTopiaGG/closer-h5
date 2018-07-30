@@ -562,9 +562,9 @@ export default {
         // 栏目关注状态
         self.communityFocusStat();
         // 获取留言列表
-        self.$store.dispatch("message_list", {
-          subjectid: self.$route.params.id
-        });
+        // self.$store.dispatch("message_list", {
+        //   subjectid: self.$route.params.id
+        // });
         if (
           self.$store.state.res.int_type === 2 &&
           self.$store.state.res.int_category === 1

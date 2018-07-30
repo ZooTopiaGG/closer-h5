@@ -1,24 +1,18 @@
 <template>
    <!-- 留言板 --> 
    <section class="feed-2" id="messageboard">
-     <section
-      :class="{
-      'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">
+     <section v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">
       <section class="split-box"></section>
       <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
       <!-- <section v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
-      <section :class="{
-        'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
-        'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.res.int_category != 1 ">
+      <section v-if="$store.state.res.int_category != 1 ">
         <section class="message-num flex flex-pack-justify">
           <span>精彩留言</span>
           <span class="writeMessage" @click="writeMessage('comment', $route.params.id)">写留言</span>
         </section>
-        <section :class="{
-          'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
-          }">
-          <ul class="feed-messagebord-list" v-if="$store.state.messagelist.data && $store.state.messagelist.data.length > 0">
-            <li class="feed-messagebord-list-cell" v-for="(item, index) in $store.state.messagelist.data" :key="index">
+        <section>
+          <ul class="feed-messagebord-list" v-if="messagelist.data.length > 0">
+            <li class="feed-messagebord-list-cell" v-for="(item, index) in messagelist.data" :key="index">
               <section class="messager-info flex flex-align-center flex-pack-justify">
                 <section class="messager-info-div flex flex-align-center" v-if="item.user">
                   <img v-lazy="$com.makeFileUrl(item.user.avatar)">
@@ -77,11 +71,28 @@ export default {
     return {
       isLike: false,
       b: [],
+      messagelist: {
+        data: []
+      },
       defaultImg:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg=="
     };
   },
   methods: {
+    async getMessageList() {
+      let self = this;
+      let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${self.$route.params.id}`);
+        if (data.code === 0) {
+          self.messagelist = data.result
+          self.$store.commit('SET_MESSAGE_LIET', data.result)
+        } else {
+          self.$toast({
+            message: data.result,
+            position: "top"
+          });
+        }
+        return true
+    },
     // 先登录 再下载流程
     // 需要登录的操作 先判断后执行
     async firstLogin() {
@@ -157,6 +168,9 @@ export default {
         });
       }
     }
+  },
+  beforeMount() {
+    this.getMessageList()
   }
 };
 </script>
