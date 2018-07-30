@@ -10,14 +10,14 @@
               </section>
             </mt-swipe-item>
             <mt-swipe-item>
-              <section class="communityName two-desc flex flex-v flex-pack-center">
-                <span>打开贴近看新闻</span>
-                <span>领10元现金红包</span>
+              <section class="communityName flex flex-v flex-pack-center">
+                <span>成都人自己的资讯社群</span>
               </section>
             </mt-swipe-item>
             <mt-swipe-item>
-              <section class="communityName flex flex-v flex-pack-center">
-                <span>成都本地资讯</span>
+              <section class="communityName two-desc flex flex-v flex-pack-center">
+                <span>打开贴近看资讯</span>
+                <span>领10元现金红包</span>
               </section>
             </mt-swipe-item>
           </mt-swipe>

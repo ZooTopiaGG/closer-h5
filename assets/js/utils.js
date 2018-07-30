@@ -75,94 +75,7 @@ export default {
     }
 
   },
-  // 公用方法
-  // async commonDetails(app, store, params, query) {
-  //   try {
-  //     // 获取贴子详情
-  //     let res = await app.$axios.$get(
-  //       `${api.command.show}?subjectid=${params.id}`
-  //     );
-  //     if (res.code != 0) {
-  //       // 贴子被删除状态
-  //       store.commit("GET_EXIST_STATUS", false);
-  //     } else {
-  //       // 在外部浏览器时 不可看的状态
-  //       // 在PC预览 可看的状态
-  //       if (store.state.GET_MESSAGE_STATE) {
-  //         // pc端的状态
-  //         if (query.view && query.view === "pre") {
-  //           store.commit("GET_EXIST_STATUS", true);
-  //         } else if (
-  //           res.result.int_verify === 0 ||
-  //           ((res.result.int_verify === -1 &&
-  //               res.result.int_category != 4 &&
-  //               res.result.int_category != 6) ||
-  //             res.result.bool_delete)
-  //         ) {
-  //           store.commit("GET_EXIST_STATUS", false);
-  //         } else {
-  //           store.commit("GET_EXIST_STATUS", true);
-  //         }
-  //       }
-  //       // 验证content
-  //       if (res.result.content) {
-  //         var content = JSON.parse(res.result.content);
-  //         // 视频贴 特殊处理
-  //         if (res.result.int_type === 1) {
-  //           if (content.videos[0].height > content.videos[0].width) {
-  //             store.commit("ITS_LONG_VIDEO", true);
-  //           }
-  //         }
-  //         // 解析长图文html
-  //         if (res.result.int_type === 2) {
-  //           let _html = await $async.makeHtmlContent(
-  //             content.html,
-  //             store.state.GET_MESSAGE_STATE
-  //           );
-  //           if (_html) {
-  //             content.html = _html;
-  //           }
-  //           if (res.result.int_category === 3 && content.end_html) {
-  //             let end_html = await $async.makeHtmlContent(
-  //               content.end_html,
-  //               store.state.GET_MESSAGE_STATE
-  //             );
-  //             if (end_html) {
-  //               content.end_html = end_html;
-  //             }
-  //           }
-  //         }
-  //         if (content.discuss) {
-  //           var discuss = await content.discuss.map(x => {
-  //             if (x.text) {
-  //               let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
-  //               let res = x.text.match(reg);
-  //               if (res) {
-  //                 x.weblink = true;
-  //                 res.map(y => {
-  //                   // 正则替换文本
-  //                   let tag = `<a href="${y}" target="_blank">${y}</a>`;
-  //                   let newtag = x.text.replace(reg, tag);
-  //                   x.newText = newtag;
-  //                 });
-  //               } else {
-  //                 x.weblink = false;
-  //               }
-  //             }
-  //             return x;
-  //           });
-  //           store.commit("SET_DISSCUSS", discuss);
-  //         }
-  //         // 返回在渲染页面之前得结果
-  //         store.commit("SET_CONTENT", content);
-  //       }
-  //       store.commit("SET_RES", res.result);
-  //     }
-  //   } catch (err) {
-  //     store.commit("GET_EXIST_STATUS", false);
-  //     throw err;
-  //   }
-  // },
+
   // 富文本处理
   async makeHtmlContent(html, status) {
     let _html;
@@ -180,6 +93,7 @@ export default {
           heightArray = x.match(regexHeight),
           nW,
           _src,
+          newM,
           nH,
           minH;
         if (widthArray && heightArray) {
@@ -188,7 +102,7 @@ export default {
             nH = heightArray[1] + 'px';
           } else {
             nW = '100%';
-            nH = heightArray[1] * 92 / widthArray[1] + "vw";
+            nH = heightArray[1] * 100 / widthArray[1] + "%";
           }
           minH = nH;
         } else {
@@ -199,16 +113,17 @@ export default {
         // fix 图片是中文带路径 补丁
         if (srcArray) {
           _src = srcArray[1].replace(/\+/g, "%2b");
-          flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;height: ${nH};min-height: ${minH}">
-                    <img style="width: ${nW};height: ${nH}" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
-                </section>`;
+          newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" class="imgbox" data-index="${i+1}" data-src=`);
+          // flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;max-width: 100%;height: ${nH};min-height: ${minH}">
+          //           <img style="width: ${nW};height: ${nH}; max-width: 100%;" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
+          //       </section>`;
         } else {
           _src = ''
-          flag = '';
+          newM = '';
         }
         // 正则替换富文本内的img标签
         // 替换不同文本
-        html = html.replace(x, flag);
+        html = html.replace(x, newM);
       });
     }
     const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
@@ -294,13 +209,13 @@ export default {
       const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
       piFrame.forEach((x, i) => {
-        let widthArray = x.match(regexWidth);
-        let heightArray = x.match(regexHeight);
-        let newsplit = x.split(widthArray[0]);
-        let newstr = `${newsplit[0]}width="100%"${newsplit[1]}`;
-        let newsplit1 = newstr.split(heightArray[0]);
-        let newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`;
-        let flag = `<section class="imgbox tiejin-iframe">
+        let widthArray = x.match(regexWidth),
+         heightArray = x.match(regexHeight),
+         newsplit = x.split(widthArray[0]),
+         newstr = `${newsplit[0]}width="100%"${newsplit[1]}`,
+         newsplit1 = newstr.split(heightArray[0]),
+         newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`,
+         flag = `<section class="imgbox tiejin-iframe">
                   ${newstr1}</iframe>
                 </section>`;
         html = html.replace(x, flag);
@@ -357,7 +272,15 @@ export default {
       }
     }
   },
-
+  // get Verison 
+  async compareVersion(nvg) {
+    try {
+      let b = await nvg.split('closerapp/version/')[1].split('.');
+      return b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
+    } catch(e) {
+      return false
+    }
+  },
   /*判断是否是微信 微博 QQ*/
   isWeiXin() {
     if (typeof window != 'undefined') {
@@ -426,9 +349,9 @@ export default {
         }, 1500)
         return;
       } else {
-        if (url.indexOf('?from=group') > -1) {
+        if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
           location.href = url
-        } else if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+        } else if (url.indexOf('?downurl=closer://') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
         } else {
           location.href = `${location.protocol}//${location.host}?downurl=${url}`;
@@ -496,8 +419,8 @@ export default {
   async down_statistics(store, route, str, defaultStr, redirectUrl) {
     let result = await store.dispatch("down_adcookies");
     if (result) {
-      let _page, url, did = route.params.id,
-        progress;
+      let _page, url, did = route.params.id || route.params.messageid,
+        progress, _str;
       if (route.path.indexOf("/community") > -1) {
         _page = "community";
         url = `closer://community/${did}`;
@@ -522,12 +445,13 @@ export default {
       } else {
         _page = "inviter";
       }
+      _str = typeof (str) === 'string' && str ? str : defaultStr;
       let p1 = {
         objectType: _page || "article", //		'统计对象类型（文章 视频 栏目 群组 H5分享的群组，栏目，帖子）,参数取值:article video community group'
         objectId: route.params.id || "", //		'统计对象唯一标识'
-        position: str || defaultStr, //		'点击位置，若action为download时必填,参数取值：top bottom'
+        position: _str, //		'点击位置，若action为download时必填,参数取值：top bottom'
         progress: progress || 0, //		'浏览进度，文章为阅读的进度，图集为当前阅读的图片/总的图片数，视频为当前播放时间/总时间 小数点两位：0.95'
-        recommendId: route.params.id || "" //		'本次推荐的唯一标识 推荐内容ID'
+        recommendId: "" //		'本次推荐的唯一标识 推荐内容ID'
       };
       let res = await store.dispatch("down_statistics", {
         p1

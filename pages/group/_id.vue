@@ -25,22 +25,22 @@
       </ul>
       <section class="more-member" v-if="$store.state.group_info.group_user_count > 5" @click="firstLogin">查看更多群成员 <i class="down-arrow"></i></section>
     </section>
-    <section class="intro" v-if="$store.state.group_info.group_info && JSON.parse($store.state.group_info.group_info.group.description)[0].content">
+    <section class="intro" v-if="$store.state.group_info.group_info && description">
       <section class="title flex flex-align-center flex-pack-justify">
         <span>群简介</span>
         <i class="right-arrow"></i>
       </section>
       <section class="content">
-        <p class="text-ellipse">{{ JSON.parse($store.state.group_info.group_info.group.description)[0].content }}</p>
+        <p class="text-ellipse">{{ description }}</p>
       </section>
     </section>
-    <section class="intro" v-if="$store.state.group_info.group_info && JSON.parse($store.state.group_info.group_info.announcement)[0].content">
+    <section class="intro" v-if="$store.state.group_info.group_info && announcement">
       <section class="title flex flex-align-center flex-pack-justify">
         <span>当前话题</span>
         <i class="right-arrow"></i>
       </section>
       <section class="content">
-        <p class="text-ellipse">{{ JSON.parse($store.state.group_info.group_info.announcement)[0].content }}</p>
+        <p class="text-ellipse">{{ announcement }}</p>
       </section>
     </section>
     <section class="split-box"></section>
@@ -74,12 +74,6 @@ export default {
         let monitor_uid = data2.result.group_info
           ? data2.result.group_info.group.attributes.monitor.uid
           : "";
-
-        for (let i = 0; i < data2.result.group_user_info.length; i++) {
-          if (data2.result.group_user_info[i].uid === monitor_uid) {
-            data2.result.group_user_info.splice(i, 1);
-          }
-        }
         store.commit("SET_GROUP_INFO", data2.result);
         store.commit("SET_RES", {
           communityid: data2.result.group_info.communityid
@@ -97,6 +91,22 @@ export default {
   },
   components: {
     noThing
+  },
+  computed: {
+    description() {
+      try{
+        return JSON.parse(this.$store.state.group_info.group_info.group.description)[0].content
+      } catch (e){
+        return this.$store.state.group_info.group_info.group.description
+      }
+    },
+    announcement() {
+      try {
+        return JSON.parse(this.$store.state.group_info.group_info.announcement)[0].content
+      } catch(e) {
+        return this.$store.state.group_info.group_info.announcement
+      }
+    }
   },
   data() {
     return {
@@ -173,7 +183,7 @@ export default {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
-            url: `${location.protocol}//${location.hostname}?from=group`
+            url: `${location.protocol}//${location.hostname}`
           });
         } else {
           self.$store.commit("GET_LOGIN_TYPE", "toDown");
@@ -183,14 +193,12 @@ export default {
     },
     // h5下载补丁
     async downApp(e, str) {
-      let self = this,
-        redirectUrl = `${location.protocol}//${location.host}?from=group`;
+      let self = this;
       self.$com.down_statistics(
         self.$store,
         self.$route,
         str,
-        "more_group_member",
-        redirectUrl
+        "more_group_member"
       );
     }
   },
@@ -314,6 +322,10 @@ export default {
     margin: 0;
     padding: 0 @m20 * 2;
     box-sizing: border-box;
+    > span {
+      width: 30vw;
+      min-width: 30vw;
+    }
   }
   .more-member {
     text-align: center;

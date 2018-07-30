@@ -6,7 +6,7 @@ import {
 } from 'mint-ui'
 export const state = () => ({
   GET_MESSAGE_STATE: false,
-  GET_APP_NAV: false,
+  GET_IS_APP: false,
   agent: '',
   isPre: false,
   nvgtype: '',
@@ -17,8 +17,6 @@ export const state = () => ({
   end_html: '',
   discuss: {},
   res: {},
-  postType: '',
-  options: false,
   exist: true,
   feed_list: [],
   group_info: {},
@@ -35,10 +33,10 @@ export const state = () => ({
   isLongVideo: false,
   current_url: '',
   message_item: {},
-  messagelist: [],
+  messagelist: '',
   alert_stat: false,
   confirm_stat: false,
-  version_1_2: false,
+  version_1_2: true, // 默认 1.2版本以上
   get_login_type: '', // toFocus 来自关注后弹窗 toDown 来自登录后直接跳转下载 inviter 来自奖励金,
   extension_text: '', // 来自某个按钮的点击
   enter_time: 0,
@@ -48,32 +46,20 @@ export const state = () => ({
 
 export const mutations = {
   // 设置特殊状态
-  GET_USER_AGENT(state, para) {
+  async GET_USER_AGENT(state, para) {
     // 通过中间件。判断在路由之前执行 判断路由类型
-    let nvg = para.nvg.toLowerCase();
-    let refer = para.ref;
-    let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1 || refer.indexOf('/invite') > -1;
+    let nvg = para.nvg.toLowerCase(),
+     refer = para.ref,
+     r = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
+     _result = r || refer.indexOf('/invite') > -1;
+    state.version_1_2 = await Coms.compareVersion(nvg);     
+    console.log('state.version_1_2==', state.version_1_2)
     state.GET_MESSAGE_STATE = !_result;
-    state.isPre = refer.indexOf('?view=pre') > -1;
-    // 基于 1.1.100 做验证
-    if (nvg.indexOf('closerapp/version/') > -1) {
-      let b = nvg.split('closerapp/version/')[1].split('.');
-      state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
-    }
-  },
-  // 设置是否在app的状态
-  GET_APP_AGENT(state, para) {
-    // 通过中间件。判断在路由之前执行 判断路由类型
-    let nvg = para.nvg.toLowerCase();
-    let _result = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1;
-    state.GET_APP_NAV = !_result
-  },
-  // 设置浏览器内核
-  GET_AGENT(state, para) {
-    let nvg = para.toLowerCase();
+    state.GET_IS_APP = r
     state.agent = nvg;
+    state.isPre = refer.indexOf('?view=pre') > -1;
   },
-  // 获取手机浏览器版本以及内核
+  // 前端获取手机浏览器版本以及内核
   GET_VERSION(state) {
     let nvg = navigator.userAgent.toLowerCase(),
       nvgtype, nvgversion, nvgTypeToPowerCase;
@@ -104,6 +90,18 @@ export const mutations = {
     state.nvgversion = nvgversion;
     state.nvgtype = nvgtype;
     state.nvgTypeToPowerCase = nvgTypeToPowerCase
+  },
+  // 前端获取UA
+  async GET_UA_FORNT(state, para) {
+    let nvg = para.toLowerCase();
+    state.version_1_2 = await Coms.compareVersion(nvg);
+    // // 基于 1.1.100 做验证
+    // if (nvg.indexOf('closerapp/version/') > -1) {
+    //   let b = nvg.split('closerapp/version/')[1].split('.');
+    //   state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
+    // } else {
+    //   state.version_1_2 = false
+    // }
   },
   // 设置获取app传来的token
   GET_APP_TOKEN(state, para) {
@@ -140,12 +138,6 @@ export const mutations = {
   // 设置底部悬浮显示状态
   SET_NO_FOOTER(state, para) {
     state.webNoFooter = para
-  },
-  SET_POSTTYPE(state, para) {
-    state.postType = para
-  },
-  SET_OPTIONS(state, para) {
-    state.options = para
   },
   // 设置贴子是否被删除
   GET_EXIST_STATUS(state, para) {
@@ -740,7 +732,7 @@ export const actions = {
         attachPlatform: state.nvgTypeToPowerCase || "", //	'H5的载体，当platform为H5时，如果设备为安卓设备，则传Android，IOS设备则传IOS，其他不传'
         communityId: state.res.communityid || "", //		'栏目id,统计对象有该属性则需要填写'
         title: state.res.title || "", //		'标题 如果是文章或视频该参数需要上传'
-        action: "download", //		'行为类型(曝光 浏览结束点击返回 负反馈 点击下载)，参数取值:exposure back feedback download'
+        action: "click", //		'行为类型(曝光 浏览结束点击返回 负反馈 点击下载)，参数取值:exposure back feedback download'
         dreason: "", //		'负反馈内容，当action为feedback时必填，格式为：["负反馈内容1", "负反馈内容2"]'
         time: Date.now(), //		'行为发生的时间戳，单位毫秒'
         cost: Date.now() - state.enter_time || 0, //		'浏览时长/曝光时长，单位毫秒'
@@ -764,7 +756,7 @@ export const actions = {
         pagenum: 1,
         subjectid: subjectid
       };
-      let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${subjectid}&timestamp=${Date.now()}`);
+      let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${subjectid}`);
       if (data.code === 0) {
         commit('SET_MESSAGE_LIET', data.result)
       } else {
@@ -820,5 +812,43 @@ export const actions = {
         position: "top"
       });
     }
-  }
+  },
+  // 加入群组
+  async join_group({
+    commit
+  }, {
+    classid,
+    join_limit
+  }) {
+    let self = this,
+      para,
+      url, fullname;
+    if (Cookie.get('user')) {
+      fullname = JSON.parse(Cookie.get('user')).fullname
+    }
+    if (join_limit === 0) {
+      url = api.group.join
+    } else if (join_limit === 1) {
+      url = api.group.apply_join
+    } else {
+      return true
+    }
+    para = {
+      classid,
+      postscript: `我是${fullname}，申请入群～`
+    }
+    let data = await self.$axios.$post(`${url}`, para);
+    return true
+  },
+  // 栏目小秘书消息
+  // async send_message({commit}, {
+  //   para
+  // }){
+  //   let self = this;
+  //   try {
+
+  //   } catch(e){
+
+  //   }
+  // } 
 }

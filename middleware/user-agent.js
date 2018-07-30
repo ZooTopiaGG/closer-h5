@@ -9,15 +9,10 @@ export default async function (context) {
       nvg: context.userAgent,
       ref: context.req.originalUrl
     })
-    // 获取UA并监听
-    context.store.commit('GET_APP_AGENT', {
-      nvg: context.userAgent
-    })
     // 获取当前页面的URL
     if (!context.store.state.current_url) {
       context.store.commit('SET_CURRENT_URL', context.req.headers.referer)
     }
-    context.store.commit('GET_AGENT', context.userAgent)
     // 获取并设置当前TOKEN
     context.store.commit('GET_APP_TOKEN', context.req.headers['authorization'])
     let nvg = context.userAgent.toLowerCase()

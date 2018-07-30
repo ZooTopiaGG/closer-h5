@@ -332,6 +332,41 @@ video::-webkit-media-controls-panel {
   }
 }
 
+
+.tiejin-videobox {
+  width: 100%;
+  height: 56.25vw;
+  position: relative;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");
+  background-size: cover;
+}
+.tiejin-videobox > video {
+  width: 100%;
+  height: 56.25vw;
+  background: #000;
+  object-fit: contain;
+  overflow: hidden;
+}
+.tiejin-videobox-native {
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 56.25vw;
+  position: relative;
+}
+.tiejin-videobox-native > section {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+.tiejin-iframe {
+  width: 100%;
+  min-height: 212px;
+}
+
 /*公用样式*/
 
 .margin-bottom-40 {
@@ -475,50 +510,6 @@ p:empty {
   height: 13vw;
 }
 
-img[lazy=loaded] {
-  animation: fade 0.4s;
-}
-
-img {
-  transition: all 0.4s;
-}
-
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@-ms-keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 /* 视频样式 */
 
 .video-poster {
@@ -595,6 +586,7 @@ img {
 .summary>article,
 .summary>aside {
   margin-bottom: 2.668vw;
+  word-break: break-all;
 }
 
 p:empty {

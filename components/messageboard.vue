@@ -1,6 +1,6 @@
 <template>
    <!-- 留言板 --> 
-   <section class="feed-2">
+   <section class="feed-2" id="messageboard">
      <section
       :class="{
       'flex-1': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">
@@ -8,7 +8,6 @@
       <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
       <!-- <section v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
       <section :class="{
-        'message-box':!($store.state.res.int_type === 2 && $store.state.res.int_category === 1),
         'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
         'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)}" v-if="$store.state.res.int_category != 1 ">
         <section class="message-num flex flex-pack-justify">
@@ -131,13 +130,10 @@ export default {
           }
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
-            // 正式
-            url: url
+            url
           });
         } else {
           self.gotoMessage(type, id);
-          // self.$store.commit("GET_LOGIN_TYPE", "toDown");
-          // self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
       }
     },
@@ -154,9 +150,9 @@ export default {
     // 前往写留言
     gotoMessage(type, id) {
       if (type === "comment") {
-        this.$router.push({ path: `/feed/tomessage/${id}` });
+        this.$router.replace({ path: `/feed/tomessage/${id}` });
       } else {
-        this.$router.push({
+        this.$router.replace({
           path: `/feed/tomessage/${this.$route.params.id}/${id}`
         });
       }
