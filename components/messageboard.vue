@@ -1,7 +1,7 @@
 <template>
    <!-- 留言板 --> 
    <section class="feed-2" id="messageboard">
-     <section v-if="$store.state.GET_MESSAGE_STATE && $store.state.res.commentNumber > 0">
+     <section v-if="$store.state.GET_MESSAGE_STATE && messagelist.data.length > 0">
       <section class="split-box"></section>
       <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
       <!-- <section v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
@@ -11,7 +11,7 @@
           <span class="writeMessage" @click="writeMessage('comment', $route.params.id)">写留言</span>
         </section>
         <section>
-          <ul class="feed-messagebord-list" v-if="messagelist.data.length > 0">
+          <ul class="feed-messagebord-list">
             <li class="feed-messagebord-list-cell" v-for="(item, index) in messagelist.data" :key="index">
               <section class="messager-info flex flex-align-center flex-pack-justify">
                 <section class="messager-info-div flex flex-align-center" v-if="item.user">
@@ -81,17 +81,21 @@ export default {
   methods: {
     async getMessageList() {
       let self = this;
-      let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${self.$route.params.id}`);
-        if (data.code === 0) {
-          self.messagelist = data.result
-          self.$store.commit('SET_MESSAGE_LIET', data.result)
-        } else {
-          self.$toast({
-            message: data.result,
-            position: "top"
-          });
-        }
-        return true
+      let data = await self.$axios.$get(
+        `${api.command.comments}?pagesize=5&pagenum=1&subjectid=${
+          self.$route.params.id
+        }`
+      );
+      if (data.code === 0) {
+        self.messagelist = data.result;
+        self.$store.commit("SET_MESSAGE_LIET", data.result);
+      } else {
+        self.$toast({
+          message: data.result,
+          position: "top"
+        });
+      }
+      return true;
     },
     // 先登录 再下载流程
     // 需要登录的操作 先判断后执行
@@ -170,7 +174,7 @@ export default {
     }
   },
   beforeMount() {
-    this.getMessageList()
+    this.getMessageList();
   }
 };
 </script>
