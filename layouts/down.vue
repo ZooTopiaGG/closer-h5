@@ -17,7 +17,7 @@
       <p class="flex flex-align-center">1. 请先点击右上角更多
         <img src="~/assets/images/more@2x.png" alt="">
       </p>
-      <p>2. 然后选择在 <span>Safari</span> 中打开</p>
+      <p class="flex flex-align-center">2. 然后选择在  <span class="browser browser_ios">Safari</span>  <span class="browser browser_other">浏览器</span> 中打开</p>
     </section>
     <section class="downbody">
       <img v-if="$route.query.from != 'group'" class="body-image" src="~/assets/images/downapp@2x.png" alt="">
@@ -136,6 +136,11 @@ export default {
   },
   mounted() {
     let self = this;
+    if (self.$com.isIOS()) {
+      document.querySelector(".browser_ios").style.display = "block";
+    } else {
+      document.querySelector(".browser_other").style.display = "block";
+    }
     self.$nextTick(() => {
       self.initLoad();
     });
@@ -255,6 +260,10 @@ html {
         color: @color;
       }
     }
+    .browser {
+      display: none;
+      margin: 0 @m20;
+    }
   }
 
   .groupdowntitle {
@@ -265,7 +274,7 @@ html {
   }
   .point {
     position: fixed;
-    right: 4vw;
+    right: 5vw;
     top: 4vw;
     display: none;
     img {

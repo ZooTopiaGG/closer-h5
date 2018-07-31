@@ -17,7 +17,7 @@
             <mt-swipe-item>
               <section class="communityName two-desc flex flex-v flex-pack-center">
                 <span>打开贴近看资讯</span>
-                <span>领10元现金红包</span>
+                <span>领10元红包</span>
               </section>
             </mt-swipe-item>
           </mt-swipe>

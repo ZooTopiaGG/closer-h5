@@ -210,12 +210,12 @@ export default {
       const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
       piFrame.forEach((x, i) => {
         let widthArray = x.match(regexWidth),
-         heightArray = x.match(regexHeight),
-         newsplit = x.split(widthArray[0]),
-         newstr = `${newsplit[0]}width="100%"${newsplit[1]}`,
-         newsplit1 = newstr.split(heightArray[0]),
-         newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`,
-         flag = `<section class="imgbox tiejin-iframe">
+          heightArray = x.match(regexHeight),
+          newsplit = x.split(widthArray[0]),
+          newstr = `${newsplit[0]}width="100%"${newsplit[1]}`,
+          newsplit1 = newstr.split(heightArray[0]),
+          newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`,
+          flag = `<section class="imgbox tiejin-iframe">
                   ${newstr1}</iframe>
                 </section>`;
         html = html.replace(x, flag);
@@ -277,7 +277,7 @@ export default {
     try {
       let b = await nvg.split('closerapp/version/')[1].split('.');
       return b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
-    } catch(e) {
+    } catch (e) {
       return false
     }
   },
@@ -308,6 +308,10 @@ export default {
       iswb = /weibo/i.test(ua);
       return iswx || isqq || iswb;
     }
+  },
+  isIOS() {
+    let u = navigator.userAgent.toLowerCase();
+    return !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/)
   },
   getParam(paramName, str) {
     var paramValue = "";

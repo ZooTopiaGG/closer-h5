@@ -25,7 +25,6 @@ export const state = () => ({
   auth: '',
   token: '',
   visibleLogin: false,
-  visibleMessage: false,
   is_follow: false,
   incr_view: '',
   h5Cookies: '',
@@ -53,7 +52,6 @@ export const mutations = {
      r = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
      _result = r || refer.indexOf('/invite') > -1;
     state.version_1_2 = await Coms.compareVersion(nvg);     
-    console.log('state.version_1_2==', state.version_1_2)
     state.GET_MESSAGE_STATE = !_result;
     state.GET_IS_APP = r
     state.agent = nvg;
@@ -162,10 +160,6 @@ export const mutations = {
   // 分享feed
   SET_VISIBLE_LOGIN(state, para) {
     state.visibleLogin = para
-  },
-  // 设置留言框的显示与隐藏状态
-  SET_VISIBLE_MESSAGE(state, para) {
-    state.visibleMessage = para
   },
   // 设置每条留言信息
   SET_MESSAGE_ITEM(state, para) {
@@ -744,35 +738,35 @@ export const actions = {
       return true
     }
   },
-  async message_list({
-    commit
-  }, {
-    subjectid
-  }) {
-    let self = this;
-    try {
-      let para1 = {
-        pagesize: 5,
-        pagenum: 1,
-        subjectid: subjectid
-      };
-      let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${subjectid}`);
-      if (data.code === 0) {
-        commit('SET_MESSAGE_LIET', data.result)
-      } else {
-        Toast({
-          message: data.result,
-          position: "top"
-        });
-      }
-      return true
-    } catch (err) {
-      Toast({
-        message: err,
-        position: "top"
-      });
-    }
-  },
+  // async message_list({
+  //   commit
+  // }, {
+  //   subjectid
+  // }) {
+  //   let self = this;
+  //   try {
+  //     let para1 = {
+  //       pagesize: 5,
+  //       pagenum: 1,
+  //       subjectid: subjectid
+  //     };
+  //     let data = await self.$axios.$get(`${api.command.comments}?pagesize=5&pagenum=1&subjectid=${subjectid}`);
+  //     if (data.code === 0) {
+  //       commit('SET_MESSAGE_LIET', data.result)
+  //     } else {
+  //       Toast({
+  //         message: data.result,
+  //         position: "top"
+  //       });
+  //     }
+  //     return true
+  //   } catch (err) {
+  //     Toast({
+  //       message: err,
+  //       position: "top"
+  //     });
+  //   }
+  // },
   // 评论以及回复评论
   async sure_message({
     commit
