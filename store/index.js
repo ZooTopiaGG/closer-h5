@@ -395,7 +395,10 @@ export const actions = {
           adid: Cookie.get('h5Adid') || 'closer-share'
         }
       }
+      console.log(para)
       let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)
+      console.log(data)
+      return
       if (data.code === 0) {
         let userInfo = {
           gender: data.result.user.gender,

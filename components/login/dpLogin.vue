@@ -24,8 +24,7 @@
     <mt-button type="primary" v-if="isAbsolute != 'toMessageBind'" :disabled="loading === 1" :class="{
       'cursor': true,
       'margin-top-20': true, 
-      'tj-btn': true,
-      notweixin: isAbsolute === 'inviter'
+      'tj-btn': true
     }" @click="toLogin">
       <section class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
@@ -36,8 +35,7 @@
     <mt-button type="primary" v-else :disabled="loading === 1" :class="{
       'cursor': true,
       'margin-top-20': true, 
-      'tj-btn': true,
-      notweixin: isAbsolute === 'inviter'
+      'tj-btn': true
     }" @click="toBind">
       <section class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
@@ -372,7 +370,7 @@ export default {
   margin-bottom: 2vw;
   line-height: 1.7;
 }
-.notweixin {
+/* .notweixin {
   margin-top: 20px;
-}
+} */
 </style>
