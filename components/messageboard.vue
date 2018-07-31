@@ -44,7 +44,7 @@
                       <span class="messager-comment">{{ commentItem.content }}</span>
                     </li>
                     <!-- 更多回复补丁 -->
-                    <li class="messager-comments-cell" v-if="item.replyNumber > 3" @click="downApp">
+                    <li class="messager-comments-cell" v-if="item.replyNumber > 3" @click="downApp($event, 'more_reply')">
                     <!-- <li class="messager-comments-cell" style="color: #5e97cd;" v-if="item.replyNumber > 3" @click="morereply(item)"> -->
                       <span class="reply-number">共{{ item.replyNumber }}条回复</span>
                     </li>
@@ -155,7 +155,12 @@ export default {
     // h5下载补丁
     async downApp(e, str) {
       let self = this;
-      self.$com.down_statistics(self.$store, self.$route, str, "more_reply");
+      self.$com.down_statistics(
+        self.$store,
+        self.$route,
+        str,
+        self.$store.state.extension_text
+      );
     },
     // 点赞操作
     async toSupport(e) {
@@ -196,7 +201,7 @@ export default {
     box-sizing: border-box;
     border-bottom: 1px solid @bottomcolor;
     margin-bottom: @m20;
-    font-weight: bold;
+    // font-weight: bold;
     .writeMessage {
       color: @focuscolor;
       font-size: 16px;
