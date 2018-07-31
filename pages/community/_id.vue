@@ -7,9 +7,12 @@
         <dp-logo></dp-logo>        
         <section>{{ $store.state.res.name }}</section>
       </section>
-      <section class="community-desc">
+      <section class="community-desc" v-if="!res.community.description">
         <section>用心写出有态度，有深度，有高度的文章</section>
         <section>请关注我们吧～</section>
+      </section>
+      <section class="community-desc" v-else>
+        <section>{{ res.community.description }}</section>
       </section>
       <dp-focus :tjFocus="tjFocus"></dp-focus>
     </section>
@@ -316,7 +319,7 @@ export default {
 .community-desc {
   font-size: 16px;
   line-height: 1.6;
-  color: @textcolor;
+  color: @scolor;
   margin-bottom: @m15 * 4;
 }
 </style>
