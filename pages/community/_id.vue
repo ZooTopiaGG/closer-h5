@@ -53,6 +53,11 @@ import dpFocus from "~/components/dpfocus";
 import dpLogo from "~/components/dplogo";
 
 export default {
+  head() {
+    return {
+      title: `贴近 - TieJin.cn - ${this.$store.state.res.name || ''}`
+    }
+  },
   async fetch({ app, error, params, store, query }) {
     // 分享后校验adid是否存在
     if (query && query.adid) {

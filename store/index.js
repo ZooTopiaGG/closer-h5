@@ -54,6 +54,8 @@ export const mutations = {
     state.version_1_2 = await Coms.compareVersion(nvg);
     state.GET_MESSAGE_STATE = !_result;
     state.GET_IS_APP = r
+    console.log('r==', r)
+    console.log('r1==', state.GET_IS_APP)
     state.agent = nvg;
     state.isPre = refer.indexOf('?view=pre') > -1;
   },

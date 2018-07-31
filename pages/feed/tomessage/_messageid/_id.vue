@@ -12,6 +12,21 @@
 <script>
 import Cookie from "js-cookie";
 export default {
+  head() {
+    var _title = () => {
+      if (this.$store.state.res.title) {
+        return `贴近 - TieJin.cn - ${this.$store.state.res.title}`;
+      } else {
+        if (this.$store.state.content.text) {
+          let t = this.$store.state.content.text.substring(0, 10);
+          return `贴近 - TieJin.cn - ${t}`;
+        }
+      }
+    };
+    return {
+      title: _title()
+    };
+  },
   data() {
     return {
       textarea: "",
