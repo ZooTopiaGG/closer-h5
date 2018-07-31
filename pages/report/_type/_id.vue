@@ -4,8 +4,7 @@
       <div class="title">
         举报
         <span v-if="$route.params.type==='f'">
-          <span v-if="res.data.double_latitude !== -999">{{ res.data.className }}</span>
-          <span v-else>{{ res.data.communityName }}</span>
+          <span>{{ res.data.communityName }}</span>
           的帖子：
           <span v-if="res.data.title" style="color:#94928E">{{ res.data.title }}</span>
         </span>
@@ -19,7 +18,7 @@
           :bname="item.reportContents">
         </dp-radio>
       </div>
-      <div>
+      <div class="flex">
         <textarea name="reportcon" rows="4" class="reportcon" v-model="reportcon" placeholder="如果你有更多信息，会帮助我们加速处理哦"></textarea>
       </div>
     </div>
@@ -160,8 +159,7 @@ export default {
         self.loading = 1;
       }
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style type="text/css">
