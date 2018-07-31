@@ -257,7 +257,8 @@ export const actions = {
 
   // 通过code进行登录，如果get_wx_auth被调用，get_code_by_login才会被调用
   async get_code_by_login({
-    commit
+    commit,
+    state
   }, {
     code,
     // $router,
@@ -265,7 +266,12 @@ export const actions = {
     type
   }) {
     let self = this,
-      para;
+      para, uo;
+    try {
+      uo = Cookie.get('h5Cookies')
+    } catch(e) {
+      uo = state.h5Cookies
+    }
     // 注意： code 只能用一次，所以这里校验了 就不能再登录了，需要将校验放在登录里面
     // $router 是否存在 验证是否是奖励金登录
     if (type && type === 'bonus') {
@@ -295,7 +301,7 @@ export const actions = {
           nickName: nickName,
           avatar: avatar,
           protocol: "WEB_SOCKET",
-          udid: Cookie.get('h5Cookies'),
+          udid: uo,
           adid: Cookie.get('h5Adid') || 'closer-invitenew',
         }
       } else {
@@ -306,7 +312,7 @@ export const actions = {
         plateform: 2,
         code: code,
         protocol: "WEB_SOCKET",
-        udid: Cookie.get('h5Cookies'),
+        udid: uo,
         adid: Cookie.get('h5Adid') || 'closer-share'
       }
     }
@@ -356,7 +362,12 @@ export const actions = {
     // 邀新 inviter参数
     try {
       let self = this,
-        para;
+        para, uo;
+      try {
+        uo = Cookie.get('h5Cookies')
+      } catch(e) {
+        uo = state.h5Cookies
+      }
       if (type && type === 'bonus') {
         para = {
           type: 'phone',
@@ -377,7 +388,7 @@ export const actions = {
             phone: phone,
             token: token,
             inviter: inv.id,
-            udid: Cookie.get('h5Cookies'),
+            udid: uo,
             adid: Cookie.get('h5Adid') || 'closer-invitenew',
             protocol: 'WEB_SOCKET'
           }
@@ -392,7 +403,7 @@ export const actions = {
         para = {
           phone: phone,
           token: token,
-          udid: Cookie.get('h5Cookies'),
+          udid: uo,
           protocol: 'WEB_SOCKET',
           adid: Cookie.get('h5Adid') || 'closer-share'
         }
