@@ -132,7 +132,9 @@ export default {
           type: "bind"
         };
       }
+      console.log('para====', para)
       let result = await self.$store.dispatch("get_code_by_phone_v2", para);
+      console.log('result===', result)
       if (!result) {
         self.isdisabled = false;
         self.sendName = "重新发送";
@@ -175,12 +177,7 @@ export default {
           return false;
         }
         // 判断是否是在奖励金页面
-        let type;
-        if (self.$route.path.indexOf("/invite") === -1) {
-          type = "else";
-        } else {
-          type = "bonus";
-        }
+        let type = self.$route.path.indexOf("/invite") > -1 ? 'bonus': 'else';
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
           token: self.code,
