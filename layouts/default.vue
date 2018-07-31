@@ -106,7 +106,7 @@ export default {
     let self = this;
     this.$store.commit("GET_USER_AGENT", {
       nvg: navigator.userAgent,
-      ref: location.pathname
+      ref: location.href
     });
     // console.log(this.$store.state);
     if (typeof window != "undefined") {

@@ -48,10 +48,10 @@ export const mutations = {
   async GET_USER_AGENT(state, para) {
     // 通过中间件。判断在路由之前执行 判断路由类型
     let nvg = para.nvg.toLowerCase(),
-     refer = para.ref,
-     r = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
-     _result = r || refer.indexOf('/invite') > -1;
-    state.version_1_2 = await Coms.compareVersion(nvg);     
+      refer = para.ref,
+      r = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
+      _result = r || refer.indexOf('/invite') > -1;
+    state.version_1_2 = await Coms.compareVersion(nvg);
     state.GET_MESSAGE_STATE = !_result;
     state.GET_IS_APP = r
     state.agent = nvg;
