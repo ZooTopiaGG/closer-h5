@@ -820,9 +820,9 @@ export const actions = {
     if (Cookie.get('user')) {
       fullname = JSON.parse(Cookie.get('user')).fullname
     }
-    if (join_limit === 0) {
+    if (join_limit == 0) {
       url = api.group.join
-    } else if (join_limit === 1) {
+    } else if (join_limit == 1) {
       url = api.group.apply_join
     } else {
       return true

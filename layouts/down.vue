@@ -115,10 +115,12 @@ export default {
       return iswx || isqq || iswb;
     },
     async join_group() {
-      await self.$store.dispatch("join_group", {
-        join_limit: self.$route.query.limit,
-        classid: self.$route.query.groupid
+      let self = this
+      let res = await self.$store.dispatch("join_group", {
+        classid: self.$route.query.groupid,
+        join_limit: self.$route.query.limit
       });
+      return res
     }
   },
   beforeMount() {
