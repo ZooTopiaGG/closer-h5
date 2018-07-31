@@ -45,7 +45,6 @@ export default function ({
     }
     // 全局设置 启用跨域传cookies
     config.withCredentials = true
-    console.log('store.state.GET_IS_APP===', store.state.GET_IS_APP)
     if (!store.state.GET_IS_APP) {
       if (store.state.h5Adid) {
         config.headers.common['X-Adid'] = store.state.h5Adid
@@ -57,12 +56,9 @@ export default function ({
         co = store.state.h5Cookies
       }
       config.headers.common['X-Udid'] = co || 'h5-SRjHazKvYslHxwZxjy5tql9G4edf3d';
-      console.log('store.state.h5Cookies===', co)
       if (co) {
         config.headers.common['Closer-Agent'] = 'Closer-H5';
       }
-    } else {
-      console.log(11213123)
     }
     let t;
     try {

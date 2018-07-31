@@ -27,12 +27,6 @@ import Cookie from "js-cookie";
 export default {
   async asyncData({ app, query, store }) {
     try {
-      if (store.state.GET_MESSAGE_STATE && !store.state.h5Cookies) {
-        let co = await store.dispatch("get_adcookie", {
-          webUdid: true
-        });
-        Cookie.set("h5Cookies", co);
-      }
       let data = await app.$axios.$get(
         `${api.admin.info}?uid=${query.inviter}`
       );

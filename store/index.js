@@ -54,8 +54,6 @@ export const mutations = {
     state.version_1_2 = await Coms.compareVersion(nvg);
     state.GET_MESSAGE_STATE = !_result;
     state.GET_IS_APP = r
-    console.log('r==', r)
-    console.log('r1==', state.GET_IS_APP)
     state.agent = nvg;
     state.isPre = refer.indexOf('?view=pre') > -1;
   },
@@ -267,9 +265,9 @@ export const actions = {
   }) {
     let self = this,
       para, uo;
-    try {
-      uo = Cookie.get('h5Cookies')
-    } catch(e) {
+    if (Cookie.get("h5Cookies")) {
+      uo = Cookie.get("h5Cookies")
+    } else {
       uo = state.h5Cookies
     }
     // 注意： code 只能用一次，所以这里校验了 就不能再登录了，需要将校验放在登录里面
@@ -351,6 +349,7 @@ export const actions = {
   },
   // 通过token登录， 先获取cookie查看token是否过期 如果过期则调用授权，如果没有过期则调用get_token_by_login获取用户信息
   async get_token_by_login({
+    state,
     commit
   }, {
     phone,
@@ -363,9 +362,9 @@ export const actions = {
     try {
       let self = this,
         para, uo;
-      try {
-        uo = Cookie.get('h5Cookies')
-      } catch(e) {
+      if (Cookie.get("h5Cookies")) {
+        uo = Cookie.get("h5Cookies")
+      } else {
         uo = state.h5Cookies
       }
       if (type && type === 'bonus') {
@@ -408,10 +407,7 @@ export const actions = {
           adid: Cookie.get('h5Adid') || 'closer-share'
         }
       }
-      console.log(para)
       let data = await self.$axios.$post(`${api.admin.closeruser_regist}`, para)
-      console.log(data)
-      return
       if (data.code === 0) {
         let userInfo = {
           gender: data.result.user.gender,
