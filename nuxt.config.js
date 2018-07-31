@@ -54,23 +54,7 @@ module.exports = {
     // base: '/',
     mode: 'history',
     // 中间件 在路由之前判断浏览器内核
-    middleware: 'user-agent',
-    // scrollBehavior: function (to, from, savedPosition) {
-    //   console.log(to.hash)
-    //   console.log(savedPosition)
-    //   // savedPosition 只有在 popstate 导航（如按浏览器的返回按钮）时可以获取。
-    //   if (savedPosition) {
-    //     return savedPosition
-    //   } else {
-    //     let position = {}
-    //     // 如果目标页面的url有锚点,  则滚动至锚点所在的位置
-    //     if (to.hash) {
-    //       console.log(to.hash)
-    //       position = { selector: to.hash }
-    //     }
-    //     return position
-    //   }
-    // }
+    middleware: 'user-agent'
   },
   // 全局CSS配置
   css: [{
@@ -147,9 +131,9 @@ module.exports = {
     '~/plugins/components.js',
     '~/plugins/mintui.js',
     '~/plugins/axios',
-    {
-      src: '~/plugins/vconsole.js',
-      ssr: false
-    },
+    // {
+    //   src: '~/plugins/vconsole.js',
+    //   ssr: false
+    // },
   ]
 }
