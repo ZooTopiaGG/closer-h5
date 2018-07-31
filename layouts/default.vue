@@ -39,9 +39,6 @@
     <section class="tj-dialog" @click.self="hiddenLogin" v-if="$store.state.visibleLogin">
       <dp-login :isAbsolute="$store.state.get_login_type"></dp-login>
     </section>
-    <section class="tj-dialog" @click.self="hiddenTextArea" v-if="$store.state.visibleMessage">
-      <dp-reply></dp-reply>
-    </section>
     <section class="tj-dialog" @click.self="hiddenConfirm" v-if="$store.state.confirm_stat">
       <dp-confirm></dp-confirm>
     </section>
@@ -73,7 +70,6 @@ export default {
       imgList: [],
       preIndex: 0,
       preShow: false,
-      visibleMessage: false,
       scrollTimer: 0
     };
   },
@@ -94,10 +90,6 @@ export default {
     hiddenLogin() {
       this.$store.commit("SET_VISIBLE_LOGIN", false);
     },
-    // 隐藏留言框
-    hiddenTextArea() {
-      this.$store.commit("SET_VISIBLE_MESSAGE", false);
-    },
     // 隐藏alert组件
     hiddenAlert() {
       this.$store.commit("SHOW_ALERT", false);
@@ -116,7 +108,7 @@ export default {
       nvg: navigator.userAgent,
       ref: location.pathname
     })
-    console.log(this.$store.state);    
+    // console.log(this.$store.state);    
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件

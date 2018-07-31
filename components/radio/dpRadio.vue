@@ -1,6 +1,5 @@
 <template>
   <label @change="onChange" class="dpRadio">
-    <!-- dp-radio-checked -->
     <span class="dp-radio">
       <i class="dp-radio-inner"></i>
       <input ref="_radio" type="radio" class='radio-button dp-radio-input' :disabled="disabled" @change="change" name="dpradio_10333"

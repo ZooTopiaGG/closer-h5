@@ -181,7 +181,7 @@ export default {
   left: 0;
   bottom: 0;
   color: #fff;
-  z-index: 999;
+  z-index: 99;
   box-sizing: border-box;
   .v2-top-controls {
     padding: 0 @m20;
