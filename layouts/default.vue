@@ -298,6 +298,7 @@ nav .communityName {
   bottom: 0;
   width: 100%;
   background: #fff;
+  z-index: 100;
 }
 .nuxts {
   margin-top: 13.07vw;
