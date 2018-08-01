@@ -460,14 +460,16 @@ export default {
       let res = await store.dispatch("down_statistics", {
         p1
       });
-      if (res) {
-        if (redirectUrl) {
-          this.downApp(redirectUrl);
-          return
-        } else {
-          this.downApp(url);
+      setTimeout(() => {
+        if (res) {
+          if (redirectUrl) {
+            this.downApp(redirectUrl);
+            return
+          } else {
+            this.downApp(url);
+          }
         }
-      }
+      }, 600)
     }
   }
 }

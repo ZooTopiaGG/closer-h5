@@ -65,9 +65,7 @@ export default {
       if (str === "enter_group") {
         redirectUrl = `${location.protocol}//${
           location.host
-        }?from=group&groupid=${self.$route.params.id}&limit=${
-              self.$store.state.group_info.group_info.join_limit
-            }`;
+        }?from=group&groupid=${self.$route.params.id}&tk=1`;
       } else if (str === "direct_bottom") {
         redirectUrl = "closer://jump/to/home";
       }

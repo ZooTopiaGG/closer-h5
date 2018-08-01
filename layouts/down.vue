@@ -130,7 +130,8 @@ export default {
         type: "else"
       });
     }
-    if (self.$route.query.from === "group") {
+    if (self.$route.query.from === "group" && self.$route.query.tk != 1) {
+      console.log(11221313);
       self.join_group();
     }
   },
