@@ -131,14 +131,14 @@ export default {
         type: "else"
       });
     }
-    if (self.$route.query.from === "group" && self.$route.query.tk != 1) {
-      console.log("1===", Cookie.get("token"));
-      console.log("2===", self.store.state.token);
-      self.join_group();
-    }
   },
   mounted() {
     let self = this;
+    if (self.$route.query.from === "group" && self.$route.query.tk != 1) {
+      console.log("1===", Cookie.get("token"));
+      console.log("2===", self.$store.state.token);
+      self.join_group();
+    }
     if (self.$com.isIOS()) {
       document.querySelector(".browser_ios").style.display = "block";
     } else {
