@@ -298,14 +298,15 @@ export default {
         iswb = false;
       // 微信内置浏览器
       iswx = /micromessenger/i.test(ua);
-
       // QQ内置浏览器
       isqq = /qq/i.test(ua);
       if (/mqqbrowser/i.test(ua)) {
         isqq = false;
       }
+
       // 微博内置浏览器
       iswb = /weibo/i.test(ua);
+
       return iswx || isqq || iswb;
     }
   },
@@ -343,10 +344,8 @@ export default {
         if (url.indexOf('?from=group') > -1) {
           let id = await this.getParam('groupid', url);
           location.href = `closer://jump/to/group`;
-          return
         } else if (url.indexOf('pkgname=com.ums.closer') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
-          return
         } else {
           location.href = url;
         }
@@ -355,12 +354,11 @@ export default {
         }, 1500)
         return;
       } else {
+        alert(url)
         if (url.indexOf('?from=group') > -1) {
           location.href = url
-          return
         } else if (url.indexOf('pkgname=com.ums.closer') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
-          return
         } else {
           location.href = `${location.protocol}//${location.host}?downurl=${url}`;
         }

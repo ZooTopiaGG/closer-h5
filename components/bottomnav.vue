@@ -3,19 +3,18 @@
   <section class="open-article flex flex-align-center">
     <section v-if="!($route.path.indexOf('group') > -1)">
       <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')">
-      <span v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1"><span>立即投稿，赚取稿费</span><i class="down-arrow"></i></span>      
-      <span v-else><span>打开贴近app，查看更多精彩文章</span><i class="down-arrow"></i></span>
-    </mt-button>
+        <span v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1"><span>立即投稿，赚取稿费</span><i class="down-arrow"></i></span>      
+        <span v-else><span>打开贴近app，查看更多精彩文章</span><i class="down-arrow"></i></span>
+      </mt-button>
     </section>
     <section v-else>
       <mt-button type="primary" size="small" class="open-app" @click="firstLogin">
-      <section class="flex flex-align-center flex-pack-center">
-        <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
-        <span>进入群组</span>
-      </section>
-    </mt-button>
+        <section class="flex flex-align-center flex-pack-center">
+          <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
+          <span>进入群组</span>
+        </section>
+      </mt-button>
     </section>
-    
   </section> 
 </template>
 <script>
