@@ -828,7 +828,7 @@ export const actions = {
   }) {
     let self = this,
       para,
-      url, fullname;
+      url, fullname, postscript;
     if (Cookie.get('user')) {
       fullname = JSON.parse(Cookie.get('user')).fullname
     } else {
