@@ -126,19 +126,21 @@ export default {
     // 验证code是否存在 并 返回待办事项
     console.log(self.$route);
     if (self.$route.query.code) {
-      self.$store.dispatch("get_code_by_login", {
+      let res = self.$store.dispatch("get_code_by_login", {
         code: self.$route.query.code,
         type: "else"
       });
+      if (res) {
+        if (self.$route.query.from === "group" && self.$route.query.tk != "1") {
+          console.log("1===", Cookie.get("token"));
+          console.log("2===", self.$store.state.token);
+          self.join_group();
+        }
+      }
     }
   },
   mounted() {
     let self = this;
-    if (self.$route.query.from === "group" && self.$route.query.tk != 1) {
-      console.log("1===", Cookie.get("token"));
-      console.log("2===", self.$store.state.token);
-      self.join_group();
-    }
     if (self.$com.isIOS()) {
       document.querySelector(".browser_ios").style.display = "block";
     } else {
