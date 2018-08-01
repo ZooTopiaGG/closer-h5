@@ -344,8 +344,10 @@ export default {
         if (url.indexOf('?from=group') > -1) {
           let id = await this.getParam('groupid', url);
           location.href = `closer://jump/to/group`;
-        } else if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+          return
+        } else if (url.indexOf('pkgname=com.ums.closer') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
+          return
         } else {
           location.href = url;
         }
@@ -354,10 +356,12 @@ export default {
         }, 1500)
         return;
       } else {
-        if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+        if (url.indexOf('?from=group') > -1) {
           location.href = url
-        } else if (url.indexOf('?downurl=closer://') > -1) {
+          return
+        } else if (url.indexOf('pkgname=com.ums.closer') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
+          return
         } else {
           location.href = `${location.protocol}//${location.host}?downurl=${url}`;
         }
