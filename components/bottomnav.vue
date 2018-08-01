@@ -31,15 +31,11 @@ export default {
       // 渲染页面前 先判断cookies token是否存在
       console.log(Cookie.get("user"));
       if (Cookie.get("token")) {
-        let para = {
+        let res = await self.$store.dispatch("join_group", {
           classid: self.$route.params.id,
           join_limit: self.$store.state.group_info.group_info.join_limit
-        };
-        console.log("paral===", para);
-        let r = await self.$store.dispatch("join_group", para);
-        console.log(r);
-        return;
-        if (r) {
+        });
+        if (res) {
           self.downApp(e, "enter_group");
         }
       } else {
@@ -47,6 +43,13 @@ export default {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           console.log(2222);
+          self.$com.down_statistics(
+            self.$store,
+            self.$route,
+            "",
+            "direct_bottom",
+            "wx"
+          );
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式

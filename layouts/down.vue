@@ -48,6 +48,7 @@
   </section>
 </template>
 <script>
+import Cookie from "js-cookie";
 export default {
   data() {
     return {
@@ -131,7 +132,8 @@ export default {
       });
     }
     if (self.$route.query.from === "group" && self.$route.query.tk != 1) {
-      console.log(11221313);
+      console.log("1===", Cookie.get("token"));
+      console.log("2===", self.store.state.token);
       self.join_group();
     }
   },
