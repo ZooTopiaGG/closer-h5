@@ -146,7 +146,6 @@ export default {
     // 登录
     async toLogin() {
       let self = this;
-      // console.log(self.isAbsolute);
       try {
         self.loading = 1;
         if (!$async.isPhoneNum(self.phone)) {

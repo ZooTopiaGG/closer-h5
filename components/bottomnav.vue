@@ -1,16 +1,21 @@
 
 <template>
   <section class="open-article flex flex-align-center">
-    <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')" v-if="!($route.path.indexOf('group') > -1)">
+    <section v-if="!($route.path.indexOf('group') > -1)">
+      <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')">
       <span v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1"><span>立即投稿，赚取稿费</span><i class="down-arrow"></i></span>      
       <span v-else><span>打开贴近app，查看更多精彩文章</span><i class="down-arrow"></i></span>
     </mt-button>
-    <mt-button type="primary" size="small" class="open-app" @click="firstLogin($event)" v-else>
+    </section>
+    <section v-else>
+      <mt-button type="primary" size="small" class="open-app" @click="firstLogin">
       <section class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
         <span>进入群组</span>
       </section>
     </mt-button>
+    </section>
+    
   </section> 
 </template>
 <script>
@@ -24,31 +29,26 @@ export default {
   methods: {
     // 先登录 再下载流程
     // 需要登录的操作 先判断后执行
-    async firstLogin(e) {
+    async firstLogin() {
       let self = this;
       self.loading = 1;
-      self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
+      await self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
       // 渲染页面前 先判断cookies token是否存在
-      console.log(Cookie.get("user"));
-      alert(Cookie.get("token"));
-      alert(self.$store.state.token);
-      if (Cookie.get("token")) {
+      let t = self.$store.state.token
+        ? self.$store.state.token
+        : Cookie.get("token");
+      if (t) {
         let res = await self.$store.dispatch("join_group", {
           classid: self.$route.params.id,
           join_limit: self.$store.state.group_info.group_info.join_limit
         });
-        console.log("res==", res);
-        alert(res);
         if (res) {
-          alert("111111");
-          self.downApp(e, "enter_group");
+          self.downApp("", "enter_group");
         }
       } else {
-        console.log(11111);
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
-          console.log(2222);
-          self.$com.down_statistics(
+          await self.$com.down_statistics(
             self.$store,
             self.$route,
             "",
@@ -65,7 +65,6 @@ export default {
             }`
           });
         } else {
-          console.log(3333);
           self.$store.commit("GET_LOGIN_TYPE", "toDown");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
@@ -85,7 +84,6 @@ export default {
       } else if (str === "direct_bottom") {
         redirectUrl = "closer://jump/to/home";
       }
-      alert(redirectUrl);
       self.$com.down_statistics(
         self.$store,
         self.$route,
@@ -102,6 +100,9 @@ export default {
 .open-article {
   height: 14.4vw;
   padding: 0 4vw;
+  > section {
+    width: 100%;
+  }
 }
 .open-app {
   width: 100%;

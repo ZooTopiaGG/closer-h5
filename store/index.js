@@ -848,9 +848,7 @@ export const actions = {
     } else {
       return true
     }
-    console.log('parahroup===', para)
     let data = await self.$axios.$post(`${url}`, para);
-    console.log('data===', data)
     return true
   },
   // 栏目小秘书消息

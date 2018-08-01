@@ -119,26 +119,24 @@ export default {
         join_limit: self.$route.query.limit
       });
       return res;
+    },
+    async login() {
+      let self = this;
+      let res = await self.$store.dispatch("get_code_by_login", {
+        code: self.$route.query.code,
+        type: "else"
+      });
+      if (res) {
+        if (self.$route.query.from === "group" && self.$route.query.tk != "1") {
+          self.join_group();
+        }
+      }
     }
   },
   beforeMount() {
     let self = this;
     // 验证code是否存在 并 返回待办事项
-    console.log(self.$route);
-    if (self.$route.query.code) {
-      let res = self.$store.dispatch("get_code_by_login", {
-        code: self.$route.query.code,
-        type: "else"
-      });
-      if (res) {
-        alert("login", res);
-        if (self.$route.query.from === "group" && self.$route.query.tk != "1") {
-          console.log("1===", Cookie.get("token"));
-          console.log("2===", self.$store.state.token);
-          self.join_group();
-        }
-      }
-    }
+    self.login();
   },
   mounted() {
     let self = this;
