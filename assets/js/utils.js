@@ -338,6 +338,7 @@ export default {
     return paramValue;
   },
   async downApp(url) {
+    console.log('url===', url)
     if (url) {
       if (!this.isJumpOut()) {
         if (url.indexOf('?from=group') > -1) {

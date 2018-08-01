@@ -35,6 +35,7 @@ export default {
           classid: self.$route.params.id,
           join_limit: self.$store.state.group_info.group_info.join_limit
         });
+        console.log("res==", res);
         if (res) {
           self.downApp(e, "enter_group");
         }
@@ -73,7 +74,7 @@ export default {
     async downApp(e, str) {
       let self = this,
         redirectUrl;
-      if (str === "enter_group") {
+      if (str == "enter_group") {
         redirectUrl = `${location.protocol}//${
           location.host
         }?from=group&groupid=${self.$route.params.id}&tk=1`;
