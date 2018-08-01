@@ -836,14 +836,17 @@ export const actions = {
     }
     if (join_limit == 0) {
       url = api.group.join
+      para = {
+        classid,
+      }
     } else if (join_limit == 1) {
       url = api.group.apply_join
+      para = {
+        classid,
+        postscript: `我是${fullname}，申请入群～`
+      }
     } else {
       return true
-    }
-    para = {
-      classid,
-      postscript: `我是${fullname}，申请入群～`
     }
     console.log('parahroup===', para)
     let data = await self.$axios.$post(`${url}`, para);
