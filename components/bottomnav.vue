@@ -29,17 +29,24 @@ export default {
       self.loading = 1;
       self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
       // 渲染页面前 先判断cookies token是否存在
+      console.log(Cookie.get("user"));
       if (Cookie.get("token")) {
-        let r = await self.$store.dispatch("join_group", {
+        let para = {
           classid: self.$route.params.id,
           join_limit: self.$store.state.group_info.group_info.join_limit
-        });
+        };
+        console.log("paral===", para);
+        let r = await self.$store.dispatch("join_group", para);
+        console.log(r);
+        return;
         if (r) {
           self.downApp(e, "enter_group");
         }
       } else {
+        console.log(11111);
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
+          console.log(2222);
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
@@ -50,6 +57,7 @@ export default {
             }`
           });
         } else {
+          console.log(3333);
           self.$store.commit("GET_LOGIN_TYPE", "toDown");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
         }
