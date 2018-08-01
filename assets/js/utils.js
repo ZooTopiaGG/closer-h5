@@ -342,7 +342,7 @@ export default {
       if (!this.isJumpOut()) {
         if (url.indexOf('?from=group') > -1) {
           let id = await this.getParam('groupid', url);
-          location.href = `closer://group/${id}`;
+          location.href = `closer://jump/to/group`;
         } else if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
         } else {
