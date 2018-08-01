@@ -174,8 +174,10 @@ export default {
           return false;
         }
         // 判断是否是在奖励金页面
-        let uo = Cookie.get("h5Cookies") ? Cookie.get("h5Cookies") : self.$store.state.h5Cookies;
-        let type = self.$route.path.indexOf("/invite") > -1 ? 'bonus': 'else';
+        let uo = Cookie.get("h5Cookies")
+          ? Cookie.get("h5Cookies")
+          : self.$store.state.h5Cookies;
+        let type = self.$route.path.indexOf("/invite") > -1 ? "bonus" : "else";
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
           token: self.code,
@@ -290,11 +292,15 @@ export default {
         self.$store.state.extension_text === "more_group_member" ||
         self.$store.state.extension_text === "enter_group"
       ) {
+        await self.$store.dispatch("join_group", {
+          classid: self.$route.params.id,
+          join_limit: self.$store.state.group_info.group_info.join_limit
+        });
         redirectUrl = `${location.protocol}//${
           location.host
-        }?from=group&groupid=${self.$route.params.id}`;
+        }?from=group&groupid=${self.$route.params.id}&tk=1`;
       }
-      self.$com.down_statistics(
+      await self.$com.down_statistics(
         self.$store,
         self.$route,
         str,

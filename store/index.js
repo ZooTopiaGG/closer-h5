@@ -831,6 +831,8 @@ export const actions = {
       url, fullname;
     if (Cookie.get('user')) {
       fullname = JSON.parse(Cookie.get('user')).fullname
+    } else {
+      fullname = 'xxx'
     }
     if (join_limit == 0) {
       url = api.group.join
@@ -843,7 +845,9 @@ export const actions = {
       classid,
       postscript: `我是${fullname}，申请入群～`
     }
-    let data = await self.$axios.$post(`${url}`, para);
+    console.log('parahroup===', para)
+    let data = await self.$axios.$get(`${url}?classid=${classid}&postscript=我是${fullname}，申请入群～`);
+    console.log('data===', data)
     return true
   },
   // 栏目小秘书消息
