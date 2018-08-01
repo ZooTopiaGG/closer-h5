@@ -30,13 +30,17 @@ export default {
       self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
       // 渲染页面前 先判断cookies token是否存在
       console.log(Cookie.get("user"));
+      alert(Cookie.get("token"));
+      alert(self.$store.state.token);
       if (Cookie.get("token")) {
         let res = await self.$store.dispatch("join_group", {
           classid: self.$route.params.id,
           join_limit: self.$store.state.group_info.group_info.join_limit
         });
         console.log("res==", res);
+        alert(res);
         if (res) {
+          alert("111111");
           self.downApp(e, "enter_group");
         }
       } else {
@@ -81,6 +85,7 @@ export default {
       } else if (str === "direct_bottom") {
         redirectUrl = "closer://jump/to/home";
       }
+      alert(redirectUrl);
       self.$com.down_statistics(
         self.$store,
         self.$route,

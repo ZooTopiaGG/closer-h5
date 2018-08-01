@@ -131,6 +131,7 @@ export default {
         type: "else"
       });
       if (res) {
+        alert("login", res);
         if (self.$route.query.from === "group" && self.$route.query.tk != "1") {
           console.log("1===", Cookie.get("token"));
           console.log("2===", self.$store.state.token);

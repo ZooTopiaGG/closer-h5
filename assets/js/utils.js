@@ -86,7 +86,6 @@ export default {
       const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
       let size, flag;
-      console.log(pImg)
       pImg.forEach((x, i) => {
         let
           srcArray = x.match(regexSrc),
@@ -124,7 +123,6 @@ export default {
         }
         // 正则替换富文本内的img标签
         // 替换不同文本
-        console.log('newM===', newM)
         html = html.replace(x, newM);
       });
     }
