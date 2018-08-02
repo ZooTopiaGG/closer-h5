@@ -22,6 +22,7 @@ let api = {
     // 邀请人书
     invite_counts: 'closer_user.invite_counts',
     // message: 
+    send_message: 'closer_share.send_message'
   },
   command: {
     // 贴子详情

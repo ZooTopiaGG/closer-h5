@@ -124,8 +124,6 @@ export default {
             newM = '';
           }
         }
-        // fix 图片是中文带路径 补丁
-
         // 正则替换富文本内的img标签
         // 替换不同文本
         html = html.replace(x, newM);

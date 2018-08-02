@@ -59,9 +59,13 @@
         </section>    
       </section>
     </section>
-    <section v-else class="nomessage flex flex-align-center flex-pack-center" @click="writeMessage('comment', $route.params.id)">
-      <span>写留言</span>
-    </section>
+    <section v-else>
+      <section class="split-box"></section>
+        <section class="nomessage flex flex-align-center flex-pack-justify">
+        <span class="prompt">暂无留言，赶紧留言板～</span>
+        <span class="write flex flex-align-center" @click="writeMessage('comment', $route.params.id)">写留言</span>
+      </section>
+    </section> 
    </section>
 </template>
 <script>
@@ -271,12 +275,19 @@ export default {
   }
 }
 .nomessage {
-  height: 26.67vw;
+  height: 13.34vw;
   box-sizing: border-box;
-  padding-top: @m20 / 2;
-  background: #f4f4f4;
+  padding: @m20 / 2 @m20;
+  background: #fff;
   color: @focuscolor;
   font-size: @basefont;
+  .prompt {
+    color: @textcolor;
+  }
+  .write {
+    height: 13.34vw;
+    padding-left: @m20;
+  }
 }
 @media screen and (min-width: 681px) {
   .feed-2 {

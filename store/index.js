@@ -821,6 +821,7 @@ export const actions = {
   },
   // 加入群组
   async join_group({
+    state,
     commit
   }, {
     classid,
@@ -840,26 +841,17 @@ export const actions = {
         classid,
       }
     } else if (join_limit == 1) {
-      url = api.group.apply_join
+      url = api.admin.send_message
       para = {
-        classid,
-        postscript: `我是${fullname}，申请入群～`
+        id: classid || state.group_info.group_info.id,
+        type: 'group',
+        name: state.group_info.group_info.name || '',
+        communityId: state.group_info.group_info.communityid || ''
       }
     } else {
       return true
     }
     let data = await self.$axios.$post(`${url}`, para);
     return true
-  },
-  // 栏目小秘书消息
-  // async send_message({commit}, {
-  //   para
-  // }){
-  //   let self = this;
-  //   try {
-
-  //   } catch(e){
-
-  //   }
-  // } 
+  }
 }

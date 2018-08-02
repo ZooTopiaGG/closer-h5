@@ -7,7 +7,6 @@
       <textarea name="textarea" class="mint-field" placeholder="发表你的意见吧～" v-model="textarea"></textarea>
       <mt-button type="primary" @click="toMessage">留 言</mt-button>
     </section>
-    <section id="emoji"></section>
   </section>
 </template>
 <script>
@@ -95,17 +94,6 @@ export default {
     }
   },
   beforeMount() {
-    let s, l;
-    l = document.createElement("link");
-    l.href =
-      "https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css";
-    l.rel = "stylesheet";
-    l.type = "text/css";
-    document.head.appendChild(l);
-    s = document.createElement("script");
-    s.src =
-      "https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/js/emojify.min.js";
-    document.body.appendChild(s);
     if (window.sessionStorage.getItem("title")) {
       this.title = window.sessionStorage.getItem("title");
     } else {
@@ -119,27 +107,7 @@ export default {
     }
     this.beforeWxLogin();
   },
-  mounted() {
-    this.$nextTick(() => {
-      setTimeout(() => {
-        emojify.setConfig({
-          tag_type: "section", // Only run emojify.js on this element
-          only_crawl_id: null, // Use to restrict where emojify.js applies
-          img_dir: "images/emoji", // Directory for emoji images
-          ignored_tags: {
-            // Ignore the following tags
-            SCRIPT: 1,
-            TEXTAREA: 1,
-            A: 1,
-            PRE: 1,
-            CODE: 1
-          }
-        });
-        console.log("emojify====", emojify);
-        emojify.run();
-      }, 1000);
-    });
-  }
+  mounted() {}
 };
 </script>
 <style scoped lang="less">
