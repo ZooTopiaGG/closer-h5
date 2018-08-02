@@ -32,16 +32,16 @@ module.exports = {
     // 可使用外链形式 引入第三方库
     script: [{
       innerHTML: `
-        document.onreadystatechange = function () {
-          if (document.readyState === "interactive" || document.readyState === "complete") {
-            canShowContent()
-            try {
-              window.webkit.messageHandlers.canShowContent.postMessage(null);
-            } catch (e) {}
+          document.onreadystatechange = function () {
+            if (document.readyState === "interactive" || document.readyState === "complete") {
+              canShowContent()
+              try {
+                window.webkit.messageHandlers.canShowContent.postMessage(null);
+              } catch (e) {}
+            }
           }
-        }
-        function canShowContent() {}`
-    }, ],
+          function canShowContent() {}`
+    }],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{
       rel: 'icon',

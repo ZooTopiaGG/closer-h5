@@ -105,22 +105,27 @@ export default {
             nH = heightArray[1] * 100 / widthArray[1] + "%";
           }
           minH = nH;
+          if (srcArray) {
+            _src = srcArray[1].replace(/\+/g, "%2b");
+            newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" class="imgbox" data-index="${i+1}" data-src=`);
+          } else {
+            _src = ''
+            newM = '';
+          }
         } else {
           nW = '100%';
           nH = "auto";
           minH = '28.27vw';
+          if (srcArray) {
+            _src = srcArray[1].replace(/\+/g, "%2b");
+            newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy2" class="imgbox" data-index="${i+1}" data-src=`);
+          } else {
+            _src = '';
+            newM = '';
+          }
         }
         // fix 图片是中文带路径 补丁
-        if (srcArray) {
-          _src = srcArray[1].replace(/\+/g, "%2b");
-          newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" class="imgbox" data-index="${i+1}" data-src=`);
-          // flag = `<section class='imgbox tiejin-imgbox' style="width: 100%;max-width: 100%;height: ${nH};min-height: ${minH}">
-          //           <img style="width: ${nW};height: ${nH}; max-width: 100%;" data-index="${i+1}" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==' data-src='${_src}'/>
-          //       </section>`;
-        } else {
-          _src = ''
-          newM = '';
-        }
+
         // 正则替换富文本内的img标签
         // 替换不同文本
         html = html.replace(x, newM);

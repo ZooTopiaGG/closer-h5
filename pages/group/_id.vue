@@ -54,19 +54,17 @@
     </section>    
     <section class="works flex-1">
       <dp-feed v-if="$store.state.feed_list.length > 0" :title="title" :feed-list="group_feed_list"></dp-feed>
-      <no-thing v-else></no-thing>
     </section>
   </section>
 </template>
 <script>
 import Cookie from "js-cookie";
-import noThing from "~/components/nothing";
 export default {
-  // middleware: "group",
   head() {
     return {
-      title: `贴近 - TieJin.cn - ${this.$store.state.group_info.group_info.name || ''}`
-    }
+      title: `贴近 - TieJin.cn - ${this.$store.state.group_info.group_info
+        .name || ""}`
+    };
   },
   async fetch({ app, error, params, store }) {
     let para2 = {
@@ -94,22 +92,23 @@ export default {
       });
     }
   },
-  components: {
-    noThing
-  },
   computed: {
     description() {
-      try{
-        return JSON.parse(this.$store.state.group_info.group_info.group.description)[0].content
-      } catch (e){
-        return this.$store.state.group_info.group_info.group.description
+      try {
+        return JSON.parse(
+          this.$store.state.group_info.group_info.group.description
+        )[0].content;
+      } catch (e) {
+        return this.$store.state.group_info.group_info.group.description;
       }
     },
     announcement() {
       try {
-        return JSON.parse(this.$store.state.group_info.group_info.announcement)[0].content
-      } catch(e) {
-        return this.$store.state.group_info.group_info.announcement
+        return JSON.parse(
+          this.$store.state.group_info.group_info.announcement
+        )[0].content;
+      } catch (e) {
+        return this.$store.state.group_info.group_info.announcement;
       }
     }
   },

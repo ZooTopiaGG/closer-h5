@@ -42,21 +42,19 @@
     </section>
     <section class="common-feed">
       <dp-feed v-if="$store.state.feed_list.length > 0" title="热门文章" :feed-list="community_list"></dp-feed>
-      <no-thing v-else></no-thing>
     </section>
   </section>
 </template>
 <script>
 import Cookie from "js-cookie";
-import noThing from "~/components/nothing";
 import dpFocus from "~/components/dpfocus";
 import dpLogo from "~/components/dplogo";
 
 export default {
   head() {
     return {
-      title: `贴近 - TieJin.cn - ${this.$store.state.res.name || ''}`
-    }
+      title: `贴近 - TieJin.cn - ${this.$store.state.res.name || ""}`
+    };
   },
   async fetch({ app, error, params, store, query }) {
     // 分享后校验adid是否存在
@@ -74,7 +72,6 @@ export default {
     };
   },
   components: {
-    noThing,
     dpFocus,
     dpLogo
   },
