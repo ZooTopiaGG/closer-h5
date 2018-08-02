@@ -615,6 +615,8 @@ export default {
         f = el.dataset.feedlazy;
       if (f === "feedlazy" && h && parseInt(h) != 0) {
         el.style.cssText = `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;`;
+      } else if (f === "feedlazy2") {
+        el.style.cssText = `height: auto;`;
       }
     });
   }
