@@ -1,16 +1,20 @@
 
 <template>
   <section class="open-article flex flex-align-center">
-    <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')" v-if="!($route.path.indexOf('group') > -1)">
-      <span v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1"><span>立即投稿，赚取稿费</span><i class="down-arrow"></i></span>      
-      <span v-else><span>打开贴近app，查看更多精彩文章</span><i class="down-arrow"></i></span>
-    </mt-button>
-    <mt-button type="primary" size="small" class="open-app" @click="firstLogin($event)" v-else>
-      <section class="flex flex-align-center flex-pack-center">
-        <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
-        <span>进入群组</span>
-      </section>
-    </mt-button>
+    <section v-if="!($route.path.indexOf('group') > -1)">
+      <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')">
+        <span v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1"><span>立即投稿，赚取稿费</span><i class="down-arrow"></i></span>      
+        <span v-else><span>打开贴近app，查看更多精彩文章</span><i class="down-arrow"></i></span>
+      </mt-button>
+    </section>
+    <section v-else>
+      <mt-button type="primary" size="small" class="open-app" @click="firstLogin">
+        <section class="flex flex-align-center flex-pack-center">
+          <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
+          <span>进入群组</span>
+        </section>
+      </mt-button>
+    </section>
   </section> 
 </template>
 <script>
@@ -24,20 +28,32 @@ export default {
   methods: {
     // 先登录 再下载流程
     // 需要登录的操作 先判断后执行
-    async firstLogin(e) {
+    async firstLogin() {
       let self = this;
       self.loading = 1;
-      self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
+      await self.$store.commit("SET_EXTENSION_TEXT", "enter_group");
       // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
-        await self.$store.dispatch("join_group", {
-          join_limit: self.$store.state.group_info.group_info.join_limit,
-          classid: self.$route.params.id
+      let t = self.$store.state.token
+        ? self.$store.state.token
+        : Cookie.get("token");
+      if (t) {
+        let res = await self.$store.dispatch("join_group", {
+          classid: self.$route.params.id,
+          join_limit: self.$store.state.group_info.group_info.join_limit
         });
-        self.downApp(e, "enter_group");
+        if (res) {
+          self.downApp("", "enter_group");
+        }
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
+          await self.$com.down_statistics(
+            self.$store,
+            self.$route,
+            "",
+            "direct_bottom",
+            "wx"
+          );
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
@@ -60,10 +76,10 @@ export default {
     async downApp(e, str) {
       let self = this,
         redirectUrl;
-      if (str === "enter_group") {
+      if (str == "enter_group") {
         redirectUrl = `${location.protocol}//${
           location.host
-        }?from=group&groupid=${self.$route.params.id}`;
+        }?from=group&groupid=${self.$route.params.id}&tk=1`;
       } else if (str === "direct_bottom") {
         redirectUrl = "closer://jump/to/home";
       }
@@ -83,6 +99,9 @@ export default {
 .open-article {
   height: 14.4vw;
   padding: 0 4vw;
+  > section {
+    width: 100%;
+  }
 }
 .open-app {
   width: 100%;

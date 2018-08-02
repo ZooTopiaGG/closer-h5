@@ -1,6 +1,6 @@
 <template>
    <!-- 留言板 --> 
-   <section class="feed-2" id="messageboard">
+   <section class="feed-2" id="messageboard" v-if="!$store.state.isPre">
      <section v-if="$store.state.GET_MESSAGE_STATE && messagelist.data.length > 0">
       <section class="split-box"></section>
       <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->

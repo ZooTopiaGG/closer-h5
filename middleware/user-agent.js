@@ -18,7 +18,7 @@ export default async function (context) {
     let nvg = context.userAgent.toLowerCase()
     // 判断UA，并发出请求
     if (!(nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1) && !context.store.state.h5Cookies) {
-      let res = await context.store.dispatch("get_adcookie", {
+      await context.store.dispatch("get_adcookie", {
         webUdid: true
       });
     }

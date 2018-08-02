@@ -48,10 +48,10 @@ export const mutations = {
   async GET_USER_AGENT(state, para) {
     // 通过中间件。判断在路由之前执行 判断路由类型
     let nvg = para.nvg.toLowerCase(),
-     refer = para.ref,
-     r = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
-     _result = r || refer.indexOf('/invite') > -1;
-    state.version_1_2 = await Coms.compareVersion(nvg);     
+      refer = para.ref,
+      r = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
+      _result = r || refer.indexOf('/invite') > -1;
+    state.version_1_2 = await Coms.compareVersion(nvg);
     state.GET_MESSAGE_STATE = !_result;
     state.GET_IS_APP = r
     state.agent = nvg;
@@ -255,7 +255,8 @@ export const actions = {
 
   // 通过code进行登录，如果get_wx_auth被调用，get_code_by_login才会被调用
   async get_code_by_login({
-    commit
+    commit,
+    state
   }, {
     code,
     // $router,
@@ -263,7 +264,12 @@ export const actions = {
     type
   }) {
     let self = this,
-      para;
+      para, uo;
+    if (Cookie.get("h5Cookies")) {
+      uo = Cookie.get("h5Cookies")
+    } else {
+      uo = state.h5Cookies
+    }
     // 注意： code 只能用一次，所以这里校验了 就不能再登录了，需要将校验放在登录里面
     // $router 是否存在 验证是否是奖励金登录
     if (type && type === 'bonus') {
@@ -293,7 +299,7 @@ export const actions = {
           nickName: nickName,
           avatar: avatar,
           protocol: "WEB_SOCKET",
-          udid: Cookie.get('h5Cookies'),
+          udid: uo,
           adid: Cookie.get('h5Adid') || 'closer-invitenew',
         }
       } else {
@@ -304,7 +310,7 @@ export const actions = {
         plateform: 2,
         code: code,
         protocol: "WEB_SOCKET",
-        udid: Cookie.get('h5Cookies'),
+        udid: uo,
         adid: Cookie.get('h5Adid') || 'closer-share'
       }
     }
@@ -343,6 +349,7 @@ export const actions = {
   },
   // 通过token登录， 先获取cookie查看token是否过期 如果过期则调用授权，如果没有过期则调用get_token_by_login获取用户信息
   async get_token_by_login({
+    state,
     commit
   }, {
     phone,
@@ -354,7 +361,12 @@ export const actions = {
     // 邀新 inviter参数
     try {
       let self = this,
-        para;
+        para, uo;
+      if (Cookie.get("h5Cookies")) {
+        uo = Cookie.get("h5Cookies")
+      } else {
+        uo = state.h5Cookies
+      }
       if (type && type === 'bonus') {
         para = {
           type: 'phone',
@@ -375,7 +387,7 @@ export const actions = {
             phone: phone,
             token: token,
             inviter: inv.id,
-            udid: Cookie.get('h5Cookies'),
+            udid: uo,
             adid: Cookie.get('h5Adid') || 'closer-invitenew',
             protocol: 'WEB_SOCKET'
           }
@@ -390,7 +402,7 @@ export const actions = {
         para = {
           phone: phone,
           token: token,
-          udid: Cookie.get('h5Cookies'),
+          udid: uo,
           protocol: 'WEB_SOCKET',
           adid: Cookie.get('h5Adid') || 'closer-share'
         }
@@ -819,17 +831,22 @@ export const actions = {
       url, fullname;
     if (Cookie.get('user')) {
       fullname = JSON.parse(Cookie.get('user')).fullname
+    } else {
+      fullname = 'xxx'
     }
-    if (join_limit === 0) {
+    if (join_limit == 0) {
       url = api.group.join
-    } else if (join_limit === 1) {
+      para = {
+        classid,
+      }
+    } else if (join_limit == 1) {
       url = api.group.apply_join
+      para = {
+        classid,
+        postscript: `我是${fullname}，申请入群～`
+      }
     } else {
       return true
-    }
-    para = {
-      classid,
-      postscript: `我是${fullname}，申请入群～`
     }
     let data = await self.$axios.$post(`${url}`, para);
     return true

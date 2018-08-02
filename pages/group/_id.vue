@@ -63,7 +63,12 @@ import Cookie from "js-cookie";
 import noThing from "~/components/nothing";
 export default {
   // middleware: "group",
-  async asyncData({ app, error, params, store }) {
+  head() {
+    return {
+      title: `贴近 - TieJin.cn - ${this.$store.state.group_info.group_info.name || ''}`
+    }
+  },
+  async fetch({ app, error, params, store }) {
     let para2 = {
       groupId: params.id
     };

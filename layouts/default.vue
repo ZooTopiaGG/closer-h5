@@ -104,11 +104,11 @@ export default {
   },
   mounted() {
     let self = this;
-    this.$store.commit('GET_USER_AGENT', {
+    this.$store.commit("GET_USER_AGENT", {
       nvg: navigator.userAgent,
-      ref: location.pathname
-    })
-    // console.log(this.$store.state);    
+      ref: location.href
+    });
+    // console.log(this.$store.state);
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
@@ -155,14 +155,14 @@ export default {
           title = group.name ? group.name : "贴近群组";
           if (group.description) {
             let description;
-            try{
+            try {
               description = JSON.parse(
                 self.$store.state.group_info.group_info.group.description
               );
               desc = description[0].content
-              ? description[0].content
-              : "贴近一点 看身边";
-            }catch(e) {
+                ? description[0].content
+                : "贴近一点 看身边";
+            } catch (e) {
               desc = self.$store.state.group_info.group_info.group.description;
             }
           } else {
@@ -298,6 +298,7 @@ nav .communityName {
   bottom: 0;
   width: 100%;
   background: #fff;
+  z-index: 100;
 }
 .nuxts {
   margin-top: 13.07vw;

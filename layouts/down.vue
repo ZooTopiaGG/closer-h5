@@ -48,6 +48,7 @@
   </section>
 </template>
 <script>
+import Cookie from "js-cookie";
 export default {
   data() {
     return {
@@ -71,10 +72,7 @@ export default {
             }, 1000);
             return;
           } else if (self.$com.getParam("group", location.href)) {
-            location.href = `closer://group/${self.$com.getParam(
-              "groupid",
-              location.href
-            )}`;
+            location.href = `closer://closer://jump/to/group`;
             setTimeout(() => {
               location.href = self.downUrl;
             }, 1000);
@@ -115,24 +113,30 @@ export default {
       return iswx || isqq || iswb;
     },
     async join_group() {
-      await self.$store.dispatch("join_group", {
-        join_limit: self.$route.query.limit,
-        classid: self.$route.query.groupid
+      let self = this;
+      let res = await self.$store.dispatch("join_group", {
+        classid: self.$route.query.groupid,
+        join_limit: self.$route.query.limit
       });
+      return res;
+    },
+    async login() {
+      let self = this;
+      let res = await self.$store.dispatch("get_code_by_login", {
+        code: self.$route.query.code,
+        type: "else"
+      });
+      if (res) {
+        if (self.$route.query.from === "group" && self.$route.query.tk != "1") {
+          self.join_group();
+        }
+      }
     }
   },
   beforeMount() {
     let self = this;
     // 验证code是否存在 并 返回待办事项
-    if (self.$route.query.code) {
-      self.$store.dispatch("get_code_by_login", {
-        code: self.$route.query.code,
-        type: "else"
-      });
-    }
-    if (self.$route.query.from === "group") {
-      self.join_group();
-    }
+    self.login();
   },
   mounted() {
     let self = this;
