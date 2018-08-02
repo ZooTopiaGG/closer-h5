@@ -261,14 +261,12 @@
         </section>
         <!-- 热门文章 -->
         <dp-feed v-if="hot_list.length > 0" title="热门文章" :feed-list="hot_list"></dp-feed>
-        <no-thing v-else></no-thing>
       </section>
     </section>
   </section>
 </template>
 <script>
 import Cookie from "js-cookie";
-import noThing from "~/components/nothing";
 import logoTab from "~/components/logo";
 import messageBoard from "~/components/messageboard";
 import dpVideo from "~/components/dpvideo";
@@ -382,7 +380,6 @@ export default {
     };
   },
   components: {
-    noThing,
     logoTab,
     messageBoard,
     dpVideo
