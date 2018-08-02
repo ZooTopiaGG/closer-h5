@@ -49,8 +49,14 @@ export default function ({
       if (store.state.h5Adid) {
         config.headers.common['X-Adid'] = store.state.h5Adid
       }
-      config.headers.common['X-Udid'] = store.state.h5Cookies || 'h5-SRjHazKvYslHxwZxjy5tql9G4edf3d';
-      if (store.state.h5Cookies) {
+      let co;
+      try{
+        co = Cookies.get('h5Cookies')
+      } catch(e) {
+        co = store.state.h5Cookies
+      }
+      config.headers.common['X-Udid'] = co || 'h5-SRjHazKvYslHxwZxjy5tql9G4edf3d';
+      if (co) {
         config.headers.common['Closer-Agent'] = 'Closer-H5';
       }
     }

@@ -298,14 +298,15 @@ export default {
         iswb = false;
       // 微信内置浏览器
       iswx = /micromessenger/i.test(ua);
-
       // QQ内置浏览器
       isqq = /qq/i.test(ua);
       if (/mqqbrowser/i.test(ua)) {
         isqq = false;
       }
+
       // 微博内置浏览器
       iswb = /weibo/i.test(ua);
+
       return iswx || isqq || iswb;
     }
   },
@@ -342,8 +343,8 @@ export default {
       if (!this.isJumpOut()) {
         if (url.indexOf('?from=group') > -1) {
           let id = await this.getParam('groupid', url);
-          location.href = `closer://group/${id}`;
-        } else if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+          location.href = `closer://jump/to/group`;
+        } else if (url.indexOf('pkgname=com.ums.closer') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
         } else {
           location.href = url;
@@ -353,9 +354,10 @@ export default {
         }, 1500)
         return;
       } else {
-        if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+        alert(url)
+        if (url.indexOf('?from=group') > -1) {
           location.href = url
-        } else if (url.indexOf('?downurl=closer://') > -1) {
+        } else if (url.indexOf('pkgname=com.ums.closer') > -1) {
           location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer';
         } else {
           location.href = `${location.protocol}//${location.host}?downurl=${url}`;
@@ -462,8 +464,12 @@ export default {
       });
       if (res) {
         if (redirectUrl) {
-          this.downApp(redirectUrl);
-          return
+          if (redirectUrl === 'wx') {
+            return true
+          } else {
+            this.downApp(redirectUrl);
+            return
+          }
         } else {
           this.downApp(url);
         }

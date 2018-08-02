@@ -25,7 +25,7 @@
       'cursor': true,
       'margin-top-20': true, 
       'tj-btn': true,
-      notweixin: isAbsolute === 'inviter'
+      notweixin: isAbsolute == 'inviter',
     }" @click="toLogin">
       <section class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
@@ -36,8 +36,7 @@
     <mt-button type="primary" v-else :disabled="loading === 1" :class="{
       'cursor': true,
       'margin-top-20': true, 
-      'tj-btn': true,
-      notweixin: isAbsolute === 'inviter'
+      'tj-btn': true
     }" @click="toBind">
       <section class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
@@ -147,7 +146,6 @@ export default {
     // 登录
     async toLogin() {
       let self = this;
-      // console.log(self.isAbsolute);
       try {
         self.loading = 1;
         if (!$async.isPhoneNum(self.phone)) {
@@ -175,16 +173,14 @@ export default {
           return false;
         }
         // 判断是否是在奖励金页面
-        let type;
-        if (self.$route.path.indexOf("/invite") === -1) {
-          type = "else";
-        } else {
-          type = "bonus";
-        }
+        let uo = Cookie.get("h5Cookies")
+          ? Cookie.get("h5Cookies")
+          : self.$store.state.h5Cookies;
+        let type = self.$route.path.indexOf("/invite") > -1 ? "bonus" : "else";
         let status = await self.$store.dispatch("get_token_by_login", {
           phone: self.phone,
           token: self.code,
-          udid: Cookie.get("h5Cookies"),
+          udid: uo,
           type: type
         });
         if (status) {
@@ -295,11 +291,15 @@ export default {
         self.$store.state.extension_text === "more_group_member" ||
         self.$store.state.extension_text === "enter_group"
       ) {
+        await self.$store.dispatch("join_group", {
+          classid: self.$route.params.id,
+          join_limit: self.$store.state.group_info.group_info.join_limit
+        });
         redirectUrl = `${location.protocol}//${
           location.host
-        }?from=group&groupid=${self.$route.params.id}`;
+        }?from=group&groupid=${self.$route.params.id}&tk=1`;
       }
-      self.$com.down_statistics(
+      await self.$com.down_statistics(
         self.$store,
         self.$route,
         str,
@@ -376,6 +376,6 @@ export default {
   line-height: 1.7;
 }
 .notweixin {
-  margin-top: 20px;
+  margin: 10px 0;
 }
 </style>

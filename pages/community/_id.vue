@@ -7,9 +7,12 @@
         <dp-logo></dp-logo>        
         <section>{{ $store.state.res.name }}</section>
       </section>
-      <section class="community-desc">
+      <section class="community-desc" v-if="!res.community.description">
         <section>用心写出有态度，有深度，有高度的文章</section>
         <section>请关注我们吧～</section>
+      </section>
+      <section class="community-desc" v-else>
+        <section>{{ res.community.description }}</section>
       </section>
       <dp-focus :tjFocus="tjFocus"></dp-focus>
     </section>
@@ -50,34 +53,17 @@ import dpFocus from "~/components/dpfocus";
 import dpLogo from "~/components/dplogo";
 
 export default {
-  async asyncData({ app, error, params, store, query }) {
-    try {
-      // 分享后校验adid是否存在
-      if (query && query.adid) {
-        store.commit("SET_ADID", query.adid);
-      } else {
-        store.commit("SET_ADID", "");
-      }
-      // 获取栏目详情
-      let community = await app.$axios.$get(
-        `${api.community.show}?communityid=${params.id}`
-      );
-      if (community.code === 0) {
-        // 设置communityid到res状态
-        store.commit("SET_RES", community.result);
-        // 关注状态
-        if (community.result.isFollowed) {
-          store.commit("SET_FOCUS_STAT", community.result.isFollowed);
-        }
-        community.result.communityid = params.id;
-        return {
-          res: {
-            community: community.result
-          }
-        };
-      }
-    } catch (err) {
-      error({ message: `${err}` });
+  head() {
+    return {
+      title: `贴近 - TieJin.cn - ${this.$store.state.res.name || ''}`
+    }
+  },
+  async fetch({ app, error, params, store, query }) {
+    // 分享后校验adid是否存在
+    if (query && query.adid) {
+      store.commit("SET_ADID", query.adid);
+    } else {
+      store.commit("SET_ADID", "");
     }
   },
   header() {
@@ -113,6 +99,31 @@ export default {
     async downApp(str) {
       let self = this;
       self.$com.down_statistics(self.$store, self.$route, str, "more_group");
+    },
+    async communityDetails() {
+      let app = this,
+        store = app.$store,
+        query = app.$route.query,
+        params = app.$route.params;
+      if (query && query.adid) {
+        store.commit("SET_ADID", query.adid);
+      } else {
+        store.commit("SET_ADID", "");
+      }
+      // 获取栏目详情
+      let community = await app.$axios.$get(
+        `${api.community.show}?communityid=${params.id}`
+      );
+      if (community.code === 0) {
+        // 设置communityid到res状态
+        store.commit("SET_RES", community.result);
+        // 关注状态
+        if (community.result.isFollowed) {
+          store.commit("SET_FOCUS_STAT", community.result.isFollowed);
+        }
+        community.result.communityid = params.id;
+        app.res.community = community.result;
+      }
     },
     // 获取贴子列表
     async getFeedList() {
@@ -200,6 +211,7 @@ export default {
   beforeMount() {
     let self = this;
     self.focusWxLogin();
+    self.communityDetails();
     self.getFeedList();
     self.getGroupList();
   }
@@ -312,7 +324,7 @@ export default {
 .community-desc {
   font-size: 16px;
   line-height: 1.6;
-  color: @textcolor;
+  color: @scolor;
   margin-bottom: @m15 * 4;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="dpFeed">
+  <section class="dpFeed" v-if="!$store.state.isPre">
     <section class="split-box"></section> 
     <section class="hots-article flex flex-align-center">
       {{ title }}
