@@ -233,7 +233,7 @@
         <!-- 发帖者信息 神议论和长图文区别 -->
         <section v-if="!$store.state.version_1_2">
           <section class="author-list" v-if="$store.state.res.int_category != 3">
-            <p v-if="$store.state.res.nickname">编辑：<span>{{ $store.state.res.nickname }}</span></p>
+            <p v-if="$store.state.res.nickname">小编：<span>{{ $store.state.res.nickname }}</span></p>
             <p v-if="$store.state.res.authors">作者：{{ $store.state.res.authors }} </p>
           </section>
           <section v-else class="author-list">
@@ -261,12 +261,14 @@
         </section>
         <!-- 热门文章 -->
         <dp-feed v-if="hot_list.length > 0" title="热门文章" :feed-list="hot_list"></dp-feed>
+        <no-thing v-else></no-thing>
       </section>
     </section>
   </section>
 </template>
 <script>
 import Cookie from "js-cookie";
+import noThing from "~/components/nothing";
 import logoTab from "~/components/logo";
 import messageBoard from "~/components/messageboard";
 import dpVideo from "~/components/dpvideo";
@@ -380,6 +382,7 @@ export default {
     };
   },
   components: {
+    noThing,
     logoTab,
     messageBoard,
     dpVideo
@@ -612,7 +615,7 @@ export default {
         f = el.dataset.feedlazy;
       if (f === "feedlazy" && h && parseInt(h) != 0) {
         el.style.cssText = `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;`;
-      } else if (f === "feedlazy2" && h && parseInt(h) != 0) {
+      } else if (f === "feedlazy2") {
         el.style.cssText = `height: auto;`;
       }
     });
