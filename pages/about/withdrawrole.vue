@@ -23,3 +23,12 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  head() {
+    return {
+      title: "提现规则"
+    };
+  }
+};
+</script>

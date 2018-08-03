@@ -1,36 +1,36 @@
 <template>
   <section>
     <!-- 未播放时, 播放结束时 -->
-      <section class="video-poster" @click="playVideo" v-lazy:background-image="$store.state.content.videos[0].imageUrl">
-        <span class="shipin"></span>
-      </section>
-      <!-- 正在播放时 -->
-      <section class="video-playing" @click="pauseVideo">
-      </section>
-      <!-- 播放暂停 -->
-      <section class="video-pause" @click="playPauseVideo">
-        <span class="shipin"></span>
-      </section>
-      <!-- 时间 -->
-      <section class="v2-controls flex flex-v flex-pack-justify">
-        <section class="v2-top-controls flex flex-align-center flex-pack-justify">
-          <section class="v2-duration flex flex-align-center flex-pack-center" v-if="duration > 0">
-            <span>{{ $com.toCurrent(currentTime * 1000) }}/{{ $com.toCurrent(duration) }}</span>
-          </section>
-          <section class="v2-launchFullScreen flex flex-align-center" @click="handlerFullScreen">
-            <img src="~/assets/images/Group@2x.png" alt="icon">
-          </section>
+    <section class="video-poster" @click="playVideo" v-lazy:background-image="$store.state.content.videos[0].imageUrl">
+      <span class="shipin"></span>
+    </section>
+    <!-- 正在播放时 -->
+    <section class="video-playing" @click="pauseVideo">
+    </section>
+    <!-- 播放暂停 -->
+    <section class="video-pause" @click="playPauseVideo">
+      <span class="shipin"></span>
+    </section>
+    <!-- 时间 -->
+    <section class="v2-controls flex flex-v flex-pack-justify">
+      <section class="v2-top-controls flex flex-align-center flex-pack-justify">
+        <section class="v2-duration flex flex-align-center flex-pack-center" v-if="duration > 0">
+          <span>{{ $com.toCurrent(currentTime * 1000) }}/{{ $com.toCurrent(duration) }}</span>
         </section>
-        <section class="v2-process">
-          <section class="v2-line"></section>
-          <section class="v2-process-line flex">
-            <section class="v2-ball-line" :style="{
-              width: v2_width+'vw'
-            }"></section>
-            <span class="v2-ball"></span>
-          </section>
+        <section class="v2-launchFullScreen flex flex-align-center" @click="handlerFullScreen">
+          <img src="~/assets/images/Group@2x.png" alt="icon">
         </section>
       </section>
+      <section class="v2-process">
+        <section class="v2-line"></section>
+        <section class="v2-process-line flex">
+          <section class="v2-ball-line" :style="{
+            width: v2_width+'%'
+          }"></section>
+          <span class="v2-ball"></span>
+        </section>
+      </section>
+    </section>
   </section>
 </template>
 <script>
@@ -151,7 +151,6 @@ export default {
           // 显示暂停时的cover
           self.pause.style.display = "block";
         });
-
         // android 监听屏幕全屏事件，进入全屏播放视频，退出全屏时自动暂停播放
         self.video.addEventListener("webkitfullscreenchange", function(event) {
           if (document.webkitIsFullScreen) {
@@ -211,6 +210,7 @@ export default {
       position: absolute;
       left: 0;
       top: 0;
+      width: 100%;
       .v2-ball-line {
         background: @primarycolor;
         height: 2px;

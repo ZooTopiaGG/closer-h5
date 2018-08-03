@@ -92,38 +92,33 @@ export default {
           widthArray = x.match(regexWidth),
           heightArray = x.match(regexHeight),
           nW,
-          _src,
+          // _src,
           newM,
           nH,
           minH;
-        if (widthArray && heightArray) {
-          if (widthArray[1] < 200) {
-            nW = widthArray[1] + 'px';
-            nH = heightArray[1] + 'px';
-          } else {
-            nW = '100%';
-            nH = heightArray[1] * 100 / widthArray[1] + "%";
-          }
-          minH = nH;
-          if (srcArray) {
-            _src = srcArray[1].replace(/\+/g, "%2b");
+        if (srcArray) {
+          // _src = srcArray[1].replace(/\+/g, "%2b");
+          if (widthArray && heightArray) {
+            if (widthArray[1] < 200) {
+              nW = widthArray[1] + 'px';
+              nH = heightArray[1] + 'px';
+            } else {
+              nW = '100%';
+              nH = heightArray[1] * 100 / widthArray[1] + "%";
+            }
+            minH = nH;
             newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" data-index="${i+1}" data-src=`);
           } else {
-            _src = ''
-            newM = '';
+            nW = '100%';
+            nH = "auto";
+            minH = '28.27vw';
+            newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
           }
         } else {
-          nW = '100%';
-          nH = "auto";
-          minH = '28.27vw';
-          if (srcArray) {
-            _src = srcArray[1].replace(/\+/g, "%2b");
-            newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
-          } else {
-            _src = '';
-            newM = '';
-          }
+          // _src = '';
+          newM = '';
         }
+
         // 正则替换富文本内的img标签
         // 替换不同文本
         html = html.replace(x, newM);
@@ -147,24 +142,12 @@ export default {
           posterArray = x.match(regexPoster),
           v, u, c
         // // 替换插入需要的值flg
-        if (vidArray) {
-          v = vidArray[1]
-        } else {
-          v = ''
-        }
-        if (urlArray) {
-          u = urlArray[1]
-        } else {
-          u = ''
-        }
+        v = vidArray ? vidArray[1] : '';
+        u = urlArray ? urlArray[1] : '';
         if (coverArray) {
           c = coverArray[1]
         } else {
-          if (posterArray) {
-            c = posterArray[1]
-          } else {
-            c = ''
-          }
+          c = posterArray ? posterArray[1] : ''
         }
         // let temp = pVideo[i].split('<p>');
         if (status) {

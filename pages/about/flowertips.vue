@@ -13,3 +13,12 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  head() {
+    return {
+      title: "花名小贴士"
+    };
+  }
+};
+</script>

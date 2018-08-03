@@ -393,7 +393,6 @@ export default {
       content: {
         html: ""
       },
-      // 投稿类型
       vid: "",
       // 征稿列表
       paper_list: [],
@@ -567,10 +566,6 @@ export default {
       if (self.$store.state.GET_MESSAGE_STATE) {
         // 栏目关注状态
         self.communityFocusStat();
-        // 获取留言列表
-        // self.$store.dispatch("message_list", {
-        //   subjectid: self.$route.params.id
-        // });
         if (
           self.$store.state.res.int_type === 2 &&
           self.$store.state.res.int_category === 1
