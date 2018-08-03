@@ -582,10 +582,12 @@ export default {
         self.hotList();
         // 跳转到hash
         if (self.$route.hash) {
-          document.documentElement.scrollTop =
-            document.getElementById("messageboard").offsetTop - 43;
-          document.body.scrollTop =
-            document.getElementById("messageboard").offsetTop - 43;
+          document.documentElement.scrollTop = document.getElementById(
+            "messageboard"
+          ).offsetTop;
+          document.body.scrollTop = document.getElementById(
+            "messageboard"
+          ).offsetTop;
         }
       }
       if (typeof window != "undefined") {
