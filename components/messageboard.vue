@@ -62,7 +62,7 @@
     <section v-else>
       <section class="split-box"></section>
         <section class="nomessage flex flex-align-center flex-pack-justify">
-        <span class="prompt">暂无留言，赶紧留言板～</span>
+        <span class="prompt">暂无留言，赶紧留言吧～</span>
         <span class="write flex flex-align-center" @click="writeMessage('comment', $route.params.id)">写留言</span>
       </section>
     </section> 
@@ -174,9 +174,9 @@ export default {
     // 前往写留言
     gotoMessage(type, id) {
       if (type === "comment") {
-        this.$router.replace({ path: `/feed/tomessage/${id}` });
+        this.$router.push({ path: `/feed/tomessage/${id}` });
       } else {
-        this.$router.replace({
+        this.$router.push({
           path: `/feed/tomessage/${this.$route.params.id}/${id}`
         });
       }

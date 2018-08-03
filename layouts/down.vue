@@ -5,7 +5,7 @@
     </section>
     <section class="noweixin">
       <p>已下载？
-        <a class="goApp" href="javascript:;">打开应用</a>
+        <a class="goApp" @click="goApp" href="javascript:;">打开应用</a>
       </p>
     </section>
     <section :class="{
@@ -52,7 +52,6 @@ import Cookie from "js-cookie";
 export default {
   data() {
     return {
-      b: true,
       downUrl: "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer"
     };
   },
@@ -72,7 +71,7 @@ export default {
             }, 1000);
             return;
           } else if (self.$com.getParam("group", location.href)) {
-            location.href = `closer://closer://jump/to/group`;
+            location.href = `closer://jump/to/group`;
             setTimeout(() => {
               location.href = self.downUrl;
             }, 1000);
@@ -82,18 +81,14 @@ export default {
           }
         }, 1500);
       }
-      document.querySelector(".goApp").addEventListener(
-        "click",
-        function() {
-          if (this.$com.getParam("downurl", location.href)) {
-            location.href = this.$com.getParam("downurl", location.href);
-          } else {
-            location.href = self.downUrl;
-            return;
-          }
-        },
-        false
-      );
+    },
+    goApp() {
+      if (this.$com.getParam("downurl", location.href)) {
+        location.href = this.$com.getParam("downurl", location.href);
+      } else {
+        location.href = self.downUrl;
+        return;
+      }
     },
     isWeiXin() {
       let ua = navigator.userAgent.toLowerCase();

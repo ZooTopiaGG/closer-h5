@@ -28,25 +28,3 @@
     </div>
   </div>
 </template>
-<style scoped>
-#about {
-  padding: 2.93vw;
-  padding-top: 11.74vw;
-  line-height: 1.6;
-}
-
-.part {
-  margin-bottom: 2.67vw;
-  text-align: justify;
-}
-.part a {
-  color: #409eff;
-}
-h3,
-p {
-  margin-bottom: 2.67vw;
-}
-h3 {
-  color: #444;
-}
-</style>

@@ -107,7 +107,7 @@ export default {
           minH = nH;
           if (srcArray) {
             _src = srcArray[1].replace(/\+/g, "%2b");
-            newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" class="imgbox" data-index="${i+1}" data-src=`);
+            newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" data-index="${i+1}" data-src=`);
           } else {
             _src = ''
             newM = '';
@@ -118,7 +118,7 @@ export default {
           minH = '28.27vw';
           if (srcArray) {
             _src = srcArray[1].replace(/\+/g, "%2b");
-            newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy2" class="imgbox" data-index="${i+1}" data-src=`);
+            newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
           } else {
             _src = '';
             newM = '';
@@ -357,7 +357,6 @@ export default {
         }, 1500)
         return;
       } else {
-        alert(url)
         if (url.indexOf('?from=group') > -1) {
           location.href = url
         } else if (url.indexOf('pkgname=com.ums.closer') > -1) {
