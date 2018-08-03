@@ -58,19 +58,21 @@ export default {
   methods: {
     initLoad() {
       let self = this;
+      console.log(self.$route);
       if (self.isWeiXin()) {
         document.querySelector(".downtitle").style.display = "block";
         document.querySelector(".point").style.display = "block";
+        console.log(self.$route.query.downurl);
       } else {
         document.querySelector(".noweixin").style.display = "block";
         setTimeout(() => {
-          if (self.$com.getParam("downurl", location.href)) {
-            location.href = self.$com.getParam("downurl", location.href);
+          if (self.$route.query.downurl) {
+            location.href = self.$route.query.downurl;
             setTimeout(() => {
               location.href = self.downUrl;
             }, 1000);
             return;
-          } else if (self.$com.getParam("group", location.href)) {
+          } else if (self.$route.query.from === "group") {
             location.href = `closer://jump/to/group`;
             setTimeout(() => {
               location.href = self.downUrl;
@@ -83,8 +85,9 @@ export default {
       }
     },
     goApp() {
-      if (this.$com.getParam("downurl", location.href)) {
-        location.href = this.$com.getParam("downurl", location.href);
+      let self = this;
+      if (self.$route.query.downurl) {
+        location.href = self.$route.query.downurl;
       } else {
         location.href = self.downUrl;
         return;
