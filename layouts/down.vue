@@ -58,11 +58,9 @@ export default {
   methods: {
     initLoad() {
       let self = this;
-      console.log(self.$route);
       if (self.isWeiXin()) {
         document.querySelector(".downtitle").style.display = "block";
         document.querySelector(".point").style.display = "block";
-        console.log(self.$route.query.downurl);
       } else {
         document.querySelector(".noweixin").style.display = "block";
         setTimeout(() => {
