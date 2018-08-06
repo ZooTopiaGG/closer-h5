@@ -1,9 +1,8 @@
 <template>
   <section class="feeder-cover flex flex-align-center flex-pack-justify" v-if="$store.state.GET_MESSAGE_STATE">
-    <section class="flex flex-1 flex-align-center">
+    <section class="flex flex-1 flex-align-center" @click="toCommunity">
       <dp-logo class="feed-logo"></dp-logo>
-      <span class="communityName ellipsis" v-if="$store.state.res.communityName">{{ $store.state.res.communityName }}</span>
-      <span class="communityName ellipsis" v-else>{{ $store.state.res.name }}</span>
+      <span class="communityName ellipsis">{{ $store.state.res.communityName || $store.state.res.name }}</span>
     </section>
     <dp-focus :tjFocus="tjFocus"></dp-focus>
   </section>
@@ -24,6 +23,11 @@ export default {
     dpLogo
   },
   methods: {
+    toCommunity() {
+      this.$router.push({
+        path: `/community/${this.$store.state.res.communityid}`
+      });
+    },
     // 需要登录的操作 先判断后执行
     async tjFocus() {
       let self = this;

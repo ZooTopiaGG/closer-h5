@@ -1,5 +1,5 @@
 <template>
-    <img class="access-not" :src="defaultImg" v-lazy="$store.state.res.blogo" @click="toCommunity">
+    <img class="access-not" :src="defaultImg" v-lazy="$store.state.res.blogo">
 </template>
 <script>
 export default {
@@ -9,22 +9,6 @@ export default {
       defaultImg:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg=="
     };
-  },
-  methods: {
-    toCommunity() {
-      this.$router.push({
-        path: `/community/${this.$store.state.res.communityid}`
-      });
-    }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      // logo图片预加载
-      let tjimg = document.querySelector(".access-not");
-      if (tjimg && tjimg.dataset.original) {
-        tjimg.src = tjimg.dataset.original;
-      }
-    });
   }
 };
 </script>

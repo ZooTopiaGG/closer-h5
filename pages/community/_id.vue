@@ -4,7 +4,7 @@
         'flex-v':true }">
     <section class="community-top flex flex-v flex-align-center flex-pack-justify">
       <section class="commuinty-logo">
-        <dp-logo></dp-logo>        
+        <dp-logo></dp-logo>    
         <section>{{ $store.state.res.name }}</section>
       </section>
       <section class="community-desc" v-if="!res.community.description">
