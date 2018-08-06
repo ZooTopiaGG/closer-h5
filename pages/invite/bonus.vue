@@ -82,6 +82,11 @@ export default {
       } catch (e) {}
     }
   },
+  beforeMount() {
+    if (navigator.userAgent.indexOf("MicroMessenger") <= -1) {
+      this.$router.replace("/redirect/needwx");
+    }
+  },
   mounted() {}
 };
 </script>

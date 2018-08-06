@@ -74,6 +74,9 @@ export default {
   },
   beforeMount() {
     let self = this;
+    if (navigator.indexOf("MicroMessenger") <= -1) {
+      self.$route.replace("/redirect/needwx");
+    }
     if (Cookie.get("inviter")) {
       self.hasInviter = JSON.parse(Cookie.get("inviter"));
     }
