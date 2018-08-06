@@ -20,22 +20,6 @@
               <section v-if="item.content.text" class="feedtitle text-ellipse">
                 {{ item.content.text }}
               </section>
-              <!-- <section v-if="item.content.images && item.content.images.length === 1" class="flex flex-pack-justify feedimgcontent">
-                <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                  :key="index">
-                  <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-              <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
-              <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                </section>
-              </section>
-              <section v-if="item.content.images && item.content.images.length === 2" class="flex flex-pack-justify feedimgcontent">
-                <section class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                  :key="index">
-                  <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-              <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
-              <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                </section>
-              </section> -->
               <section v-if="item.content.images && item.content.images.length > 0" class="flex feedimgcontent">
                 <section class="feeder-img-list feeder-img-list-cell-3" v-if="index < 3" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                   :key="index">
@@ -45,22 +29,10 @@
                   <span class="more-image flex flex-align-center flex-pack-center" v-if="index === 2 && item.content.images.length > 3">{{ item.content.images.length - 3 }}张更多</span>
                 </section>
               </section>
-              <!-- <section v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedimgcontent">
-                <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in item.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
-                  :key="index">
-                  <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-              <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
-              <span class="cover_img_type" v-else-if="img.height / img.width >= 3">长图</span>
-                </section>
-              </section> -->
             </section>
             <!-- 视频贴 int_type == 1-->
             <section class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
-              <!-- <video :src="item.content.videos[0].src" controls="controls" preload="none"
-                :poster="item.content.videos[0].imageUrl" :data-cover="item.content.videos[0].imageUrl">
-              </video> -->
               <section v-if="item.content.text" class="feedtitle feed-videos-title text-ellipse">{{ item.content.text }}</section>
-              
               <section class="feeds-video flex flex-align-center flex-pack-center" 
                 v-if="item.content.videos[0].width > item.content.videos[0].height"
                 v-lazy:background-image="item.content.videos[0].imageUrl"
@@ -88,19 +60,6 @@
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
             <section class="feedmain" v-else-if="item.int_type === 2">
-              <!-- <section v-if="item.int_cover_mode != 1">
-                <section class="feedtype">
-                  <section v-if="item.title" class="feedtitle text-ellipse">
-                    {{ item.title }}
-                  </section>
-                  <section v-if="item.content.summary" class="feedcontent text-ellipse">
-                    {{ item.content.summary }}
-                  </section>
-                </section>
-                <section v-if="item.cover" class="feedcover feed-cover-image flex">
-                  <img v-lazy="$com.makeFileUrl(item.cover)">
-                </section>
-              </section> -->
               <section class="flex flex-pack-justify">
                 <section class="feedtype feed-left-width">
                   <section v-if="item.title" class="feedtitle feed-mode-1 text-ellipse">
