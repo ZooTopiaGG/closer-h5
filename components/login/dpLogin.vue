@@ -123,7 +123,8 @@ export default {
       if (self.isAbsolute != "toMessageBind") {
         para = {
           phone: self.phone,
-          grouk_captcha_value: self.img_code_value
+          grouk_captcha_value: self.img_code_value,
+          code: self.$route.query.code
         };
       } else {
         para = {
@@ -131,7 +132,9 @@ export default {
           type: "bind"
         };
       }
-      let result = await self.$store.dispatch("get_code_by_phone_v2", para);
+      let result = await self.$store.dispatch("get_code_by_phone_v2", {
+        para: para
+      });
       if (!result) {
         self.isdisabled = false;
         self.sendName = "重新发送";

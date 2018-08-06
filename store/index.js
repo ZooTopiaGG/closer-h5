@@ -252,7 +252,6 @@ export const actions = {
       console.log(e)
     }
   },
-
   // 通过code进行登录，如果get_wx_auth被调用，get_code_by_login才会被调用
   async get_code_by_login({
     commit,
@@ -489,25 +488,15 @@ export const actions = {
   async get_code_by_phone_v2({
     commit
   }, {
-    phone,
-    grouk_captcha_value,
-    type
+    para
   }) {
-    let self = this
+    let self = this;
     // 点击必须登录的按钮，可获取cookie进行判断 信息
     try {
-      let para, data;
-      if (type && type === 'bind') {
-        para = {
-          phone,
-          type
-        }
+      let data;
+      if (para.type && para.type === 'bind') {
         data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
       } else {
-        para = {
-          phone,
-          grouk_captcha_value
-        }
         data = await self.$axios.$post(`${api.admin.get_code_by_phone_v2}`, para)
       }
       if (data.code === 0) {

@@ -10,27 +10,33 @@
       <div class="body-desc flex flex-v flex-align-center"><span class="inviterName">{{ hasInviter.name }}</span>给你的现金红包已经到账</div>
       <div class="body-money"><span>10</span>元</div>
     </div>
-    <div class="hasToken">
+    <div class="openbonus-sign">
+      <dp-login isAbsolute="inviter"></dp-login>
+    </div>
+    <!-- <div class="hasToken">
       <mt-button type="primary" class="margin-top-20 tj-btn" @click="downApp">
         <span>立即下载，提现秒到账</span>
       </mt-button>
-    </div> 
+    </div>  -->
   </div>
 </template>
 <script>
 import Cookie from "js-cookie";
 export default {
-  async asyncData({ app, store, error, query, redirect }) {
-    if (query.code) {
-      let res = await store.dispatch("get_code_by_login", {
-        code: query.code,
-        inv_id: query.id,
-        type: "bonus"
-      });
-      if (!res) {
-        redirect("/invite/alreadyget");
-      }
+  async asyncData({ app, store, error, query, redirect, req }) {
+    if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
+      redirect("/redirect/needwx");
     }
+    // if (query.code) {
+    //   let res = await store.dispatch("get_code_by_login", {
+    //     code: query.code,
+    //     inv_id: query.id,
+    //     type: "bonus"
+    //   });
+    //   if (!res) {
+    //     redirect("/invite/alreadyget");
+    //   }
+    // }
   },
   head() {
     return {
