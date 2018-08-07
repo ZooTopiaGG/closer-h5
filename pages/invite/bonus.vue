@@ -34,7 +34,6 @@ export default {
         `${api.admin.info}?uid=${query.inviter}`
       );
       if (data.code === 0) {
-        // console.log("daateeeeee", data);
         data.result.id = query.inviter;
         return {
           res: data.result

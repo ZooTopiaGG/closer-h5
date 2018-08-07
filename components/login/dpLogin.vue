@@ -191,7 +191,6 @@ export default {
           self.$store.commit("SET_VISIBLE_LOGIN", false);
           if (self.isAbsolute === "inviter") {
             // 需要传入打开相应app页面的参数
-            // location.href = api.downUrl;
             location.href = `${location.protocol}//${
               location.host
             }?downurl=closer://jump/to/mine`;

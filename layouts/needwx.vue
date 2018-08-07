@@ -8,18 +8,7 @@
 </template>
 <script>
 export default {
-  name: "redirect",
-  beforeMount() {
-    if (this.$route.query.redirectUrl.indexOf("?") > -1) {
-      location.href = `${this.$route.query.redirectUrl}&code=${
-        this.$route.query.code
-      }`;
-    } else {
-      location.href = `${this.$route.query.redirectUrl}?code=${
-        this.$route.query.code
-      }`;
-    }
-  }
+  name: "redirect"
 };
 </script>
 <style>
