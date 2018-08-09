@@ -376,57 +376,53 @@ export default {
     // 绑定网易E盾方法
     initNECaptcha() {
       let self = this;
-      setTimeout(() => {
-        try {
-          initNECaptcha(
-            {
-              element: "#captcha",
-              captchaId: "e50469ef050d416387ac8f6cee7d0582",
-              mode: "bind", // 仅智能无感知验证码时，mode 才能设置为 bind
-              width: "320px",
-              onVerify: function(err, data) {
-                // 用户验证码验证成功后，进行实际的提交行为
-                console.log(data);
-                if (data) {
-                  self.captchaValidate = data;
-                  self.sendCode();
-                }
-              }
-            },
-            function(instance) {
-              // 初始化成功后得到验证实例instance，可以调用实例的方法
-              // 重复执行， 如果初始化成功则无需执行
-              // clearInterval(self.timer);
-              self.captchaIns = instance;
-            },
-            function(err) {
-              // 初始化失败后触发该函数，err对象描述当前错误信息
+      initNECaptcha(
+        {
+          element: "#captcha",
+          captchaId: "e50469ef050d416387ac8f6cee7d0582",
+          mode: "bind", // 仅智能无感知验证码时，mode 才能设置为 bind
+          width: "320px",
+          onVerify: function(err, data) {
+            // 用户验证码验证成功后，进行实际的提交行为
+            console.log(data);
+            if (data) {
+              self.captchaValidate = data;
+              self.sendCode();
             }
-          );
-          // 监听需要绑定的 button 的点击事件，手动调用实例的verify方法来验证
-          document
-            .getElementById("tj-code-btn")
-            .addEventListener("click", function(e) {
-              if ($async.isPhoneNum(self.phone)) {
-                e.preventDefault();
-                self.captchaIns && self.captchaIns.verify(); // 手动调用verify方法
-              } else {
-                self.$toast({
-                  message: "手机号格式错误",
-                  position: "top"
-                });
-                return false;
-              }
-            });
-        } catch (e) {
-          console.log(e);
+          }
+        },
+        function(instance) {
+          // 初始化成功后得到验证实例instance，可以调用实例的方法
+          // 重复执行， 如果初始化成功则无需执行
+          // clearInterval(self.timer);
+          self.captchaIns = instance;
+        },
+        function(err) {
+          // 初始化失败后触发该函数，err对象描述当前错误信息
         }
-      }, 1000);
+      );
+      // 监听需要绑定的 button 的点击事件，手动调用实例的verify方法来验证
+      document
+        .getElementById("tj-code-btn")
+        .addEventListener("click", function(e) {
+          if ($async.isPhoneNum(self.phone)) {
+            e.preventDefault();
+            self.captchaIns && self.captchaIns.verify(); // 手动调用verify方法
+          } else {
+            self.$toast({
+              message: "手机号格式错误",
+              position: "top"
+            });
+            return false;
+          }
+        });
     }
   },
   mounted() {
     let self = this;
-    self.initNECaptcha();
+    setTimeout(() => {
+      self.initNECaptcha();
+    }, 5000);
   },
   destroyed() {
     // clearInterval(self.timer);
