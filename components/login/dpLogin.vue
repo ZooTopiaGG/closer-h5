@@ -60,7 +60,8 @@ export default {
       isdisabled: false,
       loading: 2,
       captchaIns: "",
-      captchaValidate: ""
+      captchaValidate: "",
+      timer: ""
     };
   },
   props: {
@@ -375,7 +376,7 @@ export default {
     // 绑定网易E盾方法
     initNECaptcha() {
       let self = this;
-      let timer = setInterval(() => {
+      self.timer = setInterval(() => {
         try {
           initNECaptcha(
             {
@@ -395,7 +396,7 @@ export default {
             function(instance) {
               // 初始化成功后得到验证实例instance，可以调用实例的方法
               // 重复执行， 如果初始化成功则无需执行
-              clearInterval(timer);
+              clearInterval(self.timer);
               self.captchaIns = instance;
             },
             function(err) {
@@ -406,8 +407,16 @@ export default {
           document
             .getElementById("tj-code-btn")
             .addEventListener("click", function(e) {
-              e.preventDefault();
-              self.captchaIns && self.captchaIns.verify(); // 手动调用verify方法
+              if ($async.isPhoneNum(self.phone)) {
+                e.preventDefault();
+                self.captchaIns && self.captchaIns.verify(); // 手动调用verify方法
+              } else {
+                self.$toast({
+                  message: "手机号格式错误",
+                  position: "top"
+                });
+                return false;
+              }
             });
         } catch (e) {
           console.log(e);
@@ -418,12 +427,18 @@ export default {
   mounted() {
     let self = this;
     self.initNECaptcha();
+  },
+  destroyed() {
+    clearInterval(self.timer);
   }
 };
 </script>
 <style>
 .yidun_modal {
   width: auto !important;
+}
+.yidun--popup {
+  min-width: 300px;
 }
 .dpLogin {
   width: 87.2vw;
