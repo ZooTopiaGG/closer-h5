@@ -109,13 +109,15 @@ export default {
         self.$store.state.GET_MESSAGE_STATE ||
         self.$route.path.indexOf("/invite") > -1
       ) {
-        let sct = document.createElement("script");
-        sct.src = "https://res.wx.qq.com/open/js/jweixin-1.2.0.js";
-        document.head.appendChild(sct);
         // 网易e盾验证
         let sct2 = document.createElement("script");
         sct2.src = "http://cstaticdun.126.net/load.min.js";
-        document.body.appendChild(sct2);
+        sct2.defer = "defer";
+        document.head.appendChild(sct2);
+        let sct = document.createElement("script");
+        sct.src = "https://res.wx.qq.com/open/js/jweixin-1.2.0.js";
+        sct.defer = "defer";
+        document.body.appendChild(sct);
         // 存会话 h5Adid
         if (self.$store.state.h5Adid) {
           Cookie.set("h5Adid", self.$store.state.h5Adid);

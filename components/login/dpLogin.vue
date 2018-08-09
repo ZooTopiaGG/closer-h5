@@ -376,7 +376,7 @@ export default {
     // 绑定网易E盾方法
     initNECaptcha() {
       let self = this;
-      self.timer = setInterval(() => {
+      setTimeout(() => {
         try {
           initNECaptcha(
             {
@@ -396,7 +396,7 @@ export default {
             function(instance) {
               // 初始化成功后得到验证实例instance，可以调用实例的方法
               // 重复执行， 如果初始化成功则无需执行
-              clearInterval(self.timer);
+              // clearInterval(self.timer);
               self.captchaIns = instance;
             },
             function(err) {
@@ -421,7 +421,7 @@ export default {
         } catch (e) {
           console.log(e);
         }
-      }, 500);
+      }, 1000);
     }
   },
   mounted() {
@@ -429,7 +429,7 @@ export default {
     self.initNECaptcha();
   },
   destroyed() {
-    clearInterval(self.timer);
+    // clearInterval(self.timer);
   }
 };
 </script>
