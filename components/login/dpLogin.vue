@@ -422,7 +422,7 @@ export default {
     let self = this;
     setTimeout(() => {
       self.initNECaptcha();
-    }, 5000);
+    }, 500);
   },
   destroyed() {
     // clearInterval(self.timer);

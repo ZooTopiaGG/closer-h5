@@ -460,5 +460,11 @@ export default {
         }
       }
     }
+  },
+  createScript(url) {
+    let s = document.createElement("script");
+    s.src = url;
+    s.defer = "defer";
+    document.head.appendChild(s);
   }
 }

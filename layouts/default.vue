@@ -110,14 +110,17 @@ export default {
         self.$route.path.indexOf("/invite") > -1
       ) {
         // 网易e盾验证
-        let sct2 = document.createElement("script");
-        sct2.src = "http://cstaticdun.126.net/load.min.js";
-        sct2.defer = "defer";
-        document.head.appendChild(sct2);
-        let sct = document.createElement("script");
-        sct.src = "https://res.wx.qq.com/open/js/jweixin-1.2.0.js";
-        sct.defer = "defer";
-        document.body.appendChild(sct);
+        self.$com.createScript("http://cstaticdun.126.net/load.min.js");
+        self.$com.createScript("http://cstaticdun.126.net/plugins.min.js");
+        self.$com.createScript(
+          "http://cstaticdun.126.net/2.7.3/core.v2.7.3.min.js"
+        );
+        self.$com.createScript(
+          "http://cstaticdun.126.net/2.7.3/light.v2.7.3.min.js"
+        );
+        self.$com.createScript(
+          "https://res.wx.qq.com/open/js/jweixin-1.2.0.js"
+        );
         // 存会话 h5Adid
         if (self.$store.state.h5Adid) {
           Cookie.set("h5Adid", self.$store.state.h5Adid);
