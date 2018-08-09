@@ -9,6 +9,7 @@ let api = {
     closeruser_regist: 'closer_auth.closeruser_regist',
     get_code_by_phone: 'closer_account.get_code_by_phone',
     get_code_by_phone_v2: 'closer_account.get_code_by_phone_v2',
+    get_code_by_phone_v4: 'closer_account.get_code_by_phone_v4',
     bind_phone: 'closer_account.bind_phone',
     check: 'closer_account.check',
     check_wechat: 'closer_account.check_wechat',

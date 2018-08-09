@@ -11,14 +11,14 @@
       <span>{{ title }}</span>
     </section>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
-    <section class="tj-code" v-if="isAbsolute != 'toMessageBind'">
+    <!-- <section class="tj-code" v-if="isAbsolute != 'toMessageBind'">
       <mt-field type="text" placeholder="图形验证码" :attr="{ maxlength: 5 }" v-model="img_code_value" class="margin-bottom-40">
         <img class="tj-code-img" @click="sendImgCode" :src="get_img_code">
       </mt-field>
-    </section>
+    </section> -->
     <section class="tj-code">
       <mt-field placeholder="验证码" type="tel" :attr="{ maxlength: 6 }" v-model="code" class="margin-bottom-40">
-        <mt-button type="default" class="tj-code-btn cursor" :disabled="isdisabled" @click="sendCode">{{ sendName }}</mt-button>
+        <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled">{{ sendName }}</mt-button>
       </mt-field>
     </section>
     <mt-button type="primary" v-if="isAbsolute != 'toMessageBind'" :disabled="loading === 1" :class="{
@@ -43,6 +43,7 @@
         <span>绑定手机</span>
       </section>
     </mt-button>
+    <section id="captcha"></section>
   </section>
 </template>
 <script>
@@ -57,7 +58,9 @@ export default {
       img_code_value: "",
       get_img_code: `${api.filePath}/captcha/image`,
       isdisabled: false,
-      loading: 2
+      loading: 2,
+      captchaIns: "",
+      captchaValidate: ""
     };
   },
   props: {
@@ -78,7 +81,7 @@ export default {
         api.filePath
       }/captcha/image?tempstamp=${Date.now()}`;
     },
-    async sendCode() {
+    /** async sendCode() {
       let self = this,
         time = 60;
       self.isdisabled = true;
@@ -124,6 +127,66 @@ export default {
         para = {
           phone: self.phone,
           grouk_captcha_value: self.img_code_value,
+          code: self.$route.query.code
+        };
+      } else {
+        para = {
+          phone: self.phone,
+          type: "bind"
+        };
+      }
+      let result = await self.$store.dispatch("get_code_by_phone_v2", {
+        para: para
+      });
+      if (!result) {
+        self.isdisabled = false;
+        self.sendName = "重新发送";
+        if (self.isAbsolute != "toMessageBind") {
+          self.get_img_code = `${
+            api.filePath
+          }/captcha/image?tempstamp=${Date.now()}`;
+        }
+        clearInterval(timer);
+      }
+    }, **/
+    async sendCode() {
+      let self = this,
+        time = 60;
+      self.isdisabled = true;
+      if (!$async.isPhoneNum(self.phone)) {
+        self.isdisabled = false;
+        self.$toast({
+          message: "手机号格式错误",
+          position: "top"
+        });
+        return false;
+      }
+      // 网易E盾
+      if (self.isAbsolute != "toMessageBind") {
+        if (!(self.captchaValidate && self.captchaValidate.validate)) {
+          self.isdisabled = false;
+          self.$toast({
+            message: "安全验证失败",
+            position: "top"
+          });
+          return false;
+        }
+      }
+      let timer = setInterval(() => {
+        time--;
+        if (time <= 1) {
+          self.sendName = "重新发送";
+          self.isdisabled = false;
+          clearInterval(timer);
+        } else {
+          self.sendName = `正在发送 ${time} s`;
+        }
+      }, 1000);
+      let para;
+      if (self.isAbsolute != "toMessageBind") {
+        para = {
+          phone: self.phone,
+          captchaValidate: self.captchaValidate.validate,
           code: self.$route.query.code
         };
       } else {
@@ -308,11 +371,60 @@ export default {
         self.$store.state.extension_text,
         redirectUrl
       );
+    },
+    // 绑定网易E盾方法
+    initNECaptcha() {
+      let self = this;
+      let timer = setInterval(() => {
+        try {
+          initNECaptcha(
+            {
+              element: "#captcha",
+              captchaId: "e50469ef050d416387ac8f6cee7d0582",
+              mode: "bind", // 仅智能无感知验证码时，mode 才能设置为 bind
+              width: "320px",
+              onVerify: function(err, data) {
+                // 用户验证码验证成功后，进行实际的提交行为
+                console.log(data);
+                if (data) {
+                  self.captchaValidate = data;
+                  self.sendCode();
+                }
+              }
+            },
+            function(instance) {
+              // 初始化成功后得到验证实例instance，可以调用实例的方法
+              // 重复执行， 如果初始化成功则无需执行
+              clearInterval(timer);
+              self.captchaIns = instance;
+            },
+            function(err) {
+              // 初始化失败后触发该函数，err对象描述当前错误信息
+            }
+          );
+          // 监听需要绑定的 button 的点击事件，手动调用实例的verify方法来验证
+          document
+            .getElementById("tj-code-btn")
+            .addEventListener("click", function(e) {
+              e.preventDefault();
+              self.captchaIns && self.captchaIns.verify(); // 手动调用verify方法
+            });
+        } catch (e) {
+          console.log(e);
+        }
+      }, 500);
     }
+  },
+  mounted() {
+    let self = this;
+    self.initNECaptcha();
   }
 };
 </script>
 <style>
+.yidun_modal {
+  width: auto !important;
+}
 .dpLogin {
   width: 87.2vw;
   /* height: 72.6vw; */

@@ -100,22 +100,22 @@ export default {
     }
   },
   beforeMount() {
-    this.$store.commit("SET_ENTER_TIME", Date.now());
-  },
-  mounted() {
     let self = this;
-    this.$store.commit("GET_USER_AGENT", {
-      nvg: navigator.userAgent,
-      ref: location.href
-    });
-    // console.log(this.$store.state);
+    this.$store.commit("SET_ENTER_TIME", Date.now());
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       // 动态添加微信配置文件
-      if (self.$store.state.GET_MESSAGE_STATE) {
+      if (
+        self.$store.state.GET_MESSAGE_STATE ||
+        self.$route.path.indexOf("/invite") > -1
+      ) {
         let sct = document.createElement("script");
         sct.src = "https://res.wx.qq.com/open/js/jweixin-1.2.0.js";
-        document.body.appendChild(sct);
+        document.head.appendChild(sct);
+        // 网易e盾验证
+        let sct2 = document.createElement("script");
+        sct2.src = "http://cstaticdun.126.net/load.min.js";
+        document.body.appendChild(sct2);
         // 存会话 h5Adid
         if (self.$store.state.h5Adid) {
           Cookie.set("h5Adid", self.$store.state.h5Adid);
@@ -132,6 +132,14 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    let self = this;
+    this.$store.commit("GET_USER_AGENT", {
+      nvg: navigator.userAgent,
+      ref: location.href
+    });
+    // console.log(this.$store.state);
     self.$nextTick(() => {
       let title, pic, desc;
       if (self.$route.path.indexOf("/community") > -1) {

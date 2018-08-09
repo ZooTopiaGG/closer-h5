@@ -485,7 +485,7 @@ export const actions = {
     }
   },
   // 获取手机验证码
-  async get_code_by_phone_v2({
+  /** async get_code_by_phone_v2({
     commit
   }, {
     para
@@ -498,6 +498,40 @@ export const actions = {
         data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
       } else {
         data = await self.$axios.$post(`${api.admin.get_code_by_phone_v2}`, para)
+      }
+      if (data.code === 0) {
+        Toast({
+          message: '发送成功！',
+          position: 'top'
+        });
+        return true
+      } else {
+        Toast({
+          message: data.result,
+          position: 'top'
+        })
+        return false
+      }
+    } catch (err) {
+      Toast({
+        message: err,
+        position: 'top'
+      })
+    }
+  }, **/
+  async get_code_by_phone_v2({
+    commit
+  }, {
+    para
+  }) {
+    let self = this;
+    // 点击必须登录的按钮，可获取cookie进行判断 信息
+    try {
+      let data;
+      if (para.type && para.type === 'bind') {
+        data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
+      } else {
+        data = await self.$axios.$post(`${api.admin.get_code_by_phone_v4}`, para)
       }
       if (data.code === 0) {
         Toast({
