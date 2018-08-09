@@ -41,6 +41,9 @@ module.exports = {
             }
           }
           function canShowContent() {}`
+    }, {
+      src: 'http://cstaticdun.126.net/load.min.js',
+      defer: 'defer'
     }],
     __dangerouslyDisableSanitizers: ['script'],
     link: [{

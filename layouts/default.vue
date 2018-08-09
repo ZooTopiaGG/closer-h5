@@ -104,20 +104,13 @@ export default {
     this.$store.commit("SET_ENTER_TIME", Date.now());
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
-      // 动态添加微信配置文件
       if (
         self.$store.state.GET_MESSAGE_STATE ||
         self.$route.path.indexOf("/invite") > -1
       ) {
         // 网易e盾验证
-        self.$com.createScript("http://cstaticdun.126.net/load.min.js");
-        self.$com.createScript("http://cstaticdun.126.net/plugins.min.js");
-        self.$com.createScript(
-          "http://cstaticdun.126.net/2.7.3/core.v2.7.3.min.js"
-        );
-        self.$com.createScript(
-          "http://cstaticdun.126.net/2.7.3/light.v2.7.3.min.js"
-        );
+        // self.$com.createScript("http://cstaticdun.126.net/load.min.js");
+        // 动态添加微信配置文件
         self.$com.createScript(
           "https://res.wx.qq.com/open/js/jweixin-1.2.0.js"
         );
