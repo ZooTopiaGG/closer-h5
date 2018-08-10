@@ -18,7 +18,7 @@
     </section> -->
     <section class="tj-code">
       <mt-field placeholder="验证码" type="tel" :attr="{ maxlength: 6 }" v-model="code" class="margin-bottom-40">
-        <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled" @click="clickCaptcha">{{ sendName }}</mt-button>
+        <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled">{{ sendName }}</mt-button>
       </mt-field>
     </section>
     <mt-button type="primary" v-if="isAbsolute != 'toMessageBind'" :disabled="loading === 1" :class="{
@@ -59,6 +59,7 @@ export default {
       get_img_code: `${api.filePath}/captcha/image`,
       isdisabled: false,
       loading: 2,
+      captchaIns: "",
       captchaValidate: "",
       timer: ""
     };
@@ -373,55 +374,54 @@ export default {
       );
     },
     // 绑定网易E盾方法
-    clickCaptcha() {
+    initNECaptcha() {
       let self = this;
-      console.log(initNECaptcha);
-      initNECaptcha(
-        {
-          element: "#captcha",
-          captchaId: "e50469ef050d416387ac8f6cee7d0582",
-          mode: "bind", // 仅智能无感知验证码时，mode 才能设置为 bind
-          width: "320px",
-          onVerify: function(err, data) {
-            // 用户验证码验证成功后，进行实际的提交行为
-            console.log(data);
-            if (data) {
-              self.captchaValidate = data;
-              self.sendCode();
-            }
-          }
-        },
-        function(instance) {
-          // 初始化成功后得到验证实例instance，可以调用实例的方法
-          // 重复执行， 如果初始化成功则无需执行
-          // clearInterval(self.timer);
-          console.log(instance);
-          if ($async.isPhoneNum(self.phone)) {
-            instance.verify(); // 手动调用verify方法
-          } else {
-            self.$toast({
-              message: "手机号格式错误",
-              position: "top"
-            });
-            return false;
-          }
-        },
-        function(err) {
-          // 初始化失败后触发该函数，err对象描述当前错误信息
-          console.log(err);
-        }
-      );
+
       // 监听需要绑定的 button 的点击事件，手动调用实例的verify方法来验证
     }
   },
   mounted() {
-    let self = this;
-    // setTimeout(() => {
-    //   self.initNECaptcha();
-    // }, 100);
-  },
-  destroyed() {
-    // clearInterval(self.timer);
+    let _this = this;
+    document.getElementById("tj-code-btn").addEventListener(
+      "click",
+      function() {
+        initNECaptcha(
+          {
+            element: "#captcha",
+            captchaId: "e50469ef050d416387ac8f6cee7d0582",
+            mode: "bind", // 仅智能无感知验证码时，mode 才能设置为 bind
+            width: "320px",
+            onVerify: function(err, data) {
+              // 用户验证码验证成功后，进行实际的提交行为
+              console.log(data);
+              if (data) {
+                _this.captchaValidate = data;
+                _this.sendCode();
+              }
+            }
+          },
+          function(instance) {
+            // 初始化成功后得到验证实例instance，可以调用实例的方法
+            // 重复执行， 如果初始化成功则无需执行
+            // clearInterval(self.timer);
+            _this.captchaIns = instance;
+            if ($async.isPhoneNum(_this.phone)) {
+              _this.captchaIns && _this.captchaIns.verify(); // 手动调用verify方法
+            } else {
+              _this.$toast({
+                message: "手机号格式错误",
+                position: "top"
+              });
+              return false;
+            }
+          },
+          function(err) {
+            // 初始化失败后触发该函数，err对象描述当前错误信息
+          }
+        );
+      },
+      false
+    );
   }
 };
 </script>
