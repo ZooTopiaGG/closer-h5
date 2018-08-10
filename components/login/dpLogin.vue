@@ -18,7 +18,7 @@
     </section> -->
     <section class="tj-code">
       <mt-field placeholder="验证码" type="tel" :attr="{ maxlength: 6 }" v-model="code" class="margin-bottom-40">
-        <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled" @click="initNECaptcha">{{ sendName }}</mt-button>
+        <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled" @click="clickCaptcha">{{ sendName }}</mt-button>
       </mt-field>
     </section>
     <mt-button type="primary" v-if="isAbsolute != 'toMessageBind'" :disabled="loading === 1" :class="{
@@ -373,7 +373,7 @@ export default {
       );
     },
     // 绑定网易E盾方法
-    initNECaptcha() {
+    clickCaptcha() {
       let self = this;
       console.log(initNECaptcha);
       initNECaptcha(
