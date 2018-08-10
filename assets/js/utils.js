@@ -461,10 +461,12 @@ export default {
       }
     }
   },
-  createScript(url) {
+  createScript(url, type) {
     let s = document.createElement("script");
     s.src = url;
-    s.defer = "defer";
+    if (type) {
+      s.defer = type
+    }
     document.head.appendChild(s);
   }
 }
