@@ -24,9 +24,9 @@
 import Cookie from "js-cookie";
 export default {
   async asyncData({ app, store, error, query, redirect, req }) {
-    if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
-      redirect("/redirect/needwx");
-    }
+    // if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
+    //   redirect("/redirect/needwx");
+    // }
     // if (query.code) {
     //   let res = await store.dispatch("get_code_by_login", {
     //     code: query.code,
@@ -74,9 +74,6 @@ export default {
   },
   beforeMount() {
     let self = this;
-    if (navigator.userAgent.indexOf("MicroMessenger") <= -1) {
-      self.$router.replace("/redirect/needwx");
-    }
     if (Cookie.get("inviter")) {
       self.hasInviter = JSON.parse(Cookie.get("inviter"));
     }

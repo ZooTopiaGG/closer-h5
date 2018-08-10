@@ -26,9 +26,9 @@
 import Cookie from "js-cookie";
 export default {
   async asyncData({ app, query, store, redirect, req }) {
-    if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
-      redirect("/redirect/needwx");
-    }
+    // if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
+    //   redirect("/redirect/needwx");
+    // }
     try {
       let data = await app.$axios.$get(
         `${api.admin.info}?uid=${query.inviter}`
@@ -79,11 +79,6 @@ export default {
           this.$router.push({ path: "/invite/register" });
         }
       } catch (e) {}
-    }
-  },
-  beforeMount() {
-    if (navigator.userAgent.indexOf("MicroMessenger") <= -1) {
-      this.$router.replace("/redirect/needwx");
     }
   },
   mounted() {}

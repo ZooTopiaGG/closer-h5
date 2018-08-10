@@ -397,7 +397,6 @@ export default {
           // clearInterval(self.timer);
           self.captchaIns = instance;
           if ($async.isPhoneNum(self.phone)) {
-            e.preventDefault();
             self.captchaIns && self.captchaIns.verify(); // 手动调用verify方法
           } else {
             self.$toast({
