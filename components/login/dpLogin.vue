@@ -18,7 +18,7 @@
     </section> -->
     <section class="tj-code">
       <mt-field placeholder="验证码" type="tel" :attr="{ maxlength: 6 }" v-model="code" class="margin-bottom-40">
-        <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled">{{ sendName }}</mt-button>
+        <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled" @click="initNECaptcha">{{ sendName }}</mt-button>
       </mt-field>
     </section>
     <mt-button type="primary" v-if="isAbsolute != 'toMessageBind'" :disabled="loading === 1" :class="{
@@ -396,15 +396,6 @@ export default {
           // 重复执行， 如果初始化成功则无需执行
           // clearInterval(self.timer);
           self.captchaIns = instance;
-        },
-        function(err) {
-          // 初始化失败后触发该函数，err对象描述当前错误信息
-        }
-      );
-      // 监听需要绑定的 button 的点击事件，手动调用实例的verify方法来验证
-      document
-        .getElementById("tj-code-btn")
-        .addEventListener("click", function(e) {
           if ($async.isPhoneNum(self.phone)) {
             e.preventDefault();
             self.captchaIns && self.captchaIns.verify(); // 手动调用verify方法
@@ -415,14 +406,19 @@ export default {
             });
             return false;
           }
-        });
+        },
+        function(err) {
+          // 初始化失败后触发该函数，err对象描述当前错误信息
+        }
+      );
+      // 监听需要绑定的 button 的点击事件，手动调用实例的verify方法来验证
     }
   },
   mounted() {
     let self = this;
-    setTimeout(() => {
-      self.initNECaptcha();
-    }, 100);
+    // setTimeout(() => {
+    //   self.initNECaptcha();
+    // }, 100);
   },
   destroyed() {
     // clearInterval(self.timer);
