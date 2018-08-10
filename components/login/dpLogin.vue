@@ -375,6 +375,7 @@ export default {
     // 绑定网易E盾方法
     initNECaptcha() {
       let self = this;
+      console.log(initNECaptcha);
       initNECaptcha(
         {
           element: "#captcha",
