@@ -59,7 +59,6 @@ export default {
       get_img_code: `${api.filePath}/captcha/image`,
       isdisabled: false,
       loading: 2,
-      captchaIns: "",
       captchaValidate: "",
       timer: ""
     };
@@ -395,9 +394,9 @@ export default {
           // 初始化成功后得到验证实例instance，可以调用实例的方法
           // 重复执行， 如果初始化成功则无需执行
           // clearInterval(self.timer);
-          self.captchaIns = instance;
+          console.log(instance);
           if ($async.isPhoneNum(self.phone)) {
-            self.captchaIns && self.captchaIns.verify(); // 手动调用verify方法
+            instance.verify(); // 手动调用verify方法
           } else {
             self.$toast({
               message: "手机号格式错误",
@@ -408,6 +407,7 @@ export default {
         },
         function(err) {
           // 初始化失败后触发该函数，err对象描述当前错误信息
+          console.log(err);
         }
       );
       // 监听需要绑定的 button 的点击事件，手动调用实例的verify方法来验证
