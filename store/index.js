@@ -463,6 +463,7 @@ export const actions = {
       data = await self.$axios.$get(`${api.admin.user_show}`)
     if (data.code === 0) {
       let userInfo = {
+        attributes: data.result.attributes,
         gender: data.result.gender,
         phones: data.result.phones,
         updateTime: data.result.updateTime,

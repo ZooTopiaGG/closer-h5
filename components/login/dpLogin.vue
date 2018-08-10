@@ -372,12 +372,6 @@ export default {
         self.$store.state.extension_text,
         redirectUrl
       );
-    },
-    // 绑定网易E盾方法
-    initNECaptcha() {
-      let self = this;
-
-      // 监听需要绑定的 button 的点击事件，手动调用实例的verify方法来验证
     }
   },
   mounted() {
@@ -393,7 +387,6 @@ export default {
             width: "320px",
             onVerify: function(err, data) {
               // 用户验证码验证成功后，进行实际的提交行为
-              console.log(data);
               if (data) {
                 _this.captchaValidate = data;
                 _this.sendCode();
@@ -403,7 +396,6 @@ export default {
           function(instance) {
             // 初始化成功后得到验证实例instance，可以调用实例的方法
             // 重复执行， 如果初始化成功则无需执行
-            // clearInterval(self.timer);
             _this.captchaIns = instance;
             if ($async.isPhoneNum(_this.phone)) {
               _this.captchaIns && _this.captchaIns.verify(); // 手动调用verify方法

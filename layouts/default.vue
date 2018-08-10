@@ -109,7 +109,7 @@ export default {
         self.$route.path.indexOf("/invite") > -1
       ) {
         // 网易e盾验证
-        self.$com.createScript("http://cstaticdun.126.net/load.min.js", "");
+        self.$com.createScript("https://cstaticdun.126.net/load.min.js", "");
         // 动态添加微信配置文件
         self.$com.createScript(
           "https://res.wx.qq.com/open/js/jweixin-1.2.0.js",
