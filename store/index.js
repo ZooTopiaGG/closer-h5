@@ -532,7 +532,7 @@ export const actions = {
       if (para.type && para.type === 'bind') {
         data = await self.$axios.$post(`${api.admin.get_code_by_phone}`, para)
       } else {
-        data = await self.$axios.$post(`${api.admin.get_code_by_phone_v4}`, para)
+        data = await self.$axios.$post(`${api.admin.get_code_by_phone_v2}`, para)
       }
       if (data.code === 0) {
         Toast({
