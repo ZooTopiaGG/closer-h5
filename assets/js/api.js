@@ -22,7 +22,7 @@ let api = {
     add_reply: 'closer_reply.add_reply',
     // 邀请人书
     invite_counts: 'closer_user.invite_counts',
-    // message: 
+    // 栏目小秘书message: 
     send_message: 'closer_share.send_message'
   },
   command: {

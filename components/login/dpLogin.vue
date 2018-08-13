@@ -422,7 +422,7 @@ export default {
   width: auto !important;
 }
 .yidun--popup {
-  min-width: 300px;
+  min-width: 300px !important;
 }
 .dpLogin {
   width: 87.2vw;
