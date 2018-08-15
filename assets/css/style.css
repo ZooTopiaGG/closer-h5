@@ -575,7 +575,7 @@ p:empty {
 
 #about {
   padding: 1.65vh 2.93vw;
-  padding-top: 6.6vh;
+  /* padding-top: 6.6vh; */
   line-height: 1.7;
   font-size: 16px;
   word-break: break-all;
