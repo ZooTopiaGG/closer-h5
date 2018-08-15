@@ -30,7 +30,7 @@
 export default {
   head() {
     return {
-      title: "提现规则"
+      title: "客服"
     };
   }
 };
