@@ -23,21 +23,21 @@
 <script>
 import Cookie from "js-cookie";
 export default {
-  async asyncData({ app, store, error, query, redirect, req }) {
-    // if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
-    //   redirect("/redirect/needwx");
-    // }
-    // if (query.code) {
-    //   let res = await store.dispatch("get_code_by_login", {
-    //     code: query.code,
-    //     inv_id: query.id,
-    //     type: "bonus"
-    //   });
-    //   if (!res) {
-    //     redirect("/invite/alreadyget");
-    //   }
-    // }
-  },
+  // async asyncData({ app, store, error, query, redirect, req }) {
+  //   // if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
+  //   //   redirect("/redirect/needwx");
+  //   // }
+  //   // if (query.code) {
+  //   //   let res = await store.dispatch("get_code_by_login", {
+  //   //     code: query.code,
+  //   //     inv_id: query.id,
+  //   //     type: "bonus"
+  //   //   });
+  //   //   if (!res) {
+  //   //     redirect("/invite/alreadyget");
+  //   //   }
+  //   // }
+  // },
   head() {
     return {
       title: "关注身边事，开心拿红包"
@@ -69,7 +69,6 @@ export default {
           location.hostname
         }?downurl=closer://jump/to/mine`;
       }
-      // location.href = api.downUrl;
     }
   },
   beforeMount() {

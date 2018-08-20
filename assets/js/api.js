@@ -10,6 +10,7 @@ let api = {
     get_code_by_phone: 'closer_account.get_code_by_phone',
     get_code_by_phone_v2: 'closer_account.get_code_by_phone_v2',
     get_code_by_phone_v4: 'closer_account.get_code_by_phone_v4',
+    send_with_code: 'closer_account.send_with_code',
     bind_phone: 'closer_account.bind_phone',
     check: 'closer_account.check',
     check_wechat: 'closer_account.check_wechat',

@@ -12,7 +12,10 @@
       <span class="shipin"></span>
     </section>
     <!-- 时间 -->
-    <section class="v2-controls flex flex-v flex-pack-justify">
+    <section class="v2-controls flex flex-v flex-pack-justify" 
+        @touchmove="touchmove"
+        @touchstart="touchstart"
+        @touchend="touchend">
       <section class="v2-top-controls flex flex-align-center flex-pack-justify">
         <section class="v2-duration flex flex-align-center flex-pack-center" v-if="duration > 0">
           <span>{{ $com.toCurrent(currentTime * 1000) }}/{{ $com.toCurrent(duration) }}</span>
@@ -52,7 +55,11 @@ export default {
       playing: {},
       pause: {},
       currentTime: 0,
-      v2_width: 0.0001
+      v2_width: 0.0001,
+      moveX: 0,
+      screenW: 0, // 屏幕宽度
+      endW: 0,
+      endCt: 0
     };
   },
   methods: {
@@ -128,10 +135,41 @@ export default {
     handlerFullScreen() {
       let self = this;
       self.launchFullScreen(self.video);
+    },
+    // 绑定拖拽进度条事件
+    touchstart(ev) {
+      ev = ev || event;
+    },
+    touchmove(ev) {
+      let self = this;
+      ev = ev || event;
+      self.moveX = ev.touches[0].clientX;
+      self.v2_width = self.moveX * 97 / self.screenW;
+      self.currentTime = self.v2_width * self.duration / 100000;
+      self.video.currentTime = self.currentTime;
+    },
+    touchend(ev) {
+      let self = this;
+      let disT = Math.abs(self.currentTime - self.endCt);
+      if (self.v2_width >= self.endW) {
+        self.$toast({
+          message: `快进了${Math.ceil(disT)}秒`,
+          position: "middle"
+        });
+      } else {
+        self.$toast({
+          message: `后退了${Math.ceil(disT)}秒`,
+          position: "middle"
+        });
+      }
+      self.endW = self.v2_width;
+      self.endCt = self.currentTime;
     }
   },
   mounted() {
     let self = this;
+    // 获取屏幕宽度
+    self.screenW = document.documentElement.clientWidth;
     // 存储总时长
     self.$store.commit("GET_VIDEO_DURATION", self.duration);
     self.video = document.getElementById(self.elem);

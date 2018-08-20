@@ -1,6 +1,5 @@
 <template>
   <div id="bonus" class="flex flex-align-center flex-pack-center">
-    <!-- <img src="~/assets/images/bonus@2x.png" alt=""> -->
     <div class="bonus-body flex flex-v flex-align-center flex-pack-justify">
       <div class="bonus-body-avatar">
         <img v-lazy="$com.makeFileUrl(res.avatar)">
@@ -25,7 +24,7 @@
 <script>
 import Cookie from "js-cookie";
 export default {
-  async asyncData({ app, query, store, redirect, req }) {
+  async asyncData({ app, query, store, redirect, req, error }) {
     // if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
     //   redirect("/redirect/needwx");
     // }
@@ -36,7 +35,7 @@ export default {
       if (data.code === 0) {
         data.result.id = query.inviter;
         return {
-          res: data.result
+          ret: data.result
         };
       }
     } catch (err) {
@@ -48,40 +47,48 @@ export default {
       title: "关注身边事，开心拿红包"
     };
   },
+  computed: {
+    res() {
+      return this.ret;
+    }
+  },
   data() {
     return {
-      openbonus: false,
-      res: {}
+      openbonus: false
     };
   },
   methods: {
     // 打开红包
     async toopenbonus() {
-      try {
-        this.openbonus = true;
-        let self = this;
-        Cookie.set("inviter", self.res);
+      let self = this,
+        inviter = self.$route.query.inviter;
+      self.openbonus = true;
+      Cookie.set("inviter", self.res);
+      let ret = await self.$store.dispatch("send_with_code");
+      if (ret === "yes") {
+        // 需要调用微信授权
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
-            // url: `${location.protocol}//${
-            //   location.hostname
-            // }/redirect?redirectUrl=${location.protocol}//${
-            //   location.hostname
-            // }/invite/openbonus?id=${self.$route.query.inviter}`
             url: `${location.protocol}//${
               location.hostname
-            }/invite/openbonus?id=${self.$route.query.inviter}`
+            }/invite/openbonus?id=${inviter}`
           });
           return;
         } else {
-          this.$router.push({ path: "/invite/register" });
+          self.$router.push({
+            path: `/invite/openbonus?id=${inviter}`
+          });
         }
-      } catch (e) {}
+      } else {
+        // 无需调用微信授权直接使用
+        self.$router.push({
+          path: `/invite/openbonus?id=${inviter}`
+        });
+      }
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style>

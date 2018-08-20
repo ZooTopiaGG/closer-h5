@@ -11,11 +11,6 @@
       <span>{{ title }}</span>
     </section>
     <mt-field placeholder="手机号" type="tel" :attr="{ maxlength: 11 }" v-model="phone" class="margin-bottom-40"></mt-field>
-    <!-- <section class="tj-code" v-if="isAbsolute != 'toMessageBind'">
-      <mt-field type="text" placeholder="图形验证码" :attr="{ maxlength: 5 }" v-model="img_code_value" class="margin-bottom-40">
-        <img class="tj-code-img" @click="sendImgCode" :src="get_img_code">
-      </mt-field>
-    </section> -->
     <section class="tj-code">
       <mt-field placeholder="验证码" type="tel" :attr="{ maxlength: 6 }" v-model="code" class="margin-bottom-40">
         <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled">{{ sendName }}</mt-button>
@@ -82,74 +77,6 @@ export default {
         api.filePath
       }/captcha/image?tempstamp=${Date.now()}`;
     },
-    /** async sendCode() {
-      let self = this,
-        time = 60;
-      self.isdisabled = true;
-      if (!$async.isPhoneNum(self.phone)) {
-        self.isdisabled = false;
-        self.$toast({
-          message: "手机号格式错误",
-          position: "top"
-        });
-        return false;
-      }
-      if (self.isAbsolute != "toMessageBind") {
-        if (!self.img_code_value) {
-          self.isdisabled = false;
-          self.$toast({
-            message: "图形验证码不能为空",
-            position: "top"
-          });
-          return false;
-        } else {
-          if (self.img_code_value.length < 5) {
-            self.isdisabled = false;
-            self.$toast({
-              message: "图形验证码格式错误",
-              position: "top"
-            });
-            return false;
-          }
-        }
-      }
-      let timer = setInterval(() => {
-        time--;
-        if (time <= 1) {
-          self.sendName = "重新发送";
-          self.isdisabled = false;
-          clearInterval(timer);
-        } else {
-          self.sendName = `正在发送 ${time} s`;
-        }
-      }, 1000);
-      let para;
-      if (self.isAbsolute != "toMessageBind") {
-        para = {
-          phone: self.phone,
-          grouk_captcha_value: self.img_code_value,
-          code: self.$route.query.code
-        };
-      } else {
-        para = {
-          phone: self.phone,
-          type: "bind"
-        };
-      }
-      let result = await self.$store.dispatch("get_code_by_phone_v2", {
-        para: para
-      });
-      if (!result) {
-        self.isdisabled = false;
-        self.sendName = "重新发送";
-        if (self.isAbsolute != "toMessageBind") {
-          self.get_img_code = `${
-            api.filePath
-          }/captcha/image?tempstamp=${Date.now()}`;
-        }
-        clearInterval(timer);
-      }
-    }, **/
     async sendCode() {
       let self = this,
         time = 60;
@@ -382,8 +309,8 @@ export default {
         initNECaptcha(
           {
             element: "#captcha",
-            captchaId: "e50469ef050d416387ac8f6cee7d0582",
-            mode: "bind", // 仅智能无感知验证码时，mode 才能设置为 bind
+            captchaId: "9bff9612504c4b0f9bd9d63b142dd43e",
+            mode: "popup", // 仅智能无感知验证码时，mode 才能设置为 bind
             width: "320px",
             onVerify: function(err, data) {
               // 用户验证码验证成功后，进行实际的提交行为
@@ -398,7 +325,7 @@ export default {
             // 重复执行， 如果初始化成功则无需执行
             _this.captchaIns = instance;
             if ($async.isPhoneNum(_this.phone)) {
-              _this.captchaIns && _this.captchaIns.verify(); // 手动调用verify方法
+              _this.captchaIns && _this.captchaIns.popUp(); // 手动调用verify方法
             } else {
               _this.$toast({
                 message: "手机号格式错误",
