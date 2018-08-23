@@ -3,7 +3,7 @@
     <section class="topnav flex flex-align-center flex-pack-justify">
         <section class="topnav-left flex flex-1 flex-align-center">
           <img class="topnav-logo" :src="defaultImg" v-lazy="require('~/assets/images/login_logo@2x.png')">
-          <mt-swipe :auto="4000" :show-indicators="false" class="mtswipe flex-1">
+          <mt-swipe :auto="2000" :show-indicators="false" class="mtswipe flex-1">
             <mt-swipe-item>
               <section class="communityName flex flex-v flex-pack-center">
                 <span>贴近一点 看身边</span>

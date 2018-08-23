@@ -171,9 +171,7 @@ export default {
                     data-bg='${c}'
                     style='background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==");'>
                     <section 
-                      class='flex 
-                      flex-align-center 
-                      flex-pack-center'
+                      class='parent-shipin'
                       data-vid='${v}'
                       data-uid='${u}'
                       >
