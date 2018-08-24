@@ -356,15 +356,6 @@ video::-webkit-media-controls-panel {
   position: relative;
 }
 
-.tiejin-videobox-native>section {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.3);
-}
-
 .tiejin-iframe {
   width: 100%;
   min-height: 212px;

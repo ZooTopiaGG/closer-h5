@@ -57,9 +57,9 @@ export default {
       currentTime: 0,
       v2_width: 0.0001,
       moveX: 0,
-      screenW: 0, // 屏幕宽度
-      endW: 0,
-      endCt: 0
+      screenW: 0 // 屏幕宽度
+      // endW: 0,
+      // endCt: 0
     };
   },
   methods: {
@@ -149,21 +149,21 @@ export default {
       self.video.currentTime = self.currentTime;
     },
     touchend(ev) {
-      let self = this;
-      let disT = Math.abs(self.currentTime - self.endCt);
-      if (self.v2_width >= self.endW) {
-        self.$toast({
-          message: `快进了${Math.ceil(disT)}秒`,
-          position: "middle"
-        });
-      } else {
-        self.$toast({
-          message: `后退了${Math.ceil(disT)}秒`,
-          position: "middle"
-        });
-      }
-      self.endW = self.v2_width;
-      self.endCt = self.currentTime;
+      // let self = this;
+      // let disT = Math.abs(self.currentTime - self.endCt);
+      // if (self.v2_width >= self.endW) {
+      //   self.$toast({
+      //     message: `快进了${Math.ceil(disT)}秒`,
+      //     position: "middle"
+      //   });
+      // } else {
+      //   self.$toast({
+      //     message: `后退了${Math.ceil(disT)}秒`,
+      //     position: "middle"
+      //   });
+      // }
+      // self.endW = self.v2_width;
+      // self.endCt = self.currentTime;
     }
   },
   mounted() {
