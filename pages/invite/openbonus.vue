@@ -23,21 +23,21 @@
 <script>
 import Cookie from "js-cookie";
 export default {
-  // async asyncData({ app, store, error, query, redirect, req }) {
-  //   // if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
-  //   //   redirect("/redirect/needwx");
-  //   // }
-  //   // if (query.code) {
-  //   //   let res = await store.dispatch("get_code_by_login", {
-  //   //     code: query.code,
-  //   //     inv_id: query.id,
-  //   //     type: "bonus"
-  //   //   });
-  //   //   if (!res) {
-  //   //     redirect("/invite/alreadyget");
-  //   //   }
-  //   // }
-  // },
+  async asyncData({ app, store, error, query, redirect, req }) {
+    // if (req.headers["user-agent"].indexOf("MicroMessenger") <= -1) {
+    //   redirect("/redirect/needwx");
+    // }
+    if (query.code) {
+      let res = await store.dispatch("get_code_by_login", {
+        code: query.code,
+        inv_id: query.id,
+        type: "bonus"
+      });
+      if (!res) {
+        redirect("/invite/alreadyget");
+      }
+    }
+  },
   head() {
     return {
       title: "关注身边事，开心拿红包"
@@ -69,6 +69,30 @@ export default {
           location.hostname
         }?downurl=closer://jump/to/mine`;
       }
+    }
+    /* async bylogin() {
+      if (this.$route.query.code) {
+        let res = await this.$store.dispatch("get_code_by_login", {
+          code: this.$route.query.code,
+          inv_id: this.$route.query.id,
+          type: "bonus"
+        });
+        if (!res) {
+          this.$router.push("/invite/alreadyget");
+        }
+      }
+    } */
+  },
+  created() {
+    let self = this;
+    if (self.$store.state.token && self.$store.state.auth) {
+      // // 存cookies
+      Cookie.set("token", self.$store.state.token, {
+        expires: 7
+      });
+      Cookie.set("user", self.$store.state.auth, {
+        expires: 7
+      });
     }
   },
   beforeMount() {

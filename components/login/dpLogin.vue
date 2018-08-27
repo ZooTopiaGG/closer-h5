@@ -16,26 +16,17 @@
         <mt-button type="default" class="tj-code-btn cursor" id="tj-code-btn" :disabled="isdisabled">{{ sendName }}</mt-button>
       </mt-field>
     </section>
-    <mt-button type="primary" v-if="isAbsolute != 'toMessageBind'" :disabled="loading === 1" :class="{
+    <mt-button type="primary" :disabled="loading === 1" :class="{
       'cursor': true,
       'margin-top-20': true, 
       'tj-btn': true,
-      notweixin: isAbsolute == 'inviter',
-    }" @click="toLogin">
+      notweixin: isAbsolute == 'inviter'
+    }" @click="gotonext">
       <section class="flex flex-align-center flex-pack-center">
         <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
         <span v-if="isAbsolute === 'inviter'">立即下载，提现秒到账</span>
+        <span v-else-if="isAbsolute === 'toMessageBind'">绑定手机</span>
         <span v-else>登 录</span>
-      </section>
-    </mt-button>
-    <mt-button type="primary" v-else :disabled="loading === 1" :class="{
-      'cursor': true,
-      'margin-top-20': true, 
-      'tj-btn': true
-    }" @click="toBind">
-      <section class="flex flex-align-center flex-pack-center">
-        <mt-spinner v-if="loading === 1" :size="16" type="fading-circle" color="#495060" style="margin-right:5px"></mt-spinner>
-        <span>绑定手机</span>
       </section>
     </mt-button>
     <section id="captcha"></section>
@@ -111,16 +102,33 @@ export default {
         }
       }, 1000);
       let para;
-      if (self.isAbsolute != "toMessageBind") {
-        para = {
-          phone: self.phone,
-          captchaValidate: self.captchaValidate.validate,
-          code: self.$route.query.code
-        };
-      } else {
+      if (self.isAbsolute === "toMessageBind") {
         para = {
           phone: self.phone,
           type: "bind"
+        };
+      } else if (self.isAbsolute === "inviter") {
+        // 判断是在微信，还是在外部浏览器
+        if ($async.isWeiXin()) {
+          para = {
+            phone: self.phone,
+            captchaValidate: self.captchaValidate.validate,
+            // code: self.$route.query.code 暂时不用
+            type: "bind"
+          };
+        } else {
+          para = {
+            phone: self.phone,
+            captchaValidate: self.captchaValidate.validate
+            // code: self.$route.query.code 暂时不用
+          };
+        }
+      } else {
+        // 登录发送验证码
+        para = {
+          phone: self.phone,
+          captchaValidate: self.captchaValidate.validate
+          // code: self.$route.query.code 暂时不用
         };
       }
       let result = await self.$store.dispatch("get_code_by_phone_v2", {
@@ -135,6 +143,22 @@ export default {
           }/captcha/image?tempstamp=${Date.now()}`;
         }
         clearInterval(timer);
+      }
+    },
+    async gotonext() {
+      let self = this;
+      if (self.isAbsolute === "toMessageBind") {
+        self.toBind();
+      } else if (self.isAbsolute === "inviter") {
+        // 判断是在微信，还是在外部浏览器
+        if ($async.isWeiXin()) {
+          self.toBind();
+        } else {
+          self.toLogin();
+        }
+      } else {
+        // 登录发送验证码
+        self.toLogin();
       }
     },
     // 登录
@@ -237,7 +261,12 @@ export default {
         if (status) {
           self.loading = 2;
           self.$store.commit("SET_VISIBLE_LOGIN", false);
-          if (self.isAbsolute === "toMessageBind") {
+          if (self.isAbsolute === "inviter") {
+            // 需要传入打开相应app页面的参数
+            location.href = `${location.protocol}//${
+              location.host
+            }?downurl=closer://jump/to/mine`;
+          } else if (self.isAbsolute === "toMessageBind") {
             self.sureMessage();
           }
           // 通过token获取用户信息 来更新user

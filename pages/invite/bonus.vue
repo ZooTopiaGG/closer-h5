@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     // 打开红包
-    async toopenbonus() {
+    /* async toopenbonus() {
       let self = this,
         inviter = self.$route.query.inviter;
       self.openbonus = true;
@@ -83,6 +83,27 @@ export default {
         }
       } else {
         // 无需调用微信授权直接使用
+        self.$router.push({
+          path: `/invite/openbonus?id=${inviter}`
+        });
+      }
+    }, */
+    async toopenbonus() {
+      let self = this,
+        inviter = self.$route.query.inviter;
+      self.openbonus = true;
+      Cookie.set("inviter", self.res);
+      // 需要调用微信授权
+      // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+      if ($async.isWeiXin()) {
+        // 通过微信授权 获取code
+        await self.$store.dispatch("get_wx_auth", {
+          url: `${location.protocol}//${
+            location.hostname
+          }/invite/openbonus?id=${inviter}`
+        });
+        return;
+      } else {
         self.$router.push({
           path: `/invite/openbonus?id=${inviter}`
         });
