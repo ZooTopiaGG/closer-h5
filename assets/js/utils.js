@@ -412,7 +412,6 @@ export default {
     defaultStr,
     redirectUrl
   }) {
-    console.log(str, defaultStr, redirectUrl)
     let result = await store.dispatch("down_adcookies");
     if (result) {
       let _page, url, did = route.params.id || route.params.messageid,

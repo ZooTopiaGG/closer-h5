@@ -748,7 +748,6 @@ export const actions = {
         totalTime: state.duration_time || 0, //		'内容总时长，单位毫秒
       }
     let para = await Coms.mergeJsonObject(p1, p2);
-    console.log('para===', para)
     let data = await self.$axios.$post(`${api.share.common}`, para);
     if (data.code === 0) {
       return true
