@@ -321,13 +321,13 @@ export default {
           location.host
         }?from=group&groupid=${self.$route.params.id}&tk=1`;
       }
-      await self.$com.down_statistics(
-        self.$store,
-        self.$route,
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
         str,
-        self.$store.state.extension_text,
+        defaultStr: self.$store.state.extension_text,
         redirectUrl
-      );
+      });
     }
   },
   mounted() {

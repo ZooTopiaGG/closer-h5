@@ -405,7 +405,14 @@ export default {
     return resultJsonObject;
   },
   // 统计方法
-  async down_statistics(store, route, str, defaultStr, redirectUrl) {
+  async down_statistics({
+    store,
+    route,
+    str,
+    defaultStr,
+    redirectUrl
+  }) {
+    console.log(str, defaultStr, redirectUrl)
     let result = await store.dispatch("down_adcookies");
     if (result) {
       let _page, url, did = route.params.id || route.params.messageid,
@@ -425,6 +432,7 @@ export default {
             store.state.current_time / store.state.duration_time;
           progress = progress.toFixed(2);
         } else {
+          // 计算进度
           progress = 0.5;
           _page = "article";
         }
@@ -433,9 +441,11 @@ export default {
         url = `closer://group/${did}`;
       } else {
         _page = "inviter";
+        url = `closer://jump/to/mine`;
       }
       _str = typeof (str) === 'string' && str ? str : defaultStr;
       let p1 = {
+        action: "click", //		'行为类型(曝光 浏览结束点击返回 负反馈 点击下载)，参数取值:exposure back feedback download'        
         objectType: _page || "article", //		'统计对象类型（文章 视频 栏目 群组 H5分享的群组，栏目，帖子）,参数取值:article video community group'
         objectId: route.params.id || "", //		'统计对象唯一标识'
         position: _str, //		'点击位置，若action为download时必填,参数取值：top bottom'

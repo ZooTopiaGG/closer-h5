@@ -106,13 +106,13 @@ export default {
     async downApp(e, str, id) {
       let self = this,
         redirectUrl = `closer://feed/${id}`;
-      self.$com.down_statistics(
-        self.$store,
-        self.$route,
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
         str,
-        "hot_feed",
+        defaultStr: "hot_feed",
         redirectUrl
-      );
+      });
     }
   },
   mounted() {}

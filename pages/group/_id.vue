@@ -198,24 +198,34 @@ export default {
     // h5下载补丁
     async downApp(e, str) {
       let self = this;
-      self.$com.down_statistics(
-        self.$store,
-        self.$route,
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
         str,
-        "more_group_member"
-      );
+        defaultStr: "more_group_member"
+      });
+    },
+    async focusWxLogin() {
+      let self = this,
+        tokenStatus;
+      // 验证token 是否存在 避免重复调用 login_with_wechat
+      try {
+        tokenStatus = Cookie.get("token") || self.$store.state.token;
+      } catch (e) {
+        tokenStatus = self.$store.state.token ? true : false;
+      }
+      // 验证code是否存在
+      if (self.$route.query.code && !tokenStatus) {
+        self.$store.dispatch("get_code_by_login", {
+          code: self.$route.query.code,
+          type: "else"
+        });
+      }
     }
   },
   beforeMount() {
-    let self = this;
-    // 验证code是否存在
-    if (self.$route.query.code) {
-      self.$store.dispatch("get_code_by_login", {
-        code: self.$route.query.code,
-        type: "else"
-      });
-    }
-    self.getGroupFeedList();
+    this.focusWxLogin();
+    this.getGroupFeedList();
   },
   mounted() {}
 };

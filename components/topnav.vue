@@ -43,13 +43,13 @@ export default {
     async downApp(e, str) {
       let self = this,
         redirectUrl = "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
-      self.$com.down_statistics(
-        self.$store,
-        self.$route,
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
         str,
-        "direct_top",
+        defaultStr: "direct_top",
         redirectUrl
-      );
+      });
     }
   }
 };

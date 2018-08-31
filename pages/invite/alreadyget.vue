@@ -33,24 +33,12 @@ export default {
   methods: {
     async downApp() {
       let self = this;
-      await self.$store.dispatch("down_adcookies");
-      let _page = "inviter",
-        progress;
-      let p1 = {
-        objectType: _page || "inviter", //		'统计对象类型（文章 视频 栏目 群组 H5分享的群组，栏目，帖子）,参数取值:article video community group'
-        objectId: "", //		'统计对象唯一标识'
-        position: "", //		'点击位置，若action为download时必填,参数取值：top bottom'
-        progress: progress || 0, //		'浏览进度，文章为阅读的进度，图集为当前阅读的图片/总的图片数，视频为当前播放时间/总时间 小数点两位：0.95'
-        recommendId: "" //		'本次推荐的唯一标识 推荐内容ID'
-      };
-      let res = await self.$store.dispatch("down_statistics", {
-        p1
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
+        str: "",
+        defaultStr: "inviter"
       });
-      if (res) {
-        location.href = `${location.protocol}//${
-          location.hostname
-        }?downurl=closer://jump/to/mine`;
-      }
     }
   },
   data() {

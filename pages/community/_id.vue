@@ -95,7 +95,12 @@ export default {
     // h5下载补丁
     async downApp(str) {
       let self = this;
-      self.$com.down_statistics(self.$store, self.$route, str, "more_group");
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
+        str,
+        defaultStr: "more_group"
+      });
     },
     async communityDetails() {
       let app = this,
@@ -186,9 +191,16 @@ export default {
     },
     // 微信登录关注
     async focusWxLogin() {
-      let self = this;
+      let self = this,
+        tokenStatus;
+      // 验证token 是否存在 避免重复调用 login_with_wechat
+      try {
+        tokenStatus = Cookie.get("token") || self.$store.state.token;
+      } catch (e) {
+        tokenStatus = self.$store.state.token ? true : false;
+      }
       // 验证code是否存在
-      if (self.$route.query.code) {
+      if (self.$route.query.code && !tokenStatus) {
         let res = await self.$store.dispatch("get_code_by_login", {
           code: self.$route.query.code,
           type: "else"

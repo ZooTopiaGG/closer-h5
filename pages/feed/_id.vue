@@ -534,9 +534,16 @@ export default {
     },
     // 微信登录关注
     async focusWxLogin() {
-      let self = this;
+      let self = this,
+        tokenStatus;
+      // 验证token 是否存在 避免重复调用 login_with_wechat
+      try {
+        tokenStatus = Cookie.get("token") || self.$store.state.token;
+      } catch (e) {
+        tokenStatus = self.$store.state.token ? true : false;
+      }
       // 验证code是否存在
-      if (self.$route.query.code) {
+      if (self.$route.query.code && !tokenStatus) {
         let res = await self.$store.dispatch("get_code_by_login", {
           code: self.$route.query.code,
           type: "else"

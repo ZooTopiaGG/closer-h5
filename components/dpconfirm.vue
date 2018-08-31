@@ -31,12 +31,20 @@ export default {
     // h5下载补丁
     async downApp(e, str) {
       let self = this;
-      await self.$com.down_statistics(self.$store, self.$route, str, "message");
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
+        str,
+        defaultStr: "message"
+      });
       self.$store.commit("SHOW_CONFIRM", false);
     },
     backFeed() {
       this.$store.commit("SHOW_CONFIRM", false);
-      this.$router.push({ path: `/feed/${this.$route.params.messageid}`, hash: 'messageboard' });
+      this.$router.push({
+        path: `/feed/${this.$route.params.messageid}`,
+        hash: "messageboard"
+      });
     }
   }
 };

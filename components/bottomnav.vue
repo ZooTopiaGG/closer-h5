@@ -47,13 +47,13 @@ export default {
       } else {
         // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
         if ($async.isWeiXin()) {
-          await self.$com.down_statistics(
-            self.$store,
-            self.$route,
-            "",
-            "direct_bottom",
-            "wx"
-          );
+          await self.$com.down_statistics({
+            store: self.$store,
+            route: self.$route,
+            str: "",
+            defaultStr: "direct_bottom",
+            redirectUrl: "wx"
+          });
           // 通过微信授权 获取code
           await self.$store.dispatch("get_wx_auth", {
             // 正式
@@ -83,13 +83,13 @@ export default {
       } else if (str === "direct_bottom") {
         redirectUrl = "closer://jump/to/home";
       }
-      self.$com.down_statistics(
-        self.$store,
-        self.$route,
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
         str,
-        "direct_bottom",
+        defaultStr: "direct_bottom",
         redirectUrl
-      );
+      });
     }
   }
 };

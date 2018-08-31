@@ -158,12 +158,12 @@ export default {
     // h5下载补丁
     async downApp(e, str) {
       let self = this;
-      self.$com.down_statistics(
-        self.$store,
-        self.$route,
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
         str,
-        self.$store.state.extension_text
-      );
+        defaultStr: self.$store.state.extension_text
+      });
     },
     // 点赞操作
     async toSupport(e) {
