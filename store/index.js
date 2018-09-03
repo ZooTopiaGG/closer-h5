@@ -724,14 +724,14 @@ export const actions = {
     } else if (state.auth) {
       userId = state.auth.objectID;
     } else {
-      userId = ''
+      userId = null
     }
     if (Cookie.get("h5Cookies")) {
       h5cookie = Cookie.get("h5Cookies")
     } else if (state.h5Cookies) {
       h5cookie = state.h5Cookies
     } else {
-      h5cookie = ''
+      h5cookie = null
     }
     let self = this,
       p2 = {
