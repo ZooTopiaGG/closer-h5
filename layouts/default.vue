@@ -4,7 +4,7 @@
       default_init_box: true,
       hasControlVideo: !$store.state.isPre
     }" v-if="$store.state.exist">
-      <nav v-if="$store.state.GET_MESSAGE_STATE && $store.state.webNoNav && !($route.path.indexOf('feed/tomessage') > -1)" 
+      <nav v-if="$store.state.is_closer_app && $store.state.webNoNav && !($route.path.indexOf('feed/tomessage') > -1)" 
         :class="{
           webNoNav: !$store.state.webNoNav,
           flex: true,
@@ -13,18 +13,18 @@
         }">
         <top-nav></top-nav>
       </nav>
-      <section class="layer" v-if="$store.state.GET_MESSAGE_STATE">
+      <section class="layer" v-if="$store.state.is_closer_app">
         <img :src="defaultImg" v-lazy="require('~/assets/images/1531133203.png')" alt="">
         <section>手机扫一扫</section>
         <section>下载贴近App</section>
       </section>
       <section id="wrapper"
         :class="{ 
-        'web-class': $store.state.GET_MESSAGE_STATE, 
+        'web-class': $store.state.is_closer_app, 
         isLongVideo: $store.state.isLongVideo,
         nuxts:true, 
         webNoNav: !$store.state.webNoNav || ($route.path.indexOf('feed/tomessage') > -1),
-        appnuxts: !$store.state.GET_MESSAGE_STATE }">
+        appnuxts: !$store.state.is_closer_app }">
         <keep-alive>
           <nuxt/>
         </keep-alive>
@@ -108,7 +108,7 @@ export default {
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       if (
-        self.$store.state.GET_MESSAGE_STATE ||
+        self.$store.state.is_closer_app ||
         self.$route.path.indexOf("/invite") > -1
       ) {
         // 网易e盾验证
@@ -137,67 +137,69 @@ export default {
   },
   mounted() {
     let self = this;
-    try {
-      // 会影响性能～
-      if (self.$store.state.res.int_type === 1) {
-        self.feedType = "play";
-        self.objectType = "video";
-      } else {
-        self.feedType = "read";
-        self.objectType = "article";
-      }
-      let uid = self.$store.state.auth ? self.$store.state.auth.objectID : "";
-      let timer = setInterval(() => {
-        if (self.$store.state.res.int_type === 0) {
-          self.progress = 1;
-        } else if (self.$store.state.res.int_type === 1) {
-          let progress2 =
-            self.$store.state.current_time / self.$store.state.duration_time;
-          self.progress = progress2.toFixed(2);
+    if (self.$store.state.is_closer_app) {
+      try {
+        // 会影响性能～
+        if (self.$store.state.res.int_type === 1) {
+          self.feedType = "play";
+          self.objectType = "video";
         } else {
-          // 计算进度
-          // console.log(window.scrollY + window.innerHeight)
-          var sy =
-              window.scrollY == 0
-                ? window.scrollY
-                : window.scrollY + window.innerHeight,
-            body =
-              document.compatMode && document.compatMode == "CSS1Compat"
-                ? document.documentElement
-                : document.body,
-            bh = body.offsetHeight;
-          // console.log(body.offsetHeight)
-          // console.log(window.innerHeight)
-          var sb = (sy / bh).toFixed(2);
-          self.progress = sb;
+          self.feedType = "read";
+          self.objectType = "article";
         }
-      }, 1000);
-      window.addEventListener("unload", function(event) {
-        clearInterval(timer);
-        let data = {
-          action: self.feedType,
-          objectType: self.objectType,
-          objectId: self.$store.state.res.subjectid || "",
-          position: "detail",
-          progress: self.progress,
-          recommendId: "",
-          userId: uid,
-          deviceId: "",
-          cookie: self.$store.state.h5Cookies,
-          platform: "H5",
-          attachPlatform: self.$store.state.nvgTypeToPowerCase,
-          communityId: self.$store.state.res.communityid || "",
-          title: self.$store.state.res.title || "",
-          dreason: "",
-          time: Date.now(),
-          cost: Date.now() - self.$store.state.enter_time || 0,
-          totalTime: self.$store.state.duration_time || 0
-        };
-        let url = `${api.baseUrl}/closer_statistics.user_action_v2`;
-        navigator.sendBeacon(url, JSON.stringify(data));
-      });
-    } catch (e) {
-      console.log(e);
+        let uid = self.$store.state.auth ? self.$store.state.auth.objectID : "";
+        let timer = setInterval(() => {
+          if (self.$store.state.res.int_type === 0) {
+            self.progress = 1;
+          } else if (self.$store.state.res.int_type === 1) {
+            let progress2 =
+              self.$store.state.current_time / self.$store.state.duration_time;
+            self.progress = progress2.toFixed(2);
+          } else {
+            // 计算进度
+            // console.log(window.scrollY + window.innerHeight)
+            var sy =
+                window.scrollY == 0
+                  ? window.scrollY
+                  : window.scrollY + window.innerHeight,
+              body =
+                document.compatMode && document.compatMode == "CSS1Compat"
+                  ? document.documentElement
+                  : document.body,
+              bh = body.offsetHeight;
+            // console.log(body.offsetHeight)
+            // console.log(window.innerHeight)
+            var sb = (sy / bh).toFixed(2);
+            self.progress = sb;
+          }
+        }, 1000);
+        window.addEventListener("unload", function(event) {
+          clearInterval(timer);
+          let data = {
+            action: self.feedType,
+            objectType: self.objectType,
+            objectId: self.$store.state.res.subjectid || "",
+            position: "detail",
+            progress: self.progress,
+            recommendId: "",
+            userId: uid,
+            deviceId: "",
+            cookie: self.$store.state.h5Cookies,
+            platform: "H5",
+            attachPlatform: self.$store.state.nvgTypeToPowerCase,
+            communityId: self.$store.state.res.communityid || "",
+            title: self.$store.state.res.title || "",
+            dreason: "",
+            time: Date.now(),
+            cost: Date.now() - self.$store.state.enter_time || 0,
+            totalTime: self.$store.state.duration_time || 0
+          };
+          let url = `${api.baseUrl}/closer_statistics.user_action_v2`;
+          navigator.sendBeacon(url, JSON.stringify(data));
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
     this.$store.commit("GET_USER_AGENT", {
       nvg: navigator.userAgent,
@@ -297,7 +299,7 @@ export default {
         }
       }
       // 微信二次分享
-      if (self.$store.state.GET_MESSAGE_STATE) {
+      if (self.$store.state.is_closer_app) {
         self.$store.dispatch("wx_share", {
           title: title,
           desc: desc,
@@ -305,7 +307,7 @@ export default {
         });
       }
       // 在浏览器可以点击图片预览
-      if (self.$store.state.GET_MESSAGE_STATE) {
+      if (self.$store.state.is_closer_app) {
         let preimg;
         if (document.querySelector(".feed-1")) {
           preimg = document

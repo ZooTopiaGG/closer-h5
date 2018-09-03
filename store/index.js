@@ -5,7 +5,7 @@ import {
   Toast
 } from 'mint-ui'
 export const state = () => ({
-  GET_MESSAGE_STATE: false,
+  is_closer_app: false,
   GET_IS_APP: false,
   agent: '',
   isPre: false,
@@ -52,7 +52,7 @@ export const mutations = {
       r = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
       _result = r || refer.indexOf('/invite') > -1;
     state.version_1_2 = await Coms.compareVersion(nvg);
-    state.GET_MESSAGE_STATE = !_result;
+    state.is_closer_app = !_result;
     state.GET_IS_APP = r
     state.agent = nvg;
     state.isPre = refer.indexOf('?view=pre') > -1;

@@ -160,7 +160,7 @@ export default {
     self.$nextTick(() => {
       if (
         self.$store.state.res.int_type === 1 &&
-        self.$store.state.GET_MESSAGE_STATE
+        self.$store.state.is_closer_app
       ) {
         self.video.addEventListener("x5videoexitfullscreen", function() {
           // 隐藏poster 封面
@@ -187,9 +187,6 @@ export default {
         });
       }
     });
-  },
-  beforeDestroy() {
-    console.log("我快被销毁了");
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
    <!-- 留言板 --> 
    <section class="feed-2" id="messageboard" v-if="!$store.state.isPre">
-     <section v-if="$store.state.GET_MESSAGE_STATE && messagelist.data.length > 0">
+     <section v-if="$store.state.is_closer_app && messagelist.data.length > 0">
       <section class="split-box"></section>
       <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
       <!-- <section v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->

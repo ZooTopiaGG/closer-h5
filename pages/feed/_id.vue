@@ -17,7 +17,7 @@
           <section class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
-          <section class="feeder-images" v-if="$store.state.GET_MESSAGE_STATE">
+          <section class="feeder-images" v-if="$store.state.is_closer_app">
             <section class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images && $store.state.content.images.length == 1">
               <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
                 <!-- <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)"> -->
@@ -128,7 +128,7 @@
         </section>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <section class="feed-doc" v-else-if="$store.state.res.int_type === 2">
-          <section v-if="!$store.state.version_1_2 || $store.state.GET_MESSAGE_STATE">
+          <section v-if="!$store.state.version_1_2 || $store.state.is_closer_app">
             <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
               <!-- 大封面 -->
               <img class="feed-cover feed-cover-bgcover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
@@ -154,7 +154,7 @@
             <!-- logo -->
             <logo-tab></logo-tab>
             <!-- 暂时隐藏 -->
-            <section class="feeder-cover flex flex-align-center" v-if="!$store.state.GET_MESSAGE_STATE">
+            <section class="feeder-cover flex flex-align-center" v-if="!$store.state.is_closer_app">
               <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
             </section>
             <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
@@ -179,7 +179,7 @@
                     </section>
                     <!-- 包含图片 -->
                     <section v-else-if="item.type === 1" class="feeder-comment">
-                      <section v-if="$store.state.GET_MESSAGE_STATE" style="position:relative;">
+                      <section v-if="$store.state.is_closer_app" style="position:relative;">
                         <img class="feeder-comment-img" data-index="99" :style="{
                         height: item.image.height * 73 / item.image.width + 'vw'
                       }" :src="defaultImg" v-lazy="$com.makeFileUrl(item.image.link)"
@@ -204,7 +204,7 @@
                     </section>
                     <!-- 包含视频 -->
                     <section v-else-if="item.type === 2">
-                      <section v-if="$store.state.GET_MESSAGE_STATE">
+                      <section v-if="$store.state.is_closer_app">
                         <section class="imgbox feed-imgbox">
                           <video :src="item.video.src" controls="controls" preload="none" 
                             :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
@@ -243,7 +243,7 @@
         <!-- 阅读量 点赞数 -->
         <section class="end-data flex flex-align-center flex-pack-justify" v-if="!$store.state.version_1_2">
           <section class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></section>
-          <section class="flex flex-align-center" @click="toSupport($event)" v-if="$store.state.GET_MESSAGE_STATE">
+          <section class="flex flex-align-center" @click="toSupport($event)" v-if="$store.state.is_closer_app">
             <img class="sup-icon" ref="sup" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAgCAYAAABgrToAAAADz0lEQVRYR82YXWgcVRTH/2c2tXWtWBS0aovFl9So1MY3P17andm9d7apL7FaScEv1BeFiB8UkYKIWKmgL340KJhICvtQsDtzNzvb6kORIsTWQrU+VDS0IVYCFkzBZHf+MmiW3e1m2SRrJ+f53HN+c849554zgg5KVjk7yDADsVYBODF1cXp4fHx8bjkuZDmH58/29/cnZv669KWAu+rsCX6wZtl3pFSaWKqfjgBqbQ8KcQDgn4C8LyKXSD4HoAeC75LXrXsgl8tVlgLZGUBlTwiwEcROrxB8FYH09T14fWUueRrAJoTMemMlLxZA103dhVB+BDDpmWADAM6DuMp+G8BeAG95JngzFsCstp8n8RGIUa8Q7K6F0Gn7GbFwkMSQXwiejQXQVXaUOi3Cp/J+6fNaiKxydhE8BOCQZ4LHrzrgTsfZWE7wFwCVa9aEtx8+fHS6FsLNOE9DOCTEUD6OCGplfybAkyIYzvvBnsYIZbV9gMQgwDc8U4ru46JlyVX8X3QOAvg7RNc9xphzjd5dbf8EYnMI2W5M8dii6QBcAai1YwvCR4Ry7UIGKXIryHR0XgQv5P3g40ZdpWzHAsaiqhZiBIJyM3sEy4LE8bwZG67tAPO6dYCusl8G8F4z8CbGL1Mw6PvBJ80ca53OCMOogKy2IicY9fz6LhCdqwKmUqkbVq+S3wF0ici+EDxf8xUKxKMAfApyEqIcSteYMeaPVs5d17mfFd7bCtEi15KyD4KbLPLhI4XS8VqbVcBsNr2FlfCUQE7nTXFLXbvQzisk9xPY75vgtbYisgglV9mjAB4DMeAVgpGmgEqltlqQ7wU4mTdB71UG/BXAHSHYa0zp5IoCzGQy3QmpnCVx0S8E6xsLpZriuCKotfOikB9AMOL5wUDjzYgd0NV2HoRLwR7fD6JWUyexAiqlVlsoT5NMwirf5vvfTK0wQGebBR4FcMozwdZmhR9rBLWy3xXg1VbtK1ZAV9lRS7mv1VsdG6DWej3C2UkRuZxcu+7GXC43u6JSrLU9IMQXEHieH2QXenhii6CrUiOAPEHKS36h+OFKAxSt7CkBbq6wvLlQ+PrnFQW4I72tN7QS4wB/80xpU6u5oprivkymuyKVswAuJCcm78ydOVO9tNkOTzNZ7bxD8nVAPvVMMVrwF5TagdVylR0t2ncDOA9BNBv+K8QtADYAnILIhUVMUleqEmtI9kSjOCx5yPOK37YLCKW29wisnES/LP5fmSFlb6vimHffbGmyXDfVbZUTC+4ky2Gfk3I5DBPnisXiTDt2lrzVtWO8Ezr/AEKTND+nargIAAAAAElFTkSuQmCC" alt="图片"/>
             <span ref="like" status='false'> {{ $store.state.res.like }}</span>
           </section>
@@ -253,8 +253,8 @@
         </section> 
       </section>
       <!-- 精彩留言 -->
-      <message-board v-if="$store.state.GET_MESSAGE_STATE && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)"></message-board>
-      <section v-if="$store.state.GET_MESSAGE_STATE">
+      <message-board v-if="$store.state.is_closer_app && !($store.state.res.int_type === 2 && $store.state.res.int_category === 1)"></message-board>
+      <section v-if="$store.state.is_closer_app">
         <!-- 征稿列表 -->
         <section v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1">
           <dp-feed title="精彩投稿" :feed-list="paper_list" v-if="paper_list.length > 0"></dp-feed>
@@ -287,7 +287,7 @@ export default {
       } else {
         // 在外部浏览器时 不可看的状态
         // 在PC预览 可看的状态
-        if (store.state.GET_MESSAGE_STATE) {
+        if (store.state.is_closer_app) {
           // pc端的状态
           if (query.view && query.view === "pre") {
             store.commit("GET_EXIST_STATUS", true);
@@ -318,7 +318,7 @@ export default {
           if (res.result.int_type === 2) {
             let _html = await $async.makeHtmlContent(
               content.html,
-              store.state.GET_MESSAGE_STATE
+              store.state.is_closer_app
             );
             if (_html) {
               content.html = _html;
@@ -326,7 +326,7 @@ export default {
             if (res.result.int_category === 3 && content.end_html) {
               let end_html = await $async.makeHtmlContent(
                 content.end_html,
-                store.state.GET_MESSAGE_STATE
+                store.state.is_closer_app
               );
               if (end_html) {
                 content.end_html = end_html;
@@ -429,7 +429,7 @@ export default {
       this.$com.h5PlayVideo(
         event.target.dataset.uid,
         event.target.dataset.vid,
-        this.$store.state.GET_MESSAGE_STATE,
+        this.$store.state.is_closer_app,
         this.$store.state.version_1_2,
         this.$store.state.agent.indexOf("closer-ios") > -1
       );
@@ -442,14 +442,14 @@ export default {
       this.$com.h5PlayVideo(
         event.target.dataset.uid,
         event.target.dataset.vid,
-        this.$store.state.GET_MESSAGE_STATE,
+        this.$store.state.is_closer_app,
         this.$store.state.version_1_2,
         this.$store.state.agent.indexOf("closer-ios") > -1
       );
     },
     // 打开 神议论里的贴子
     tofeed(fid) {
-      if (this.$store.state.GET_MESSAGE_STATE) {
+      if (this.$store.state.is_closer_app) {
         this.$router.push({ path: `/feed/${fid}` });
       } else {
         location.href = `closer://feed/${fid}`;
@@ -573,7 +573,7 @@ export default {
       window.sessionStorage.clear();
       // 获取阅读量
       self.incrView();
-      if (self.$store.state.GET_MESSAGE_STATE) {
+      if (self.$store.state.is_closer_app) {
         // 栏目关注状态
         self.communityFocusStat();
         if (
@@ -602,7 +602,7 @@ export default {
           Array.prototype.forEach.call(videobg, function(x, i) {
             if (x.dataset.bg) {
               setTimeout(() => {
-                if (self.$store.state.GET_MESSAGE_STATE) {
+                if (self.$store.state.is_closer_app) {
                   x.setAttribute("poster", x.dataset.bg);
                 } else {
                   x.style.backgroundImage = `url('${x.dataset.bg}')`;

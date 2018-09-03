@@ -1,5 +1,5 @@
 <template>
-  <section class="feeder-cover flex flex-align-center flex-pack-justify" v-if="$store.state.GET_MESSAGE_STATE">
+  <section class="feeder-cover flex flex-align-center flex-pack-justify" v-if="$store.state.is_closer_app">
     <section class="flex flex-1 flex-align-center" @click="toCommunity">
       <dp-logo class="feed-logo"></dp-logo>
       <span class="communityName ellipsis">{{ $store.state.res.communityName || $store.state.res.name }}</span>
