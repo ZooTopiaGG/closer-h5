@@ -148,7 +148,14 @@ export default {
           self.feedType = "read";
           self.objectType = "article";
         }
-        let uid = self.$store.state.auth ? self.$store.state.auth.objectID : "";
+        let userId;
+        if (Cookie.get("user")) {
+          userId = JSON.parse(Cookie.get("user")).objectID;
+        } else if (self.$store.state.auth) {
+          userId = self.$store.state.auth.objectID;
+        } else {
+          userId = null;
+        }
         let timer = setInterval(() => {
           if (self.$store.state.res.int_type === 0) {
             self.progress = 1;
@@ -185,13 +192,13 @@ export default {
         window.addEventListener("unload", function(event) {
           clearInterval(timer);
           let data = {
+            userId: userId,
             action: self.feedType,
             objectType: self.objectType,
             objectId: self.$store.state.res.subjectid || null,
             position: "detail",
             progress: self.progress,
             recommendId: null,
-            userId: uid,
             deviceId: null,
             cookie: self.$store.state.h5Cookies,
             platform: "H5",

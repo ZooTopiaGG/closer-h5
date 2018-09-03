@@ -446,8 +446,6 @@ export default {
       let res = await store.dispatch("down_statistics", {
         p1
       });
-      console.log(p1)
-      return;
       if (res) {
         if (redirectUrl) {
           if (redirectUrl === 'wx') {
