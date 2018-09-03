@@ -736,13 +736,13 @@ export const actions = {
     let self = this,
       p2 = {
         userId: userId, // '用户ID，用户全网唯一标示，级别从高到底：userId>deviceId>cookie，userId，deviceId，cookie三个中必须要传一个'
-        deviceId: "", //	'设备ID，移动设备的唯一标示，比如iOS系统的IDFA、IDFV，安卓系统的IMEI，mac地址等 ，userId，deviceId，cookie三个中必须要传一个'
+        deviceId: null, //	'设备ID，移动设备的唯一标示，比如iOS系统的IDFA、IDFV，安卓系统的IMEI，mac地址等 ，userId，deviceId，cookie三个中必须要传一个'
         cookie: h5cookie, //	'cookie，以H5接入时使用，userId，deviceId，cookie三个中必须要传一个'
         platform: "H5", //	'设备平台,参数取值:Android IOS H5'
-        attachPlatform: state.nvgTypeToPowerCase || "", //	'H5的载体，当platform为H5时，如果设备为安卓设备，则传Android，IOS设备则传IOS，其他不传'
-        communityId: state.res.communityid || "", //		'栏目id,统计对象有该属性则需要填写'
-        title: state.res.title || "", //		'标题 如果是文章或视频该参数需要上传'
-        dreason: "", //		'负反馈内容，当action为feedback时必填，格式为：["负反馈内容1", "负反馈内容2"]'
+        attachPlatform: state.nvgTypeToPowerCase || null, //	'H5的载体，当platform为H5时，如果设备为安卓设备，则传Android，IOS设备则传IOS，其他不传'
+        communityId: state.res.communityid || null, //		'栏目id,统计对象有该属性则需要填写'
+        title: state.res.title || null, //		'标题 如果是文章或视频该参数需要上传'
+        dreason: null, //		'负反馈内容，当action为feedback时必填，格式为：["负反馈内容1", "负反馈内容2"]'
         time: Date.now(), //		'行为发生的时间戳，单位毫秒'
         cost: Date.now() - state.enter_time || 0, //		'浏览时长/曝光时长，单位毫秒'
         totalTime: state.duration_time || 0, //		'内容总时长，单位毫秒
