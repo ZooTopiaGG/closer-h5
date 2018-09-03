@@ -72,8 +72,9 @@ export default {
       preShow: false,
       scrollTimer: 0,
       feedType: "read",
-      progress: 1,
-      objectType: "article"
+      progress: 0,
+      objectType: "article",
+      oldScrollY: 0
     };
   },
   components: {
@@ -166,13 +167,21 @@ export default {
                 document.compatMode && document.compatMode == "CSS1Compat"
                   ? document.documentElement
                   : document.body,
-              bh = body.offsetHeight;
-            // console.log(body.offsetHeight)
-            // console.log(window.innerHeight)
-            var sb = (sy / bh).toFixed(2);
-            self.progress = sb;
+              bh = body.offsetHeight,
+              dh = document.querySelector(".feed-1").offsetHeight;
+            // console.log(body.offsetHeight);
+            // console.log(document.querySelector(".feed-1").offsetHeight);
+            // 监听滚动最大值 如果比他小则是回滚 无需计算进度 否则计算进度
+            if (self.oldScrollY < window.scrollY) {
+              self.oldScrollY = window.scrollY;
+              var sb = (sy / dh).toFixed(2);
+              self.progress = sb > 1 ? 1 : sb;
+            }
+            if (self.progress === 1) {
+              clearInterval(timer);
+            }
           }
-        }, 1000);
+        }, 300);
         window.addEventListener("unload", function(event) {
           clearInterval(timer);
           let data = {
@@ -181,7 +190,7 @@ export default {
             objectId: self.$store.state.res.subjectid || "",
             position: "detail",
             progress: self.progress,
-            recommendId: "",
+            // recommendId: "",
             userId: uid,
             deviceId: "",
             cookie: self.$store.state.h5Cookies,

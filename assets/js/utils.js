@@ -422,24 +422,9 @@ export default {
       } else if (route.path.indexOf("/feed") > -1) {
         _page = "article";
         url = `closer://feed/${did}`;
-        if (store.state.res.int_type === 0) {
-          _page = "article";
-          progress = 1;
-        } else if (store.state.res.int_type === 1) {
+        if (store.state.res.int_type === 1) {
           _page = "video";
-          progress =
-            store.state.current_time / store.state.duration_time;
-          progress = progress.toFixed(2);
         } else {
-          // 计算进度
-          // console.log(window.scrollY + window.innerHeight)
-          var sy = window.scrollY == 0 ? window.scrollY : window.scrollY + window.innerHeight,
-            body = (document.compatMode && document.compatMode == 'CSS1Compat') ? document.documentElement : document.body,
-            bh = body.offsetHeight;
-          // console.log(body.offsetHeight)
-          // console.log(window.innerHeight)
-          var sb = (sy / bh).toFixed(2);
-          progress = sb;
           _page = "article";
         }
       } else if (route.path.indexOf("/group") > -1) {
@@ -455,8 +440,8 @@ export default {
         objectType: _page || "article", //		'统计对象类型（文章 视频 栏目 群组 H5分享的群组，栏目，帖子）,参数取值:article video community group'
         objectId: route.params.id || "", //		'统计对象唯一标识'
         position: _str, //		'点击位置，若action为download时必填,参数取值：top bottom'
-        progress: progress || 0, //		'浏览进度，文章为阅读的进度，图集为当前阅读的图片/总的图片数，视频为当前播放时间/总时间 小数点两位：0.95'
-        recommendId: "" //		'本次推荐的唯一标识 推荐内容ID'
+        progress: 0, //		'浏览进度，文章为阅读的进度，图集为当前阅读的图片/总的图片数，视频为当前播放时间/总时间 小数点两位：0.95'
+        // recommendId: "" //		'本次推荐的唯一标识 推荐内容ID'
       };
       let res = await store.dispatch("down_statistics", {
         p1
