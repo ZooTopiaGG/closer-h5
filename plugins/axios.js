@@ -47,7 +47,7 @@ export default function ({
     } else if (/tiejin/.test(host)) {
       config.baseURL = 'https://api.tiejin.cn/command/'
     } else {
-      config.baseURL = 'https://api.tiejin.cn/command/'
+      config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
     }
     // 全局设置 启用跨域传cookies
     config.withCredentials = true

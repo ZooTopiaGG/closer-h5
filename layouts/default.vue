@@ -148,7 +148,7 @@ export default {
           self.feedType = "read";
           self.objectType = "article";
         }
-        let userId, h5cookie;
+        let userId, h5cookie, title;
         if (Cookie.get("user")) {
           userId = JSON.parse(Cookie.get("user")).objectID;
         } else if (self.$store.state.auth) {
@@ -163,13 +163,19 @@ export default {
         } else {
           h5cookie = null;
         }
+        title =
+          self.$store.state.res.title && self.$store.state.res.title != "title"
+            ? self.$store.state.res.title
+            : null;
         let timer = setInterval(() => {
           if (self.$store.state.res.int_type === 0) {
             self.progress = 1;
           } else if (self.$store.state.res.int_type === 1) {
             let progress2 =
-              self.$store.state.current_time / self.$store.state.duration_time;
-            self.progress = progress2.toFixed(2);
+              self.$store.state.current_time /
+              self.$store.state.duration_time *
+              1000;
+            self.progress = progress2.toFixed(2) > 1 ? 1 : progress2.toFixed(2);
           } else {
             // 计算进度
             // console.log(window.scrollY + window.innerHeight)
@@ -209,7 +215,7 @@ export default {
             platform: "H5",
             attachPlatform: self.$store.state.nvgTypeToPowerCase,
             communityId: self.$store.state.res.communityid || null,
-            title: self.$store.state.res.title || null,
+            title: title,
             time: Date.now(),
             cost: Date.now() - self.$store.state.enter_time || 0,
             totalTime: self.$store.state.duration_time || 0
