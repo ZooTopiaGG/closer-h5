@@ -432,7 +432,14 @@ export default {
           progress = progress.toFixed(2);
         } else {
           // 计算进度
-          progress = 0.5;
+          // console.log(window.scrollY + window.innerHeight)
+          var sy = window.scrollY == 0 ? window.scrollY : window.scrollY + window.innerHeight,
+            body = (document.compatMode && document.compatMode == 'CSS1Compat') ? document.documentElement : document.body,
+            bh = body.offsetHeight;
+          // console.log(body.offsetHeight)
+          // console.log(window.innerHeight)
+          var sb = (sy / bh).toFixed(2);
+          progress = sb;
           _page = "article";
         }
       } else if (route.path.indexOf("/group") > -1) {
@@ -454,6 +461,8 @@ export default {
       let res = await store.dispatch("down_statistics", {
         p1
       });
+      console.log(p1)
+      return;
       if (res) {
         if (redirectUrl) {
           if (redirectUrl === 'wx') {

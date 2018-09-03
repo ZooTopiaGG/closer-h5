@@ -620,6 +620,10 @@ p:empty {
   word-break: break-all;
 }
 
+.summary * {
+  max-width: 100%;
+}
+
 p:empty {
   margin: 0;
   padding: 0;

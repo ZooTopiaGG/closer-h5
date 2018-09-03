@@ -10,20 +10,26 @@ export default function ({
   if (req) {
     let host = req.headers.host;
     if (/sandbox.tiejin/.test(host)) {
-      api.filePath = 'http://file-sandbox.tiejin.cn'
+      api.filePath = 'https://file-sandbox.tiejin.cn'
+      api.baseUrl = 'https://api-sandbox.tiejin.cn/command/'
     } else if (/tiejin/.test(host)) {
-      api.filePath = 'http://file.tiejin.cn'
+      api.filePath = 'https://file.tiejin.cn'
+      api.baseUrl = 'https://api.tiejin.cn/command/'
     } else {
-      api.filePath = 'http://file-sandbox.tiejin.cn'
+      api.filePath = 'https://file-sandbox.tiejin.cn'
+      api.baseUrl = 'https://api-sandbox.tiejin.cn/command/'
     }
   } else {
     let host = window.location.host
     if (/sandbox.tiejin/.test(host)) {
-      api.filePath = 'http://file-sandbox.tiejin.cn'
+      api.filePath = 'https://file-sandbox.tiejin.cn'
+      api.baseUrl = 'https://api-sandbox.tiejin.cn/command/'
     } else if (/tiejin/.test(host)) {
-      api.filePath = 'http://file.tiejin.cn'
+      api.filePath = 'https://file.tiejin.cn'
+      api.baseUrl = 'https://api.tiejin.cn/command/'
     } else {
-      api.filePath = 'http://file-sandbox.tiejin.cn'
+      api.filePath = 'https://file-sandbox.tiejin.cn'
+      api.baseUrl = 'https://api-sandbox.tiejin.cn/command/'
     }
   }
   $axios.onRequest(config => {
@@ -50,9 +56,9 @@ export default function ({
         config.headers.common['X-Adid'] = store.state.h5Adid
       }
       let co;
-      try{
+      try {
         co = Cookies.get('h5Cookies')
-      } catch(e) {
+      } catch (e) {
         co = store.state.h5Cookies
       }
       config.headers.common['X-Udid'] = co || 'h5-SRjHazKvYslHxwZxjy5tql9G4edf3d';

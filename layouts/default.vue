@@ -70,7 +70,10 @@ export default {
       imgList: [],
       preIndex: 0,
       preShow: false,
-      scrollTimer: 0
+      scrollTimer: 0,
+      feedType: "read",
+      progress: 1,
+      objectType: "article"
     };
   },
   components: {
@@ -134,6 +137,68 @@ export default {
   },
   mounted() {
     let self = this;
+    try {
+      // 会影响性能～
+      if (self.$store.state.res.int_type === 1) {
+        self.feedType = "play";
+        self.objectType = "video";
+      } else {
+        self.feedType = "read";
+        self.objectType = "article";
+      }
+      let uid = self.$store.state.auth ? self.$store.state.auth.objectID : "";
+      let timer = setInterval(() => {
+        if (self.$store.state.res.int_type === 0) {
+          self.progress = 1;
+        } else if (self.$store.state.res.int_type === 1) {
+          let progress2 =
+            self.$store.state.current_time / self.$store.state.duration_time;
+          self.progress = progress2.toFixed(2);
+        } else {
+          // 计算进度
+          // console.log(window.scrollY + window.innerHeight)
+          var sy =
+              window.scrollY == 0
+                ? window.scrollY
+                : window.scrollY + window.innerHeight,
+            body =
+              document.compatMode && document.compatMode == "CSS1Compat"
+                ? document.documentElement
+                : document.body,
+            bh = body.offsetHeight;
+          // console.log(body.offsetHeight)
+          // console.log(window.innerHeight)
+          var sb = (sy / bh).toFixed(2);
+          self.progress = sb;
+        }
+      }, 1000);
+      window.addEventListener("unload", function(event) {
+        clearInterval(timer);
+        let data = {
+          action: self.feedType,
+          objectType: self.objectType,
+          objectId: self.$store.state.res.subjectid || "",
+          position: "detail",
+          progress: self.progress,
+          recommendId: "",
+          userId: uid,
+          deviceId: "",
+          cookie: self.$store.state.h5Cookies,
+          platform: "H5",
+          attachPlatform: self.$store.state.nvgTypeToPowerCase,
+          communityId: self.$store.state.res.communityid || "",
+          title: self.$store.state.res.title || "",
+          dreason: "",
+          time: Date.now(),
+          cost: Date.now() - self.$store.state.enter_time || 0,
+          totalTime: self.$store.state.duration_time || 0
+        };
+        let url = `${api.baseUrl}/closer_statistics.user_action_v2`;
+        navigator.sendBeacon(url, JSON.stringify(data));
+      });
+    } catch (e) {
+      console.log(e);
+    }
     this.$store.commit("GET_USER_AGENT", {
       nvg: navigator.userAgent,
       ref: location.href

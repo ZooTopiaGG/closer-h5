@@ -366,7 +366,10 @@ export default {
   },
   head() {
     var _title = () => {
-      if (this.$store.state.res.title) {
+      if (
+        this.$store.state.res.title &&
+        this.$store.state.res.title != "title"
+      ) {
         return `贴近 - TieJin.cn - ${this.$store.state.res.title}`;
       } else {
         if (this.$store.state.content.text) {
@@ -409,10 +412,6 @@ export default {
     }
     next();
   },
-  // beforeRouteLeave(to, from, next) {
-  //   console.log(to);
-  //   console.log(from);
-  // },
   methods: {
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
