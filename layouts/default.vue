@@ -148,13 +148,20 @@ export default {
           self.feedType = "read";
           self.objectType = "article";
         }
-        let userId;
+        let userId, h5cookie;
         if (Cookie.get("user")) {
           userId = JSON.parse(Cookie.get("user")).objectID;
         } else if (self.$store.state.auth) {
           userId = self.$store.state.auth.objectID;
         } else {
           userId = null;
+        }
+        if (Cookie.get("h5Cookies")) {
+          h5cookie = Cookie.get("h5Cookies");
+        } else if (self.$store.state.h5Cookies) {
+          h5cookie = self.$store.state.h5Cookies;
+        } else {
+          h5cookie = null;
         }
         let timer = setInterval(() => {
           if (self.$store.state.res.int_type === 0) {
@@ -200,7 +207,7 @@ export default {
             progress: self.progress,
             recommendId: null,
             deviceId: null,
-            cookie: self.$store.state.h5Cookies,
+            cookie: h5cookie,
             platform: "H5",
             attachPlatform: self.$store.state.nvgTypeToPowerCase,
             communityId: self.$store.state.res.communityid || null,
