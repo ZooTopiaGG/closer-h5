@@ -320,12 +320,8 @@ export const actions = {
       };
       let userToken = data.result.token;
       // 存cookies
-      Cookie.set('token', userToken, {
-        expires: 7
-      })
-      Cookie.set('user', userInfo, {
-        expires: 7
-      })
+      Cookie.set('token', userToken)
+      Cookie.set('user', userInfo)
       commit('SET_USER', userInfo)
       commit('SET_TOKEN', userToken)
       return true

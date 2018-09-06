@@ -70,15 +70,18 @@ export default {
     // 登录
     async beforeWxLogin() {
       let self = this,
-        tokenStatus;
+        tokenStatus,
+        userStatus;
       // 验证token 是否存在 避免重复调用 login_with_wechat
       try {
         tokenStatus = Cookie.get("token") || self.$store.state.token;
+        userStatus = Cookie.get("user") || self.$store.state.auth;
       } catch (e) {
         tokenStatus = self.$store.state.token ? true : false;
+        userStatus = self.$store.state.auth ? true : false;
       }
       // 验证code是否存在
-      if (self.$route.query.code && !tokenStatus) {
+      if (self.$route.query.code && !tokenStatus && !userStatus) {
         let res = await self.$store.dispatch("get_code_by_login", {
           code: self.$route.query.code,
           type: "else"
