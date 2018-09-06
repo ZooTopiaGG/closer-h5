@@ -137,88 +137,84 @@ export default {
     }
   },
   mounted() {
-    let self = this,
-      timer;
-    if (self.$store.state.is_closer_app) {
-      try {
-        // 会影响性能～
-        if (self.$store.state.res.int_type === 1) {
-          self.feedType = "play";
-          self.objectType = "video";
-        } else {
-          self.feedType = "read";
-          self.objectType = "article";
-        }
-        let userId, h5cookie, title;
-        if (Cookie.get("user")) {
-          userId = JSON.parse(Cookie.get("user")).objectID;
-        } else if (self.$store.state.auth) {
-          userId = self.$store.state.auth.objectID;
-        } else {
-          userId = null;
-        }
-        if (Cookie.get("h5Cookies")) {
-          h5cookie = Cookie.get("h5Cookies");
-        } else if (self.$store.state.h5Cookies) {
-          h5cookie = self.$store.state.h5Cookies;
-        } else {
-          h5cookie = null;
-        }
-        title =
-          self.$store.state.res.title && self.$store.state.res.title != "title"
-            ? self.$store.state.res.title
-            : null;
-        window.addEventListener("unload", function(event) {
-          if (self.$store.state.res.int_type === 0) {
-            self.progress = 1;
-          } else if (self.$store.state.res.int_type === 1) {
-            let progress2 =
-              self.$store.state.current_time /
-              self.$store.state.duration_time *
-              1000;
-            self.progress = progress2.toFixed(2) > 1 ? 1 : progress2.toFixed(2);
-          } else {
-            // 计算进度
-            var sy =
-              window.scrollY == 0
-                ? window.scrollY
-                : window.scrollY + window.innerHeight;
-            if (document.querySelector(".feed-1")) {
-              var dh = document.querySelector(".feed-1").offsetHeight;
-            } else {
-              return;
-            }
-            // 监听滚动最大值 如果比他小则是回滚 无需计算进度 否则计算进度
-            if (self.oldScrollY < window.scrollY) {
-              self.oldScrollY = window.scrollY;
-              var sb = (sy / dh).toFixed(2);
-              self.progress = sb > 1 ? 1 : sb;
-            }
-          }
-          let data = {
-            userId: userId,
-            action: self.feedType,
-            objectType: self.objectType,
-            objectId: self.$store.state.res.subjectid || null,
-            position: "detail",
-            progress: self.progress,
-            cookie: h5cookie,
-            platform: "H5",
-            attachPlatform: self.$store.state.nvgTypeToPowerCase,
-            communityId: self.$store.state.res.communityid || null,
-            title: title,
-            time: Date.now(),
-            cost: Date.now() - self.$store.state.enter_time || 0,
-            totalTime: self.$store.state.duration_time || 0
-          };
-          let url = `${api.baseUrl}/closer_statistics.user_action_v2`;
-          navigator.sendBeacon(url, JSON.stringify(data));
-        });
-      } catch (e) {
-        console.log(e);
-        clearInterval(timer);
-      }
-    }
+    let self = this;
+    // if (self.$store.state.is_closer_app) {
+    //   try {
+    //     // 会影响性能～
+    //     if (self.$store.state.res.int_type === 1) {
+    //       self.feedType = "play";
+    //       self.objectType = "video";
+    //     } else {
+    //       self.feedType = "read";
+    //       self.objectType = "article";
+    //     }
+    //     let userId, h5cookie, title;
+    //     if (Cookie.get("user")) {
+    //       userId = JSON.parse(Cookie.get("user")).objectID;
+    //     } else if (self.$store.state.auth) {
+    //       userId = self.$store.state.auth.objectID;
+    //     } else {
+    //       userId = null;
+    //     }
+    //     if (Cookie.get("h5Cookies")) {
+    //       h5cookie = Cookie.get("h5Cookies");
+    //     } else if (self.$store.state.h5Cookies) {
+    //       h5cookie = self.$store.state.h5Cookies;
+    //     } else {
+    //       h5cookie = null;
+    //     }
+    //     title =
+    //       self.$store.state.res.title && self.$store.state.res.title != "title"
+    //         ? self.$store.state.res.title
+    //         : null;
+    //     window.addEventListener("unload", function(event) {
+    //       if (self.$store.state.res.int_type === 0) {
+    //         self.progress = 1;
+    //       } else if (self.$store.state.res.int_type === 1) {
+    //         let progress2 =
+    //           self.$store.state.current_time /
+    //           self.$store.state.duration_time *
+    //           1000;
+    //         self.progress = progress2.toFixed(2) > 1 ? 1 : progress2.toFixed(2);
+    //       } else {
+    //         // 计算进度
+    //         var sy =
+    //           window.scrollY == 0
+    //             ? window.scrollY
+    //             : window.scrollY + window.innerHeight;
+    //         if (document.querySelector(".feed-1")) {
+    //           var dh = document.querySelector(".feed-1").offsetHeight;
+    //         } else {
+    //           return;
+    //         }
+    //         // 监听滚动最大值 如果比他小则是回滚 无需计算进度 否则计算进度
+    //         if (self.oldScrollY < window.scrollY) {
+    //           self.oldScrollY = window.scrollY;
+    //           var sb = (sy / dh).toFixed(2);
+    //           self.progress = sb > 1 ? 1 : sb;
+    //         }
+    //       }
+    //       let data = {
+    //         userId: userId,
+    //         action: self.feedType,
+    //         objectType: self.objectType,
+    //         objectId: self.$store.state.res.subjectid || null,
+    //         position: "detail",
+    //         progress: self.progress,
+    //         cookie: h5cookie,
+    //         platform: "H5",
+    //         attachPlatform: self.$store.state.nvgTypeToPowerCase,
+    //         communityId: self.$store.state.res.communityid || null,
+    //         title: title,
+    //         time: Date.now(),
+    //         cost: Date.now() - self.$store.state.enter_time || 0,
+    //         totalTime: self.$store.state.duration_time || 0
+    //       };
+    //       let url = `${api.baseUrl}/closer_statistics.user_action_v2`;
+    //       navigator.sendBeacon(url, JSON.stringify(data));
+    //     });
+    //   } catch (e) {}
+    // }
     this.$store.commit("GET_USER_AGENT", {
       nvg: navigator.userAgent,
       ref: location.href
