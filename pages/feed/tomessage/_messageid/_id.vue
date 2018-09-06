@@ -26,7 +26,6 @@ export default {
   methods: {
     // 留言操作
     async toMessage() {
-      console.log("message");
       let self = this;
       self.$store.commit("SET_EXTENSION_TEXT", "message");
       if (self.textarea) {
@@ -39,6 +38,8 @@ export default {
         return false;
       }
       // 渲染页面前 先判断cookies token是否存在
+      console.log(Cookie.get("token"));
+      console.log(JSON.parse(Cookie.get("user")));
       if (Cookie.get("token")) {
         if (JSON.parse(Cookie.get("user")).phones) {
           let para;
@@ -56,6 +57,7 @@ export default {
           }
           self.$store.dispatch("sure_message", para);
         } else {
+          console.log("绑定手机。。。");
           // 唤起绑定手机流程
           self.$store.commit("GET_LOGIN_TYPE", "toMessageBind");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
@@ -101,7 +103,7 @@ export default {
       }
     }
   },
-  beforeMount() {
+  created() {
     if (window.sessionStorage.getItem("title")) {
       this.title = window.sessionStorage.getItem("title");
     } else {

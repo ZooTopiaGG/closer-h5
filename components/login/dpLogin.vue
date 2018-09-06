@@ -137,11 +137,6 @@ export default {
       if (!result) {
         self.isdisabled = false;
         self.sendName = "重新发送";
-        if (self.isAbsolute != "toMessageBind") {
-          self.get_img_code = `${
-            api.filePath
-          }/captcha/image?tempstamp=${Date.now()}`;
-        }
         clearInterval(timer);
       }
     },

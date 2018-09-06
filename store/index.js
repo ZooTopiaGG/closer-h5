@@ -764,6 +764,7 @@ export const actions = {
           content: content
         };
       }
+      console.log('para==', para)
       let data = await self.$axios.$post(`${api.admin.add_reply}`, para);
       if (data.code === 0) {
         commit("SHOW_CONFIRM", true);
