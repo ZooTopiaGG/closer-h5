@@ -57,7 +57,6 @@ export default {
           }
           self.$store.dispatch("sure_message", para);
         } else {
-          console.log("绑定手机。。。");
           // 唤起绑定手机流程
           self.$store.commit("GET_LOGIN_TYPE", "toMessageBind");
           self.$store.commit("SET_VISIBLE_LOGIN", true);
@@ -103,7 +102,7 @@ export default {
       }
     }
   },
-  created() {
+  beforeMount() {
     if (window.sessionStorage.getItem("title")) {
       this.title = window.sessionStorage.getItem("title");
     } else {
