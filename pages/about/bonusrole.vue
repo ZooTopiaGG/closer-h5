@@ -12,6 +12,23 @@
         <p>您收到的奖励金属于冻结状态（未解冻），不能立即提现。根据您邀请的用户登录贴近APP的天数，冻结余额会逐步解冻。具体规则：对应新用户每登录一天，账户解冻0.2元；</p>
         <h3>5、奖励金是否可以提现？</h3>
         <p>已解冻部分奖励金将自动放置于我的钱包-可用余额中，达到钱包提现规定余额时即可操作提现。</p>
+        <!-- <div id="feed-h5-videos-horizontal" v-demo:foo.c.d="message">
+          <video 
+            src="http://video.tiejin.cn/ff1cf85db8f6475b9962521a7ba57919/68247213ca904e0b8b041bdcea30f7fd-6625a06f2b765c55f22f265157c4b407-sd.mp4" 
+            preload="auto" 
+            webkit-playsinline="true" 
+            x-webkit-airplay="true"  
+            playsinline="true" 
+            x5-video-player-type="h5" 
+            x5-video-orientation="portrait"
+            x5-video-player-fullscreen="true"
+            :style="{
+              'object-fit': 'fill',
+              width: '100%',
+              height: 'auto'
+            }">
+          </video>
+        </div> -->
         <nuxt-link to="/about/withdrawrole">钱包提现规则详见：贴近客户端-我的-我的钱包-提现。</nuxt-link>
       </div>
     </div>
@@ -22,6 +39,11 @@ export default {
   head() {
     return {
       title: "奖励金规则"
+    };
+  },
+  data() {
+    return {
+      message: "hello"
     };
   }
 };

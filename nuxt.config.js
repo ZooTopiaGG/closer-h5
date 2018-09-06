@@ -132,8 +132,8 @@ module.exports = {
     '~/plugins/mintui.js',
     '~/plugins/axios',
     // {
-    //   src: '~/plugins/vconsole.js',
+    //   src: '~/plugins/video.js',
     //   ssr: false
-    // },
+    // }
   ]
 }

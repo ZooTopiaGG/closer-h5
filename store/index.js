@@ -61,22 +61,16 @@ export const mutations = {
   GET_VERSION(state) {
     let nvg = navigator.userAgent.toLowerCase(),
       nvgtype, nvgversion, nvgTypeToPowerCase;
-    // window.navigator.appVersion 获取手机版本
     if (nvg.indexOf('android') > -1 || nvg.indexOf('adr') > -1 || nvg.indexOf('linux') > -1) {
-      // android终端
       nvgtype = 'android';
       nvgTypeToPowerCase = 'Android';
-      // android版本
       if (!!nvg.match(new RegExp("android\\s(\\d+(?:\\.\\d*)+)"))) {
         let v = nvg.match(new RegExp("android\\s(\\d+(?:\\.\\d*)+)"))
         nvgversion = v[1].replace(/\./g, "_")
       }
     } else if (nvg.indexOf('iphone') > -1 || nvg.indexOf('ipad') > -1 || nvg.indexOf('safari') > -1) {
-      // ios终端
       nvgtype = 'ios'
       nvgTypeToPowerCase = 'IOS'
-      // ios版本 new RegExp("version/(\\d+(?:\\.\\d*)?)") // 匹配尽量少的一项
-      // new RegExp("version/(\\d+(?:\\.\\d*)+)") 匹配尽量多的项
       if (!!nvg.match(new RegExp("version/(\\d+(?:\\.\\d*)+)"))) {
         let v = nvg.match(new RegExp("version/(\\d+(?:\\.\\d*)+)"))
         nvgversion = v[1].replace(/\./g, "_")
@@ -93,13 +87,6 @@ export const mutations = {
   async GET_UA_FORNT(state, para) {
     let nvg = para.toLowerCase();
     state.version_1_2 = await Coms.compareVersion(nvg);
-    // // 基于 1.1.100 做验证
-    // if (nvg.indexOf('closerapp/version/') > -1) {
-    //   let b = nvg.split('closerapp/version/')[1].split('.');
-    //   state.version_1_2 = b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
-    // } else {
-    //   state.version_1_2 = false
-    // }
   },
   // 设置获取app传来的token
   GET_APP_TOKEN(state, para) {

@@ -137,7 +137,8 @@ export default {
     }
   },
   mounted() {
-    let self = this;
+    let self = this,
+      timer;
     if (self.$store.state.is_closer_app) {
       try {
         // 会影响性能～
@@ -167,7 +168,7 @@ export default {
           self.$store.state.res.title && self.$store.state.res.title != "title"
             ? self.$store.state.res.title
             : null;
-        let timer = setInterval(() => {
+        window.addEventListener("unload", function(event) {
           if (self.$store.state.res.int_type === 0) {
             self.progress = 1;
           } else if (self.$store.state.res.int_type === 1) {
@@ -178,32 +179,22 @@ export default {
             self.progress = progress2.toFixed(2) > 1 ? 1 : progress2.toFixed(2);
           } else {
             // 计算进度
-            // console.log(window.scrollY + window.innerHeight)
             var sy =
-                window.scrollY == 0
-                  ? window.scrollY
-                  : window.scrollY + window.innerHeight,
-              body =
-                document.compatMode && document.compatMode == "CSS1Compat"
-                  ? document.documentElement
-                  : document.body,
-              bh = body.offsetHeight,
-              dh = document.querySelector(".feed-1").offsetHeight;
-            // console.log(body.offsetHeight);
-            // console.log(document.querySelector(".feed-1").offsetHeight);
+              window.scrollY == 0
+                ? window.scrollY
+                : window.scrollY + window.innerHeight;
+            if (document.querySelector(".feed-1")) {
+              var dh = document.querySelector(".feed-1").offsetHeight;
+            } else {
+              return;
+            }
             // 监听滚动最大值 如果比他小则是回滚 无需计算进度 否则计算进度
             if (self.oldScrollY < window.scrollY) {
               self.oldScrollY = window.scrollY;
               var sb = (sy / dh).toFixed(2);
               self.progress = sb > 1 ? 1 : sb;
             }
-            if (self.progress === 1) {
-              clearInterval(timer);
-            }
           }
-        }, 300);
-        window.addEventListener("unload", function(event) {
-          clearInterval(timer);
           let data = {
             userId: userId,
             action: self.feedType,
@@ -225,6 +216,7 @@ export default {
         });
       } catch (e) {
         console.log(e);
+        clearInterval(timer);
       }
     }
     this.$store.commit("GET_USER_AGENT", {

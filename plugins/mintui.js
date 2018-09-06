@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import {
-  Indicator,
   Button,
   Field,
   Spinner,
@@ -23,5 +22,4 @@ Vue.use(Lazyload, {
   // listenEvents: ['scroll']
 })
 
-Vue.prototype.$indicator = Indicator
 Vue.prototype.$toast = Toast
