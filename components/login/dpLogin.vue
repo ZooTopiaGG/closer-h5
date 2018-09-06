@@ -113,14 +113,12 @@ export default {
           para = {
             phone: self.phone,
             captchaValidate: self.captchaValidate.validate,
-            // code: self.$route.query.code 暂时不用
             type: "bind"
           };
         } else {
           para = {
             phone: self.phone,
             captchaValidate: self.captchaValidate.validate
-            // code: self.$route.query.code 暂时不用
           };
         }
       } else {

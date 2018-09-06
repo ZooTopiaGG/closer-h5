@@ -249,84 +249,88 @@ export const actions = {
     inv_id,
     type
   }) {
-    let self = this,
-      para, uo;
-    if (Cookie.get("h5Cookies")) {
-      uo = Cookie.get("h5Cookies")
-    } else {
-      uo = state.h5Cookies
-    }
-    // 注意： code 只能用一次，所以这里校验了 就不能再登录了，需要将校验放在登录里面
-    // $router 是否存在 验证是否是奖励金登录
-    if (type && type === 'bonus') {
-      let unionId,
-        nickName,
-        avatar,
-        paras = {
-          code: code
-        }
-      // 校验账号是否存在
-      let check = await self.$axios.$post(`${api.admin.check_wechat}`, paras)
-      if (check.code != 0) {
-        return false
+    try {
+      let self = this,
+        para, uo;
+      if (Cookie.get("h5Cookies")) {
+        uo = Cookie.get("h5Cookies")
       } else {
-        if (check.result.hasRegist) {
+        uo = state.h5Cookies
+      }
+      // 注意： code 只能用一次，所以这里校验了 就不能再登录了，需要将校验放在登录里面
+      // $router 是否存在 验证是否是奖励金登录
+      if (type && type === 'bonus') {
+        let unionId,
+          nickName,
+          avatar,
+          paras = {
+            code: code
+          }
+        // 校验账号是否存在
+        let check = await self.$axios.$post(`${api.admin.check_wechat}`, paras)
+        if (check.code != 0) {
           return false
         } else {
-          unionId = check.result.unionId;
-          nickName = check.result.nickName;
-          avatar = check.result.avatar;
+          if (check.result.hasRegist) {
+            return false
+          } else {
+            unionId = check.result.unionId;
+            nickName = check.result.nickName;
+            avatar = check.result.avatar;
+          }
         }
-      }
-      if (inv_id) {
+        if (inv_id) {
+          para = {
+            unionid: unionId,
+            inviter: inv_id,
+            nickName: nickName,
+            avatar: avatar,
+            protocol: "WEB_SOCKET",
+            udid: uo,
+            adid: Cookie.get('h5Adid') || 'closer-invitenew',
+          }
+        } else {
+          return false
+        }
+      } else {
         para = {
-          unionid: unionId,
-          inviter: inv_id,
-          nickName: nickName,
-          avatar: avatar,
+          plateform: 2,
+          code: code,
           protocol: "WEB_SOCKET",
           udid: uo,
-          adid: Cookie.get('h5Adid') || 'closer-invitenew',
+          adid: Cookie.get('h5Adid') || 'closer-share'
         }
+      }
+      let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
+      if (data.code === 0) {
+        // 返回的数据
+        let userInfo = {
+          gender: data.result.user.gender,
+          phones: data.result.user.phones,
+          updateTime: data.result.user.updateTime,
+          avatar: data.result.user.avatar,
+          createTime: data.result.user.createTime,
+          teamID: data.result.user.teamID,
+          // 姓名
+          fullname: data.result.user.fullname,
+          security_signal: data.result.user.security_signal,
+          objectID: data.result.user.objectID,
+          email: data.result.user.email,
+          username: data.result.user.username,
+          status: data.result.user.status
+        };
+        let userToken = data.result.token;
+        // 存cookies
+        Cookie.set('token', userToken)
+        Cookie.set('user', userInfo)
+        commit('SET_USER', userInfo)
+        commit('SET_TOKEN', userToken)
+        return true
       } else {
         return false
       }
-    } else {
-      para = {
-        plateform: 2,
-        code: code,
-        protocol: "WEB_SOCKET",
-        udid: uo,
-        adid: Cookie.get('h5Adid') || 'closer-share'
-      }
-    }
-    let data = await self.$axios.$post(`${api.admin.login_with_wechat}`, para);
-    if (data.code === 0) {
-      // 返回的数据
-      let userInfo = {
-        gender: data.result.user.gender,
-        phones: data.result.user.phones,
-        updateTime: data.result.user.updateTime,
-        avatar: data.result.user.avatar,
-        createTime: data.result.user.createTime,
-        teamID: data.result.user.teamID,
-        // 姓名
-        fullname: data.result.user.fullname,
-        security_signal: data.result.user.security_signal,
-        objectID: data.result.user.objectID,
-        email: data.result.user.email,
-        username: data.result.user.username,
-        status: data.result.user.status
-      };
-      let userToken = data.result.token;
-      // 存cookies
-      Cookie.set('token', userToken)
-      Cookie.set('user', userInfo)
-      commit('SET_USER', userInfo)
-      commit('SET_TOKEN', userToken)
-      return true
-    } else {
-      return false
+    } catch (e) {
+      console.log(e)
     }
   },
   // 通过token登录， 先获取cookie查看token是否过期 如果过期则调用授权，如果没有过期则调用get_token_by_login获取用户信息
@@ -760,7 +764,6 @@ export const actions = {
           content: content
         };
       }
-      console.log('para==', para)
       let data = await self.$axios.$post(`${api.admin.add_reply}`, para);
       if (data.code === 0) {
         commit("SHOW_CONFIRM", true);

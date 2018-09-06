@@ -38,8 +38,6 @@ export default {
         return false;
       }
       // 渲染页面前 先判断cookies token是否存在
-      console.log(Cookie.get("token"));
-      console.log(JSON.parse(Cookie.get("user")));
       if (Cookie.get("token")) {
         if (JSON.parse(Cookie.get("user")).phones) {
           let para;
@@ -72,7 +70,7 @@ export default {
       let self = this,
         tokenStatus,
         userStatus;
-      // 验证token 是否存在 避免重复调用 login_with_wechat
+      // 验证token he user 是否存在 避免重复调用 login_with_wechat
       try {
         tokenStatus = Cookie.get("token") || self.$store.state.token;
         userStatus = Cookie.get("user") || self.$store.state.auth;
@@ -118,8 +116,7 @@ export default {
       this.textarea = window.sessionStorage.getItem("textarea");
     }
     this.beforeWxLogin();
-  },
-  mounted() {}
+  }
 };
 </script>
 <style scoped lang="less">
