@@ -180,6 +180,7 @@ export default {
                     >
                     <video src='${urlArray[1]}'
                       preload="auto" 
+                      class="feed-video-bg"
                       webkit-playsinline="true" 
                       x-webkit-airplay="true"  
                       playsinline="true" 
@@ -189,6 +190,7 @@ export default {
                       style="object-fit:fill;
                       width: 100%;
                       height: ${h};"
+                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg=="
                       data-duration="${d}"
                       data-bg='${c}'>
                     </video>
