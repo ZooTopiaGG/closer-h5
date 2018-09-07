@@ -321,8 +321,12 @@ export const actions = {
         };
         let userToken = data.result.token;
         // 存cookies
-        Cookie.set('token', userToken)
-        Cookie.set('user', userInfo)
+        Cookie.set('token', userToken, {
+          expires: 30
+        })
+        Cookie.set('user', userInfo, {
+          expires: 30
+        })
         commit('SET_USER', userInfo)
         commit('SET_TOKEN', userToken)
         return true
@@ -412,8 +416,12 @@ export const actions = {
         };
         let userToken = data.result.token;
         // // 存cookies
-        Cookie.set('token', userToken)
-        Cookie.set('user', userInfo)
+        Cookie.set('token', userToken, {
+          expires: 30
+        })
+        Cookie.set('user', userInfo, {
+          expires: 30
+        })
         commit('SET_USER', userInfo)
         commit('SET_TOKEN', userToken)
         if (type && type === "bonus") {
@@ -461,7 +469,9 @@ export const actions = {
         username: data.result.username,
         status: data.result.status
       };
-      Cookie.set('user', userInfo)
+      Cookie.set('user', userInfo, {
+        expires: 30
+      })
       commit('SET_USER', userInfo)
       return true
     }

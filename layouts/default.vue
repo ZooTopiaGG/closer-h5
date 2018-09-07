@@ -121,13 +121,17 @@ export default {
         );
         // 存会话 h5Adid
         if (self.$store.state.h5Adid) {
-          Cookie.set("h5Adid", self.$store.state.h5Adid);
+          Cookie.set("h5Adid", self.$store.state.h5Adid, {
+            expires: 30
+          });
         } else {
           Cookie.set("h5Adid", "");
         }
         // 设置 h5cookie埋点
         if (self.$store.state.h5Cookies) {
-          Cookie.set("h5Cookies", self.$store.state.h5Cookies);
+          Cookie.set("h5Cookies", self.$store.state.h5Cookies, {
+            expires: 30
+          });
         }
         // 如果用户已经登录，则异步刷新用户信息
         if (Cookie.get("user") && Cookie.get("token")) {

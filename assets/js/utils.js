@@ -155,7 +155,6 @@ export default {
         if (widthArray && heightArray) {
           if (widthArray[1] > heightArray[1]) {
             w = '100%';
-            h = heightArray[1] * 100 / widthArray[1] + 'vw'
           } else {
             w = '60%';
             h = 'auto'
@@ -189,7 +188,7 @@ export default {
                       x5-video-player-fullscreen="true"
                       style="object-fit:fill;
                       width: 100%;
-                      height: ${h};"
+                      height: auto;"
                       poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg=="
                       data-duration="${d}"
                       data-bg='${c}'>

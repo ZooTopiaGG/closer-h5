@@ -26,7 +26,10 @@ export default {
   methods: {
     // 留言操作
     async toMessage() {
-      let self = this;
+      let self = this,
+        tk,
+        user,
+        s = JSON.parse;
       self.$store.commit("SET_EXTENSION_TEXT", "message");
       if (self.textarea) {
         window.sessionStorage.setItem("textarea", self.textarea);
@@ -37,9 +40,16 @@ export default {
         });
         return false;
       }
+      try {
+        tk = Cookie.get("token") || self.$store.state.token;
+        user = Cookie.get("user") || self.$store.state.auth;
+      } catch (e) {
+        tk = "";
+        user = "";
+      }
       // 渲染页面前 先判断cookies token是否存在
-      if (Cookie.get("token")) {
-        if (JSON.parse(Cookie.get("user")).phones) {
+      if (tk) {
+        if (s(user).phones) {
           let para;
           if (self.$route.params.id) {
             para = {
