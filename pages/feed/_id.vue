@@ -157,7 +157,7 @@
             <section class="feeder-cover flex flex-align-center" v-if="!$store.state.is_closer_app">
               <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
             </section>
-            <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
+            <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" v-video="{selector: 'video'}" @click="openClick($event)">
             </section>
             <!-- 神议论列表 -->
             <section v-if="$store.state.res.int_category === 3">

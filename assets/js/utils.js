@@ -132,6 +132,9 @@ export default {
       const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const regexPoster = /poster=[\'\"]?([^\'\"]*)[\'\"]?/i;
+      let regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+      let regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+      let regexDuration = /duration=[\'\"]?([^\'\"]*)[\'\"]?/i;
       let flg;
       pVideo.forEach((x, i) => {
         // 匹配imageurl属性下的值
@@ -140,10 +143,28 @@ export default {
           vidArray = x.match(regexVid),
           coverArray = x.match(regexCover),
           posterArray = x.match(regexPoster),
-          v, u, c
+          widthArray = x.match(regexWidth),
+          heightArray = x.match(regexHeight),
+          durationArray = x.match(regexDuration),
+          v, u, c, d, w, h;
         // // 替换插入需要的值flg
         v = vidArray ? vidArray[1] : '';
         u = urlArray ? urlArray[1] : '';
+        d = durationArray ? durationArray[1] : '';
+        // u = urlArray ? urlArray[1] : '';
+        if (widthArray && heightArray) {
+          if (widthArray[1] > heightArray[1]) {
+            w = '100%';
+            h = heightArray[1] * 100 / widthArray[1] + 'vw'
+          } else {
+            w = '60%';
+            h = 'auto'
+          }
+        } else {
+          // 默认横
+          w = '100%';
+          h = '56.25vw';
+        }
         if (coverArray) {
           c = coverArray[1]
         } else {
@@ -152,14 +173,23 @@ export default {
         // let temp = pVideo[i].split('<p>');
         if (status) {
           flg = `<section 
-                    class='imgbox tiejin-videobox'
+                    class='feed-h5-videos2 feed-h5-videos-vertical2'
                     data-vid='${v}'
                     data-uid='${u}'
+                    style="width: ${w}"
                     >
                     <video src='${urlArray[1]}'
-                      class='feed-video-bg'
-                      controls
-                      preload='none'
+                      preload="auto" 
+                      webkit-playsinline="true" 
+                      x-webkit-airplay="true"  
+                      playsinline="true" 
+                      x5-video-player-type="h5" 
+                      x5-video-orientation="portrait"
+                      x5-video-player-fullscreen="true"
+                      style="object-fit:fill;
+                      width: 100%;
+                      height: ${h};"
+                      data-duration="${d}"
                       data-bg='${c}'>
                     </video>
                   </section>`;

@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- 未播放时, 播放结束时 -->
-    <section class="video-poster" @click="playVideo" v-lazy:background-image="$store.state.content.videos[0].imageUrl">
+    <section class="video-poster" @click="playVideo">
       <span class="shipin"></span>
     </section>
     <!-- 正在播放时 -->
@@ -190,86 +190,5 @@ export default {
   }
 };
 </script>
-<style scoped lang="less">
-@m20: 2.67vw;
-@primarycolor: #fddb00;
-.v2-controls {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  color: #fff;
-  z-index: 99;
-  box-sizing: border-box;
-  .v2-top-controls {
-    padding: 0 @m20;
-    margin-bottom: @m20;
-    .v2-duration {
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 25px;
-      height: 6.667vw;
-      width: 21.33vw;
-      box-sizing: border-box;
-      font-size: 12px;
-    }
-    .v2-launchFullScreen {
-      img {
-        width: 6.933vw;
-        height: 6.933vw;
-      }
-    }
-  }
 
-  .v2-process {
-    position: relative;
-    width: 100%;
-    height: 2px;
-    background: #fff;
-    .v2-process-line {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      .v2-ball-line {
-        background: @primarycolor;
-        height: 2px;
-      }
-      .v2-ball {
-        width: 10px;
-        height: 10px;
-        border-radius: 100%;
-        background: @primarycolor;
-        position: relative;
-        top: -4px;
-      }
-    }
-  }
-}
-.isLongVideo .v2-controls {
-  bottom: 16.67vw;
-}
-@media screen and (min-width: 680px) {
-  @m10: 10px;
-  .v2-controls {
-    .v2-top-controls {
-      padding: 0 @m10;
-      margin-bottom: @m10;
-      .v2-duration {
-        border-radius: 25px;
-        height: 25px;
-        width: 80px;
-      }
-      .v2-launchFullScreen {
-        img {
-          width: 26px;
-          height: 26px;
-        }
-      }
-    }
-  }
-  .isLongVideo .v2-controls {
-    bottom: 5px;
-  }
-}
-</style>
 

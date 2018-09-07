@@ -62,6 +62,9 @@ module.exports = {
     },
     {
       src: '~/assets/css/style.css'
+    },
+    {
+      src: '~/assets/css/video.less'
     }
   ],
   modules: [
@@ -131,9 +134,9 @@ module.exports = {
     '~/plugins/components.js',
     '~/plugins/mintui.js',
     '~/plugins/axios',
-    // {
-    //   src: '~/plugins/video.js',
-    //   ssr: false
-    // }
+    {
+      src: '~/plugins/video.js',
+      ssr: false
+    }
   ]
 }
