@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- 未播放时, 播放结束时 -->
-    <section class="video-poster" @click="playVideo">
+    <section class="video-poster" @click="playVideo" v-lazy:background-image="$store.state.content.videos[0].imageUrl">
       <span class="shipin"></span>
     </section>
     <!-- 正在播放时 -->
