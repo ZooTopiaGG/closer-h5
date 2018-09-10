@@ -205,7 +205,7 @@
                     <!-- 包含视频 -->
                     <section v-else-if="item.type === 2">
                       <section v-if="$store.state.is_closer_app">
-                        <section class="imgbox feed-imgbox">
+                        <section class="imgbox feed-imgbox" v-video="{selector: 'video'}">
                           <video :src="item.video.src" controls="controls" preload="none" 
                             :poster="item.video.imageUrl" :data-cover="item.video.imageUrl">
                           </video>
@@ -226,7 +226,7 @@
                   </section>
                 </li>
               </ul>
-              <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-lazy-container="{ selector: 'img' }" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
+              <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-lazy-container="{ selector: 'img' }" v-video="{selector: 'video'}" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
             </section>
           </section>
         </section>
