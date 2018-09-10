@@ -205,8 +205,17 @@
                     <!-- 包含视频 -->
                     <section v-else-if="item.type === 2">
                       <section v-if="$store.state.is_closer_app">
-                        <section class="imgbox feed-imgbox feed-video-bg" v-video="{ selector: 'video' }">
-                          <video :src="item.video.src" preload="auto" :data-duration="item.video.duration"
+                        <section class="imgbox feed-imgbox" v-video="{ selector: 'video' }">
+                          <video :src="item.video.src" 
+                          preload="auto" 
+                          class="feed-video-bg"
+                          webkit-playsinline="true" 
+                          x-webkit-airplay="true"  
+                          playsinline="true" 
+                          x5-video-player-type="h5" 
+                          x5-video-orientation="landscape|portrait"
+                          x5-video-player-fullscreen="true" 
+                          :data-duration="item.video.duration || 0"
                           :data-bg="item.video.imageUrl">
                           </video>
                         </section>

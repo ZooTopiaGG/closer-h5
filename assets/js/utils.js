@@ -184,7 +184,7 @@ export default {
                       x-webkit-airplay="true"  
                       playsinline="true" 
                       x5-video-player-type="h5" 
-                      x5-video-orientation="portrait"
+                      x5-video-orientation="landscape|portrait"
                       x5-video-player-fullscreen="true"
                       style="object-fit:fill;
                       width: 100%;

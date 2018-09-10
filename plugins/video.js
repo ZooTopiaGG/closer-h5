@@ -177,6 +177,7 @@ Vue.directive('video', {
     vm.video = el.querySelectorAll('video');
     vm.screenW = document.documentElement.clientWidth;
     Array.prototype.forEach.call(vm.video, (x, i) => {
+      console.log(x.duration)
       let d = x.dataset.duration || x.duration;
       let div = `<section class="video-poster">
         <span class="shipin"></span>
@@ -245,6 +246,14 @@ Vue.directive('video', {
         return function () {
           vm.index = i;
           console.log(x)
+          // 隐藏poster 封面
+          vm.poster[vm.index].style.display = "none";
+          // 隐藏正在播放的cover
+          vm.playing[vm.index].style.display = "none";
+          // 显示暂停时的cover
+          vm.pause[vm.index].style.display = "none";
+          vm.video[vm.index].style.width = '100vw';
+          vm.video[vm.index].style.height = 'auto'
           vm.x5enterscreen();
         }(i)
       });
@@ -252,6 +261,13 @@ Vue.directive('video', {
         return function () {
           vm.index = i;
           console.log(x)
+          vm.poster[vm.index].style.display = "none";
+          // 隐藏正在播放的cover
+          vm.playing[vm.index].style.display = "none";
+          // 显示暂停时的cover
+          vm.pause[vm.index].style.display = "block";
+          vm.video[vm.index].style.width = '100%';
+          vm.video[vm.index].style.height = 'auto'
           vm.x5exitscreen();
         }(i)
       });
