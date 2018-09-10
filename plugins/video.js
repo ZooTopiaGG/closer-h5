@@ -252,8 +252,8 @@ Vue.directive('video', {
           vm.playing[vm.index].style.display = "none";
           // 显示暂停时的cover
           vm.pause[vm.index].style.display = "none";
-          vm.video[vm.index].style.width = '100vw';
-          vm.video[vm.index].style.height = 'auto'
+          vm.video[vm.index].setAttribute('width', vm.screenW);
+          vm.video[vm.index].setAttribute('height', 'auto');
           vm.x5enterscreen();
         }(i)
       });
