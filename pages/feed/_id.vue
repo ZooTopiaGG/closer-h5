@@ -75,9 +75,6 @@
                   webkit-playsinline="true" 
                   x-webkit-airplay="true"  
                   playsinline="true" 
-                  x5-video-player-type="h5" 
-                  x5-video-orientation="portrait"
-                  x5-video-player-fullscreen="true"
                   :style="{
                     'object-fit': 'fill',
                     width: '100vw',
@@ -107,9 +104,6 @@
                   webkit-playsinline="true" 
                   x-webkit-airplay="true"  
                   playsinline="true" 
-                  x5-video-player-type="h5" 
-                  x5-video-orientation="portrait"
-                  x5-video-player-fullscreen="true"
                   :style="{
                     'object-fit': 'fill',
                     width: '100%',
@@ -207,17 +201,18 @@
                       <section v-if="$store.state.is_closer_app">
                         <section class="imgbox feed-imgbox">
                           <video :src="item.video.src" 
-                          style="object-fit:fill;"
-                          preload="auto" 
+                          style="object-fit:fill;
+                          width:100%;
+                          height:auto;"
+                          preload="auto"
                           class="feed-video-bg"
                           webkit-playsinline="true" 
                           x-webkit-airplay="true"  
                           playsinline="true" 
-                          x5-video-player-type="h5" 
-                          x5-video-orientation="landscape|portrait"
-                          x5-video-player-fullscreen="true" 
+                          
                           :data-duration="item.video.duration"
-                          :poster="item.video.imageUrl">
+                          :poster="item.video.imageUrl"
+                          :data-bg="item.video.imageUrl">
                           </video>
                         </section>
                       </section>

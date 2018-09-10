@@ -244,25 +244,24 @@ Vue.directive('video', {
       })(i);
       // 微信进入和退出全屏监控
       x.addEventListener('x5videoenterfullscreen', function () {
-        x.nextSibling.querySelector('.video-playing').style['display'] = 'none';
-        x.nextSibling.querySelector('.video-poster').style['display'] = 'none';
-        x.nextSibling.querySelector('.video-pause').style['display'] = 'none';
-        x.style['width'] = vm.screenW;
-        x.style['height'] = 'auto';
         return function () {
           vm.index = i;
+          x.nextSibling.querySelector('.video-playing').style['display'] = 'none';
+          x.nextSibling.querySelector('.video-poster').style['display'] = 'none';
+          x.nextSibling.querySelector('.video-pause').style['display'] = 'none';
+          x.style.width = vm.screenW + 'px';
+          x.style.height = 'auto';
           vm.x5enterscreen();
         }(i)
       });
       x.addEventListener('x5videoexitfullscreen', function () {
-        x.nextSibling.querySelector('.video-playing').style['display'] = 'none';
-        x.nextSibling.querySelector('.video-poster').style['display'] = 'none';
-        x.nextSibling.querySelector('.video-pause').style['display'] = 'block';
-        x.style['width'] = '100%';
-        x.style['height'] = 'auto';
         return function () {
           vm.index = i;
-          console.log(x)
+          x.nextSibling.querySelector('.video-playing').style['display'] = 'none';
+          x.nextSibling.querySelector('.video-poster').style['display'] = 'none';
+          x.nextSibling.querySelector('.video-pause').style['display'] = 'block';
+          x.style.width = '100%';
+          x.style.height = 'auto';
           vm.x5exitscreen();
         }(i)
       });

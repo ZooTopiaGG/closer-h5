@@ -223,7 +223,7 @@ export default {
       nvg: navigator.userAgent,
       ref: location.href
     });
-    console.log(this.$store.state);
+    // console.log(this.$store.state);
     self.$nextTick(() => {
       let title, pic, desc;
       if (self.$route.path.indexOf("/community") > -1) {

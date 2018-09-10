@@ -182,10 +182,7 @@ export default {
                       class="feed-video-bg"
                       webkit-playsinline="true" 
                       x-webkit-airplay="true"  
-                      playsinline="true" 
-                      x5-video-player-type="h5" 
-                      x5-video-orientation="landscape|portrait"
-                      x5-video-player-fullscreen="true"
+                      playsinline="true"
                       style="object-fit:fill;
                       width: 100%;
                       height: auto;"

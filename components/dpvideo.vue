@@ -169,6 +169,9 @@ export default {
           self.playing.style.display = "none";
           // 显示暂停时的cover
           self.pause.style.display = "block";
+          if (self.elem === "feed-h5-videos-vertical") {
+            self.$store.commit("ITS_LONG_VIDEO", false);
+          }
         });
         // android 监听屏幕全屏事件，进入全屏播放视频，退出全屏时自动暂停播放
         self.video.addEventListener("webkitfullscreenchange", function(event) {

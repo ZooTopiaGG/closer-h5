@@ -40,7 +40,7 @@ export const state = () => ({
   extension_text: '', // 来自某个按钮的点击
   enter_time: 0,
   current_time: 0,
-  duration_time: 0,
+  duration_time: 0
 })
 
 export const mutations = {
