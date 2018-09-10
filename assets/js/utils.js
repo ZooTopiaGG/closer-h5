@@ -118,13 +118,13 @@ export default {
           // _src = '';
           newM = '';
         }
-
         // 正则替换富文本内的img标签
         // 替换不同文本
         html = html.replace(x, newM);
       });
     }
     const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+    const regexVideo2 = /<video.*?(?:>|\/>)/gi;
     let pVideo = await html.match(regexVideo);
     if (pVideo) {
       // 正则替换富文本内 img标签 待发布（npm）
@@ -136,6 +136,7 @@ export default {
       let regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
       let regexDuration = /duration=[\'\"]?([^\'\"]*)[\'\"]?/i;
       let flg;
+      let pa = parseInt;
       pVideo.forEach((x, i) => {
         // 匹配imageurl属性下的值
         let urlArray = x.match(regexUrl),
@@ -151,9 +152,8 @@ export default {
         v = vidArray ? vidArray[1] : '';
         u = urlArray ? urlArray[1] : '';
         d = durationArray ? durationArray[1] : '';
-        // u = urlArray ? urlArray[1] : '';
         if (widthArray && heightArray) {
-          if (widthArray[1] > heightArray[1]) {
+          if (pa(widthArray[1]) >= pa(heightArray[1])) {
             w = '100%';
           } else {
             w = '60%';

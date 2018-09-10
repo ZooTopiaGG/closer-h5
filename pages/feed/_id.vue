@@ -208,8 +208,7 @@
                           class="feed-video-bg"
                           webkit-playsinline="true" 
                           x-webkit-airplay="true"  
-                          playsinline="true" 
-                          
+                          playsinline="true"
                           :data-duration="item.video.duration"
                           :poster="item.video.imageUrl"
                           :data-bg="item.video.imageUrl">
