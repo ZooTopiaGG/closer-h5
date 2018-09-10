@@ -136,7 +136,21 @@ var vm = new Vue({
       self.playing[self.index].style.display = "none";
       // 显示暂停时的cover
       self.pause[self.index].style.display = "block";
+      self.video[self.index].style.width = '100%';
+      self.video[self.index].style.height = 'auto'
     },
+    // 进入全屏
+    x5enterscreen() {
+      let self = this
+      // 隐藏poster 封面
+      self.poster[self.index].style.display = "none";
+      // 隐藏正在播放的cover
+      self.playing[self.index].style.display = "none";
+      // 显示暂停时的cover
+      self.pause[self.index].style.display = "none";
+      self.video[self.index].style.width = '100vw';
+      self.video[self.index].style.height = 'auto'
+    }
   }
 })
 Vue.directive('video', {
@@ -226,6 +240,13 @@ Vue.directive('video', {
           vm.handlerFullScreen();
         };
       })(i);
+      // 微信进入和退出全屏监控
+      x.addEventListener('x5videoenterfullscreen', function () {
+        return function () {
+          vm.index = i;
+          vm.x5enterscreen();
+        }(i)
+      });
       x.addEventListener('x5videoexitfullscreen', function () {
         return function () {
           vm.index = i;
