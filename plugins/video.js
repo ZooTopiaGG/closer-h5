@@ -25,8 +25,8 @@ var vm = new Vue({
       self.playing[self.index].style.display = "block";
       // 隐藏暂停时的cover
       self.pause[self.index].style.display = "none";
-      let d = self.toCurrent(self.video[self.index].duration * 1000);
-      let c = self.toCurrent(self.video[self.index].currentTime * 1000);
+      let d = self.toCurrent(self.video[self.index].duration * 1000) || '00:00';
+      let c = self.toCurrent(self.video[self.index].currentTime * 1000) || '00:00';
       self.td[self.index].innerHTML = `${c}/${d}`;
       self.video[self.index].play();
       self.video[self.index].onended = function () {
