@@ -244,31 +244,25 @@ Vue.directive('video', {
       })(i);
       // 微信进入和退出全屏监控
       x.addEventListener('x5videoenterfullscreen', function () {
+        x.nextSibling.querySelector('.video-playing').style['display'] = 'none';
+        x.nextSibling.querySelector('.video-poster').style['display'] = 'none';
+        x.nextSibling.querySelector('.video-pause').style['display'] = 'none';
+        x.style['width'] = vm.screenW;
+        x.style['height'] = 'auto';
         return function () {
           vm.index = i;
-          console.log(x)
-          // 隐藏poster 封面
-          vm.poster[vm.index].style.display = "none";
-          // 隐藏正在播放的cover
-          vm.playing[vm.index].style.display = "none";
-          // 显示暂停时的cover
-          vm.pause[vm.index].style.display = "none";
-          vm.video[vm.index].setAttribute('width', vm.screenW);
-          vm.video[vm.index].setAttribute('height', 'auto');
           vm.x5enterscreen();
         }(i)
       });
       x.addEventListener('x5videoexitfullscreen', function () {
+        x.nextSibling.querySelector('.video-playing').style['display'] = 'none';
+        x.nextSibling.querySelector('.video-poster').style['display'] = 'none';
+        x.nextSibling.querySelector('.video-pause').style['display'] = 'block';
+        x.style['width'] = '100%';
+        x.style['height'] = 'auto';
         return function () {
           vm.index = i;
           console.log(x)
-          vm.poster[vm.index].style.display = "none";
-          // 隐藏正在播放的cover
-          vm.playing[vm.index].style.display = "none";
-          // 显示暂停时的cover
-          vm.pause[vm.index].style.display = "block";
-          vm.video[vm.index].style.width = '100%';
-          vm.video[vm.index].style.height = 'auto'
           vm.x5exitscreen();
         }(i)
       });
