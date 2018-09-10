@@ -25,6 +25,9 @@ var vm = new Vue({
       self.playing[self.index].style.display = "block";
       // 隐藏暂停时的cover
       self.pause[self.index].style.display = "none";
+      let d = self.toCurrent(self.video[self.index].duration * 1000);
+      let c = self.toCurrent(self.video[self.index].currentTime * 1000);
+      self.td[self.index].innerHTML = `${c}/${d}`;
       self.video[self.index].play();
       self.video[self.index].onended = function () {
         self.playEnd();
@@ -36,7 +39,7 @@ var vm = new Vue({
     playTimeUpdate() {
       let self = this;
       self.currentTime = Math.round(self.video[self.index].currentTime);
-      let d = self.td[self.index].dataset.duration;
+      let d = self.video[self.index].duration * 1000;
       // 插入值
       self.td[self.index].innerHTML = `${self.toCurrent(self.currentTime * 1000)} / ${self.toCurrent(d)}`
       let w = 100 * self.currentTime * 1000 / d;
@@ -177,8 +180,6 @@ Vue.directive('video', {
     vm.video = el.querySelectorAll('video');
     vm.screenW = document.documentElement.clientWidth;
     Array.prototype.forEach.call(vm.video, (x, i) => {
-      console.log(x.duration)
-      let d = x.dataset.duration || x.duration;
       let div = `<section class="video-poster">
         <span class="shipin"></span>
       </section>
@@ -189,7 +190,7 @@ Vue.directive('video', {
       <section class="v2-controls flex flex-v flex-pack-justify">
         <section class="v2-top-controls flex flex-align-center flex-pack-justify">
           <section class="v2-duration flex flex-align-center flex-pack-center">
-            <span class="time-duration" data-duration="${d}">00:00/${vm.toCurrent(d)}</span>
+            <span class="time-duration" data-duration="${vm.duration}">00:00/00:00</span>
           </section>
           <section class="v2-launchFullScreen flex flex-align-center">
             <span class="bigvideo"></span>

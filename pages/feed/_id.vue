@@ -141,7 +141,7 @@
               <section class="hide-over"></section>
             </section>
           </section>
-          <section class="feeder-content" id="tjimg" >
+          <section class="feeder-content" id="tjimg" v-video="{selector: 'video'}">
             <!-- 标题 -->
             <section class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </section>
             <!-- 征稿 截止时间 -->            
@@ -157,7 +157,7 @@
             <section class="feeder-cover flex flex-align-center" v-if="!$store.state.is_closer_app">
               <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
             </section>
-            <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" v-video="{selector: 'video'}" @click="openClick($event)">
+            <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
             </section>
             <!-- 神议论列表 -->
             <section v-if="$store.state.res.int_category === 3">
@@ -205,8 +205,9 @@
                     <!-- 包含视频 -->
                     <section v-else-if="item.type === 2">
                       <section v-if="$store.state.is_closer_app">
-                        <section class="imgbox feed-imgbox" v-video="{ selector: 'video' }">
+                        <section class="imgbox feed-imgbox">
                           <video :src="item.video.src" 
+                          style="object-fit:fill;"
                           preload="auto" 
                           class="feed-video-bg"
                           webkit-playsinline="true" 
@@ -215,8 +216,8 @@
                           x5-video-player-type="h5" 
                           x5-video-orientation="landscape|portrait"
                           x5-video-player-fullscreen="true" 
-                          :data-duration="item.video.duration || 0"
-                          :data-bg="item.video.imageUrl">
+                          :data-duration="item.video.duration"
+                          :poster="item.video.imageUrl">
                           </video>
                         </section>
                       </section>
@@ -235,7 +236,7 @@
                   </section>
                 </li>
               </ul>
-              <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-lazy-container="{ selector: 'img' }" v-video="{selector: 'video'}" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
+              <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-lazy-container="{ selector: 'img' }" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
             </section>
           </section>
         </section>
