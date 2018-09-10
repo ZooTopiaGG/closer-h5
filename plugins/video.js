@@ -244,12 +244,14 @@ Vue.directive('video', {
       x.addEventListener('x5videoenterfullscreen', function () {
         return function () {
           vm.index = i;
+          console.log(x)
           vm.x5enterscreen();
         }(i)
       });
       x.addEventListener('x5videoexitfullscreen', function () {
         return function () {
           vm.index = i;
+          console.log(x)
           vm.x5exitscreen();
         }(i)
       });
@@ -259,11 +261,9 @@ Vue.directive('video', {
           vm.index = i;
           if (document.webkitIsFullScreen) {
             x.style.width = '100vw';
-            console.log(x)
             vm.playVideo();
           } else {
             x.style.width = '100%';
-            console.log(x)
             vm.pauseVideo();
           }
         }(i)
