@@ -236,8 +236,10 @@ Vue.directive('video', {
         return function () {
           vm.index = i;
           if (document.webkitIsFullScreen) {
+            x.style.width = '100vw';
             vm.playVideo();
           } else {
+            x.style.width = '100%';
             vm.pauseVideo();
           }
         }(i)
