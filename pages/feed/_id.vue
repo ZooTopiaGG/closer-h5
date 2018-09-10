@@ -205,7 +205,7 @@
                     <!-- 包含视频 -->
                     <section v-else-if="item.type === 2">
                       <section v-if="$store.state.is_closer_app">
-                        <section class="imgbox feed-imgbox feed-video-bg" v-video="{selector: 'video'}">
+                        <section class="imgbox feed-imgbox feed-video-bg" v-video="{ selector: 'video' }">
                           <video :src="item.video.src" preload="auto" :data-duration="item.video.duration"
                           :data-bg="item.video.imageUrl">
                           </video>

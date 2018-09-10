@@ -8,7 +8,7 @@ var vm = new Vue({
       pause: {},
       balline: {},
       td: {},
-      duration: 10000,
+      duration: 0,
       moveX: 0,
       screenW: 0, // 屏幕宽度,
       currentTime: 0,
@@ -163,6 +163,7 @@ Vue.directive('video', {
     vm.video = el.querySelectorAll('video');
     vm.screenW = document.documentElement.clientWidth;
     Array.prototype.forEach.call(vm.video, (x, i) => {
+      let d = x.dataset.duration || x.duration;
       let div = `<section class="video-poster">
         <span class="shipin"></span>
       </section>
@@ -173,7 +174,7 @@ Vue.directive('video', {
       <section class="v2-controls flex flex-v flex-pack-justify">
         <section class="v2-top-controls flex flex-align-center flex-pack-justify">
           <section class="v2-duration flex flex-align-center flex-pack-center">
-            <span class="time-duration" data-duration="${x.dataset.duration}">00:00/${vm.toCurrent(x.dataset.duration)}</span>
+            <span class="time-duration" data-duration="${d}">00:00/${vm.toCurrent(d)}</span>
           </section>
           <section class="v2-launchFullScreen flex flex-align-center">
             <span class="bigvideo"></span>
@@ -237,9 +238,11 @@ Vue.directive('video', {
           vm.index = i;
           if (document.webkitIsFullScreen) {
             x.style.width = '100vw';
+            console.log(x)
             vm.playVideo();
           } else {
             x.style.width = '100%';
+            console.log(x)
             vm.pauseVideo();
           }
         }(i)
