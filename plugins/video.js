@@ -43,7 +43,8 @@ var vm = new Vue({
       // 插入值
       self.td[self.index].innerHTML = `${self.toCurrent(self.currentTime * 1000)} / ${self.toCurrent(d)}`
       let w = 100 * self.currentTime * 1000 / d;
-      self.balline[self.index].style.width = w > 98 ? 98 : w + '%';
+      console.log(w)
+      self.balline[self.index].style.width = w + '%';
     },
     playEnd() {
       let self = this;
@@ -97,9 +98,9 @@ var vm = new Vue({
       let self = this;
       ev = ev || event;
       // 获取总时长
-      let d = self.td[self.index].dataset.duration;
+      let d = self.video[self.index].duration * 1000;
       self.moveX = ev.touches[0].clientX;
-      let bl = self.moveX * 98 / self.screenW;
+      let bl = self.moveX * 100 / self.screenW;
       self.balline[self.index].style.width = bl + '%';
       self.currentTime = bl * d / 100000;
       self.td[self.index].innerHTML = `${self.toCurrent(self.currentTime * 1000)} / ${self.toCurrent(d)}`
