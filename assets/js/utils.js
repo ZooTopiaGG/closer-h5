@@ -1,4 +1,5 @@
-import api from './api.js'
+import api from './api.js';
+import Cookie from 'js-cookie';
 export default {
   createTime(milliseconds, type) {
     let time = new Date(milliseconds);
@@ -443,7 +444,7 @@ export default {
     let result = await store.dispatch("down_adcookies");
     if (result) {
       let _page, url, did = route.params.id || route.params.messageid,
-        progress, _str;
+        progress, _str, s = JSON.parse;
       if (route.path.indexOf("/community") > -1) {
         _page = "community";
         url = `closer://community/${did}`;
@@ -461,12 +462,13 @@ export default {
       } else {
         _page = "inviter";
         url = `closer://jump/to/mine`;
+        did = s(Cookie.get("inviter")).id
       }
       _str = typeof (str) === 'string' && str ? str : defaultStr;
       let p1 = {
         action: "click", //		'行为类型(曝光 浏览结束点击返回 负反馈 点击下载)，参数取值:exposure back feedback download'        
         objectType: _page || "article", //		'统计对象类型（文章 视频 栏目 群组 H5分享的群组，栏目，帖子）,参数取值:article video community group'
-        objectId: route.params.id || null, //		'统计对象唯一标识'
+        objectId: did || null, //		'统计对象唯一标识'
         position: _str, //		'点击位置，若action为download时必填,参数取值：top bottom'
         progress: 1, //		'浏览进度，文章为阅读的进度，图集为当前阅读的图片/总的图片数，视频为当前播放时间/总时间 小数点两位：0.95'
         recommendId: null //		'本次推荐的唯一标识 推荐内容ID'
