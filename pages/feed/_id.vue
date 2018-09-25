@@ -138,8 +138,8 @@
           <!-- 1.3.1 版本 start-->
           <section class="feeder-content" id="tjimg" v-video="{selector: 'video'}">
             <!-- 标题 -->
-            <section v-if="!$store.state.version_1_3" class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </section>
-            <section v-if="$store.state.version_1_3">
+            <section v-if="!$store.state.version_1_3 || $store.state.res.int_category === 1" class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </section>
+            <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1">
               <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
                 <!-- 大封面 -->
                 <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
