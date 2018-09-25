@@ -60,8 +60,8 @@ export const mutations = {
     state.version_1_3 = await Coms.compareVersion({
       nvg: nvg,
       f: 1,
-      s: 2,
-      t: 100
+      s: 3,
+      t: 0
     });
     state.is_closer_app = !_result;
     state.GET_IS_APP = r
