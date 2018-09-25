@@ -7,7 +7,7 @@
       <!-- <section v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
       <section v-if="$store.state.res.int_category != 1 ">
         <section class="message-num flex flex-pack-justify">
-          <span>精彩留言（{{ $store.state.res.commentNumber }}）</span>
+          <span>精彩留言</span>
           <span class="writeMessage" @click="writeMessage('comment', $route.params.id)">写留言</span>
         </section>
         <section>
