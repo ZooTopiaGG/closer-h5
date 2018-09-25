@@ -199,7 +199,7 @@ export default {
   .message-num {
     height: @height;
     line-height: @height;
-    padding: 0 4vw;
+    padding: 0 3.2vw;
     font-size: @basefont;
     box-sizing: border-box;
     border-bottom: 1px solid @bottomcolor;
