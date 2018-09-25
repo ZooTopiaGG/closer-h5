@@ -286,10 +286,15 @@ export default {
     }
   },
   // get Verison 
-  async compareVersion(nvg) {
+  async compareVersion({
+    nvg,
+    f,
+    s,
+    t
+  }) {
     try {
       let b = await nvg.split('closerapp/version/')[1].split('.');
-      return b[0] > 1 || (b[0] == 1 && b[1] && b[1] > 1) || (b[0] == 1 && b[1] == 1 && b[2] && b[2] > 100)
+      return b[0] > f || (b[0] == f && b[1] && b[1] > s) || (b[0] == f && b[1] == s && b[2] && b[2] > t)
     } catch (e) {
       return false
     }
@@ -476,6 +481,7 @@ export default {
       let res = await store.dispatch("down_statistics", {
         p1
       });
+      return
       if (res) {
         if (redirectUrl) {
           if (redirectUrl === 'wx') {

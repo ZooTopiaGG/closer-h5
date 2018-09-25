@@ -135,9 +135,21 @@
               <section class="hide-over"></section>
             </section>
           </section>
+          <!-- 1.3.1 版本 start-->
           <section class="feeder-content" id="tjimg" v-video="{selector: 'video'}">
             <!-- 标题 -->
-            <section class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </section>
+            <section v-if="!$store.state.version_1_3" class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </section>
+            <section v-if="$store.state.version_1_3">
+              <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
+                <!-- 大封面 -->
+                <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
+                >
+              </section>
+              <section class="feeder-img feeder-img-cover feed-img-cover_1_3_1" v-else>
+                <!-- 小封面 -->
+                <img class="feed-cover feed-cover-cover feed-cover-cover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
+              </section>
+            </section>
             <!-- 征稿 截止时间 -->            
             <section class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
@@ -148,7 +160,7 @@
             <!-- logo -->
             <logo-tab></logo-tab>
             <!-- 暂时隐藏 -->
-            <section class="feeder-cover flex flex-align-center" v-if="!$store.state.is_closer_app">
+            <section class="feeder-cover flex flex-align-center" v-if="!$store.state.is_closer_app && !$store.state.version_1_3">
               <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
             </section>
             <section class="summary tj-sum" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
@@ -233,6 +245,7 @@
               <section v-if="$store.state.content.end_html" class="god-discuss-end-tag summary" v-lazy-container="{ selector: 'img' }" v-html="$store.state.content.end_html" @click="openClick($event)"></section>
             </section>
           </section>
+          <!-- 1.3.1 版本 end-->
         </section>
         <!-- 发帖者信息 神议论和长图文区别 -->
         <section v-if="!$store.state.version_1_2">
@@ -623,11 +636,12 @@ export default {
     // 懒加载监听
     self.$Lazyload.$on("loaded", function({ el, src }) {
       let h = el.style.paddingBottom,
-        f = el.dataset.feedlazy;
+        f = el.dataset.feedlazy,
+        r = self.$store.state.version_1_3 ? "5px" : "0px";
       if (f === "feedlazy" && h && parseInt(h) != 0) {
-        el.style.cssText = `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;`;
+        el.style.cssText = `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;border-radius: ${r};`;
       } else if (f === "feedlazy2") {
-        el.style.cssText = `height: auto;`;
+        el.style.cssText = `height: auto;border-radius: 5px;`;
       }
     });
   }

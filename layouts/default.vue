@@ -324,6 +324,15 @@ export default {
           pic: pic
         });
       }
+      try {
+        console.log("wx======", wx);
+        wx.getNetworkType({
+          success: function(res) {
+            console.log("res======", res);
+            var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+          }
+        });
+      } catch (err) {}
       // 在浏览器可以点击图片预览
       if (self.$store.state.is_closer_app) {
         let preimg;

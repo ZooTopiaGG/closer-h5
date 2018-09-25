@@ -51,7 +51,18 @@ export const mutations = {
       refer = para.ref,
       r = nvg.indexOf('closer-ios') > -1 || nvg.indexOf('closer-android') > -1,
       _result = r || refer.indexOf('/invite') > -1;
-    state.version_1_2 = await Coms.compareVersion(nvg);
+    state.version_1_2 = await Coms.compareVersion({
+      nvg: nvg,
+      f: 1,
+      s: 1,
+      t: 100
+    });
+    state.version_1_3 = await Coms.compareVersion({
+      nvg: nvg,
+      f: 1,
+      s: 2,
+      t: 100
+    });
     state.is_closer_app = !_result;
     state.GET_IS_APP = r
     state.agent = nvg;
@@ -82,11 +93,6 @@ export const mutations = {
     state.nvgversion = nvgversion;
     state.nvgtype = nvgtype;
     state.nvgTypeToPowerCase = nvgTypeToPowerCase
-  },
-  // 前端获取UA
-  async GET_UA_FORNT(state, para) {
-    let nvg = para.toLowerCase();
-    state.version_1_2 = await Coms.compareVersion(nvg);
   },
   // 设置获取app传来的token
   GET_APP_TOKEN(state, para) {

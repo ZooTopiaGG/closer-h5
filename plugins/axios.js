@@ -52,9 +52,7 @@ export default function ({
     // 全局设置 启用跨域传cookies
     config.withCredentials = true
     if (!store.state.GET_IS_APP) {
-      if (store.state.h5Adid) {
-        config.headers.common['X-Adid'] = store.state.h5Adid
-      }
+      config.headers.common['X-Adid'] = store.state.h5Adid ? store.state.h5Adidh5Adid : 'closer-share';
       let co;
       try {
         co = Cookies.get('h5Cookies')
