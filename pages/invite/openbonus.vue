@@ -84,7 +84,7 @@ export default {
       position: absolute;
       width: 100%;
       height: 48.27vw;
-      background: url("~/assets/images/nav@2x.png") no-repeat;
+      background: url("../../assets/images/nav@2x.png") no-repeat;
       background-size: cover;
       z-index: 6;
       top: -50px;

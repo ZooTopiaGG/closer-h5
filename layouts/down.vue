@@ -218,7 +218,7 @@ html {
       .body-middle-icon {
         width: 20.8vw;
         height: 20.8vw;
-        background-image: url("~/assets/images/Page1@2x.png");
+        background-image: url("../assets/images/Page1@2x.png");
         background-repeat: no-repeat;
         background-size: cover;
         margin-bottom: 7.467vw;
@@ -228,7 +228,7 @@ html {
       .body-bottom-icom {
         width: 89.33vw;
         height: 20.26vw;
-        background-image: url("~/assets/images/Group79.png");
+        background-image: url("../assets/images/Group79.png");
         background-repeat: no-repeat;
         background-size: cover;
         margin-top: @m20 * 4;

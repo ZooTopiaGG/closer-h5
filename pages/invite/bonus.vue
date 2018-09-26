@@ -124,7 +124,7 @@ export default {
   height: 155.7vw;
   position: relative;
   z-index: 1;
-  background: url("~/assets/images/bonus@2x.png") no-repeat;
+  background: url("../../assets/images/bonus@2x.png") no-repeat;
   background-size: cover;
 }
 .bonus-body-desc {
@@ -181,7 +181,7 @@ export default {
 .bonus-role-bottom {
   width: 37.33vw;
   height: 10.8vw;
-  background-image: url("~/assets/images/bottomcenter@2x.png");
+  background-image: url("../../assets/images/bottomcenter@2x.png");
   background-size: cover;
   background-repeat: no-repeat;
 }

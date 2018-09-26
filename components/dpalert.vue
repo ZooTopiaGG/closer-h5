@@ -7,7 +7,7 @@
       <section>您已成功关注了“{{ $store.state.res.communityName }}”贴近号，去快看看这个贴近号下的其他帖子吧~</section>
     </section>
     <section class="desc-icon">
-      <img src="~/assets/images/bnanner1@4x@2x.png" alt="">
+      <img src="../assets/images/bnanner1@4x@2x.png" alt="">
     </section>
     <section class="button-group flex">
       <span class="sure" @click="downApp">
@@ -61,7 +61,7 @@ export default {
       height: @m15;
       min-width: 10px;
       min-height: 10px;
-      background: url("~/assets/images/Shape@2x.png") no-repeat;
+      background: url("../assets/images/Shape@2x.png") no-repeat;
       background-size: cover;
       float: right;
     }
