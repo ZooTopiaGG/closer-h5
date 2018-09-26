@@ -80,10 +80,7 @@ module.exports = {
    ** Customize the progress bar color
    */
   // loading: '~/components/loading.vue',
-  loading: {
-    color: 'blue',
-    height: '10px'
-  },
+  loading: false,
   // 禁用预加载
   render: {
     resourceHints: false,
