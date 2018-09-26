@@ -300,7 +300,7 @@ export default {
     display: inline-block;
     width: 2.4vw;
     height: 2.4vw;
-    background: url("~/assets/images/Shape2@2x.png") no-repeat;
+    background: url("../../assets/images/Shape2@2x.png") no-repeat;
     background-size: cover;
     margin-left: @m20 / 2;
   }
@@ -309,7 +309,7 @@ export default {
     height: 0.9333vw;
     min-width: 7px;
     min-height: 14px;
-    background: url("~/assets/images/back5@2x.png") no-repeat;
+    background: url("../../assets/images/back5@2x.png") no-repeat;
     background-size: cover;
     margin-left: @m20;
   }
@@ -321,7 +321,7 @@ export default {
     position: absolute;
     left: 0;
     top: 0;
-    background: url("~/assets/images/group_icon_tags_n@2x.png") no-repeat;
+    background: url("../../assets/images/group_icon_tags_n@2x.png") no-repeat;
     background-size: cover;
     margin-left: -2px;
     margin-top: -2px;

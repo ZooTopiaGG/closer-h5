@@ -262,7 +262,7 @@ export default {
     .right-arrow {
       width: 2.4vw;
       height: 2.4vw;
-      background: url("~/assets/images/Shape2@2x.png") no-repeat;
+      background: url("../assets/images/Shape2@2x.png") no-repeat;
       background-size: cover;
       margin-left: @m20;
     }

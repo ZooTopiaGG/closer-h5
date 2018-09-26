@@ -55,7 +55,7 @@ export default {
         width: @m20;
         height: 2.933vw;
         margin-right: 0.8vw;
-        background: url("~/assets/images/add@2x.png") no-repeat;
+        background: url("../assets/images/add@2x.png") no-repeat;
         background-size: cover;
       }
     }

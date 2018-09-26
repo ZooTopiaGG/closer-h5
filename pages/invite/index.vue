@@ -179,7 +179,7 @@ export default {
   height: 20.26vw;
   bottom: 0;
   left: 0;
-  background-image: url("~/assets/images/leftbottom@2x.png");
+  background-image: url("../../assets/images/leftbottom@2x.png");
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 8;
@@ -209,7 +209,7 @@ export default {
   height: 15.47vw;
   line-height: 15.39vw;
   text-align: center;
-  background-image: url("~/assets/images/Combined-Shape@2x.png");
+  background-image: url("../../assets/images/Combined-Shape@2x.png");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -302,7 +302,7 @@ export default {
 .details-list-cell {
   width: 20.26vw;
   height: 28.8vw;
-  background-image: url("~/assets/images/card2@2x.png");
+  background-image: url("../../assets/images/card2@2x.png");
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
@@ -310,7 +310,7 @@ export default {
 }
 
 .first-list-cell {
-  background-image: url("~/assets/images/card1@2x.png");
+  background-image: url("../../assets/images/card1@2x.png");
 }
 
 .details-cell-title {
@@ -355,7 +355,7 @@ export default {
 .content-btn {
   width: 79.74vw;
   height: 12.54vw;
-  background-image: url("~/assets/images/btn@2x.png");
+  background-image: url("../../assets/images/btn@2x.png");
   background-size: cover;
   background-repeat: no-repeat;
   font-size: 16px;
@@ -367,7 +367,7 @@ export default {
   height: 78.14vw;
   top: 150.8vw;
   left: 0;
-  background-image: url("~/assets/images/zhubo@2x.png");
+  background-image: url("../../assets/images/zhubo@2x.png");
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 10;

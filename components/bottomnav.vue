@@ -111,7 +111,7 @@ export default {
 .down-arrow {
   width: 2.4vw;
   height: 2.4vw;
-  background: url("~/assets/images/1@2x.png") no-repeat;
+  background: url("../assets/images/1@2x.png") no-repeat;
   background-size: cover;
   display: inline-block;
   margin-left: 1.335vw;

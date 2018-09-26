@@ -95,19 +95,17 @@ module.exports = {
     },
     // 发布路径 只需设置为根路径
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
-    vendor: ['axios', 'mint-ui', 'js-cookie'],
+    // vendor: ['axios', 'mint-ui', 'js-cookie'],
     /*
      ** Run ESLint on save
      */
     extend(config, {
       isDev,
-      isClient,
-      isServer
     }) {
       // config.externals = {
       //   'Aliplayer': 'Aliplayer'
       // }
-      if (isDev && isClient) {
+      if (isDev && process.client) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -118,7 +116,7 @@ module.exports = {
         // Object.assign(config.resolve.alias, {
         //   'vue$': 'vue/dist/vue.esm.js'
         // })
-      } else if (isServer) {
+      } else if (process.server) {
         // config.externals = [
         //   nodeExternals({
         //     whitelist: [/^vue-picture-preview2/]

@@ -310,7 +310,7 @@ export default {
   height: 0.9333vw;
   min-width: 7px;
   min-height: 14px;
-  background: url("~/assets/images/back5@2x.png") no-repeat;
+  background: url("../../assets/images/back5@2x.png") no-repeat;
   background-size: cover;
   margin-left: @m20;
 }

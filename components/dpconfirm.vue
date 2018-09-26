@@ -81,7 +81,7 @@ export default {
       height: @m15;
       min-width: 10px;
       min-height: 10px;
-      background: url("~/assets/images/Shape@2x.png") no-repeat;
+      background: url("../assets/images/Shape@2x.png") no-repeat;
       background-size: cover;
       float: right;
     }
