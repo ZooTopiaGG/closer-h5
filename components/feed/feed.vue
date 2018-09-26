@@ -120,7 +120,7 @@ export default {
 </script>
 <style scoped lang="less">
 @m20: 2.67vw;
-@m15: 1.6vw;
+@m15: 2vw;
 @m35: 4.67vw;
 .dpFeed {
   /* padding-top: 4.66vw; */

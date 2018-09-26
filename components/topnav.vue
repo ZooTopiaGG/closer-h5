@@ -58,7 +58,7 @@ export default {
 @h100: 100%;
 @textcolor: #4b4945;
 .top-nav {
-  padding: 0 3.2vw;
+  padding: 0 4vw;
   box-sizing: border-box;
   width: @h100;
   height: @h100;
