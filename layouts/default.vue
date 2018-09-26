@@ -219,122 +219,111 @@ export default {
         });
       } catch (e) {}
     }
-    this.$store.commit("GET_USER_AGENT", {
+    self.$store.commit("GET_USER_AGENT", {
       nvg: navigator.userAgent,
       ref: location.href
     });
-    // console.log(this.$store.state);
     self.$nextTick(() => {
-      let title, pic, desc;
-      if (self.$route.path.indexOf("/community") > -1) {
-        // 分享栏目主页
-        title = self.$store.state.res.name
-          ? self.$store.state.res.name
-          : "栏目主页";
-        desc = self.$store.state.res.description
-          ? self.$store.state.res.description
-          : "贴近一点 看身边";
-        pic = self.$store.state.res.slogo
-          ? self.$store.state.res.slogo
-          : self.$store.state.res.blogo;
-      } else if (self.$route.path.indexOf("/group") > -1) {
-        // 分享群组
-        if (
-          self.$store.state.group_info.group_info &&
-          self.$store.state.group_info.group_info.group
-        ) {
-          let group = self.$store.state.group_info.group_info.group;
-          title = group.name ? group.name : "贴近群组";
-          if (group.description) {
-            let description;
-            try {
-              description = JSON.parse(
-                self.$store.state.group_info.group_info.group.description
-              );
-              desc = description[0].content
-                ? description[0].content
-                : "贴近一点 看身边";
-            } catch (e) {
-              desc = self.$store.state.group_info.group_info.group.description;
+      if (self.$store.state.is_closer_app) {
+        let title, pic, desc;
+        if (self.$route.path.indexOf("/community") > -1) {
+          // 分享栏目主页
+          title = self.$store.state.res.name
+            ? self.$store.state.res.name
+            : "栏目主页";
+          desc = self.$store.state.res.description
+            ? self.$store.state.res.description
+            : "贴近一点 看身边";
+          pic = self.$store.state.res.slogo
+            ? self.$store.state.res.slogo
+            : self.$store.state.res.blogo;
+        } else if (self.$route.path.indexOf("/group") > -1) {
+          // 分享群组
+          if (
+            self.$store.state.group_info.group_info &&
+            self.$store.state.group_info.group_info.group
+          ) {
+            let group = self.$store.state.group_info.group_info.group;
+            title = group.name ? group.name : "贴近群组";
+            if (group.description) {
+              let description;
+              try {
+                description = JSON.parse(
+                  self.$store.state.group_info.group_info.group.description
+                );
+                desc = description[0].content
+                  ? description[0].content
+                  : "贴近一点 看身边";
+              } catch (e) {
+                desc =
+                  self.$store.state.group_info.group_info.group.description;
+              }
+            } else {
+              desc = "贴近一点 看身边";
             }
-          } else {
-            desc = "贴近一点 看身边";
-          }
-          pic = self.$com.makeFileUrl(group.avatar);
-        }
-      } else {
-        let content = self.$store.state.content;
-        // 分享长图文
-        if (self.$store.state.res.int_type === 0) {
-          // 图集
-          if (content.text) {
-            title = content.text;
-          } else {
-            title = "分享图片";
-          }
-          if (content.images && content.images.length > 0) {
-            let d = content.images.map(x => {
-              x = "[图片]";
-              return x;
-            });
-            desc = d.join(" ");
-            pic = self.$com.makeFileUrl(content.images[0].link);
-          } else {
-            desc = "[图片]";
-            pic = "";
-          }
-        } else if (self.$store.state.res.int_type === 1) {
-          // 视频
-          if (content.text) {
-            title = content.text;
-          } else {
-            title = "分享视频";
-          }
-          if (content.videos && content.videos.length > 0) {
-            let d = content.videos.map(x => {
-              x = "[视频]";
-              return x;
-            });
-            desc = d.join(" ");
-            pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
-          } else {
-            desc = "[视频]";
-            pic = "";
+            pic = self.$com.makeFileUrl(group.avatar);
           }
         } else {
-          // 长图文
-          if (self.$store.state.res.title) {
-            title = self.$store.state.res.title;
-          } else if (content.text) {
-            title = content.text;
+          let content = self.$store.state.content;
+          // 分享长图文
+          if (self.$store.state.res.int_type === 0) {
+            // 图集
+            if (content.text) {
+              title = content.text;
+            } else {
+              title = "分享图片";
+            }
+            if (content.images && content.images.length > 0) {
+              let d = content.images.map(x => {
+                x = "[图片]";
+                return x;
+              });
+              desc = d.join(" ");
+              pic = self.$com.makeFileUrl(content.images[0].link);
+            } else {
+              desc = "[图片]";
+              pic = "";
+            }
+          } else if (self.$store.state.res.int_type === 1) {
+            // 视频
+            if (content.text) {
+              title = content.text;
+            } else {
+              title = "分享视频";
+            }
+            if (content.videos && content.videos.length > 0) {
+              let d = content.videos.map(x => {
+                x = "[视频]";
+                return x;
+              });
+              desc = d.join(" ");
+              pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
+            } else {
+              desc = "[视频]";
+              pic = "";
+            }
           } else {
-            title = content.summary;
+            // 长图文
+            if (self.$store.state.res.title) {
+              title = self.$store.state.res.title;
+            } else if (content.text) {
+              title = content.text;
+            } else {
+              title = content.summary;
+            }
+            desc = content.summary ? content.summary : "分享文章";
+            pic = self.$com.makeFileUrl(self.$store.state.res.cover)
+              ? self.$com.makeFileUrl(self.$store.state.res.cover)
+              : self.$com.makeFileUrl(self.$store.state.res.bigcover);
           }
-          desc = content.summary ? content.summary : "分享文章";
-          pic = self.$com.makeFileUrl(self.$store.state.res.cover)
-            ? self.$com.makeFileUrl(self.$store.state.res.cover)
-            : self.$com.makeFileUrl(self.$store.state.res.bigcover);
         }
-      }
-      // 微信二次分享
-      if (self.$store.state.is_closer_app) {
+        // 微信二次分享
         self.$store.dispatch("wx_share", {
           title: title,
           desc: desc,
           pic: pic
         });
-      }
-      try {
-        console.log("wx======", wx);
-        wx.getNetworkType({
-          success: function(res) {
-            console.log("res======", res);
-            var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
-          }
-        });
-      } catch (err) {}
-      // 在浏览器可以点击图片预览
-      if (self.$store.state.is_closer_app) {
+        // 在浏览器可以点击图片预览
         let preimg;
         if (document.querySelector(".feed-1")) {
           preimg = document

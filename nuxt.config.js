@@ -79,7 +79,7 @@ module.exports = {
   /*
    ** Customize the progress bar color
    */
-  loading: false,
+  loading: '~/components/loading.vue',
   // 禁用预加载
   render: {
     resourceHints: false,
@@ -93,6 +93,7 @@ module.exports = {
     analyze: {
       analyzerMode: 'static'
     },
+    extractCSS: true,
     // 发布路径 只需设置为根路径
     // vendor.bundle.js文件内添加模块以减小应用程序包的大小。
     // vendor: ['axios', 'mint-ui', 'js-cookie'],
