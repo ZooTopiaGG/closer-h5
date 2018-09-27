@@ -98,7 +98,7 @@ export default {
 @textcolor: #4b4945;
 .open-article {
   height: 14.4vw;
-  padding: 0 4vw;
+  padding: 0 3.2vw;
   > section {
     width: 100%;
   }

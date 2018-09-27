@@ -235,7 +235,7 @@ export default {
 </script>
 <style scoped lang="less">
 @m20: 2.67vw;
-@m15: 2vw;
+@m15: 1.6vw;
 .groups {
   overflow-x: hidden;
   .member,

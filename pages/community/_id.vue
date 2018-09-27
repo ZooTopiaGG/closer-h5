@@ -231,7 +231,7 @@ export default {
 </script>
 <style scoped lang="less">
 @m20: 2.67vw;
-@m15: 2vw;
+@m15: 1.6vw;
 @textcolor: #4b4945;
 @scolor: #94928e;
 #group {

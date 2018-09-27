@@ -140,7 +140,7 @@ export default {
       .todown-top-left {
         width: 52.8vw;
         height: 15.2vw;
-        padding-left: 4vw;
+        padding-left: 3.2vw;
         padding-top: 2vw;
         padding-right: 6.93vw;
       }

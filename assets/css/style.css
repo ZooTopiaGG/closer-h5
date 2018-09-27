@@ -383,7 +383,6 @@ video::-webkit-media-controls-panel {
 
 .tj-focus-btn {
   box-sizing: border-box;
-  /* margin-right: 4vw; */
   text-align: center;
   padding: 0 5vw;
   height: 7vw;
@@ -626,7 +625,7 @@ video {
   font-size: 18px;
   line-height: 1.76;
   text-align: justify;
-  padding: 5.33vw 4vw 0;
+  padding: 5.33vw 3.2vw 0;
 }
 
 .summary>p,

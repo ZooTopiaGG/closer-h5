@@ -64,7 +64,7 @@ export default {
 <style scoped lang="less">
 @textcolor: #495060;
 .feeder-cover {
-  padding: 5.3vw 4vw 0;
+  padding: 5.3vw 3.2vw 0;
   width: 100%;
   box-sizing: border-box;
   margin-bottom: -1px;

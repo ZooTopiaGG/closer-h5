@@ -237,7 +237,7 @@ html {
     }
   }
   .downtitle {
-    padding: 8vw 4vw 0;
+    padding: 8vw 3.2vw 0;
     font-size: 16px;
     color: @mcolor;
     display: none;

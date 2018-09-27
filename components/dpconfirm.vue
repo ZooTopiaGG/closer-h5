@@ -50,7 +50,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-@m15: 2vw;
+@m15: 1.6vw;
 @m20: 2.67vw;
 @textcolor: #4b4945;
 @primarycolor: #fddb00;
