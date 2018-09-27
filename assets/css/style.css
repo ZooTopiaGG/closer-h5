@@ -679,3 +679,65 @@ p:empty {
     margin-bottom: 10px;
   }
 }
+
+.yidun_modal {
+  width: auto !important;
+}
+
+.yidun--popup {
+  min-width: 300px !important;
+}
+
+.dpLogin {
+  width: 87.2vw;
+  /* height: 72.6vw; */
+  background: #fff;
+  padding: 5.34vw;
+  box-sizing: border-box;
+  margin: 26.7vw auto 0;
+  border-radius: 3px;
+}
+
+.inHtmlLogin {
+  margin: 0 auto;
+  padding: 0;
+  height: auto;
+}
+
+.tj-code-img {
+  width: 94px;
+  height: 26px;
+  border-radius: 3px;
+}
+
+.inHtmlLogin .mint-cell-wrapper {
+  background-image: -webkit-linear-gradient( bottom, rgba(243, 243, 243, 1), rgba(243, 243, 243, 1) 50%, transparent 0);
+  background-image: linear-gradient( 0deg, rgba(243, 243, 243, 1), rgba(243, 243, 243, 1) 50%, transparent 0);
+}
+
+.inHtmlLogin .mint-cell:last-child {
+  background-image: -webkit-linear-gradient( bottom, rgba(243, 243, 243, 1), rgba(243, 243, 243, 1) 50%, transparent 0);
+  background-image: linear-gradient( 0deg, rgba(243, 243, 243, 1), rgba(243, 243, 243, 1) 50%, transparent 0);
+}
+
+.tj-btn {
+  width: 100%;
+}
+
+.tj-code-btn {
+  height: 6.94vw;
+  margin: 0 2px 0 5px;
+  font-size: 14px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2vw;
+  line-height: 1.7;
+}
+
+.notweixin {
+  margin: 10px 0;
+}
