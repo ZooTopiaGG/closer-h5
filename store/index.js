@@ -36,6 +36,7 @@ export const state = () => ({
   alert_stat: false,
   confirm_stat: false,
   version_1_2: true, // 默认 1.2版本以上
+  version_1_3: true,
   get_login_type: '', // toFocus 来自关注后弹窗 toDown 来自登录后直接跳转下载 inviter 来自奖励金,
   extension_text: '', // 来自某个按钮的点击
   enter_time: 0,
@@ -61,7 +62,7 @@ export const mutations = {
       nvg: nvg,
       f: 1,
       s: 3,
-      t: 0
+      t: 1
     });
     state.is_closer_app = !_result;
     state.GET_IS_APP = r
