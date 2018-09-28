@@ -1,2 +1,2 @@
-// import Vconsole from 'vconsole'
-// new Vconsole()
+import Vconsole from 'vconsole'
+new Vconsole()

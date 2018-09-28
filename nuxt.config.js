@@ -138,9 +138,9 @@ module.exports = {
       src: '~/plugins/video.js',
       ssr: false
     },
-    // {
-    //   src: '~/plugins/vconsole.js',
-    //   ssr: false
-    // }
+    {
+      src: '~/plugins/vconsole.js',
+      ssr: false
+    }
   ]
 }
