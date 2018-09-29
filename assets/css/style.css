@@ -628,6 +628,10 @@ video {
   padding: 5.33vw 3.2vw 0;
 }
 
+.summary.summary_1_3_1 {
+  padding-bottom: 5.33vw;
+}
+
 .summary>p,
 .summary>ol,
 .summary>ul,
