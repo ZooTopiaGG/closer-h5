@@ -61,7 +61,7 @@ module.exports = {
       src: 'mint-ui/lib/style.css',
     },
     {
-      src: '~/assets/css/style.css'
+      src: '~/assets/css/style.less'
     },
     {
       src: '~/assets/css/video.less'
