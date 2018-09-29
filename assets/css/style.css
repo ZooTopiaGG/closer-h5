@@ -632,6 +632,10 @@ video {
   padding-bottom: 2.668vw;
 }
 
+.summary.summary_1_3_1 .imgbox {
+  border-radius: 5px;
+}
+
 .summary>p,
 .summary>ol,
 .summary>ul,
