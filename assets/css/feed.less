@@ -1,20 +1,21 @@
 @m20: 2.67vw;
-@m15: 1.6vw;
-@m35: 4.67vw;
+@m15: 1.5vw;
+@m3: 3vw;
+@fcolor: #94928E;
 .dpFeed {
   /* padding-top: 4.66vw; */
   display: block;
-
   .hots-article {
     height: 11.47vw;
     font-size: 16px;
     /* font-weight: bold; */
     padding: 0 @m15 * 2;
-    border-bottom: 1px solid #eaeaea;
   }
   .feed-list-cell {
-    border-bottom: @m20 solid #f1f1f1;
-    padding-bottom: @m35;
+    border-bottom: 1px solid #f5f5f5;
+    padding: @m3 0;
+    margin: 0 @m3;
+    box-sizing: border-box;
     /*feed流*/
     .feed-box {
       position: relative;
@@ -29,14 +30,17 @@
       }
       .columnname {
         padding-top: @m15 * 2;
-        padding-right: @m35;
+        padding-right: @m3;
         box-sizing: border-box;
-        margin-bottom: @m15 * 2;
+        color: @fcolor;
         > img {
           width: 18.93vw;
           height: @m15 * 4;
           border-radius: 0 5px 5px 0;
           margin-right: @m15 * 2;
+        }
+        .name {
+          margin-right: 2vw;
         }
         .time {
           color: #808080;
@@ -45,7 +49,9 @@
       }
     }
   }
-
+  .feed-list-cell:first-child{
+    padding-top: 0; 
+  }
   .feedcover > img {
     width: 100%;
     height: 100%;
@@ -66,7 +72,6 @@
   .feed-mode-1-image {
     width: 30.4vw;
     height: 20vw;
-    margin-right: @m35;
     span {
       width: 30.4vw;
       height: 20vw;
@@ -85,15 +90,13 @@
   .feed-left-width {
     width: calc(100vw - 8vw - 30.4vw);
     box-sizing: border-box;
-    .feedtitle {
-      padding: 0 0 0 @m35;
-    }
+    margin-right: @m3;
   }
 
   .feedimgcontent {
     flex-wrap: wrap;
     margin-top: @m20;
-    padding: 0 @m35;
+    padding: 0 @m3;
     .feeder-img-list {
       position: relative;
       overflow: hidden;
@@ -126,7 +129,6 @@
 
   .feedtitle {
     text-align: justify;
-    padding: 0 @m35;
   }
   .content p {
     margin-bottom: 0;
@@ -160,7 +162,7 @@
     position: relative;
   }
   .feeds-video-vertical {
-    margin-left: @m35;
+    margin-left: @m3;
   }
   .duration {
     position: absolute;
