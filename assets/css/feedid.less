@@ -3,6 +3,7 @@
 @width: 100vw;
 @height: 100vh;
 @5625: 56.25vw;
+@color: #FDDB00;
 #feed {
   padding: 0 0 @m15*2;
   box-sizing: border-box;
@@ -438,6 +439,58 @@
 .sup-icon {
   width: 19px;
   height: 15px;
+}
+
+// 1.4 
+.call_papers_1_4 {
+  display: inline-block;
+  padding: 2px 7px;
+  background: #E9E9E9;
+  font-size: 12px;
+  position: relative;
+  top: -3px;
+  border-radius: 5px;
+}
+.call_pagers_fold_1_4 {
+  height: 88px;
+  overflow: hidden;
+}
+.summary-content {
+  position: relative;
+}
+.fold {
+  height: 88px;
+  font-size: 14px;
+  color: #507CAF;
+  position: absolute;
+  top: 5.33vw;
+  width: 100%;
+}
+.fold-icon {
+  width: @commonspace;
+  height: @commonspace;
+  background: url(../images/flod@2x.png) no-repeat;
+  background-size: cover;
+  margin-left: 5px;
+} 
+.unfold-icon {
+  width: @commonspace;
+  height: @commonspace;
+  background: url(../images/unfold@2x.png) no-repeat;
+  background-size: cover;
+  margin-left: 5px;
+}
+.paper_choose {
+  height: 100%;
+  padding: 2.5vw 0.667vw;
+}
+.paper_list {
+  font-size: 4.8vw;
+  color: #94928E;
+}
+.paper_choose_select, .paper_choose_all {
+  color: #4B4945;
+  border-bottom: 0.53vw solid #FDDB00;
 }
 
 @media screen and (min-width: 680px) {

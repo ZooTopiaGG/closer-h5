@@ -31,7 +31,7 @@
           <img class="avatar" v-lazy="$com.makeFileUrl(item.group.avatar)">
           <section class="info flex flex-v">
             <span class="name">{{ item.group.name }}</span>
-            <span class="desc text-ellipse">{{ JSON.parse(item.group.description)[0].content }}</span>
+            <span class="desc text-ellipse" :style="$store.state.text_overflow_3">{{ JSON.parse(item.group.description)[0].content }}</span>
           </section>
         </li>
       </ul>

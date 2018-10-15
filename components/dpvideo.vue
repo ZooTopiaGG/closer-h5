@@ -160,7 +160,7 @@ export default {
     self.$nextTick(() => {
       if (
         self.$store.state.res.int_type === 1 &&
-        self.$store.state.is_closer_app
+        self.$store.state.not_closer_app
       ) {
         self.video.addEventListener("x5videoexitfullscreen", function() {
           // 隐藏poster 封面
