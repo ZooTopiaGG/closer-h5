@@ -378,7 +378,6 @@ nav .icon-ios-more {
 }
 
 nav .communityName {
-  /* max-width: 45vw; */
   color: #495060;
   font-size: 15px;
   margin-right: 5px;
