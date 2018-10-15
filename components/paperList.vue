@@ -114,17 +114,20 @@ export default {
 .dpFeed {
   .feed-list {
     margin-top: @newPad;
-    .columnname {
-      box-sizing: border-box;
-      > img.columeavatar {
-        width: @newBase * 4;
-        height: @newBase * 4;
-        border-radius: 100%;
-        margin-right: @newBase;
+    .feed-box {
+      .columnname {
+        margin-bottom: @newPad;
+        padding-top: 0;
+        box-sizing: border-box;
+        > img.columeavatar {
+          width: @newBase * 4;
+          height: @newBase * 4;
+          border-radius: 100%;
+          margin-right: @newBase;
+        }
       }
     }
     .feedtype {
-      padding: 0 @newPad;
       position: relative;
       .feedtitle {
         padding: 0;

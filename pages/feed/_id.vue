@@ -139,7 +139,7 @@
           <!-- 1.3.1 版本 start-->
           <section class="feeder-content" id="tjimg" v-video="{selector: 'video'}">
             <!-- 标题 -->
-            <section v-if="!$store.state.version_1_3 || $store.state.res.int_category === 1" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.version_1_4 || $store.state.not_closer_app">话题</span> {{ $store.state.res.title }} </section>
+            <section v-if="!$store.state.version_1_3 || $store.state.res.int_category === 1" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
             <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1">
               <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
                 <!-- 大封面 -->
@@ -630,6 +630,7 @@ export default {
   },
   mounted() {
     let self = this;
+    console.log("33==", self.$store.state.version_1_3);
     self.$nextTick(() => {
       // try {
       //   console.log(self.$refs.summarys.offsetHeight);
