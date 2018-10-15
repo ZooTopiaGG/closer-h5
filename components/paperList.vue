@@ -115,7 +115,6 @@ export default {
   .feed-list {
     margin-top: @newPad;
     .columnname {
-      padding: 0 @newPad;
       box-sizing: border-box;
       > img.columeavatar {
         width: @newBase * 4;

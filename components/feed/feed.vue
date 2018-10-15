@@ -31,8 +31,17 @@
               </section>
             </section>
             <!-- 视频贴 int_type == 1-->
-            <section class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
+            <section class="feedmain" v-else-if="item.int_type === 1">
               <section v-if="item.content.text" class="feedtitle feed-videos-title text-ellipse" :style="$store.state.text_overflow_3">{{ item.content.text }}</section>
+              <section class="columnname flex flex-align-center">
+                <section class="flex-1">
+                  <span class="name ellipsis">{{ item.communityName }}</span>
+                  <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                  <span v-if="item.commentNumber && item.like">·</span>
+                  <span v-if="item.like">{{ item.like }}赞</span>
+                </section>
+                <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
+              </section>
               <!-- <section class="feeds-video flex flex-align-center flex-pack-center" 
                 v-if="item.content.videos[0].width > item.content.videos[0].height"
                 v-lazy:background-image="item.content.videos[0].imageUrl"
@@ -73,7 +82,9 @@
               <section class="columnname flex flex-align-center">
                 <section class="flex-1">
                   <span class="name ellipsis">{{ item.communityName }}</span>
-                  <span>212评论</span>·<span>154赞</span>
+                  <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                  <span v-if="item.commentNumber && item.like">·</span>
+                  <span v-if="item.like">{{ item.like }}赞</span>
                 </section>
                 <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
               </section>
