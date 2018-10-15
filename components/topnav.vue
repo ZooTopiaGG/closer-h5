@@ -3,7 +3,7 @@
     <section class="topnav flex flex-align-center flex-pack-justify">
         <section class="topnav-left flex flex-1 flex-align-center">
           <img class="topnav-logo" :src="defaultImg" v-lazy="require('~/assets/images/login_logo@2x.png')">
-          <mt-swipe :auto="2000" :show-indicators="false" class="mtswipe flex-1">
+          <mt-swipe :auto="3000" :show-indicators="false" class="mtswipe flex-1">
             <mt-swipe-item>
               <section class="communityName flex flex-v flex-pack-center">
                 <span>贴近一点 看身边</span>
@@ -11,7 +11,7 @@
             </mt-swipe-item>
             <mt-swipe-item>
               <section class="communityName flex flex-v flex-pack-center">
-                <span>成都人自己的资讯社群</span>
+                <span>能赚稿费的本地内容社区</span>
               </section>
             </mt-swipe-item>
             <mt-swipe-item>
@@ -58,7 +58,7 @@ export default {
 @h100: 100%;
 @textcolor: #4b4945;
 .top-nav {
-  padding: 0 3.2vw;
+  padding: 0 3vw;
   box-sizing: border-box;
   width: @h100;
   height: @h100;
