@@ -5,7 +5,7 @@ import {
   Toast
 } from 'mint-ui'
 export const state = () => ({
-  is_closer_app: false,
+  not_closer_app: false,
   GET_IS_APP: false,
   agent: '',
   isPre: false,
@@ -36,12 +36,27 @@ export const state = () => ({
   alert_stat: false,
   confirm_stat: false,
   version_1_2: true, // 默认 1.2版本以上
-  version_1_3: true,
+  version_1_3: true, // 1.3版本以上
+  version_1_4: true,
   get_login_type: '', // toFocus 来自关注后弹窗 toDown 来自登录后直接跳转下载 inviter 来自奖励金,
   extension_text: '', // 来自某个按钮的点击
   enter_time: 0,
   current_time: 0,
-  duration_time: 0
+  duration_time: 0,
+  text_overflow_2: {
+    'display': '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': 2,
+    'overflow': 'hidden',
+    'text-overflow': 'ellipsis'
+  },
+  text_overflow_3: {
+    'display': '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': 3,
+    'overflow': 'hidden',
+    'text-overflow': 'ellipsis'
+  }
 })
 
 export const mutations = {
@@ -64,7 +79,13 @@ export const mutations = {
       s: 3,
       t: 1
     });
-    state.is_closer_app = !_result;
+    state.version_1_4 = await Coms.compareVersion({
+      nvg: nvg,
+      f: 1,
+      s: 3,
+      t: 100
+    });
+    state.not_closer_app = !_result;
     state.GET_IS_APP = r
     state.agent = nvg;
     state.isPre = refer.indexOf('?view=pre') > -1;

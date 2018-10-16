@@ -1,5 +1,8 @@
 <template>
-  <section class="feeder-cover flex flex-align-center flex-pack-justify" v-if="$store.state.is_closer_app">
+  <section :class="{
+    'feeder-cover': true, flex: true, 'flex-align-center': true, 'flex-pack-justify': true,
+    frompaper: $route.query.from === 'paper' || ($store.state.res.int_type === 2 && $store.state.res.int_category === 1)
+  }" v-if="$store.state.not_closer_app">
     <section class="flex flex-1 flex-align-center" @click="toCommunity">
       <dp-logo class="feed-logo"></dp-logo>
       <span class="communityName ellipsis">{{ $store.state.res.communityName || $store.state.res.name }}</span>
@@ -64,7 +67,7 @@ export default {
 <style scoped lang="less">
 @textcolor: #495060;
 .feeder-cover {
-  padding: 5.3vw 3.2vw 0;
+  padding: 5.3vw 3vw 0;
   width: 100%;
   box-sizing: border-box;
   margin-bottom: -1px;
@@ -86,6 +89,9 @@ export default {
     font-size: 16px;
     padding-right: 1.35vw;
   }
+}
+.frompaper {
+  padding-top: 0;
 }
 @media screen and (min-width: 681px) {
   .feeder-cover {

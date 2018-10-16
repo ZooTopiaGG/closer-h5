@@ -4,7 +4,7 @@
       default_init_box: true,
       hasControlVideo: !$store.state.isPre
     }" v-if="$store.state.exist">
-      <nav v-if="$store.state.is_closer_app && $store.state.webNoNav && !($route.path.indexOf('feed/tomessage') > -1)" 
+      <nav v-if="$store.state.not_closer_app && $store.state.webNoNav && !($route.path.indexOf('feed/tomessage') > -1)" 
         :class="{
           webNoNav: !$store.state.webNoNav,
           flex: true,
@@ -13,18 +13,18 @@
         }">
         <top-nav></top-nav>
       </nav>
-      <section class="layer" v-if="$store.state.is_closer_app">
+      <section class="layer" v-if="$store.state.not_closer_app">
         <img :src="defaultImg" v-lazy="require('~/assets/images/1531133203.png')" alt="">
         <section>手机扫一扫</section>
         <section>下载贴近App</section>
       </section>
       <section id="wrapper"
         :class="{ 
-        'web-class': $store.state.is_closer_app, 
+        'web-class': $store.state.not_closer_app, 
         isLongVideo: $store.state.isLongVideo,
         nuxts:true, 
         webNoNav: !$store.state.webNoNav || ($route.path.indexOf('feed/tomessage') > -1),
-        appnuxts: !$store.state.is_closer_app }">
+        appnuxts: !$store.state.not_closer_app }">
         <keep-alive>
           <nuxt/>
         </keep-alive>
@@ -109,7 +109,7 @@ export default {
     if (typeof window != "undefined") {
       self.$store.commit("GET_VERSION");
       if (
-        self.$store.state.is_closer_app ||
+        self.$store.state.not_closer_app ||
         self.$route.path.indexOf("/invite") > -1
       ) {
         // 网易e盾验证
@@ -142,7 +142,7 @@ export default {
   },
   mounted() {
     let self = this;
-    if (self.$store.state.is_closer_app) {
+    if (self.$store.state.not_closer_app) {
       try {
         // 会影响性能～
         if (self.$store.state.res.int_type === 1) {
@@ -224,7 +224,7 @@ export default {
       ref: location.href
     });
     self.$nextTick(() => {
-      if (self.$store.state.is_closer_app) {
+      if (self.$store.state.not_closer_app) {
         let title, pic, desc;
         if (self.$route.path.indexOf("/community") > -1) {
           // 分享栏目主页
