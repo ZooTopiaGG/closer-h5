@@ -36,7 +36,9 @@ module.exports = {
             if (document.readyState === "interactive" || document.readyState === "complete") {
               canShowContent()
               try {
-                window.webkit.messageHandlers.canShowContent.postMessage(null);
+                if (window.WebViewJavascriptBridge) {
+                  window.webkit.messageHandlers.canShowContent.postMessage(null);
+                }
                 if (typeof window.bridge != "undefined") {
                   window.bridge.canShowContent(null);
                 }
