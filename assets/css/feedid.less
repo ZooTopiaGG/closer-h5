@@ -456,19 +456,28 @@
   border-radius: 5px;
 }
 .call_pagers_fold_1_4 {
-  height: 88px;
+  height: 23.4vw;
   overflow: hidden;
+  box-sizing: border-box;
 }
 .summary-content {
   position: relative;
 }
 .fold {
-  height: 88px;
+  height: 23.4vw;
   font-size: 14px;
   color: #507CAF;
-  position: absolute;
-  top: 5.33vw;
+  margin-top: -21.4vw;
   width: 100%;
+  position: relative;
+  z-index: 9;
+  background: linear-gradient(to bottom,rgba(255,255,255, 0) 10%, #fff 80%);
+  filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=rgba(255,255,255, 0),endColorStr=#fff);
+  background: -ms-linear-gradient(to bottom,rgba(255,255,255, 0) 10%, #fff 80%);
+  background: -moz-linear-gradient(to bottom,rgba(255,255,255, 0) 10%, #fff 80%);
+  background:  -webkit-linear-gradient(to bottom,rgba(255,255,255, 0) 10%, #fff 80%);
+  background: -o-linear-gradient(to bottom,rgba(255,255,255, 0) 10%, #fff 80%);
+  
 }
 .fold-icon {
   width: @commonspace;
