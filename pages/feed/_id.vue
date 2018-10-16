@@ -163,7 +163,7 @@
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
-            <section v-if="$store.state.res.int_category === 1 && $store.state.not_closer_app && $route.query.from !='paper'" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
+            <section v-if="$store.state.res.int_category === 1 && ($store.state.not_closer_app || $store.state.version_1_4) && $route.query.from !='paper'" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
             <paper-top></paper-top>
             <!-- 暂时隐藏 -->
             <section class="feeder-cover flex flex-align-center" v-if="!$store.state.not_closer_app && !$store.state.version_1_3">
@@ -472,7 +472,18 @@ export default {
   methods: {
     collapse() {
       let self = this;
-      this.isCollapse = !this.isCollapse;
+      self.isCollapse = !self.isCollapse;
+      if (self.$store.state.agent.indexOf("closer-ios") > -1) {
+        if (window.WebViewJavascriptBridge) {
+          self.$com.setupWebViewJavascriptBridge(function(bridge) {
+            bridge.callHandler("handleUnfold", null);
+          });
+        }
+      } else {
+        if (typeof window.bridge != "undefined") {
+          window.bridge.handleUnfold(null);
+        }
+      }
     },
     theSelect(type) {
       let self = this;
