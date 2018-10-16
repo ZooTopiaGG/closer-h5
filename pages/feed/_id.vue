@@ -178,9 +178,9 @@
               }" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
               </section>
               <section  @click="collapse" 
-              v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1" 
+              v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse" 
               class="flex flex-align-end flex-pack-center fold">
-                <section class="flex flex-align-center" v-if="isCollapse">
+                <section class="flex flex-align-center">
                   <span>展开全文</span> <i class="fold-icon"></i>
                 </section>
               </section>
