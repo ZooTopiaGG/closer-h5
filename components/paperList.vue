@@ -98,7 +98,7 @@ export default {
     },
     toFeedDetails(id) {
       console.log(id);
-      this.$router.push({ path: `/feed/${id}` });
+      this.$router.push({ path: `/feed/${id}?from=paper` });
     }
   },
   mounted() {
@@ -109,7 +109,7 @@ export default {
 
 <style scoped lang="less">
 @import "../assets/css/feed.less";
-@newPad: 3vw;
+@newPad: 3.2vw;
 @newBase: 2vw;
 .dpFeed {
   .feed-list {

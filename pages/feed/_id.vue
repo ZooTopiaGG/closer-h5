@@ -14,7 +14,8 @@
         <!-- 图片 -->
         <section class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
           <logo-tab></logo-tab>
-          <section class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
+          <paper-top></paper-top>
+          <section v-if="$route.query.from != 'paper'" class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
           <section class="feeder-images" v-if="$store.state.not_closer_app">
@@ -86,6 +87,7 @@
                 <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
+              <paper-top></paper-top>
             </section>
             <!-- 竖视频 -->
             <section v-else>
@@ -116,6 +118,7 @@
                 <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
+              <paper-top></paper-top>
             </section>
             <section class="feeder-title feeder-title-2 feeder-type-1">{{ $store.state.content.text }}</section>
           </section>
@@ -139,7 +142,7 @@
           <!-- 1.3.1 版本 start-->
           <section class="feeder-content" id="tjimg" v-video="{selector: 'video'}">
             <!-- 标题 -->
-            <section v-if="!$store.state.version_1_3 || $store.state.res.int_category === 1" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
+            <section v-if="((!$store.state.version_1_3 || $store.state.res.int_category === 1) && !$store.state.version_1_4 && $route.query.from !='paper') && !$store.state.not_closer_app" class="feeder-title feeder-title-2 feeder-title-3">{{ $store.state.res.title }} </section>
             <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1">
               <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
                 <!-- 大封面 -->
@@ -160,6 +163,8 @@
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
+            <section v-if="$store.state.res.int_category === 1 && $store.state.not_closer_app && $route.query.from !='paper'" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
+            <paper-top></paper-top>
             <!-- 暂时隐藏 -->
             <section class="feeder-cover flex flex-align-center" v-if="!$store.state.not_closer_app && !$store.state.version_1_3">
               <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
@@ -312,6 +317,7 @@
 <script>
 import Cookie from "js-cookie";
 import logoTab from "~/components/logo";
+import paperTop from "~/components/paperTop";
 import messageBoard from "~/components/messageboard";
 import paperList from "~/components/paperList";
 import dpVideo from "~/components/dpvideo";
@@ -431,7 +437,8 @@ export default {
     logoTab,
     messageBoard,
     dpVideo,
-    paperList
+    paperList,
+    paperTop
   },
   data() {
     return {
