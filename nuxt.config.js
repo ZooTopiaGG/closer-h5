@@ -33,7 +33,7 @@ module.exports = {
     script: [{
       innerHTML: `
           document.onreadystatechange = function () {
-            if (document.readyState === "interactive" || document.readyState === "complete") {
+            if (document.readyState === "complete") {
               canShowContent()
               try {
                 if (window.WebViewJavascriptBridge) {

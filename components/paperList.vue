@@ -4,7 +4,7 @@
     <!-- <section class="hots-article flex flex-align-center">
       {{ title }}
     </section>  -->
-    <ul v-if="paperList && paperList.length > 0" class="feed-list flex-1">
+    <ul v-if="paperList && paperList.length > 0 && dd" class="feed-list flex-1">
       <li v-if="index < 5" class="feed-list-cell" @click="toFeedDetails(item.subjectid)" v-for="(item, index) in paperList" :key="index">
         <section class="feed-box">
           <section class="hide-feed-over"></section>
@@ -57,11 +57,15 @@
         </section>
       </li>
     </ul>
+    <section v-else>
+      <nothing></nothing>
+    </section>
     <bottom-nav v-if="!($route.path.indexOf('group') > -1) && title != '精彩投稿'"></bottom-nav>
   </section>
 </template>
 <script>
 import bottomNav from "~/components/bottomnav.vue";
+import nothing from "~/components/nothing.vue";
 export default {
   name: "dpFeed",
   props: {
@@ -77,11 +81,14 @@ export default {
     }
   },
   components: {
-    bottomNav
+    bottomNav,
+    nothing
   },
   data() {
     // bname: 'button'
-    return {};
+    return {
+      dd: false
+    };
   },
   methods: {
     // h5下载补丁
