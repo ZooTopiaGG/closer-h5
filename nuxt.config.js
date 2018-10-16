@@ -37,6 +37,9 @@ module.exports = {
               canShowContent()
               try {
                 window.webkit.messageHandlers.canShowContent.postMessage(null);
+                if (typeof window.bridge != "undefined") {
+                  window.bridge.canShowContent(null);
+                }
               } catch (e) {}
             }
           }
