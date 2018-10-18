@@ -79,100 +79,101 @@ export default {
 
   // 富文本处理
   async makeHtmlContent(html, status) {
-    let _html;
-    const regexImg = /<img.*?(?:>|\/>)/gi;
-    let pImg = await html.match(regexImg);
-    if (pImg) {
-      const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      let size, flag;
-      pImg.forEach((x, i) => {
-        let
-          srcArray = x.match(regexSrc),
-          widthArray = x.match(regexWidth),
-          heightArray = x.match(regexHeight),
-          nW,
-          // _src,
-          newM,
-          nH,
-          minH;
-        if (srcArray) {
-          // _src = srcArray[1].replace(/\+/g, "%2b");
-          if (widthArray && heightArray) {
-            if (widthArray[1] < 200) {
-              nW = widthArray[1] + 'px';
-              nH = heightArray[1] + 'px';
+    try {
+      let _html;
+      const regexImg = /<img.*?(?:>|\/>)/gi;
+      let pImg = await html.match(regexImg);
+      if (pImg) {
+        const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        let size, flag;
+        pImg.forEach((x, i) => {
+          let
+            srcArray = x.match(regexSrc),
+            widthArray = x.match(regexWidth),
+            heightArray = x.match(regexHeight),
+            nW,
+            // _src,
+            newM,
+            nH,
+            minH;
+          if (srcArray) {
+            // _src = srcArray[1].replace(/\+/g, "%2b");
+            if (widthArray && heightArray) {
+              if (widthArray[1] < 200) {
+                nW = widthArray[1] + 'px';
+                nH = heightArray[1] + 'px';
+              } else {
+                nW = '100%';
+                nH = heightArray[1] * 100 / widthArray[1] + "%";
+              }
+              minH = nH;
+              newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" data-index="${i+1}" data-src=`);
             } else {
               nW = '100%';
-              nH = heightArray[1] * 100 / widthArray[1] + "%";
+              nH = "auto";
+              minH = '28.27vw';
+              newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
             }
-            minH = nH;
-            newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" data-index="${i+1}" data-src=`);
           } else {
-            nW = '100%';
-            nH = "auto";
-            minH = '28.27vw';
-            newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
+            // _src = '';
+            newM = '';
           }
-        } else {
-          // _src = '';
-          newM = '';
-        }
-        // 正则替换富文本内的img标签
-        // 替换不同文本
-        html = html.replace(x, newM);
-      });
-    }
-    const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
-    const regexVideo2 = /<video.*?(?:>|\/>)/gi;
-    let pVideo = await html.match(regexVideo);
-    if (pVideo) {
-      // 正则替换富文本内 img标签 待发布（npm）
-      const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      const regexPoster = /poster=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      let regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      let regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      let regexDuration = /duration=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      let flg;
-      let pa = parseInt;
-      pVideo.forEach((x, i) => {
-        // 匹配imageurl属性下的值
-        let urlArray = x.match(regexUrl),
-          // 匹配vid属性下的值
-          vidArray = x.match(regexVid),
-          coverArray = x.match(regexCover),
-          posterArray = x.match(regexPoster),
-          widthArray = x.match(regexWidth),
-          heightArray = x.match(regexHeight),
-          durationArray = x.match(regexDuration),
-          v, u, c, d, w, h;
-        // // 替换插入需要的值flg
-        v = vidArray ? vidArray[1] : '';
-        u = urlArray ? urlArray[1] : '';
-        d = durationArray ? durationArray[1] : '';
-        if (widthArray && heightArray) {
-          if (pa(widthArray[1]) >= pa(heightArray[1])) {
+          // 正则替换富文本内的img标签
+          // 替换不同文本
+          html = html.replace(x, newM);
+        });
+      }
+      const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+      const regexVideo2 = /<video.*?(?:>|\/>)/gi;
+      let pVideo = await html.match(regexVideo);
+      if (pVideo) {
+        // 正则替换富文本内 img标签 待发布（npm）
+        const regexUrl = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexVid = /vid=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexCover = /imageUrl=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexPoster = /poster=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        let regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        let regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        let regexDuration = /duration=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        let flg;
+        let pa = parseInt;
+        pVideo.forEach((x, i) => {
+          // 匹配imageurl属性下的值
+          let urlArray = x.match(regexUrl),
+            // 匹配vid属性下的值
+            vidArray = x.match(regexVid),
+            coverArray = x.match(regexCover),
+            posterArray = x.match(regexPoster),
+            widthArray = x.match(regexWidth),
+            heightArray = x.match(regexHeight),
+            durationArray = x.match(regexDuration),
+            v, u, c, d, w, h;
+          // // 替换插入需要的值flg
+          v = vidArray ? vidArray[1] : '';
+          u = urlArray ? urlArray[1] : '';
+          d = durationArray ? durationArray[1] : '';
+          if (widthArray && heightArray) {
+            if (pa(widthArray[1]) >= pa(heightArray[1])) {
+              w = '100%';
+            } else {
+              w = '60%';
+              h = 'auto'
+            }
+          } else {
+            // 默认横
             w = '100%';
-          } else {
-            w = '60%';
-            h = 'auto'
+            h = '56.25vw';
           }
-        } else {
-          // 默认横
-          w = '100%';
-          h = '56.25vw';
-        }
-        if (coverArray) {
-          c = coverArray[1]
-        } else {
-          c = posterArray ? posterArray[1] : ''
-        }
-        // let temp = pVideo[i].split('<p>');
-        if (status) {
-          flg = `<section 
+          if (coverArray) {
+            c = coverArray[1]
+          } else {
+            c = posterArray ? posterArray[1] : ''
+          }
+          // let temp = pVideo[i].split('<p>');
+          if (status) {
+            flg = `<section 
                     class='feed-h5-videos2 feed-h5-videos-vertical2'
                     data-vid='${v}'
                     data-uid='${u}'
@@ -192,8 +193,8 @@ export default {
                       data-bg='${c}'>
                     </video>
                   </section>`;
-        } else {
-          flg = `<section 
+          } else {
+            flg = `<section 
                     class='imgbox video-native-player tiejin-videobox-native feed-video-bg'
                     data-vid='${v}'
                     data-uid='${u}'
@@ -212,29 +213,30 @@ export default {
                       </span>
                     </section>
                   </section>`;
-        }
-        html = html.replace(x, flg);
-      });
-    }
-    const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
-    let piFrame = await html.match(regexIframe);
-    if (piFrame) {
-      const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      piFrame.forEach((x, i) => {
-        let widthArray = x.match(regexWidth),
-          heightArray = x.match(regexHeight),
-          newsplit = x.split(widthArray[0]),
-          newstr = `${newsplit[0]}width="100%"${newsplit[1]}`,
-          newsplit1 = newstr.split(heightArray[0]),
-          newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`,
-          flag = `<section class="imgbox tiejin-iframe">
+          }
+          html = html.replace(x, flg);
+        });
+      }
+      const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
+      let piFrame = await html.match(regexIframe);
+      if (piFrame) {
+        const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        piFrame.forEach((x, i) => {
+          let widthArray = x.match(regexWidth),
+            heightArray = x.match(regexHeight),
+            newsplit = x.split(widthArray[0]),
+            newstr = `${newsplit[0]}width="100%"${newsplit[1]}`,
+            newsplit1 = newstr.split(heightArray[0]),
+            newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`,
+            flag = `<section class="imgbox tiejin-iframe">
                   ${newstr1}</iframe>
                 </section>`;
-        html = html.replace(x, flag);
-      });
-    }
-    return html
+          html = html.replace(x, flag);
+        });
+      }
+      return html
+    } catch (e) {}
   },
   // 图片地址处理
   makeFileUrl(url, type, size) {
