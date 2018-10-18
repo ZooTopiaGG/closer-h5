@@ -223,15 +223,7 @@ export default {
         const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
         const regexHeight = /height=[\'\"]?([^\'\"]*)[\'\"]?/i;
         piFrame.forEach((x, i) => {
-          let widthArray = x.match(regexWidth),
-            heightArray = x.match(regexHeight),
-            newsplit = x.split(widthArray[0]),
-            newstr = `${newsplit[0]}width="100%"${newsplit[1]}`,
-            newsplit1 = newstr.split(heightArray[0]),
-            newstr1 = `${newsplit1[0]} height="240" ${newsplit1[1]}`,
-            flag = `<section class="imgbox tiejin-iframe">
-                  ${newstr1}</iframe>
-                </section>`;
+          let flag = x.replace(/<iframe /g, `<iframe style="width: 100%;max-width:100%" width="100%" `);
           html = html.replace(x, flag);
         });
       }
