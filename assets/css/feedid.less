@@ -100,8 +100,8 @@
   // margin-bottom: @commonspace;
 }
 
-.feeder-content {
-  margin-top: @commonspace * 2;
+.feeder-content, #imgListFeed  {
+  margin-top: @m15 * 2;
 }
 
 .feeder-img {
@@ -196,7 +196,7 @@
   color: #999;
 }
 .feeder-images {
-  padding: @commonspace * 2 @m15*2 0;
+  padding: @m15 * 2 @m15*2 0;
 }
 .feeder-img-list {
   position: relative;
@@ -204,6 +204,8 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+  border-radius: 5px;
+  overflow:hidden;
 }
 
 .feeder-img-list:nth-child(3n) {
@@ -293,7 +295,7 @@
 }
 
 .feeder-cover {
-  padding: @commonspace * 2 @m15*2 0;
+  padding: 0 @m15*2 0;
   font-size: 14px;
   color: #888;
 }

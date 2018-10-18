@@ -67,13 +67,13 @@ export default {
 <style scoped lang="less">
 @textcolor: #495060;
 .feeder-cover {
-  padding: 5.3vw 3vw 0;
+  padding: 0 3vw 0;
   width: 100%;
   box-sizing: border-box;
   margin-bottom: -1px;
   .access-not {
-    width: 13.87vw;
-    height: 5.87vw;
+    width: 10vw;
+    height: 10vw;
     margin-right: 2.67vw;
     border-radius: 5px;
   }

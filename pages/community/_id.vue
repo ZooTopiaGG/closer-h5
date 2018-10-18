@@ -327,8 +327,8 @@ export default {
   margin-bottom: @m20 * 2;
   font-size: 18px;
   > img {
-    width: 18.93vw;
-    height: @m15 * 4;
+    width: 16vw;
+    height: 16vw;
     border-radius: 5px;
     margin-bottom: @m20;
   }

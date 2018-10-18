@@ -17,7 +17,7 @@
     </section>
     <section class="content flex flex-align-center flex-pack-justify">
       <section class="content-info flex flex-align-center">
-        <img v-lazy="$store.state.res.user.avatar" alt="avatar">
+        <img v-lazy="$com.makeFileUrl($store.state.res.user.avatar)" alt="avatar">
         <span>希腊队</span>
       </section>
       <section class="content-time">

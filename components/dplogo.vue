@@ -1,5 +1,5 @@
 <template>
-    <img class="access-not" :src="defaultImg" v-lazy="$store.state.res.blogo">
+    <img class="access-not" :src="defaultImg" v-lazy="$store.state.res.slogo">
 </template>
 <script>
 export default {
@@ -14,8 +14,8 @@ export default {
 </script>
 <style scoped>
 .access-not {
-  width: 21.87vw;
-  height: 8.54vw;
+  width: 10vw;
+  height: 10vw;
   border-radius: 5px;
 }
 </style>

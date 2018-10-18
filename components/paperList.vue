@@ -34,7 +34,9 @@
             <section class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
               <h3 v-if="item.content.text" class="feedtitle feed-videos-title" :style="$store.state.text_overflow_3">{{ item.content.text }}</h3>
               <section class="paper-video-data">
-                <span>212评论</span>·<span>154赞</span>
+                <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                <span v-if="item.commentNumber && item.like">·</span>
+                <span v-if="item.like">{{ item.like }}赞</span>
               </section>
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
@@ -45,7 +47,9 @@
                     {{ item.title }}
                   </section>
                   <section class="paper-data">
-                    <span>212评论</span>·<span>154赞</span>
+                    <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                    <span v-if="item.commentNumber && item.like">·</span>
+                    <span v-if="item.like">{{ item.like }}赞</span>
                   </section>
                 </section>
                 <section v-if="item.cover" class="feedcover feed-mode-1-image flex">

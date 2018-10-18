@@ -305,7 +305,7 @@
             </section>
           </section>
           <section>
-            <paper-list :title="theTitle" :paper-list="hot_list"></paper-list>
+            <paper-list :title="theTitle" :paper-list="paper_list"></paper-list>
           </section>
         </section>
         <!-- 热门文章 -->
@@ -458,7 +458,8 @@ export default {
       isCollapse: true,
       selected: "1",
       is_the_select: true,
-      theTitle: "精华"
+      theTitle: "精华",
+      paper_type: 1
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -485,10 +486,11 @@ export default {
         }
       }
     },
-    theSelect(type) {
+    async theSelect(type) {
       let self = this;
       self.is_the_select = type === "精华";
       self.theTitle = type === "精华" ? "精华" : "全部";
+      await self.paperList();
     },
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
@@ -562,10 +564,14 @@ export default {
     },
     // 征稿时，显示征稿列表
     async paperList() {
-      let self = this;
-      let feeds = await self.$axios.$get(
-        `${api.command.collections}?subjectid=${self.$route.params.id}`
-      );
+      let self = this,
+      para = {
+        subjectid: self.$route.params.id,
+        lastsubjectid: 0,
+        pagesize: 5,
+        type: self.is_the_select ? 1 : 0, // 0:全部1:精华
+      };
+      let feeds = await self.$axios.$post(`${api.command.collections_v2}`,para);
       if (feeds.code === 0) {
         let arr = await feeds.result.data.map(x => {
           if (x.content) {
@@ -648,11 +654,7 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log("33==", self.$store.state.version_1_3);
     self.$nextTick(() => {
-      // try {
-      //   console.log(self.$refs.summarys.offsetHeight);
-      // } catch (e) {}
       // 清除留言时保存的数据
       window.sessionStorage.clear();
       // 获取阅读量
