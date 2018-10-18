@@ -3,6 +3,7 @@
 @width: 100vw;
 @height: 100vh;
 @5625: 56.25vw;
+@p32: 4.26vw;
 @color: #FDDB00;
 #feed {
   padding: 0 0 @m15*2;
@@ -468,6 +469,7 @@
   font-size: 14px;
   color: #507CAF;
   margin-top: -21.4vw;
+  padding-bottom: 3vw; 
   width: 100%;
   position: relative;
   z-index: 9;
@@ -495,11 +497,12 @@
 }
 .paper_choose {
   height: 100%;
-  padding: 2.5vw 0.667vw;
+  padding: @p32 0.667vw 1.07vw;
 }
 .paper_list {
   font-size: 4.8vw;
   color: #94928E;
+  padding-bottom: @commonspace;
 }
 .paper_choose_select, .paper_choose_all {
   color: #4B4945;
