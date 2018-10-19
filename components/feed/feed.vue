@@ -35,7 +35,7 @@
               <section v-if="item.content.text" class="feedtitle feed-videos-title text-ellipse" :style="$store.state.text_overflow_3">{{ item.content.text }}</section>
               <section class="columnname flex flex-align-center">
                 <section class="flex-1">
-                  <span class="name ellipsis">{{ item.communityName }}</span>
+                  <span class="name ellipsis">{{ $com.toOverflow(item.communityName, 10) }}</span>
                   <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
                   <span v-if="item.commentNumber && item.like">·</span>
                   <span v-if="item.like">{{ item.like }}赞</span>
@@ -81,7 +81,7 @@
               </section>
               <section class="columnname flex flex-align-center">
                 <section class="flex-1">
-                  <span class="name ellipsis">{{ item.communityName }}</span>
+                  <span class="name ellipsis">{{ $com.toOverflow(item.communityName, 10) }}</span>
                   <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
                   <span v-if="item.commentNumber && item.like">·</span>
                   <span v-if="item.like">{{ item.like }}赞</span>

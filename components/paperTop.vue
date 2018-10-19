@@ -6,10 +6,10 @@
         {{ $store.state.res.title }} 
       </section>
       <section class="flex flex-align-center flex-pack-justify">
-        <section class="paper-add flex flex-align-center">
+        <section class="paper-add flex flex-align-center" @click="firstLogin">
           <i></i><span>参与</span>
         </section>
-        <section class="paper-look flex flex-align-center">
+        <section class="paper-look flex flex-align-center" @click="backToPaper">
           <span>查看话题全部内容</span><i></i>
         </section>
       </section>
@@ -17,16 +17,83 @@
     </section>
     <section class="content flex flex-align-center flex-pack-justify">
       <section class="content-info flex flex-align-center">
-        <img v-lazy="$store.state.res.user.avatar" alt="avatar">
-        <span>希腊队</span>
+        <img v-lazy="$com.makeFileUrl($store.state.res.user.avatar)" alt="avatar">
+        <span>{{ $store.state.res.user.fullname }}</span>
       </section>
       <section class="content-time">
-        一小时前
+        {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }} 
       </section>
     </section>
   </section>
 </template>
 <script>
+import Cookie from "js-cookie";
+export default {
+  name: "",
+  data() {
+    return {};
+  },
+  methods: {
+    backToPaper() {
+      this.$router.push({
+        path: `/feed/${this.$route.query.fromid}`
+      });
+    },
+    // 需要登录的操作 先判断后执行
+    async firstLogin() {
+      let self = this;
+      await self.$store.commit(
+        "SET_EXTENSION_TEXT",
+        "participate_papers_topic"
+      );
+      // 渲染页面前 先判断cookies token是否存在
+      let t = self.$store.state.token
+        ? self.$store.state.token
+        : Cookie.get("token");
+      if (t) {
+        self.downApp("", "participate_papers_topic");
+      } else {
+        // 前期 仅微信 后期再做微博，qq等授权， 所以在其他浏览器 需使用默认登录
+        if ($async.isWeiXin()) {
+          await self.$com.down_statistics({
+            store: self.$store,
+            route: self.$route,
+            str: "",
+            defaultStr: "papers_topic",
+            redirectUrl: "wx"
+          });
+          // 通过微信授权 获取code
+          await self.$store.dispatch("get_wx_auth", {
+            // 正式
+            url: `${location.protocol}//${
+              location.hostname
+            }?from=paper&articleid=${self.$route.params.id}`
+          });
+        } else {
+          self.$store.commit("GET_LOGIN_TYPE", "toDown");
+          self.$store.commit("SET_VISIBLE_LOGIN", true);
+        }
+      }
+    },
+    // 纯下载
+    async downApp(e, str) {
+      let self = this,
+        redirectUrl;
+      if (str == "participate_papers_topic") {
+        redirectUrl = `${location.protocol}//${location.host}?from=paper`;
+      } else if (str === "papers_topic") {
+        redirectUrl = `closer://feed/${self.$route.params.id}?from=paper`;
+      }
+      await self.$com.down_statistics({
+        store: self.$store,
+        route: self.$route,
+        str,
+        defaultStr: "papers_topic",
+        redirectUrl
+      });
+    }
+  }
+};
 </script>
 <style scoped lang="less">
 @m3: 3vw;

@@ -1,10 +1,6 @@
 <template>
   <section class="dpFeed" v-if="!$store.state.isPre">
-    <!-- <section class="split-box"></section>  -->
-    <!-- <section class="hots-article flex flex-align-center">
-      {{ title }}
-    </section>  -->
-    <ul v-if="paperList && paperList.length > 0 && dd" class="feed-list flex-1">
+    <ul v-if="paperList && paperList.length > 0" class="feed-list flex-1">
       <li v-if="index < 5" class="feed-list-cell" @click="toFeedDetails(item.subjectid)" v-for="(item, index) in paperList" :key="index">
         <section class="feed-box">
           <section class="hide-feed-over"></section>
@@ -34,7 +30,9 @@
             <section class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
               <h3 v-if="item.content.text" class="feedtitle feed-videos-title" :style="$store.state.text_overflow_3">{{ item.content.text }}</h3>
               <section class="paper-video-data">
-                <span>212评论</span>·<span>154赞</span>
+                <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                <span v-if="item.commentNumber && item.like">·</span>
+                <span v-if="item.like">{{ item.like }}赞</span>
               </section>
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
@@ -45,7 +43,9 @@
                     {{ item.title }}
                   </section>
                   <section class="paper-data">
-                    <span>212评论</span>·<span>154赞</span>
+                    <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                    <span v-if="item.commentNumber && item.like">·</span>
+                    <span v-if="item.like">{{ item.like }}赞</span>
                   </section>
                 </section>
                 <section v-if="item.cover" class="feedcover feed-mode-1-image flex">
@@ -57,7 +57,7 @@
         </section>
       </li>
     </ul>
-    <section v-else>
+    <section class="nothings" v-else>
       <nothing></nothing>
     </section>
     <bottom-nav v-if="!($route.path.indexOf('group') > -1) && title != '精彩投稿'"></bottom-nav>
@@ -104,13 +104,12 @@ export default {
       });
     },
     toFeedDetails(id) {
-      console.log(id);
-      this.$router.push({ path: `/feed/${id}?from=paper` });
+      this.$router.push({
+        path: `/feed/${id}?fromid=${this.$route.params.id}&from=paper`
+      });
     }
   },
-  mounted() {
-    console.log(this.paperList);
-  }
+  mounted() {}
 };
 </script>
 

@@ -74,7 +74,9 @@ export default {
       feedType: "read",
       progress: 0,
       objectType: "article",
-      oldScrollY: 0
+      oldScrollY: 0,
+      scrollDirection: "",
+      scrollAction: {}
     };
   },
   components: {
@@ -101,6 +103,56 @@ export default {
     // 隐藏confirm组件
     hiddenConfirm() {
       this.$store.commit("SHOW_CONFIRM", false);
+    },
+    handleScroll() {
+      let self = this;
+      window.onscroll = function(e) {
+        self.scrollFunc();
+        if (self.scrollDirection == "down") {
+          //页面向下滚动要做的事情
+          if (self.$store.state.webNoNav) {
+            self.$store.commit("SET_NO_NAV", false);
+          }
+          if (!self.$store.state.webFixedFooter) {
+            self.$store.commit("Set_Fixed_Footer", true);
+          }
+        } else if (self.scrollDirection == "up") {
+          //页面向上滚动要做的事情
+          if (!self.$store.state.webNoNav) {
+            self.$store.commit("SET_NO_NAV", true);
+          }
+          if (self.$store.state.webFixedFooter) {
+            self.$store.commit("Set_Fixed_Footer", false);
+          }
+        }
+      };
+    },
+    scrollFunc() {
+      let self = this;
+      if (typeof self.scrollAction.x == "undefined") {
+        self.scrollAction.x = window.pageXOffset;
+        self.scrollAction.y = window.pageYOffset;
+      }
+      var diffX = self.scrollAction.x - window.pageXOffset;
+      var diffY = self.scrollAction.y - window.pageYOffset;
+      if (diffX < 0) {
+        // Scroll right
+        self.scrollDirection = "right";
+      } else if (diffX > 0) {
+        // Scroll left
+        self.scrollDirection = "left";
+      } else if (diffY < 0) {
+        // Scroll down
+        self.scrollDirection = "down";
+      } else if (diffY > 0) {
+        // Scroll up
+        self.scrollDirection = "up";
+      } else {
+        // First scroll event
+        return;
+      }
+      self.scrollAction.x = window.pageXOffset;
+      self.scrollAction.y = window.pageYOffset;
     }
   },
   beforeMount() {
@@ -225,6 +277,8 @@ export default {
     });
     self.$nextTick(() => {
       if (self.$store.state.not_closer_app) {
+        // 监听滚动
+        self.handleScroll();
         let title, pic, desc;
         if (self.$route.path.indexOf("/community") > -1) {
           // 分享栏目主页
@@ -311,10 +365,21 @@ export default {
             } else {
               title = content.summary;
             }
-            desc = content.summary ? content.summary : "分享文章";
             pic = self.$com.makeFileUrl(self.$store.state.res.cover)
               ? self.$com.makeFileUrl(self.$store.state.res.cover)
               : self.$com.makeFileUrl(self.$store.state.res.bigcover);
+            // 征稿
+            if (self.$store.state.res.int_category === 1) {
+              desc =
+                self.$store.state.res.commentNumber > 0
+                  ? `贴近号：${self.$store.state.res.communityName} \n${
+                      self.$store.state.res.commentNumber
+                    }参与`
+                  : `贴近号：${self.$store.state.res.communityName}`;
+            } else {
+              desc = content.summary ? content.summary : "分享文章";
+            }
+            console.log(desc, pic, title);
           }
         }
         // 微信二次分享

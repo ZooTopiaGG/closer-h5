@@ -21,6 +21,7 @@ export const state = () => ({
   feed_list: [],
   group_info: {},
   webNoNav: true,
+  webFixedFooter: false,
   webNoFooter: true,
   auth: '',
   token: '',
@@ -143,6 +144,10 @@ export const mutations = {
   // 设置顶部导航显示状态
   SET_NO_NAV(state, para) {
     state.webNoNav = para
+  },
+  // 设置底部导航显示状态
+  Set_Fixed_Footer(state, para) {
+    state.webFixedFooter = para
   },
   // 竖视频
   ITS_LONG_VIDEO(state, para) {

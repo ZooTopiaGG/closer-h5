@@ -11,6 +11,9 @@
     /* font-weight: bold; */
     padding: 0 @m15 * 2;
   }
+  .feed-list {
+    padding-bottom: 24vw;
+  }
   .feed-list-cell {
     border-bottom: 1px solid #f5f5f5;
     padding: @m3 0;
@@ -50,6 +53,9 @@
   }
   .feed-list-cell:first-child{
     padding-top: 0; 
+  }
+  .feed-list-cell:last-child {
+    border: 0;
   }
   .feedcover > img {
     width: 100%;
@@ -93,11 +99,11 @@
   .feedimgcontent {
     flex-wrap: wrap;
     margin-top: @m20;
-    padding: 0 @m3;
   }
   .feeder-img-list {
     position: relative;
     overflow: hidden;
+    border-radius: 5px;
     .more-image {
       position: absolute;
       right: @m3;

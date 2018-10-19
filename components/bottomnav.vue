@@ -1,6 +1,8 @@
 
 <template>
-  <section class="open-article flex flex-align-center">
+  <section :class="{
+    'open-article': true, flex: true, 'flex-align-center': true, webFixedFooter: $store.state.webFixedFooter
+  }">
     <section v-if="!($route.path.indexOf('group') > -1)">
       <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')">
         <span v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1"><span>立即投稿，赚取稿费</span><i class="down-arrow"></i></span>      
@@ -24,6 +26,14 @@ export default {
     return {
       loading: 2
     };
+  },
+  created() {
+    let self = this;
+    self.$store.commit(
+      "Set_Fixed_Footer",
+      self.$store.state.res.int_type === 2 &&
+        self.$store.state.res.int_category === 1
+    );
   },
   methods: {
     // 先登录 再下载流程
@@ -97,11 +107,23 @@ export default {
 <style scoped lang="less">
 @textcolor: #4b4945;
 .open-article {
+  width: 100%;
   height: 14.4vw;
   padding: 0 3.2vw;
+  // position: absolute;
+  // bottom: 0;
+  // left: 0;
+  box-sizing: border-box;
+  background: #fff;
   > section {
     width: 100%;
   }
+}
+.webFixedFooter {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
 }
 .open-app {
   width: 100%;

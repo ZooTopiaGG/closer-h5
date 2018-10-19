@@ -31,6 +31,7 @@ let api = {
     show: 'closer_subject.show',
     // 精彩投稿
     collections: 'closer_subject.collections',
+    collections_v2: 'closer_subject.collectionsV2',
     // 推荐列表
     hot_subjects: 'closer_subject.hot_subjects',
     // 阅读量统计

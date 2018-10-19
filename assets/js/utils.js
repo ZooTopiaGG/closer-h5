@@ -76,7 +76,18 @@ export default {
     }
 
   },
-
+  // 超出 省略
+  toOverflow(str, len) {
+    if (str) {
+      if (str.length > len) {
+        return str.substr(0, len) + '...'
+      } else {
+        return str
+      }
+    } else {
+      return '-'
+    }
+  },
   // 富文本处理
   async makeHtmlContent(html, status) {
     try {
