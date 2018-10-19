@@ -102,6 +102,9 @@ export default {
 @newBase: 2vw;
 .paper {
   padding: 0 @m32;
+  position: relative;
+  z-index: 99;
+  background: #fff;
   .feeder-title {
     font-size: 20px;
     font-weight: bold;
