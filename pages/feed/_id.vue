@@ -142,7 +142,8 @@
           <!-- 1.3.1 版本 start-->
           <section class="feeder-content" id="tjimg" v-video="{selector: 'video'}">
             <!-- 标题 -->
-            <section v-if="((!$store.state.version_1_3 || $store.state.res.int_category === 1) && !$store.state.version_1_4 && $route.query.from !='paper') && !$store.state.not_closer_app" class="feeder-title feeder-title-2 feeder-title-3">{{ $store.state.res.title }} </section>
+            <section v-if="((!$store.state.version_1_3 && !$store.state.version_1_4) || $store.state.not_closer_app) &&
+        $store.state.res.int_category != 1 && $route.query.from != 'paper'" class="feeder-title feeder-title-2 feeder-title-3 feeder-title-4">{{ $store.state.res.title }} </section>
             <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1">
               <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
                 <!-- 大封面 -->
@@ -668,6 +669,12 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      let d =
+        ((!self.$store.state.version_1_3 && !self.$store.state.version_1_4) ||
+          self.$store.state.not_closer_app) &&
+        self.$store.state.res.int_category != 1 &&
+        self.$route.query.from != "paper";
+      console.log(d);
       // 清除留言时保存的数据
       window.sessionStorage.clear();
       // 获取阅读量
