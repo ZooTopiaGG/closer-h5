@@ -452,7 +452,7 @@ export default {
         progress, _str, s = JSON.parse;
       if (route.path.indexOf("/community") > -1 || store.state.extension_text === 'follow') {
         _page = "community";
-        url = `closer://community/${did}`;
+        url = `closer://community/${store.state.res.communityid}`;
       } else if (route.path.indexOf("/feed") > -1 && store.state.extension_text != 'follow') {
         _page = "article";
         url = `closer://feed/${did}`;
