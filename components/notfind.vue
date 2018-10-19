@@ -48,8 +48,11 @@ export default {
                 "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
             }, 1000);
           } else {
-            location.href =
-              "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+            location.href = `closer://feed/${self.$route.params.id}`;
+            setTimeout(() => {
+              location.href =
+                "http://a.app.qq.com/o/simple.jsp?pkgname=com.ums.closer";
+            }, 1000);
           }
         }, 1500);
       }

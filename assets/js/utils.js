@@ -450,10 +450,10 @@ export default {
     if (result) {
       let _page, url, did = route.params.id || route.params.messageid,
         progress, _str, s = JSON.parse;
-      if (route.path.indexOf("/community") > -1) {
+      if (route.path.indexOf("/community") > -1 || store.state.extension_text === 'follow') {
         _page = "community";
         url = `closer://community/${did}`;
-      } else if (route.path.indexOf("/feed") > -1) {
+      } else if (route.path.indexOf("/feed") > -1 && store.state.extension_text != 'follow') {
         _page = "article";
         url = `closer://feed/${did}`;
         if (store.state.res.int_type === 1) {
