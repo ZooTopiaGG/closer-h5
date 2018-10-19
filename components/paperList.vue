@@ -101,8 +101,9 @@ export default {
       });
     },
     toFeedDetails(id) {
-      console.log(id);
-      this.$router.push({ path: `/feed/${id}?from=paper` });
+      this.$router.push({
+        path: `/feed/${id}?fromid=${this.$route.params.id}&from=paper`
+      });
     }
   },
   mounted() {

@@ -1,5 +1,5 @@
 <template>
-    <img class="access-not" :src="defaultImg" v-lazy="$store.state.res.slogo">
+    <img class="access-not" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.slogo)">
 </template>
 <script>
 export default {
