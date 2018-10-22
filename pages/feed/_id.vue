@@ -126,14 +126,14 @@
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <section class="feed-doc" v-else-if="$store.state.res.int_type === 2">
           <!-- 兼容1.2版本 以及外部浏览器 不需要封面的问题 -->
-          <section v-if="!$store.state.version_1_2 && !$store.state.not_closer_app">
+          <section v-if="!$store.state.version_1_2 && $store.state.res.int_category != 1 && $store.state.res.int_category != 2">
             <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
               <!-- 大封面 -->
               <img class="feed-cover feed-cover-bgcover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
               >
               <section class="hide-over"></section>
             </section>
-            <section class="feeder-img feeder-img-cover" v-else>
+            <section class="feeder-img feeder-img-cover" v-else-if="!($store.state.res.int_category === 0 || $store.state.res.int_category === 5 || $store.state.res.int_cover_mode === 1) || $store.state.res.int_category === 3">
               <!-- 小封面 -->
               <img class="feed-cover feed-cover-cover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               <section class="hide-over"></section>
@@ -150,7 +150,7 @@
                 <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
                 >
               </section>
-              <section class="feeder-img feeder-img-cover feed-img-cover_1_3_1" v-else>
+              <section class="feeder-img feeder-img-cover feed-img-cover_1_3_1" v-else-if="!($store.state.res.int_category === 0 || $store.state.res.int_category === 5 || $store.state.res.int_cover_mode === 1) || $store.state.res.int_category === 3">
                 <!-- 小封面 -->
                 <img class="feed-cover feed-cover-cover feed-cover-cover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               </section>
