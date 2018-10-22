@@ -1,7 +1,7 @@
 <template>
   <section :class="{
     'feeder-cover': true, flex: true, 'flex-align-center': true, 'flex-pack-justify': true,
-    frompaper: $route.query.from === 'paper' || ($store.state.res.int_type === 2 && $store.state.res.int_category === 1),
+    frompaper: $store.state.res.int_type === 2 && ($store.state.res.int_category === 2 || $store.state.res.int_category === 1),
     fromVideo: $store.state.res.int_type === 1
   }" v-if="$store.state.not_closer_app">
     <section class="flex flex-1 flex-align-center" @click="toCommunity">

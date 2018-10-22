@@ -15,7 +15,7 @@
         <section class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
           <logo-tab></logo-tab>
           <paper-top></paper-top>
-          <section v-if="$route.query.from != 'paper'" class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
+          <section v-if="!($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
           <section class="feeder-images" v-if="$store.state.not_closer_app">
@@ -143,8 +143,8 @@
           <section class="feeder-content" id="tjimg" v-video="{selector: 'video'}">
             <!-- 标题 -->
             <section v-if="((!$store.state.version_1_3 && !$store.state.version_1_4) || $store.state.not_closer_app) &&
-        $store.state.res.int_category != 1 && $route.query.from != 'paper'" class="feeder-title feeder-title-2 feeder-title-3 feeder-title-4">{{ $store.state.res.title }} </section>
-            <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1">
+        $store.state.res.int_category != 1 && !($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-title-3 feeder-title-4">{{ $store.state.res.title }} </section>
+            <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1 && $store.state.res.int_category != 2">
               <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
                 <!-- 大封面 -->
                 <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
@@ -164,7 +164,7 @@
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
-            <section v-if="$store.state.res.int_category === 1 && ($store.state.not_closer_app || $store.state.version_1_4) && $route.query.from !='paper'" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
+            <section v-if="$store.state.res.int_category === 1 && ($store.state.not_closer_app || $store.state.version_1_4) && !($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
             <paper-top></paper-top>
             <!-- 暂时隐藏 -->
             <!-- <section class="feeder-cover flex flex-align-center" v-if="!$store.state.not_closer_app && !$store.state.version_1_3">
