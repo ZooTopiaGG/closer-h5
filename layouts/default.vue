@@ -379,7 +379,6 @@ export default {
             } else {
               desc = content.summary ? content.summary : "分享文章";
             }
-            console.log(desc, pic, title);
           }
         }
         // 微信二次分享

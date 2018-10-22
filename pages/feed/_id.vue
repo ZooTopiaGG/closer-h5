@@ -669,12 +669,7 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
-      let d =
-        ((!self.$store.state.version_1_3 && !self.$store.state.version_1_4) ||
-          self.$store.state.not_closer_app) &&
-        self.$store.state.res.int_category != 1 &&
-        self.$route.query.from != "paper";
-      console.log(d);
+      console.log(document.querySelector(".feeder-content").offsetHeight);
       // 清除留言时保存的数据
       window.sessionStorage.clear();
       // 获取阅读量
