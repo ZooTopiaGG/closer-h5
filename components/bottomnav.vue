@@ -110,9 +110,6 @@ export default {
   width: 100%;
   height: 14.4vw;
   padding: 0 3.2vw;
-  // position: absolute;
-  // bottom: 0;
-  // left: 0;
   box-sizing: border-box;
   background: #fff;
   > section {

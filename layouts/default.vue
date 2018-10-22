@@ -107,22 +107,29 @@ export default {
     handleScroll() {
       let self = this;
       window.onscroll = function(e) {
-        self.scrollFunc();
-        if (self.scrollDirection == "down") {
-          //页面向下滚动要做的事情
-          if (self.$store.state.webNoNav) {
-            self.$store.commit("SET_NO_NAV", false);
-          }
-          if (!self.$store.state.webFixedFooter) {
-            self.$store.commit("Set_Fixed_Footer", true);
-          }
-        } else if (self.scrollDirection == "up") {
-          //页面向上滚动要做的事情
-          if (!self.$store.state.webNoNav) {
-            self.$store.commit("SET_NO_NAV", true);
-          }
-          if (self.$store.state.webFixedFooter) {
-            self.$store.commit("Set_Fixed_Footer", false);
+        if (
+          self.$com.getScrollHeight() ==
+          self.$com.getWindowHeight() + self.$com.getDocumentTop()
+        ) {
+          self.$store.commit("Set_Fixed_Footer", false);
+        } else {
+          self.scrollFunc();
+          if (self.scrollDirection == "down") {
+            //页面向下滚动要做的事情
+            if (self.$store.state.webNoNav) {
+              self.$store.commit("SET_NO_NAV", false);
+            }
+            if (!self.$store.state.webFixedFooter) {
+              self.$store.commit("Set_Fixed_Footer", true);
+            }
+          } else if (self.scrollDirection == "up") {
+            //页面向上滚动要做的事情
+            if (!self.$store.state.webNoNav) {
+              self.$store.commit("SET_NO_NAV", true);
+            }
+            if (self.$store.state.webFixedFooter) {
+              self.$store.commit("Set_Fixed_Footer", false);
+            }
           }
         }
       };
