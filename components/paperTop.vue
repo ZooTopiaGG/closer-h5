@@ -1,6 +1,6 @@
 <template>
-  <section class="paper" v-if="$route.query.from === 'paper'">
-    <section>
+  <section class="paper" v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 2">
+    <section v-if="$store.state.not_closer_app">
       <section v-if="!$store.state.version_1_3" class="feeder-title feeder-title-2 feeder-title-3">
         <span class="call_papers_1_4" v-if="$store.state.version_1_4 || $store.state.not_closer_app">话题</span>
         {{ $store.state.res.title }} 
