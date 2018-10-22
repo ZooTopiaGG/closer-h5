@@ -669,7 +669,6 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
-      console.log(document.querySelector(".feeder-content").offsetHeight);
       // 清除留言时保存的数据
       window.sessionStorage.clear();
       // 获取阅读量
