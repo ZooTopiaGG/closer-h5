@@ -107,10 +107,19 @@ export default {
     handleScroll() {
       let self = this;
       window.onscroll = function(e) {
+        console.log(self.$com.getDocumentTop());
         if (
           self.$com.getScrollHeight() ==
           self.$com.getWindowHeight() + self.$com.getDocumentTop()
         ) {
+          console.log(111);
+          // 滚动到底部
+          self.$store.commit("Set_Fixed_Footer", false);
+          self.$store.commit("SET_NO_NAV", false);
+        } else if (self.$com.getDocumentTop() == 0) {
+          console.log(2222);
+          // 滚动到顶部
+          self.$store.commit("SET_NO_NAV", true);
           self.$store.commit("Set_Fixed_Footer", false);
         } else {
           self.scrollFunc();
