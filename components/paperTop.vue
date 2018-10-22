@@ -36,7 +36,7 @@ export default {
   methods: {
     backToPaper() {
       this.$router.push({
-        path: `/feed/${this.$route.query.fromid}`
+        path: `/feed/${this.$store.state.res.release_subjectid}`
       });
     },
     // 需要登录的操作 先判断后执行

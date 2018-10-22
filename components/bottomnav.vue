@@ -116,12 +116,6 @@ export default {
     width: 100%;
   }
 }
-.webFixedFooter {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 9999;
-}
 .open-app {
   width: 100%;
   border-radius: 5px;
