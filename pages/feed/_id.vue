@@ -129,7 +129,7 @@
               >
               <section class="hide-over"></section>
             </section>
-            <section class="feeder-img feeder-img-cover" v-else>
+            <section class="feeder-img feeder-img-cover" v-else-if="!($store.state.res.int_category === 0 || $store.state.res.int_category === 5 || $store.state.res.int_cover_mode === 1) || $store.state.res.int_category === 3">
               <!-- 小封面 -->
               <img class="feed-cover feed-cover-cover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               <section class="hide-over"></section>
@@ -145,7 +145,7 @@
                 <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
                 >
               </section>
-              <section class="feeder-img feeder-img-cover feed-img-cover_1_3_1" v-else>
+              <section class="feeder-img feeder-img-cover feed-img-cover_1_3_1" v-else-if="!($store.state.res.int_category === 0 || $store.state.res.int_category === 5 || $store.state.res.int_cover_mode === 1) || $store.state.res.int_category === 3">
                 <!-- 小封面 -->
                 <img class="feed-cover feed-cover-cover feed-cover-cover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               </section>
@@ -592,6 +592,9 @@ export default {
   },
   mounted() {
     let self = this;
+    // 长图文内容页显示内容优化
+    // let d = !(self.$store.state.res.int_category === 0 || self.$store.state.res.int_category === 5 || self.$store.state.res.int_cover_mode === 1) || self.$store.state.res.int_category === 3
+    // console.log(d)
     self.$nextTick(() => {
       // 清除留言时保存的数据
       window.sessionStorage.clear();
