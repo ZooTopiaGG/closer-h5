@@ -269,7 +269,7 @@
           <!-- 1.3.1 版本 end-->
         </section>
         <!-- 发帖者信息 神议论和长图文区别 -->
-        <section v-if="!$store.state.version_1_2 && $store.state.res.int_category != 1">
+        <section v-if="!$store.state.version_1_2 && $store.state.res.int_category != 1 && $store.state.res.int_category != 2">
           <section class="author-list" v-if="$store.state.res.int_category != 3">
             <p v-if="$store.state.res.nickname">编辑：<span>{{ $store.state.res.nickname }}</span></p>
             <p v-if="$store.state.res.authors">作者：{{ $store.state.res.authors }} </p>

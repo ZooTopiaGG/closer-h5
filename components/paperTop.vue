@@ -17,7 +17,7 @@
     </section>
     <section class="content flex flex-align-center flex-pack-justify">
       <section class="content-info flex flex-align-center">
-        <img v-lazy="$com.makeFileUrl($store.state.res.user.attributes.roster.avatar) || $com.makeFileUrl($store.state.res.user.avatar)" alt="avatar">
+        <i class="avatar" v-lazy:backgroundImage="$com.makeFileUrl($store.state.res.user.attributes.roster.avatar) || $com.makeFileUrl($store.state.res.user.avatar)"></i>
         <span>{{ $store.state.res.user.attributes.roster.name || $store.state.res.user.fullname }}</span>
       </section>
       <section class="content-time">
@@ -151,11 +151,13 @@ export default {
     padding: @m32 0 @m32 / 2;
     font-size: 14px;
     .content-info {
-      img {
+      i {
         width: @newBase * 4;
         height: @newBase * 4;
         border-radius: 100%;
         margin-right: @newBase;
+        background-size: cover;
+        background-repeat: no-repeat;
       }
     }
     .content-time {
