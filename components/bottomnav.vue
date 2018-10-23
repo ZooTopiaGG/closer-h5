@@ -112,11 +112,7 @@ export default {
   padding: 0 3.2vw;
   box-sizing: border-box;
   background: #fff;
-  position: fixed;
-  left:0;
-  right:0;
-  bottom: -14.4vw;
-  transition: 600ms cubic-bezier(.165, .84, .44, 1);  
+  transition: 600ms cubic-bezier(0.165, 0.84, 0.44, 1);
   z-index: 999;
   > section {
     width: 100%;
