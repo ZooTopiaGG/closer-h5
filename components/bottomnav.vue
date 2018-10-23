@@ -1,7 +1,7 @@
 
 <template>
-  <section ref="bottomNav" :class="{
-    'open-article': true, flex: true, 'flex-align-center': true, webFixedFooter: $store.state.webFixedFooter
+  <section :class="{
+    'open-article': true, flex: true, 'flex-align-center': true
   }">
     <section v-if="!($route.path.indexOf('group') > -1)">
       <mt-button type="primary" size="small" class="open-app" @click="downApp($event,'direct_bottom')">
@@ -112,12 +112,6 @@ export default {
   padding: 0 3.2vw;
   box-sizing: border-box;
   background: #fff;
-  position: fixed;
-  left:0;
-  right:0;
-  bottom: -14.4vw;
-  transition: 600ms cubic-bezier(.165, .84, .44, 1);  
-  z-index: 999;
   > section {
     width: 100%;
   }

@@ -28,10 +28,10 @@
         <keep-alive>
           <nuxt/>
         </keep-alive>
-        <footer class="footer-group">
-          <bottom-nav></bottom-nav>
-        </footer>
       </section>
+      <footer class="footer-group">
+        <bottom-nav v-if="$route.path.indexOf('group') > -1"></bottom-nav>
+      </footer>
     </section>
     <section v-else>
       <not-find></not-find>
@@ -104,60 +104,6 @@ export default {
     hiddenConfirm() {
       this.$store.commit("SHOW_CONFIRM", false);
     },
-    handleScroll() {
-      let self = this;
-      window.onscroll = function(e) {
-        self.scrollFunc();
-        if (self.scrollDirection == "down") {
-          console.log(22222)
-          document.querySelector('.open-article').style.cssText='bottom: 0;'
-          //页面向下滚动要做的事情
-          if (self.$store.state.webNoNav) {
-            self.$store.commit("SET_NO_NAV", false);
-          }
-          // if (!self.$store.state.webFixedFooter) {
-          //   self.$store.commit("Set_Fixed_Footer", true);
-          // }
-        } else if (self.scrollDirection == "up") {
-          console.log(11111)
-          document.querySelector('.open-article').style.cssText='bottom: -14.4vw;'
-          //页面向上滚动要做的事情
-          if (!self.$store.state.webNoNav) {
-            self.$store.commit("SET_NO_NAV", true);
-          }
-          // if (self.$store.state.webFixedFooter) {
-          //   self.$store.commit("Set_Fixed_Footer", false);
-          // }
-        }
-      };
-    },
-    scrollFunc() {
-      let self = this;
-      if (typeof self.scrollAction.x == "undefined") {
-        self.scrollAction.x = window.pageXOffset;
-        self.scrollAction.y = window.pageYOffset;
-      }
-      var diffX = self.scrollAction.x - window.pageXOffset;
-      var diffY = self.scrollAction.y - window.pageYOffset;
-      if (diffX < 0) {
-        // Scroll right
-        self.scrollDirection = "right";
-      } else if (diffX > 0) {
-        // Scroll left
-        self.scrollDirection = "left";
-      } else if (diffY < 0) {
-        // Scroll down
-        self.scrollDirection = "down";
-      } else if (diffY > 0) {
-        // Scroll up
-        self.scrollDirection = "up";
-      } else {
-        // First scroll event
-        return;
-      }
-      self.scrollAction.x = window.pageXOffset;
-      self.scrollAction.y = window.pageYOffset;
-    }
   },
   beforeMount() {
     let self = this;
@@ -280,8 +226,6 @@ export default {
       ref: location.href
     });
     self.$nextTick(() => {
-      // 滚动监听
-      self.handleScroll()
       if (self.$store.state.not_closer_app) {
         let title, pic, desc;
         if (self.$route.path.indexOf("/community") > -1) {
@@ -428,9 +372,6 @@ export default {
 };
 </script>
 <style>
-#wrapper {
-  padding-bottom: 36vw;
-}
 nav {
   width: 100%;
   height: 13.07vw;
