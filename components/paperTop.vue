@@ -17,8 +17,8 @@
     </section>
     <section class="content flex flex-align-center flex-pack-justify">
       <section class="content-info flex flex-align-center">
-        <img v-lazy="$com.makeFileUrl($store.state.res.user.avatar)" alt="avatar">
-        <span>{{ $store.state.res.user.fullname }}</span>
+        <img v-lazy="$com.makeFileUrl($store.state.res.user.attributes.roster.avatar) || $com.makeFileUrl($store.state.res.user.avatar)" alt="avatar">
+        <span>{{ $store.state.res.user.attributes.roster.name || $store.state.res.user.fullname }}</span>
       </section>
       <section class="content-time">
         {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }} 
