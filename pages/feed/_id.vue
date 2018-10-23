@@ -668,6 +668,7 @@ export default {
   },
   mounted() {
     let self = this;
+    console.log(self.$store.state);
     self.$nextTick(() => {
       // 清除留言时保存的数据
       window.sessionStorage.clear();

@@ -70,9 +70,9 @@
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
             <section class="feedmain" v-else-if="item.int_type === 2">
               <section class="flex flex-pack-justify">
-                <section class="feedtype feed-left-width">
-                  <section v-if="item.title" class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_3">
-                    {{ item.title }}
+                <section class="feedtype flex-1">
+                  <section class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_3">
+                    {{ item.title || item.content.summary }}
                   </section>
                 </section>
                 <section v-if="item.cover" class="feedcover feed-mode-1-image flex">

@@ -6,8 +6,8 @@
           <section class="hide-feed-over"></section>
           <section class="feed-cell-content">
             <section class="columnname flex flex-align-center">
-              <img class="columeavatar" v-lazy="$com.makeFileUrl(item.user.avatar)">
-              <span class="name flex-1 ellipsis">{{ item.user.fullname }}</span>
+              <img class="columeavatar" v-lazy="$com.makeFileUrl(item.user.attributes.roster.avatar) || $com.makeFileUrl(item.user.avatar)">
+              <span class="name flex-1 ellipsis">{{ item.user.attributes.roster.name || item.user.fullname }}</span>
               <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
             </section>
             <!-- 贴子详情 -->
@@ -36,11 +36,14 @@
               </section>
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
-            <section class="feedmain" v-else-if="item.int_type === 2">
+            <!-- <section class="feedmain" v-else-if="item.int_type === 2">
               <section class="flex flex-pack-justify">
-                <section class="feedtype feed-left-width">
+                <section class="feedtype">
                   <section v-if="item.title" class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_2">
                     {{ item.title }}
+                  </section>
+                  <section v-else class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_2">
+                    {{ item.content.summary }}
                   </section>
                   <section class="paper-data">
                     <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
@@ -51,6 +54,27 @@
                 <section v-if="item.cover" class="feedcover feed-mode-1-image flex">
                   <span class="mode-1 paper-mode-1" v-lazy:background-image="$com.makeFileUrl(item.cover)"></span>
                 </section>
+              </section>
+            </section> -->
+             <section class="feedmain" v-else-if="item.int_type === 2">
+              <section class="flex flex-pack-justify">
+                <section class="feedtype flex-1">
+                  <section class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_2">
+                    {{ item.title || item.content.summary }}
+                  </section>
+                </section>
+                <section v-if="item.cover" class="feedcover feed-mode-1-image flex">
+                  <span class="mode-1" v-lazy:background-image="$com.makeFileUrl(item.cover)"></span>
+                </section>
+              </section>
+              <section class="columnname flex flex-align-center">
+                <section class="flex-1">
+                  <!-- <span class="name ellipsis">{{ $com.toOverflow(item.communityName, 10) }}</span> -->
+                  <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                  <span v-if="item.commentNumber && item.like">·</span>
+                  <span v-if="item.like">{{ item.like }}赞</span>
+                </section>
+                <!-- <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span> -->
               </section>
             </section>
           </section>
@@ -78,6 +102,12 @@ export default {
     title: {
       type: String,
       default: "精华"
+    }
+  },
+  filters: {
+    JsonP(item, value) {
+      console.log("item", item);
+      // return JSON.parse(item)[value];
     }
   },
   components: {
@@ -109,7 +139,9 @@ export default {
       });
     }
   },
-  mounted() {}
+  mounted() {
+    console.log(this.paperList);
+  }
 };
 </script>
 
@@ -141,6 +173,7 @@ export default {
         font-weight: 500;
         line-height: 25.5px;
         max-height: 51px;
+        height: 51px;
       }
     }
     .feedmain {
@@ -160,6 +193,7 @@ export default {
       bottom: 0;
       color: #94928e;
       font-size: 12px;
+      padding-top: 3.2vw;
     }
     .paper-mode-1 {
       border-radius: 5px;
