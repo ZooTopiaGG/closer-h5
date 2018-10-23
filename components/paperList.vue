@@ -60,7 +60,7 @@
     <section class="nothings" v-else>
       <nothing></nothing>
     </section>
-    <!-- <bottom-nav v-if="!($route.path.indexOf('group') > -1) && title != '精彩投稿'"></bottom-nav> -->
+    <bottom-nav v-if="!($route.path.indexOf('group') > -1) && title != '精彩投稿'"></bottom-nav>
   </section>
 </template>
 <script>
