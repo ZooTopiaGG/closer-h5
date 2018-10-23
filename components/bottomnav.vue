@@ -112,9 +112,18 @@ export default {
   padding: 0 3.2vw;
   box-sizing: border-box;
   background: #fff;
+  position: fixed;
+  left:0;
+  right:0;
+  bottom: -14.4vw;
+  z-index: 999;
   > section {
     width: 100%;
   }
+}
+.webFixedFooter {
+  transition: 600ms cubic-bezier(.165, .84, .44, 1);
+  bottom: 0;
 }
 .open-app {
   width: 100%;
