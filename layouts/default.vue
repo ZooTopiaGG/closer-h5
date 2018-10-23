@@ -28,10 +28,10 @@
         <keep-alive>
           <nuxt/>
         </keep-alive>
+        <footer class="footer-group">
+          <bottom-nav></bottom-nav>
+        </footer>
       </section>
-      <footer class="footer-group">
-        <bottom-nav v-if="$route.path.indexOf('group') > -1"></bottom-nav>
-      </footer>
     </section>
     <section v-else>
       <not-find></not-find>
@@ -110,22 +110,24 @@ export default {
         self.scrollFunc();
         if (self.scrollDirection == "down") {
           console.log(22222)
+          document.querySelector('.open-article').style.cssText='bottom: 0;'
           //页面向下滚动要做的事情
           if (self.$store.state.webNoNav) {
             self.$store.commit("SET_NO_NAV", false);
           }
-          if (!self.$store.state.webFixedFooter) {
-            self.$store.commit("Set_Fixed_Footer", true);
-          }
+          // if (!self.$store.state.webFixedFooter) {
+          //   self.$store.commit("Set_Fixed_Footer", true);
+          // }
         } else if (self.scrollDirection == "up") {
           console.log(11111)
+          document.querySelector('.open-article').style.cssText='bottom: -14.4vw;'
           //页面向上滚动要做的事情
           if (!self.$store.state.webNoNav) {
             self.$store.commit("SET_NO_NAV", true);
           }
-          if (self.$store.state.webFixedFooter) {
-            self.$store.commit("Set_Fixed_Footer", false);
-          }
+          // if (self.$store.state.webFixedFooter) {
+          //   self.$store.commit("Set_Fixed_Footer", false);
+          // }
         }
       };
     },
@@ -426,6 +428,9 @@ export default {
 };
 </script>
 <style>
+#wrapper {
+  padding-bottom: 36vw;
+}
 nav {
   width: 100%;
   height: 13.07vw;

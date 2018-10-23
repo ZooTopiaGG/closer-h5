@@ -1,6 +1,6 @@
 
 <template>
-  <section :class="{
+  <section ref="bottomNav" :class="{
     'open-article': true, flex: true, 'flex-align-center': true, webFixedFooter: $store.state.webFixedFooter
   }">
     <section v-if="!($route.path.indexOf('group') > -1)">
@@ -116,14 +116,11 @@ export default {
   left:0;
   right:0;
   bottom: -14.4vw;
+  transition: 600ms cubic-bezier(.165, .84, .44, 1);  
   z-index: 999;
   > section {
     width: 100%;
   }
-}
-.webFixedFooter {
-  transition: 600ms cubic-bezier(.165, .84, .44, 1);
-  bottom: 0;
 }
 .open-app {
   width: 100%;
