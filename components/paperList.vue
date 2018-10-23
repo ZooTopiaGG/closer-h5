@@ -1,5 +1,5 @@
 <template>
-  <section class="dpFeed" v-if="!$store.state.isPre">
+  <section class="dpFeed dpPaperFeed">
     <ul v-if="paperList && paperList.length > 0" class="feed-list flex-1">
       <li v-if="index < 5" class="feed-list-cell" @click="toFeedDetails(item.subjectid)" v-for="(item, index) in paperList" :key="index">
         <section class="feed-box">
@@ -133,7 +133,9 @@ export default {
       });
     }
   },
-  mounted() {}
+  mounted() {
+    console.log(this.paperList);
+  }
 };
 </script>
 

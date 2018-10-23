@@ -182,7 +182,35 @@
   }
 }
 @media screen and (min-width: 681px) {
+  @p16: 16px;
   .dpFeed {
+    display: none;
+  }
+  .dpPaperFeed{
+    display: block;
+    ul.feed-list {
+      margin-top: @p16;
+      padding-bottom: @p16 * 7;
+      .feed-list-cell {
+        padding: @p16 0;
+        margin: 0 @p16;
+        .feed-cell-content {
+          .feedmain {
+            padding-top: @p16;
+          }
+          .columnname {
+            padding-top: @p16;
+            >img.columeavatar {
+              width: 60px;
+              height: 60px;
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .open-article {
     display: none;
   }
 }
