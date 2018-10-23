@@ -683,9 +683,10 @@ export default {
         ) {
           // 征稿列表
           self.paperList();
+        } else {
+          // 热门文章列表
+          self.hotList();
         }
-        // 热门文章列表
-        self.hotList();
         // 跳转到hash
         if (self.$route.hash) {
           document.documentElement.scrollTop = document.getElementById(
