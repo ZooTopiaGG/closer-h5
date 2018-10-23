@@ -60,7 +60,7 @@
               <section class="flex flex-pack-justify">
                 <section class="feedtype flex-1">
                   <section class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_2">
-                    {{ item.title || item.content.summary }}
+                    {{ item.content.summary }}
                   </section>
                 </section>
                 <section v-if="item.cover" class="feedcover feed-mode-1-image flex">
@@ -104,12 +104,6 @@ export default {
       default: "精华"
     }
   },
-  filters: {
-    JsonP(item, value) {
-      console.log("item", item);
-      // return JSON.parse(item)[value];
-    }
-  },
   components: {
     bottomNav,
     nothing
@@ -139,9 +133,7 @@ export default {
       });
     }
   },
-  mounted() {
-    console.log(this.paperList);
-  }
+  mounted() {}
 };
 </script>
 
@@ -154,8 +146,8 @@ export default {
     margin-top: @newPad;
     .feed-box {
       .columnname {
-        margin-bottom: @newPad;
-        padding-top: 0;
+        // margin-bottom: @newPad;
+        // padding-top: 0;
         box-sizing: border-box;
         > img.columeavatar {
           width: @newBase * 4;
@@ -177,6 +169,7 @@ export default {
       }
     }
     .feedmain {
+      padding-top: @newPad;
       .feed-videos-title {
         padding: 0 @newPad;
         font-size: 17px;

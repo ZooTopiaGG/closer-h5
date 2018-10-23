@@ -424,16 +424,34 @@ export default {
   },
   head() {
     var _title = () => {
-      if (
-        this.$store.state.res.title &&
-        this.$store.state.res.title != "title"
-      ) {
-        return `贴近 - TieJin.cn - ${this.$store.state.res.title}`;
-      } else {
-        if (this.$store.state.content.text) {
-          let t = this.$store.state.content.text.substring(0, 10);
-          return `贴近 - TieJin.cn - ${t}`;
+      let self = this,
+        s = JSON.parse;
+      try {
+        if (
+          self.$store.state.res.int_type === 2 &&
+          self.$store.state.res.int_category === 2
+        ) {
+          return `贴近 - TieJin.cn - ${s(
+            self.$store.state.res.content
+          ).summary.substring(0, 10)}`;
+        } else {
+          if (
+            self.$store.state.res.title &&
+            self.$store.state.res.title != "title"
+          ) {
+            return `贴近 - TieJin.cn - ${self.$store.state.res.title}`;
+          } else {
+            if (s(self.$store.state.content).text) {
+              return `贴近 - TieJin.cn - ${s(
+                self.$store.state.content
+              ).text.substring(0, 10)}`;
+            } else {
+              return `贴近`;
+            }
+          }
         }
+      } catch (e) {
+        return `贴近`;
       }
     };
     return {
@@ -668,7 +686,6 @@ export default {
   },
   mounted() {
     let self = this;
-    console.log(self.$store.state);
     self.$nextTick(() => {
       // 清除留言时保存的数据
       window.sessionStorage.clear();
