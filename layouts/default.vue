@@ -342,7 +342,9 @@ export default {
         self.$store.dispatch("wx_share", {
           title: title,
           desc: desc,
-          pic: pic
+          pic:
+            pic ||
+            "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
         });
         // 在浏览器可以点击图片预览
         let preimg;
