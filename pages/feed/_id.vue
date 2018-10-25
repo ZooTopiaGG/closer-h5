@@ -286,11 +286,14 @@
             <section class="sup-icon-bg flex flex-align-center flex-pack-center">
               <img class="sup-icon" ref="sup" src="~/assets/images/icon_like.png"/>
             </section>
-            <span v-if="isLike && $store.state.res.like > 0">
-              赞 <span status='false' ref="like">{{ $store.state.res.like }}</span>
+            <span ref="like">
+              <span v-if="$store.state.res.like > 0">
+                赞 <span status='false'>{{ $store.state.res.like }}</span>
+              </span>
+              <span v-else>
+                <span status='false'>点赞</span>
+              </span>
             </span>
-            <span v-else-if="isLike && $store.state.res.like <= 0">点赞</span>
-            <span v-else>赞 1</span>
           </section>
           <section class="read-num">阅读 <span class="incrviewnum">{{ $store.state.incr_view }}</span></section>
           <!-- <section class="flex flex-align-center" v-else>
@@ -306,15 +309,16 @@
           <!-- <dp-feed title="精彩投稿" :feed-list="paper_list" v-if="paper_list.length > 0"></dp-feed> -->
           <section class="split-box"></section>           
           <section class="paper_list flex flex-align-center">
-            <section class="flex-1 flex flex-pack-center" @click="theSelect('精华')">
+            <section class="flex-1 flex flex-pack-center" @click.stop.prevent="theSelect('精华')">
               <span :class="{paper_choose_select: is_the_select, paper_choose: true}">精华</span>
             </section>
-            <section class="flex-1 flex flex-pack-center" @click="theSelect('全部')">
+            <section class="flex-1 flex flex-pack-center" @click.stop.prevent="theSelect('全部')">
               <span :class="{paper_choose_all: !is_the_select, paper_choose: true}">全部</span>
             </section>
           </section>
-          <section>
-            <paper-list :title="theTitle" :paper-list="paper_list"></paper-list>
+          <section >
+            <paper-list v-if="is_the_select" :title="theTitle" :paper-list="paper_list_1"></paper-list>
+            <paper-list v-else :title="theTitle" :paper-list="paper_list_0"></paper-list>
           </section>
         </section>
         <!-- 热门文章 -->
@@ -478,7 +482,8 @@ export default {
       },
       vid: "",
       // 征稿列表
-      paper_list: [],
+      paper_list_1: [],
+      paper_list_0: [],
       // 热门文章列表:
       hot_list: [],
       video: {},
@@ -533,7 +538,11 @@ export default {
       let self = this;
       self.is_the_select = type === "精华";
       self.theTitle = type === "精华" ? "精华" : "全部";
-      await self.paperList();
+      if (document.body.scrollTop) {
+        document.body.scrollTop = 0;
+      } else {
+        document.documentElement.scrollTop = 0;
+      }
     },
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
@@ -577,22 +586,24 @@ export default {
         location.href = `closer://feed/${fid}`;
       }
     },
-    toSupport(e) {
-      if (this.$store.state.res.like > 0) {
-        let t = this.$refs["like"].innerText;
-        if (this.$refs["like"].getAttribute("status") === "false") {
-          this.$refs["like"].innerText = parseInt(t) + 1;
+    async toSupport(e) {
+      let self = this,
+        t = self.$refs["like"].children[0].children[0],
+        p = parseInt;
+      if (t.getAttribute("status") == "false") {
+        if (p(t.innerText)) {
+          t.innerText = p(t.innerText) + 1;
+        } else {
+          t.innerText = "赞 1";
         }
-        this.$refs["like"].setAttribute("status", "true");
-      } else {
-        this.isLike = false;
       }
+      t.setAttribute("status", "true");
       if (
         e.target.nodeName === "IMG" ||
         e.target.nodeName === "SPAN" ||
         e.target.nodeName === "SECTION"
       ) {
-        this.$refs["sup"].src = require("~/assets/images/icon_liked.png");
+        self.$refs["sup"].src = require("~/assets/images/icon_liked.png");
       }
     },
     // 社区信息
@@ -613,13 +624,13 @@ export default {
       }
     },
     // 征稿时，显示征稿列表
-    async paperList() {
+    async paperList(type) {
       let self = this,
         para = {
           subjectid: self.$route.params.id,
           lastsubjectid: 0,
           pagesize: 5,
-          type: self.is_the_select ? 1 : 0 // 0:全部1:精华
+          type: type == "精华" ? 1 : 0 // 0:全部1:精华
         };
       let feeds = await self.$axios.$post(
         `${api.command.collections_v2}`,
@@ -632,8 +643,12 @@ export default {
           }
           return x;
         });
-        self.$store.commit("SET_FEED_LIST", arr);
-        self.paper_list = arr;
+        // self.$store.commit("SET_FEED_LIST", arr);
+        if (type == "精华") {
+          self.paper_list_1 = arr;
+        } else {
+          self.paper_list_0 = arr;
+        }
       }
     },
     // 热门文章 推荐文章
@@ -708,7 +723,7 @@ export default {
   },
   mounted() {
     let self = this;
-    self.$nextTick(() => {
+    self.$nextTick(async () => {
       // 清除留言时保存的数据
       window.sessionStorage.clear();
       // 获取阅读量
@@ -721,11 +736,12 @@ export default {
           self.$store.state.res.int_category === 1
         ) {
           // 征稿列表
-          self.paperList();
-          self.initPaperHeight();
+          await self.paperList("精华");
+          await self.paperList("全部");
+          await self.initPaperHeight();
         } else {
           // 热门文章列表
-          self.hotList();
+          await self.hotList();
         }
         // 跳转到hash
         if (self.$route.hash) {
@@ -764,6 +780,8 @@ export default {
         el.style.cssText = `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;border-radius: 5px;`;
       } else if (f === "feedlazy2") {
         el.style.cssText = `height: auto;border-radius: 5px;`;
+      } else {
+        return;
       }
     });
   }
