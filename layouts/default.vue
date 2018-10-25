@@ -323,20 +323,20 @@ export default {
                   ? `贴近号：${self.$store.state.res.communityName.substring(
                       0,
                       10
-                    )} \n${self.$store.state.res.commentNumber}参与`
+                    )}\n${self.$store.state.res.commentNumber} 参与`
                   : `贴近号：${self.$store.state.res.communityName.substring(
                       0,
                       10
                     )}`;
             } else {
               desc = content.summary
-                ? content.summary.substring(0, 20)
+                ? content.summary.substring(0, 24)
                 : "分享文章";
             }
           }
           author = `贴近 @${self.$store.state.res.user.attributes.roster.name ||
-            self.$store.state.res.user.fullname} 出品`;
-          desc = `${desc} \n ${author}`;
+            self.$store.state.res.user.fullname.substring(0, 6)} 出品`;
+          desc = `${desc}\n${author}`;
         }
         // 微信二次分享
         self.$store.dispatch("wx_share", {
