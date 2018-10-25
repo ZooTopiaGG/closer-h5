@@ -317,8 +317,8 @@
             </section>
           </section>
           <section >
-            <paper-list v-if="is_the_select" :title="theTitle" :paper-list="paper_list_1"></paper-list>
-            <paper-list v-else :title="theTitle" :paper-list="paper_list_0"></paper-list>
+            <paper-list v-show="is_the_select" :title="theTitle" :paper-list="paper_list_1"></paper-list>
+            <paper-list v-show="!is_the_select" :title="theTitle" :paper-list="paper_list_0"></paper-list>
           </section>
         </section>
         <!-- 热门文章 -->
@@ -336,6 +336,10 @@ import paperList from "~/components/paperList";
 import dpVideo from "~/components/dpvideo";
 export default {
   name: "Feed",
+  serverCacheKey() {
+    // Will change every 10 secondes
+    return Math.floor(Date.now() / 10000);
+  },
   async fetch({ params, store, app, query }) {
     try {
       let para = {
@@ -538,11 +542,16 @@ export default {
       let self = this;
       self.is_the_select = type === "精华";
       self.theTitle = type === "精华" ? "精华" : "全部";
-      if (document.body.scrollTop) {
-        document.body.scrollTop = 0;
-      } else {
-        document.documentElement.scrollTop = 0;
-      }
+      // if () {}
+      // document.documentElement.scrollTop = document.querySelector(
+      //   ".paper_list"
+      // ).offsetTop;
+      // document.body.scrollTop = document.querySelector(".paper_list").offsetTop;
+      // if (document.body.scrollTop) {
+      //   document.body.scrollTop = 0;
+      // } else {
+      //   document.documentElement.scrollTop = 0;
+      // }
     },
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
@@ -772,18 +781,18 @@ export default {
       }
     });
     // 懒加载监听
-    self.$Lazyload.$on("loaded", function({ el, src }) {
-      let h = el.style.paddingBottom,
-        f = el.dataset.feedlazy;
-      // r = self.$store.state.version_1_3 ? "5px" : "0px";
-      if (f === "feedlazy" && h && parseInt(h) != 0) {
-        el.style.cssText = `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;border-radius: 5px;`;
-      } else if (f === "feedlazy2") {
-        el.style.cssText = `height: auto;border-radius: 5px;`;
-      } else {
-        return;
-      }
-    });
+    // self.$Lazyload.$on("loaded", function({ el, src }) {
+    //   let h = el.style.paddingBottom,
+    //     f = el.dataset.feedlazy;
+    //   // r = self.$store.state.version_1_3 ? "5px" : "0px";
+    //   if (f === "feedlazy" && h && parseInt(h) != 0) {
+    //     el.style.cssText = `max-width: 100%;height: ${h}; padding-bottom: 0; box-sizing: content-box;border-radius: 5px;`;
+    //   } else if (f === "feedlazy2") {
+    //     el.style.cssText = `height: auto;border-radius: 5px;`;
+    //   } else {
+    //     return;
+    //   }
+    // });
   }
 };
 </script>

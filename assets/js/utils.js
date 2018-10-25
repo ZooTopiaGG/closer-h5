@@ -111,21 +111,22 @@ export default {
             minH;
           if (srcArray) {
             // _src = srcArray[1].replace(/\+/g, "%2b");
+            console.log(widthArray, heightArray)
             if (widthArray && heightArray) {
               if (widthArray[1] < 200) {
                 nW = widthArray[1] + 'px';
                 nH = heightArray[1] + 'px';
               } else {
-                nW = '100%';
-                nH = heightArray[1] * 100 / widthArray[1] + "%";
+                nW = '93.6vw';
+                nH = heightArray[1] * 93.6 / widthArray[1] + "vw";
               }
               minH = nH;
-              newM = x.replace(/src=/g, `style="width: ${nW};height: 0; padding-bottom: ${nH}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy" data-index="${i+1}" data-src=`);
+              newM = x.replace(/src=/g, `style="width: ${nW};height: ${nH}; background: #e7e7e7; max-width: 100%; border-radius: 5px;" data-feedlazy="feedlazy" data-index="${i+1}" data-src=`);
             } else {
               nW = '100%';
               nH = "auto";
               minH = '28.27vw';
-              newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
+              newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%; border-radius: 5px;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
             }
           } else {
             // _src = '';
@@ -508,4 +509,5 @@ export default {
     }
     document.head.appendChild(s);
   },
+
 }

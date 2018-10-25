@@ -61,6 +61,7 @@ module.exports = {
     // 中间件 在路由之前判断浏览器内核
     middleware: 'user-agent'
   },
+  cache: true,
   // 全局CSS配置
   css: [{
       src: 'mint-ui/lib/style.css',
