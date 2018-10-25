@@ -587,7 +587,11 @@ export default {
       } else {
         this.isLike = false;
       }
-      if (e.target.nodeName === "IMG" || e.target.nodeName === "SPAN") {
+      if (
+        e.target.nodeName === "IMG" ||
+        e.target.nodeName === "SPAN" ||
+        e.target.nodeName === "SECTION"
+      ) {
         this.$refs["sup"].src = require("~/assets/images/icon_liked.png");
       }
     },

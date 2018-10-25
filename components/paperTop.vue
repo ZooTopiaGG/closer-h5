@@ -1,6 +1,6 @@
 <template>
   <section class="paper" v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 2">
-    <section v-if="$store.state.not_closer_app">
+    <section  class="paper_con" v-if="$store.state.not_closer_app">
       <section v-if="!$store.state.version_1_3" class="feeder-title feeder-title-2 feeder-title-3">
         <span class="call_papers_1_4" v-if="$store.state.version_1_4 || $store.state.not_closer_app">话题</span>
         <span>{{ $store.state.res.releaseSubjectTitle }}</span>
@@ -162,6 +162,45 @@ export default {
     }
     .content-time {
       color: #94928e;
+    }
+  }
+}
+@media screen and (min-width: 681px) {
+  @p16: 16px;
+  .paper {
+    padding: 0 @p16;
+    .paper_con {
+      .feeder-title {
+        margin-bottom: @p16;
+      }
+      .paper-add {
+        padding: @p16 / 2 @p16;
+        i {
+          width: 14px;
+          height: 14px;
+          margin-right: 5px;
+        }
+      }
+      .paper-look {
+        i {
+          width: 8px;
+          height: 14px;
+          margin-left: 5px;
+        }
+      }
+      .split-line {
+        margin-top: 20px;
+      }
+    }
+    .content {
+      padding: @p16 0 @p16 / 2;
+      .content-info {
+        i {
+          width: 60px;
+          height: 60px;
+          margin-right: @p16 - 6px;
+        }
+      }
     }
   }
 }

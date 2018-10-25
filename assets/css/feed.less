@@ -77,9 +77,13 @@
   .feed-mode-1-image {
     width: 30.8vw;
     height: 19.2vw;
+    max-width: 231px;
+    max-height: 144px;
     span {
       width: 30.8vw;
       height: 19.2vw;
+      max-width: 231px;
+      max-height: 144px;
       background-size: cover;
       background-repeat: no-repeat;
       border-radius: 5px;
@@ -197,6 +201,9 @@
         .feed-cell-content {
           .feedmain {
             padding-top: @p16;
+            .feedtype {
+              margin-right: @p16;
+            }
           }
           .columnname {
             padding-top: @p16;
