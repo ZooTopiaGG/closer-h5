@@ -59,22 +59,30 @@
              <section class="feedmain" v-else-if="item.int_type === 2">
               <section class="flex flex-pack-justify">
                 <section class="feedtype flex-1">
-                  <section class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_2">
+                  <section class="feedtitle feed-mode-1 text-ellipse" v-if="!item.cover" :style="$store.state.text_overflow_3">
                     {{ item.content.summary }}
+                  </section>
+                  <section class="feedtitle feed-mode-1 text-ellipse" v-else :style="$store.state.text_overflow_2">
+                    {{ item.content.summary }}
+                  </section>
+                  <section v-if="(item.commentNumber || item.like) && item.cover" class="columnname columnname_hascover flex flex-align-center">
+                    <section class="flex-1">
+                      <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                      <span v-if="item.commentNumber && item.like">·</span>
+                      <span v-if="item.like">{{ item.like }}赞</span>
+                    </section>
                   </section>
                 </section>
                 <section v-if="item.cover" class="feedcover feed-mode-1-image flex">
                   <span class="mode-1" v-lazy:background-image="$com.makeFileUrl(item.cover)"></span>
                 </section>
               </section>
-              <section class="columnname flex flex-align-center">
+              <section v-if="(item.commentNumber || item.like) && !item.cover" class="columnname flex flex-align-center">
                 <section class="flex-1">
-                  <!-- <span class="name ellipsis">{{ $com.toOverflow(item.communityName, 10) }}</span> -->
                   <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
                   <span v-if="item.commentNumber && item.like">·</span>
                   <span v-if="item.like">{{ item.like }}赞</span>
                 </section>
-                <!-- <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span> -->
               </section>
             </section>
           </section>
@@ -133,9 +141,7 @@ export default {
       });
     }
   },
-  mounted() {
-    console.log(this.paperList);
-  }
+  mounted() {}
 };
 </script>
 
@@ -157,6 +163,9 @@ export default {
           border-radius: 100%;
           margin-right: @newBase;
         }
+      }
+      .columnname_hascover {
+        padding-top: 0.67vw;
       }
     }
     .feedtype {

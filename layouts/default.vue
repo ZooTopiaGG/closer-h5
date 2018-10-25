@@ -227,7 +227,7 @@ export default {
     });
     self.$nextTick(() => {
       if (self.$store.state.not_closer_app) {
-        let title, pic, desc;
+        let title, pic, desc, author;
         if (self.$route.path.indexOf("/community") > -1) {
           // 分享栏目主页
           title = self.$store.state.res.name
@@ -320,14 +320,23 @@ export default {
             if (self.$store.state.res.int_category === 1) {
               desc =
                 self.$store.state.res.commentNumber > 0
-                  ? `贴近号：${self.$store.state.res.communityName} \n${
-                      self.$store.state.res.commentNumber
-                    }参与`
-                  : `贴近号：${self.$store.state.res.communityName}`;
+                  ? `贴近号：${self.$store.state.res.communityName.substring(
+                      0,
+                      10
+                    )} \n${self.$store.state.res.commentNumber}参与`
+                  : `贴近号：${self.$store.state.res.communityName.substring(
+                      0,
+                      10
+                    )}`;
             } else {
-              desc = content.summary ? content.summary : "分享文章";
+              desc = content.summary
+                ? content.summary.substring(0, 20)
+                : "分享文章";
             }
           }
+          author = `贴近 @${self.$store.state.res.user.attributes.roster.name ||
+            self.$store.state.res.user.fullname} 出品`;
+          desc = `${desc} \n ${author}`;
         }
         // 微信二次分享
         self.$store.dispatch("wx_share", {

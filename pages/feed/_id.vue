@@ -164,25 +164,27 @@
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
-            <section v-if="$store.state.res.int_category === 1 && ($store.state.not_closer_app || $store.state.version_1_4) && !($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
-            <paper-top></paper-top>
-            <!-- 暂时隐藏 -->
-            <!-- <section class="feeder-cover flex flex-align-center" v-if="!$store.state.not_closer_app && !$store.state.version_1_3">
-              <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
-            </section> -->
-            <section class="summary-content">
-              <section ref="summarys" :class="{
-                'summary': true, 
-                'tj-sum': true,
-                'summary_1_3_1': $store.state.version_1_3,
-                'call_pagers_fold_1_4': ($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse
-              }" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
-              </section>
-              <section  @click="collapse" 
-              v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse" 
-              class="flex flex-align-end flex-pack-center fold">
-                <section class="flex flex-align-center">
-                  <span>展开全文</span> <i class="fold-icon"></i>
+            <section class="paper_height">
+              <section v-if="$store.state.res.int_category === 1 && ($store.state.not_closer_app || $store.state.version_1_4) && !($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
+              <paper-top></paper-top>
+              <!-- 暂时隐藏 -->
+              <!-- <section class="feeder-cover flex flex-align-center" v-if="!$store.state.not_closer_app && !$store.state.version_1_3">
+                <span> {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
+              </section> -->
+              <section class="summary-content">
+                <section ref="summarys" :class="{
+                  'summary': true, 
+                  'tj-sum': true,
+                  'summary_1_3_1': $store.state.version_1_3,
+                  'call_pagers_fold_1_4': ($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse
+                }" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
+                </section>
+                <section  @click="collapse" 
+                v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse" 
+                class="flex flex-align-end flex-pack-center fold">
+                  <section class="flex flex-align-center">
+                    <span>展开全文</span> <i class="fold-icon"></i>
+                  </section>
                 </section>
               </section>
             </section>
@@ -512,6 +514,21 @@ export default {
         }
       }
     },
+    initPaperHeight() {
+      try {
+        let self = this;
+        if (self.$store.state.agent.indexOf("closer-ios") > -1) {
+          if (window.WebViewJavascriptBridge) {
+            self.$com.setupWebViewJavascriptBridge(function(bridge) {
+              bridge.callHandler(
+                "initPaperHeight",
+                document.querySelector(".paper_height").offsetHeight
+              );
+            });
+          }
+        }
+      } catch (e) {}
+    },
     async theSelect(type) {
       let self = this;
       self.is_the_select = type === "精华";
@@ -683,6 +700,7 @@ export default {
   },
   beforeMount() {
     this.focusWxLogin();
+    this.initPaperHeight();
   },
   mounted() {
     let self = this;
@@ -700,6 +718,7 @@ export default {
         ) {
           // 征稿列表
           self.paperList();
+          self.initPaperHeight();
         } else {
           // 热门文章列表
           self.hotList();
