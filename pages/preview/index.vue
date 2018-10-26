@@ -128,13 +128,13 @@
           <section v-if="!$store.state.version_1_2 || $store.state.is_closer_app">
             <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
               <!-- 大封面 -->
-              <img class="feed-cover feed-cover-bgcover" :src="defaultImg" :src="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
+              <img class="feed-cover feed-cover-bgcover" :src="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
               >
               <section class="hide-over"></section>
             </section>
             <section class="feeder-img feeder-img-cover" v-else-if="$store.state.res.int_category === 3">
               <!-- 小封面 -->
-              <img class="feed-cover feed-cover-cover" :src="defaultImg" :src="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
+              <img class="feed-cover feed-cover-cover" :src="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               <section class="hide-over"></section>
             </section>
           </section>
@@ -146,12 +146,12 @@
             <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1 && $store.state.res.int_category != 2">
               <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
                 <!-- 大封面 -->
-                <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="defaultImg" :src="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
+                <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
                 >
               </section>
               <section class="feeder-img feeder-img-cover feed-img-cover_1_3_1" v-else-if="$store.state.res.int_category === 3">
                 <!-- 小封面 -->
-                <img class="feed-cover feed-cover-cover feed-cover-cover_1_3_1" :src="defaultImg" :src="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
+                <img class="feed-cover feed-cover-cover feed-cover-cover_1_3_1" :src="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               </section>
             </section>
             <!-- 征稿 截止时间 1.4之前显示 1.4之后隐藏 -->            
