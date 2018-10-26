@@ -28,8 +28,10 @@
               </section>
             </section>
             <section class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
-              <section class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}""
-                :key="index">
+              <section class="feeder-img-list feeder-img-list-cell-2" 
+              v-for="(img, index) in $store.state.content.images" 
+              :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}"
+              :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">                
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                 <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
@@ -37,7 +39,7 @@
               </section>
             </section>
             <section class="feeder-img flex" v-else-if="$store.state.content.images && $store.state.content.images.length == 3 || $store.state.content.images && $store.state.content.images.length > 4">
-              <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}""
+              <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -46,7 +48,7 @@
               </section>
             </section>
             <section class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 4">
-              <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}""
+              <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
