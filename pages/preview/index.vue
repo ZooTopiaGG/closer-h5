@@ -20,8 +20,7 @@
           <!-- 图片排列  需判断GIF -->
           <section class="feeder-images" v-if="$store.state.not_closer_app">
             <section class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images && $store.state.content.images.length == 1">
-              <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
-                <!-- <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)"> -->
+              <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}" :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                 <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
@@ -29,7 +28,7 @@
               </section>
             </section>
             <section class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
-              <section class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+              <section class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}""
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">                
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -38,7 +37,7 @@
               </section>
             </section>
             <section class="feeder-img flex" v-else-if="$store.state.content.images && $store.state.content.images.length == 3 || $store.state.content.images && $store.state.content.images.length > 4">
-              <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+              <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}""
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -47,7 +46,7 @@
               </section>
             </section>
             <section class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 4">
-              <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+              <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}""
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -94,11 +93,11 @@
               <section 
                 v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" 
                 class="feed-h5-videos feed-h5-videos-vertical"
-                v-lazy:background-image="$store.state.content.videos[0].imageUrl"
                 :style="{
                   width: '100vw',
                   height: $store.state.content.videos[0].height * 100 / $store.state.content.videos[0].width + 'vw',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  backgroundImage: 'url('+$store.state.content.videos[0].imageUrl+')'
                 }">
                 <video 
                   :src="$store.state.content.videos[0].src" 
@@ -129,13 +128,13 @@
           <section v-if="!$store.state.version_1_2 || $store.state.is_closer_app">
             <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
               <!-- 大封面 -->
-              <img class="feed-cover feed-cover-bgcover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
+              <img class="feed-cover feed-cover-bgcover" :src="defaultImg" :src="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
               >
               <section class="hide-over"></section>
             </section>
             <section class="feeder-img feeder-img-cover" v-else-if="$store.state.res.int_category === 3">
               <!-- 小封面 -->
-              <img class="feed-cover feed-cover-cover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
+              <img class="feed-cover feed-cover-cover" :src="defaultImg" :src="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               <section class="hide-over"></section>
             </section>
           </section>
@@ -147,12 +146,12 @@
             <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1 && $store.state.res.int_category != 2">
               <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
                 <!-- 大封面 -->
-                <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
+                <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="defaultImg" :src="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
                 >
               </section>
               <section class="feeder-img feeder-img-cover feed-img-cover_1_3_1" v-else-if="$store.state.res.int_category === 3">
                 <!-- 小封面 -->
-                <img class="feed-cover feed-cover-cover feed-cover-cover_1_3_1" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
+                <img class="feed-cover feed-cover-cover feed-cover-cover_1_3_1" :src="defaultImg" :src="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               </section>
             </section>
             <!-- 征稿 截止时间 1.4之前显示 1.4之后隐藏 -->            
@@ -174,7 +173,7 @@
                   'tj-sum': true,
                   'summary_1_3_1': $store.state.version_1_3,
                   'call_pagers_fold_1_4': ($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse
-                }" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
+                }" v-html="$store.state.content.html" @click="openClick($event)">
                 </section>
                 <section  @click="collapse" 
                 v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse" 
