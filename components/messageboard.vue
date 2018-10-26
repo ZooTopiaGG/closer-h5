@@ -204,7 +204,7 @@ export default {
     padding: 0 3.2vw;
     font-size: @basefont;
     box-sizing: border-box;
-    margin-bottom: @m20;
+    margin-bottom: 0;
     // font-weight: bold;
     .writeMessage {
       color: @focuscolor;

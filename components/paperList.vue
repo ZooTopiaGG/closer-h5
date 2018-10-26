@@ -38,26 +38,6 @@
               </section>
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
-            <!-- <section class="feedmain" v-else-if="item.int_type === 2">
-              <section class="flex flex-pack-justify">
-                <section class="feedtype">
-                  <section v-if="item.title" class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_2">
-                    {{ item.title }}
-                  </section>
-                  <section v-else class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_2">
-                    {{ item.content.summary }}
-                  </section>
-                  <section class="paper-data">
-                    <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
-                    <span v-if="item.commentNumber && item.like">·</span>
-                    <span v-if="item.like">{{ item.like }}赞</span>
-                  </section>
-                </section>
-                <section v-if="item.cover" class="feedcover feed-mode-1-image flex">
-                  <span class="mode-1 paper-mode-1" v-lazy:background-image="$com.makeFileUrl(item.cover)"></span>
-                </section>
-              </section>
-            </section> -->
              <section class="feedmain" v-else-if="item.int_type === 2">
               <section class="flex flex-pack-justify">
                 <section class="feedtype flex-1">
@@ -177,8 +157,6 @@ export default {
         box-sizing: border-box;
         font-weight: 500;
         line-height: 25.5px;
-        max-height: 51px;
-        height: 51px;
       }
     }
     .feedmain {
