@@ -179,11 +179,11 @@
                   'summary': true, 
                   'tj-sum': true,
                   'summary_1_3_1': $store.state.version_1_3,
-                  'call_pagers_fold_1_4': ($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse
+                  'call_pagers_fold_1_4': $store.state.not_closer_app && $store.state.res.int_category === 1 && isCollapse
                 }" v-html="$store.state.content.html" v-lazy-container="{ selector: 'img' }" @click="openClick($event)">
                 </section>
                 <section  @click="collapse" 
-                v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse" 
+                v-if="$store.state.not_closer_app && $store.state.res.int_category === 1 && isCollapse" 
                 class="flex flex-align-end flex-pack-center fold">
                   <section class="flex flex-align-center">
                     <span>展开全文</span> <i class="fold-icon"></i>
