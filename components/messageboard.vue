@@ -204,7 +204,6 @@ export default {
     padding: 0 3.2vw;
     font-size: @basefont;
     box-sizing: border-box;
-    border-bottom: 1px solid @bottomcolor;
     margin-bottom: @m20;
     // font-weight: bold;
     .writeMessage {

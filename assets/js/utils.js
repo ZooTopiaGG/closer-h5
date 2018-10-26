@@ -111,7 +111,6 @@ export default {
             minH;
           if (srcArray) {
             // _src = srcArray[1].replace(/\+/g, "%2b");
-            console.log(widthArray, heightArray)
             if (widthArray && heightArray) {
               if (widthArray[1] < 200) {
                 nW = widthArray[1] + 'px';
