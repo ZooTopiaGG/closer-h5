@@ -125,8 +125,8 @@ export default {
       border-radius: @br;
       position: absolute;
       left: -14px;
-      top: -6px;
-      transform: scale(0.5);
+      top: 50%;
+      transform: translate(0, -50%) scale(0.5);
     }
     .call_papers_title_1_4 {
       margin-left: 40px;
