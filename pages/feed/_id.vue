@@ -165,7 +165,10 @@
             <!-- logo -->
             <logo-tab></logo-tab>
             <section class="paper_height">
-              <section v-if="$store.state.res.int_category === 1 && ($store.state.not_closer_app || $store.state.version_1_4) && !($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
+              <section v-if="$store.state.res.int_category === 1 && ($store.state.not_closer_app || $store.state.version_1_4) && !($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-title-3">
+                <span class="call_papers_1_4" v-if="$store.state.res.int_category === 1"><span>话题</span></span> 
+                <span class="call_papers_title_1_4">{{ $store.state.res.title }}</span> 
+            </section>
               <paper-top></paper-top>
               <!-- 暂时隐藏 -->
               <!-- <section class="feeder-cover flex flex-align-center" v-if="!$store.state.not_closer_app && !$store.state.version_1_3">

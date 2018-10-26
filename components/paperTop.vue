@@ -2,8 +2,10 @@
   <section class="paper" v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 2">
     <section  class="paper_con" v-if="$store.state.not_closer_app">
       <section v-if="!$store.state.version_1_3" class="feeder-title feeder-title-2 feeder-title-3">
-        <span class="call_papers_1_4" v-if="$store.state.version_1_4 || $store.state.not_closer_app">话题</span>
-        <span>{{ $store.state.res.releaseSubjectTitle }}</span>
+        <span class="call_papers_1_4" v-if="$store.state.version_1_4 || $store.state.not_closer_app">
+          <span>话题</span>
+        </span>
+        <span class="call_papers_title_1_4">{{ $store.state.res.releaseSubjectTitle }}</span>
       </section>
       <section class="flex flex-align-center flex-pack-justify">
         <section class="paper-add flex flex-align-center" @click="firstLogin">
@@ -109,16 +111,24 @@ export default {
     font-size: 19px;
     font-weight: bold;
     margin-bottom: @m32;
-  }
-  .call_papers_1_4 {
-    display: inline-block;
-    padding: 0 5px;
-    line-height: 19px;
-    background: #e9e9e9;
-    font-size: 10px;
     position: relative;
-    top: -3px;
-    border-radius: @br;
+    .call_papers_1_4 {
+      display: inline-block;
+      padding: 0 10px;
+      line-height: 38px;
+      background: #e9e9e9;
+      position: relative;
+      font-size: 20px;
+      top: -3px;
+      border-radius: @br;
+      position: absolute;
+      left: -14px;
+      top: -6px;
+      transform: scale(0.5);
+    }
+    .call_papers_title_1_4 {
+      margin-left: 40px;
+    }
   }
   .paper-add {
     font-size: 14px;
