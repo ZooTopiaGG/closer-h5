@@ -7,7 +7,7 @@
         </span>
         <span class="call_papers_title_1_4">{{ $store.state.res.releaseSubjectTitle }}</span>
       </section>
-      <section class="flex flex-align-center flex-pack-justify">
+      <section class="flex flex-align-center flex-p   ack-justify">
         <section class="paper-add flex flex-align-center" @click="firstLogin">
           <i></i><span>参与</span>
         </section>
@@ -19,8 +19,10 @@
     </section>
     <section class="content flex flex-align-center flex-pack-justify">
       <section class="content-info flex flex-align-center">
-        <i class="avatar" v-lazy:backgroundImage="$com.makeFileUrl($store.state.res.user.attributes.roster.avatar) || $com.makeFileUrl($store.state.res.user.avatar)"></i>
-        <span>{{ $store.state.res.user.attributes.roster.name || $store.state.res.user.fullname }}</span>
+        <i class="avatar" v-if="item.user.attributes && item.user.attributes.roster" v-lazy:backgroundImage="$com.makeFileUrl($store.state.res.user.attributes.roster.avatar)"></i>
+        <i class="avatar" v-else v-lazy:backgroundImage="$com.makeFileUrl($store.state.res.user.avatar)"></i>
+        <span v-if="item.user.attributes && item.user.attributes.roster">{{ item.user.attributes.roster.name }}</span>
+        <span v-else>{{ item.user.fullname }}</span>
       </section>
       <section class="content-time">
         {{ $com.getCommonTime($store.state.res.long_publish_time, 'yy-mm-dd hh:MM') }} 

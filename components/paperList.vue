@@ -6,8 +6,10 @@
           <section class="hide-feed-over"></section>
           <section class="feed-cell-content">
             <section class="columnname flex flex-align-center">
-              <img class="columeavatar" v-lazy="$com.makeFileUrl(item.user.attributes.roster.avatar) || $com.makeFileUrl(item.user.avatar)">
-              <span class="name flex-1 ellipsis">{{ item.user.attributes.roster.name || item.user.fullname }}</span>
+              <img class="columeavatar" v-if="item.user.attributes && item.user.attributes.roster" v-lazy="$com.makeFileUrl(item.user.attributes.roster.avatar)">
+              <img class="columeavatar" v-else v-lazy="$com.makeFileUrl(item.user.avatar)">
+              <span v-if="item.user.attributes && item.user.attributes.roster" class="name flex-1 ellipsis">{{ item.user.attributes.roster.name }}</span>
+              <span v-else class="name flex-1 ellipsis">{{ item.user.fullname }}</span>
               <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
             </section>
             <!-- 贴子详情 -->

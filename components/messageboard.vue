@@ -15,9 +15,11 @@
             <li class="feed-messagebord-list-cell" v-for="(item, index) in messagelist.data" :key="index">
               <section class="messager-info flex flex-align-center flex-pack-justify">
                 <section class="messager-info-div flex flex-align-center" v-if="item.user">
-                  <img v-lazy="$com.makeFileUrl(item.user.attributes.roster.avatar) || $com.makeFileUrl(item.user.avatar)">
+                  <img v-if="item.user.attributes && item.user.attributes.roster" v-lazy="$com.makeFileUrl(item.user.attributes.roster.avatar)">
+                  <img v-else v-lazy="$com.makeFileUrl(item.user.avatar)">
                   <section class="flex flex-v">
-                    <span class="messager-name">{{ item.user.attributes.roster.name || item.user.fullname }}</span>
+                    <span v-if="item.user.attributes && item.user.attributes.roster" class="messager-name">{{ item.user.attributes.roster.name }}</span>
+                    <span v-else class="messager-name">{{ item.user.fullname }}</span>
                     <span class="messager-time">{{ $com.createTime(item.long_create_time, 'yy-mm-dd hh:MM') }}</span>
                   </section>
                 </section>
