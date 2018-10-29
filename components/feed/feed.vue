@@ -9,15 +9,15 @@
         <section class="feed-box">
           <section class="hide-feed-over"></section>
           <section class="feed-cell-content">
-            <section class="columnname flex flex-align-center">
+            <!-- <section class="columnname flex flex-align-center">
               <img v-lazy="item.blogo">
               <span class="name flex-1 ellipsis">{{ item.communityName }}</span>
               <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
-            </section>
+            </section> -->
             <!-- 贴子详情 -->
             <!-- 纯图片类型 int_type == 0-->
             <section class="feedmain" v-if="item.int_type === 0">
-              <section v-if="item.content.text" class="feedtitle text-ellipse">
+              <section v-if="item.content.text" class="feedtitle text-ellipse" :style="$store.state.text_overflow_3">
                 {{ item.content.text }}
               </section>
               <section v-if="item.content.images && item.content.images.length > 0" class="flex feedimgcontent">
@@ -31,9 +31,18 @@
               </section>
             </section>
             <!-- 视频贴 int_type == 1-->
-            <section class="feedmain" v-else-if="item.int_type === 1" style="text-align: center;">
-              <section v-if="item.content.text" class="feedtitle feed-videos-title text-ellipse">{{ item.content.text }}</section>
-              <section class="feeds-video flex flex-align-center flex-pack-center" 
+            <section class="feedmain" v-else-if="item.int_type === 1">
+              <section v-if="item.content.text" class="feedtitle feed-videos-title text-ellipse" :style="$store.state.text_overflow_3">{{ item.content.text }}</section>
+              <section class="columnname flex flex-align-center">
+                <section class="flex-1">
+                  <span class="name ellipsis">{{ $com.toOverflow(item.communityName, 10) }}</span>
+                  <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                  <span v-if="item.commentNumber && item.like">·</span>
+                  <span v-if="item.like">{{ item.like }}赞</span>
+                </section>
+                <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
+              </section>
+              <!-- <section class="feeds-video flex flex-align-center flex-pack-center" 
                 v-if="item.content.videos[0].width > item.content.videos[0].height"
                 v-lazy:background-image="item.content.videos[0].imageUrl"
                 :style="{
@@ -56,19 +65,28 @@
                 <section class="duration flex flex-align-center flex-pack-center">
                   <span>00:00/{{ $com.toCurrent(item.content.videos[0].duration) }}</span>
                 </section>
-              </section>
+              </section> -->
             </section>
             <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
             <section class="feedmain" v-else-if="item.int_type === 2">
               <section class="flex flex-pack-justify">
-                <section class="feedtype feed-left-width">
-                  <section v-if="item.title" class="feedtitle feed-mode-1 text-ellipse">
-                    {{ item.title }}
+                <section class="feedtype flex-1">
+                  <section class="feedtitle feed-mode-1 text-ellipse" :style="$store.state.text_overflow_3">
+                    {{ item.title || item.content.summary }}
                   </section>
                 </section>
                 <section v-if="item.cover" class="feedcover feed-mode-1-image flex">
                   <span class="mode-1" v-lazy:background-image="$com.makeFileUrl(item.cover)"></span>
                 </section>
+              </section>
+              <section class="columnname flex flex-align-center">
+                <section class="flex-1">
+                  <span class="name ellipsis">{{ $com.toOverflow(item.communityName, 10) }}</span>
+                  <span v-if="item.commentNumber">{{ item.commentNumber }}评论</span>
+                  <span v-if="item.commentNumber && item.like">·</span>
+                  <span v-if="item.like">{{ item.like }}赞</span>
+                </section>
+                <span class="time">{{ $com.getCommonTime(item.long_publish_time, 'yy-mm-dd hh:MM') }}</span>
               </section>
             </section>
           </section>

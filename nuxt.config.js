@@ -33,10 +33,15 @@ module.exports = {
     script: [{
       innerHTML: `
           document.onreadystatechange = function () {
-            if (document.readyState === "interactive" || document.readyState === "complete") {
+            if (document.readyState === "complete") {
               canShowContent()
               try {
-                window.webkit.messageHandlers.canShowContent.postMessage(null);
+                if (window.WebViewJavascriptBridge) {
+                  window.webkit.messageHandlers.canShowContent.postMessage(null);
+                }
+                if (typeof window.bridge != "undefined") {
+                  window.bridge.canShowContent(null);
+                }
               } catch (e) {}
             }
           }
@@ -56,6 +61,7 @@ module.exports = {
     // 中间件 在路由之前判断浏览器内核
     middleware: 'user-agent'
   },
+  cache: true,
   // 全局CSS配置
   css: [{
       src: 'mint-ui/lib/style.css',

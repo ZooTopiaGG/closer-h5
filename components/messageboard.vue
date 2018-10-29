@@ -1,7 +1,7 @@
 <template>
    <!-- 留言板 --> 
    <section class="feed-2" id="messageboard" v-if="!$store.state.isPre">
-     <section v-if="$store.state.is_closer_app && messagelist.data.length > 0">
+     <section v-if="$store.state.not_closer_app && messagelist.data.length > 0">
       <section class="split-box"></section>
       <!-- 留言列表 用int_category 判断 0 1 3 5 暂时用else-if -->
       <!-- <section v-if="res.int_category === 0 || res.int_category === 5 || res.int_category === 3 "> -->
@@ -15,9 +15,11 @@
             <li class="feed-messagebord-list-cell" v-for="(item, index) in messagelist.data" :key="index">
               <section class="messager-info flex flex-align-center flex-pack-justify">
                 <section class="messager-info-div flex flex-align-center" v-if="item.user">
-                  <img v-lazy="$com.makeFileUrl(item.user.attributes.roster.avatar) || $com.makeFileUrl(item.user.avatar)">
+                  <img v-if="item.user.attributes && item.user.attributes.roster" v-lazy="$com.makeFileUrl(item.user.attributes.roster.avatar)">
+                  <img v-else v-lazy="$com.makeFileUrl(item.user.avatar)">
                   <section class="flex flex-v">
-                    <span class="messager-name">{{ item.user.attributes.roster.name || item.user.fullname }}</span>
+                    <span v-if="item.user.attributes && item.user.attributes.roster" class="messager-name">{{ item.user.attributes.roster.name }}</span>
+                    <span v-else class="messager-name">{{ item.user.fullname }}</span>
                     <span class="messager-time">{{ $com.createTime(item.long_create_time, 'yy-mm-dd hh:MM') }}</span>
                   </section>
                 </section>
@@ -202,8 +204,7 @@ export default {
     padding: 0 3.2vw;
     font-size: @basefont;
     box-sizing: border-box;
-    border-bottom: 1px solid @bottomcolor;
-    margin-bottom: @m20;
+    margin-bottom: 0;
     // font-weight: bold;
     .writeMessage {
       color: @focuscolor;

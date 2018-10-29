@@ -377,7 +377,7 @@ video::-webkit-media-controls-panel {
 
 .circle-btn {
   font-size: 14px;
-  border-radius: 8vw;
+  border-radius: 5px;
   height: 8vw;
 }
 
@@ -419,6 +419,7 @@ p:empty {
 .split-box {
   width: 100%;
   height: 2.668vw;
+  max-height: 10px;
   background: #f4f4f4;
 }
 
@@ -447,13 +448,13 @@ p:empty {
   min-height: 100vh;
 }
 
-.text-ellipse {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-}
+// .text-ellipse {
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   display: -webkit-box;
+//   -webkit-line-clamp: 5;
+//   -webkit-box-orient: vertical;
+// }
 
 .ellipsis {
   white-space: nowrap;
@@ -522,11 +523,17 @@ p:empty {
 .feed-h5-videos2 {
   position: relative;
 }
+.feed-h5-videos2 video.feed-video-bg{
+  border-radius: 5px;
+}
 
 video {
   display: block;
 }
-
+#__nuxt .bigvideo {
+  max-width: 44px;
+  max-height: 44px;
+}
 .bigvideo {
   display: block;
   width: 6.933vw;
@@ -558,7 +565,10 @@ video {
   background: rgba(0, 0, 0, 0);
   z-index: 9;
 }
-
+#__nuxt .shipin,#__nuxt .icon-shipin-2 {
+  max-width: 80px;
+  max-height: 80px;
+}
 .shipin {
   position: absolute;
   left: 50%;
@@ -566,8 +576,6 @@ video {
   background-size: cover;
   width: 16vw;
   height: 16vw;
-  max-width: 80px;
-  max-height: 80px;
   transform: translate(-50%, -50%);
 }
 
@@ -622,10 +630,10 @@ video {
 /*全局控制 富文本内图片样式*/
 
 .summary {
-  font-size: 18px;
-  line-height: 1.76;
+  font-size: 17px;
+  line-height: 1.65;
   text-align: justify;
-  padding: 5.33vw 3.2vw 0;
+  padding: 3.2vw 3.2vw 0;
 }
 
 .summary.summary_1_3_1 {
@@ -658,7 +666,6 @@ p:empty {
 
 .summary img {
   max-width: 100%;
-  height: auto;
   margin: 0 auto;
   display: block;
 }
@@ -674,7 +681,7 @@ p:empty {
 
 @media screen and (min-width: 681px) {
   .summary {
-    padding: 15px 10px 0;
+    padding: 16px 10px 0;
   }
   .summary>p,
   .summary>ol,

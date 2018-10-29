@@ -12,6 +12,9 @@ export default function ({
     if (/sandbox.tiejin/.test(host)) {
       api.filePath = 'https://file-sandbox.tiejin.cn'
       api.baseUrl = 'https://api-sandbox.tiejin.cn/command/'
+    } else if (/qa.tiejin/.test(host)) {
+      api.filePath = 'https://file-qa.tiejin.cn'
+      api.baseUrl = 'https://api-qa.tiejin.cn/command/'
     } else if (/tiejin/.test(host)) {
       api.filePath = 'https://file.tiejin.cn'
       api.baseUrl = 'https://api.tiejin.cn/command/'
@@ -24,6 +27,9 @@ export default function ({
     if (/sandbox.tiejin/.test(host)) {
       api.filePath = 'https://file-sandbox.tiejin.cn'
       api.baseUrl = 'https://api-sandbox.tiejin.cn/command/'
+    } else if (/qa.tiejin/.test(host)) {
+      api.filePath = 'https://file-qa.tiejin.cn'
+      api.baseUrl = 'https://api-qa.tiejin.cn/command/'
     } else if (/tiejin/.test(host)) {
       api.filePath = 'https://file.tiejin.cn'
       api.baseUrl = 'https://api.tiejin.cn/command/'
@@ -44,10 +50,12 @@ export default function ({
     if (/sandbox.tiejin/.test(host)) {
       config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
       // config.baseURL = 'http://10.3.0.116:8080/command/'
+    } else if (/qa.tiejin/.test(host)) {
+      config.baseURL = 'https://api-qa.tiejin.cn/command/'
     } else if (/tiejin/.test(host)) {
       config.baseURL = 'https://api.tiejin.cn/command/'
     } else {
-      config.baseURL = 'https://api-sandbox.tiejin.cn/command/'
+      config.baseURL = 'https://api-qa.tiejin.cn/command/'
     }
     // 全局设置 启用跨域传cookies
     config.withCredentials = true

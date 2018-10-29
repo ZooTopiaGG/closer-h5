@@ -4,6 +4,8 @@
     }">
     <section :class="{ 
       box: true,
+      'flex': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1), 
+      'flex-v': !($store.state.res.int_type === 2 && $store.state.res.int_category === 1),
       'feed-box-0': $store.state.res.int_type === 0,
       'feed-box-1': $store.state.res.int_type === 1
      }">
@@ -14,13 +16,13 @@
         <!-- 图片 -->
         <section class="feed-doc" id="imgListFeed" v-if="$store.state.res.int_type === 0">
           <logo-tab></logo-tab>
-          <paper-top></paper-top>
-          <section v-if="!($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
+          <section class="feeder-title feeder-title-2 feeder-type-0">{{ $store.state.content.text }}</section>
           <!--  判断是否在app de预览 -->
           <!-- 图片排列  需判断GIF -->
-          <section class="feeder-images" v-if="$store.state.not_closer_app">
+          <section v-if="$store.state.not_closer_app">
             <section class="feeder-img flex flex-pack-justify" v-if="$store.state.content.images && $store.state.content.images.length == 1">
-              <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}" :key="index">
+              <section class="feeder-img-list feeder-img-list-cell-1" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)" :key="index">
+                <!-- <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" v-preview="$com.makeFileUrl(img.link)"> -->
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                 <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
@@ -28,10 +30,8 @@
               </section>
             </section>
             <section class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 2">
-              <section class="feeder-img-list feeder-img-list-cell-2" 
-              v-for="(img, index) in $store.state.content.images" 
-              :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}"
-              :key="index">
+              <section class="feeder-img-list feeder-img-list-cell-2" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
+                :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">                
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                 <span class="cover_img_type" v-else-if="img.width / img.height >= 3 ">全景</span>
@@ -39,7 +39,7 @@
               </section>
             </section>
             <section class="feeder-img flex" v-else-if="$store.state.content.images && $store.state.content.images.length == 3 || $store.state.content.images && $store.state.content.images.length > 4">
-              <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}"
+              <section class="feeder-img-list feeder-img-list-cell-3" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -48,7 +48,7 @@
               </section>
             </section>
             <section class="feeder-img flex flex-pack-justify" v-else-if="$store.state.content.images && $store.state.content.images.length == 4">
-              <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" :style="{backgroundImage: 'url('+$com.makeFileUrl(img.link)+')'}"
+              <section class="feeder-img-list feeder-img-list-cell-4" v-for="(img, index) in $store.state.content.images" v-lazy:background-image="$com.makeFileUrl(img.link)"
                 :key="index">
                 <img class="feeder-cover-list" :data-src="$com.makeFileUrl(img.link)" :data-index="index">
                 <span class="cover_img_type" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -77,6 +77,9 @@
                   webkit-playsinline="true" 
                   x-webkit-airplay="true"  
                   playsinline="true" 
+                  x5-video-player-type="h5" 
+                  x5-video-orientation="portrait"
+                  x5-video-player-fullscreen="true"
                   :style="{
                     'object-fit': 'fill',
                     width: '100vw',
@@ -88,18 +91,17 @@
                 <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
-              <paper-top></paper-top>
             </section>
             <!-- 竖视频 -->
             <section v-else>
               <section 
                 v-if="$store.state.res.int_type === 1 && ($route.path.indexOf('/feed')>-1 || $route.path.indexOf('/preview')>-1)" 
                 class="feed-h5-videos feed-h5-videos-vertical"
+                v-lazy:background-image="$store.state.content.videos[0].imageUrl"
                 :style="{
                   width: '100vw',
                   height: $store.state.content.videos[0].height * 100 / $store.state.content.videos[0].width + 'vw',
-                  overflow: 'hidden',
-                  backgroundImage: 'url('+$store.state.content.videos[0].imageUrl+')'
+                  overflow: 'hidden'
                 }">
                 <video 
                   :src="$store.state.content.videos[0].src" 
@@ -107,6 +109,9 @@
                   webkit-playsinline="true" 
                   x-webkit-airplay="true"  
                   playsinline="true" 
+                  x5-video-player-type="h5" 
+                  x5-video-orientation="portrait"
+                  x5-video-player-fullscreen="true"
                   :style="{
                     'object-fit': 'fill',
                     width: '100%',
@@ -119,80 +124,45 @@
                 <section class="feed-h5-bottom"></section>
               </section>
               <logo-tab></logo-tab>
-              <paper-top></paper-top>
             </section>
             <section class="feeder-title feeder-title-2 feeder-type-1">{{ $store.state.content.text }}</section>
           </section>
         </section>
         <!-- res.int_type==2长图文。int_category=== 3神议论 1是征稿 -->
         <section class="feed-doc" v-else-if="$store.state.res.int_type === 2">
-          <!-- 兼容1.2版本 以及外部浏览器 不需要封面的问题 -->
-          <section v-if="!$store.state.version_1_2 || $store.state.is_closer_app">
+          <section v-if="!$store.state.version_1_2">
             <section class="feeder-img feeder-img-bgcover" v-if="$store.state.res.bigcover">
               <!-- 大封面 -->
-              <img class="feed-cover feed-cover-bgcover" :src="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
+              <img class="feed-cover feed-cover-bgcover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
               >
               <section class="hide-over"></section>
             </section>
-            <section class="feeder-img feeder-img-cover" v-else-if="$store.state.res.int_category === 3">
+            <section class="feeder-img feeder-img-cover" v-else>
               <!-- 小封面 -->
-              <img class="feed-cover feed-cover-cover" :src="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
+              <img class="feed-cover feed-cover-cover" :src="defaultImg" v-lazy="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
               <section class="hide-over"></section>
             </section>
           </section>
-          <!-- 1.3.1 版本 start-->
-          <section class="feeder-content" id="tjimg" v-video="{selector: 'video'}">
+          <section class="feeder-content" id="tjimg" >
             <!-- 标题 -->
-            <section v-if="((!$store.state.version_1_3 && !$store.state.version_1_4) || $store.state.not_closer_app) &&
-        $store.state.res.int_category != 1 && !($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-title-3 feeder-title-4">{{ $store.state.res.title }} </section>
-            <section v-if="$store.state.version_1_3 && $store.state.res.int_category != 1 && $store.state.res.int_category != 2">
-              <section class="feeder-img feeder-img-bgcover feed-img-bgcover_1_3_1" v-if="$store.state.res.bigcover">
-                <!-- 大封面 -->
-                <img class="feed-cover feed-cover-bgcover feed-cover-bgcover_1_3_1" :src="$com.makeFileUrl($store.state.res.bigcover)" data-index= "0" 
-                >
-              </section>
-              <section class="feeder-img feeder-img-cover feed-img-cover_1_3_1" v-else-if="$store.state.res.int_category === 3">
-                <!-- 小封面 -->
-                <img class="feed-cover feed-cover-cover feed-cover-cover_1_3_1" :src="$com.makeFileUrl($store.state.res.cover)" data-index= "0">
-              </section>
-            </section>
-            <!-- 征稿 截止时间 1.4之前显示 1.4之后隐藏 -->            
-            <section class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="!$store.state.version_1_4 && !$store.state.not_closer_app && $store.state.res.int_category === 1">
+            <section class="feeder-title feeder-title-2 feeder-title-3"> {{ $store.state.res.title }} </section>
+            <!-- 征稿 截止时间 -->            
+            <section class="feed-messagebord-type flex flex-align-center flex-pack-justify" v-if="$store.state.res.int_category === 1">
               <span> {{ $com.createTime($store.state.res.long_time_line, 'yy.mm.dd') }}前截止</span>
               <span>
-                <span class="feed-publication-number">投稿 {{$store.state.res.collectionTotalCount}}</span>
+                <span class="feed-publication-number">投稿 0</span>
               </span>
             </section>
             <!-- logo -->
             <logo-tab></logo-tab>
-            <section class="paper_height">
-              <section v-if="$store.state.res.int_category === 1 && ($store.state.not_closer_app || $store.state.version_1_4) && !($store.state.res.int_type === 2 && $store.state.res.int_category === 2)" class="feeder-title feeder-title-2 feeder-title-3"><span class="call_papers_1_4" v-if="$store.state.res.int_category === 1">话题</span> {{ $store.state.res.title }} </section>
-              <paper-top></paper-top>
-              <!-- 暂时隐藏 -->
-              <section class="summary-content">
-                <section ref="summarys" :class="{
-                  'summary': true, 
-                  'tj-sum': true,
-                  'summary_1_3_1': $store.state.version_1_3,
-                  'call_pagers_fold_1_4': ($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse
-                }" v-html="$store.state.content.html" @click="openClick($event)">
-                </section>
-                <section  @click="collapse" 
-                v-if="($store.state.version_1_4 || $store.state.not_closer_app) && $store.state.res.int_category === 1 && isCollapse" 
-                class="flex flex-align-end flex-pack-center fold">
-                  <section class="flex flex-align-center">
-                    <span>展开全文</span> <i class="fold-icon"></i>
-                  </section>
-                </section>
-              </section>
+            <section class="summary tj-sum" v-html="$store.state.content.html">
             </section>
           </section>
-          <!-- 1.3.1 版本 end-->
         </section>
         <!-- 发帖者信息 神议论和长图文区别 -->
-        <section v-if="!$store.state.version_1_2 && $store.state.res.int_category != 1 && $store.state.res.int_category != 2">
+        <section v-if="!$store.state.version_1_2">
           <section class="author-list" v-if="$store.state.res.int_category != 3">
-            <p v-if="$store.state.res.nickname">编辑：<span>{{ $store.state.res.nickname }}</span></p>
+            <p v-if="$store.state.res.nickname">小编：<span>{{ $store.state.res.nickname }}</span></p>
             <p v-if="$store.state.res.authors">作者：{{ $store.state.res.authors }} </p>
           </section>
           <section v-else class="author-list">
@@ -200,33 +170,16 @@
           </section>
         </section>
         <!-- 阅读量 点赞数 -->
-        <section class="end-data flex flex-v" v-if="!$store.state.version_1_2 && $store.state.not_closer_app && !($store.state.res.int_type == 2 && $store.state.res.int_category == 1)">
-          <section class="flex flex-v flex-align-center">
-            <section class="sup-icon-bg flex flex-align-center flex-pack-center">
-              <img class="sup-icon" ref="sup" src="~/assets/images/icon_like.png"/>
-            </section>
-            <span>点赞</span>
+        <section class="end-data flex flex-align-center flex-pack-justify" v-if="!$store.state.version_1_2">
+          <section class="read-num">阅读 <span class="incrviewnum">0</span></section>
+          <section class="flex flex-align-center" v-if="$store.state.not_closer_app">
+            <img class="sup-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAgCAYAAABgrToAAAADz0lEQVRYR82YXWgcVRTH/2c2tXWtWBS0aovFl9So1MY3P17andm9d7apL7FaScEv1BeFiB8UkYKIWKmgL340KJhICvtQsDtzNzvb6kORIsTWQrU+VDS0IVYCFkzBZHf+MmiW3e1m2SRrJ+f53HN+c849554zgg5KVjk7yDADsVYBODF1cXp4fHx8bjkuZDmH58/29/cnZv669KWAu+rsCX6wZtl3pFSaWKqfjgBqbQ8KcQDgn4C8LyKXSD4HoAeC75LXrXsgl8tVlgLZGUBlTwiwEcROrxB8FYH09T14fWUueRrAJoTMemMlLxZA103dhVB+BDDpmWADAM6DuMp+G8BeAG95JngzFsCstp8n8RGIUa8Q7K6F0Gn7GbFwkMSQXwiejQXQVXaUOi3Cp/J+6fNaiKxydhE8BOCQZ4LHrzrgTsfZWE7wFwCVa9aEtx8+fHS6FsLNOE9DOCTEUD6OCGplfybAkyIYzvvBnsYIZbV9gMQgwDc8U4ru46JlyVX8X3QOAvg7RNc9xphzjd5dbf8EYnMI2W5M8dii6QBcAai1YwvCR4Ry7UIGKXIryHR0XgQv5P3g40ZdpWzHAsaiqhZiBIJyM3sEy4LE8bwZG67tAPO6dYCusl8G8F4z8CbGL1Mw6PvBJ80ca53OCMOogKy2IicY9fz6LhCdqwKmUqkbVq+S3wF0ici+EDxf8xUKxKMAfApyEqIcSteYMeaPVs5d17mfFd7bCtEi15KyD4KbLPLhI4XS8VqbVcBsNr2FlfCUQE7nTXFLXbvQzisk9xPY75vgtbYisgglV9mjAB4DMeAVgpGmgEqltlqQ7wU4mTdB71UG/BXAHSHYa0zp5IoCzGQy3QmpnCVx0S8E6xsLpZriuCKotfOikB9AMOL5wUDjzYgd0NV2HoRLwR7fD6JWUyexAiqlVlsoT5NMwirf5vvfTK0wQGebBR4FcMozwdZmhR9rBLWy3xXg1VbtK1ZAV9lRS7mv1VsdG6DWej3C2UkRuZxcu+7GXC43u6JSrLU9IMQXEHieH2QXenhii6CrUiOAPEHKS36h+OFKAxSt7CkBbq6wvLlQ+PrnFQW4I72tN7QS4wB/80xpU6u5oprivkymuyKVswAuJCcm78ydOVO9tNkOTzNZ7bxD8nVAPvVMMVrwF5TagdVylR0t2ncDOA9BNBv+K8QtADYAnILIhUVMUleqEmtI9kSjOCx5yPOK37YLCKW29wisnES/LP5fmSFlb6vimHffbGmyXDfVbZUTC+4ky2Gfk3I5DBPnisXiTDt2lrzVtWO8Ezr/AEKTND+nargIAAAAAElFTkSuQmCC" alt="图片"/>
+            <span> 0 </span>
           </section>
-          <section class="read-num">阅读 <span class="incrviewnum"> 0 </span></section>
+          <section class="flex flex-align-center" v-else>
+            <span> 刚刚 </span>
+          </section>
         </section> 
-      </section>
-      <section v-if="$store.state.not_closer_app">
-        <!-- 征稿列表 -->
-        <section v-if="$store.state.res.int_type === 2 && $store.state.res.int_category === 1">
-          <!-- <dp-feed title="精彩投稿" :feed-list="paper_list" v-if="paper_list.length > 0"></dp-feed> -->
-          <section class="split-box"></section>           
-          <section class="paper_list flex flex-align-center">
-            <section class="flex-1 flex flex-pack-center" @click="theSelect('精华')">
-              <span :class="{paper_choose_select: is_the_select, paper_choose: true}">精华</span>
-            </section>
-            <section class="flex-1 flex flex-pack-center" @click="theSelect('全部')">
-              <span :class="{paper_choose_all: !is_the_select, paper_choose: true}">全部</span>
-            </section>
-          </section>
-          <section class="nothings">
-            <nothing></nothing>
-          </section>
-        </section>
       </section>
     </section>
   </section>
@@ -253,9 +206,7 @@ export default {
       },
       // 投稿类型
       vid: "",
-      video: {},
-      isCollapse: true,
-      is_the_select: "精华"
+      video: {}
     };
   },
 
@@ -269,25 +220,6 @@ export default {
     // 3 - 神议论(班长合成的)
     // 5 - 官方普通(栏目运营人员发出的)
     // 在app端 神议论贴子 打开原生视频
-    collapse() {
-      let self = this;
-      self.isCollapse = !self.isCollapse;
-      if (self.$store.state.agent.indexOf("closer-ios") > -1) {
-        if (window.WebViewJavascriptBridge) {
-          self.$com.setupWebViewJavascriptBridge(function(bridge) {
-            bridge.callHandler("handleUnfold", null);
-          });
-        }
-      } else {
-        if (typeof window.bridge != "undefined") {
-          window.bridge.handleUnfold(null);
-        }
-      }
-    },
-    async theSelect(type) {
-      let self = this;
-      self.is_the_select = type === "精华";
-    }
   },
   beforeMount() {
     let self = this;
@@ -332,5 +264,4 @@ export default {
 </script>
 <style scoped lang="less">
 @import "../../assets/css/feedid.less";
-@import "../../assets/css/feed.less";
 </style>

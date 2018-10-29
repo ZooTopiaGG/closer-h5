@@ -31,7 +31,7 @@
         <i class="right-arrow"></i>
       </section>
       <section class="content">
-        <p class="text-ellipse">{{ description }}</p>
+        <p class="text-ellipse" :style="$store.state.text_overflow_3">{{ description }}</p>
       </section>
     </section>
     <section class="intro" v-if="$store.state.group_info.group_info && announcement">
@@ -40,7 +40,7 @@
         <i class="right-arrow"></i>
       </section>
       <section class="content">
-        <p class="text-ellipse">{{ announcement }}</p>
+        <p class="text-ellipse" :style="$store.state.text_overflow_3">{{ announcement }}</p>
       </section>
     </section>
     <section class="split-box"></section>

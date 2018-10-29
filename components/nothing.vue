@@ -1,5 +1,5 @@
 <template>
-  <section class="nothing flex flex-v flex-align-center">
+  <section class="nothing flex flex-v flex-align-center flex-pack-center">
       <img src="~/assets/images/nothing@2x.png" alt="">
       <p>此处空空如也</p>
   </section>
@@ -8,7 +8,8 @@
 <style scoped>
 .nothing {
   color: #808080;
-  margin: 15vw 0;
+  height: 60vw;
+  padding-bottom: 20.8vw;
 }
 .nothing img {
   width: 21.6vw;
