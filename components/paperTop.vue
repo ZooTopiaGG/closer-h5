@@ -119,14 +119,12 @@ export default {
       padding: 0 10px;
       line-height: 38px;
       background: #e9e9e9;
-      position: relative;
       font-size: 20px;
-      top: -3px;
       border-radius: @br;
       position: absolute;
       left: -14px;
-      top: 50%;
-      transform: translate(0, -50%) scale(0.5);
+      top: -6px;
+      transform: scale(0.5);
     }
     .call_papers_title_1_4 {
       margin-left: 40px;
