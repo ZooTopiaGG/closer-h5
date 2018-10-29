@@ -91,7 +91,9 @@ export default {
   // 富文本处理
   async makeHtmlContent(html, status) {
     try {
-      let _html;
+      let _html,
+        isV5 = html.indexOf(`class="V5"`);
+      console.log(isV5)
       const regexImg = /<img.*?(?:>|\/>)/gi;
       let pImg = await html.match(regexImg);
       if (pImg) {
@@ -111,21 +113,25 @@ export default {
             minH;
           if (srcArray) {
             // _src = srcArray[1].replace(/\+/g, "%2b");
-            if (widthArray && heightArray) {
-              if (widthArray[1] < 200) {
-                nW = widthArray[1] + 'px';
-                nH = heightArray[1] + 'px';
+            if (isV5 === -1) {
+              if (widthArray && heightArray) {
+                if (widthArray[1] < 200) {
+                  nW = widthArray[1] + 'px';
+                  nH = heightArray[1] + 'px';
+                } else {
+                  nW = '93.6vw';
+                  nH = heightArray[1] * 93.6 / widthArray[1] + "vw";
+                }
+                minH = nH;
+                newM = x.replace(/src=/g, `style="width: ${nW};height: ${nH}; background: #e7e7e7; max-width: 100%; border-radius: 5px;" data-feedlazy="feedlazy" data-index="${i+1}" data-src=`);
               } else {
-                nW = '93.6vw';
-                nH = heightArray[1] * 93.6 / widthArray[1] + "vw";
+                nW = '100%';
+                nH = "auto";
+                minH = '28.27vw';
+                newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%; border-radius: 5px;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
               }
-              minH = nH;
-              newM = x.replace(/src=/g, `style="width: ${nW};height: ${nH}; background: #e7e7e7; max-width: 100%; border-radius: 5px;" data-feedlazy="feedlazy" data-index="${i+1}" data-src=`);
             } else {
-              nW = '100%';
-              nH = "auto";
-              minH = '28.27vw';
-              newM = x.replace(/src=/g, `style="width: ${nW}; background: #e7e7e7; max-width: 100%; border-radius: 5px;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
+              newM = x.replace(/src=/g, `style="width: 100%; height: auto; background: #e7e7e7; max-width: 100%; border-radius: 5px;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
             }
           } else {
             // _src = '';
