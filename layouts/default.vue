@@ -142,13 +142,6 @@ export default {
       }
     }
   },
-  // watch: {
-  //   $route(to, from) {
-  //     console.log(to, from);
-  //     console.log(location.href);
-  //     this.$store.commit("SET_CURRENT_URL", location.href);
-  //   }
-  // },
   mounted() {
     let self = this;
     if (self.$store.state.not_closer_app) {
@@ -235,7 +228,6 @@ export default {
     self.$nextTick(() => {
       if (self.$store.state.not_closer_app) {
         let title, pic, desc;
-
         // 微信二次分享
         self.$store.dispatch("wx_share", {
           title: title || "贴近一点 看身边",

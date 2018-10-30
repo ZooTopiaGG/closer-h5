@@ -765,6 +765,7 @@ export default {
           ).offsetTop;
         }
       }
+      // 分享
       if (self.$store.state.not_closer_app) {
         let title, pic, desc, author;
         let content = self.$store.state.content;
@@ -835,8 +836,10 @@ export default {
               : "分享文章";
           }
         }
-        author = `贴近 @${self.$store.state.res.user.attributes.roster.name ||
-          self.$store.state.res.user.fullname.substring(0, 6)} 出品`;
+        let _name =
+          self.$store.state.res.user.attributes.roster.name ||
+          self.$store.state.res.user.fullname;
+        author = `贴近 @${_name.substring(0, 6)} 出品`;
         desc = `${desc}\n${author}`;
         // 微信二次分享
         self.$store.dispatch("wx_share", {
