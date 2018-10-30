@@ -319,15 +319,15 @@ export default {
             // 征稿
             if (self.$store.state.res.int_category === 1) {
               desc =
-                self.$store.state.res.commentNumber > 0
+                self.$store.state.res.collectionTotalCount > 0
                   ? `贴近号：${self.$store.state.res.communityName.substring(
                       0,
                       10
-                    )}\n${self.$store.state.res.commentNumber} 参与`
+                    )}\n${self.$store.state.res.collectionTotalCount} 参与`
                   : `贴近号：${self.$store.state.res.communityName.substring(
                       0,
                       10
-                    )}`;
+                    )}\n`;
             } else {
               desc = content.summary
                 ? content.summary.substring(0, 24)

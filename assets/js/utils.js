@@ -93,7 +93,6 @@ export default {
     try {
       let _html,
         isV5 = html.indexOf(`class="V5"`);
-      console.log(isV5)
       const regexImg = /<img.*?(?:>|\/>)/gi;
       let pImg = await html.match(regexImg);
       if (pImg) {
