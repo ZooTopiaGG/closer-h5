@@ -738,6 +738,23 @@ export default {
     self.$nextTick(async () => {
       // 清除留言时保存的数据
       window.sessionStorage.clear();
+      if (typeof window != "undefined") {
+        // 视频封面异步加载
+        let videobg = document.querySelectorAll(".feed-video-bg");
+        if (videobg) {
+          Array.prototype.forEach.call(videobg, function(x, i) {
+            if (x.dataset.bg) {
+              setTimeout(() => {
+                if (self.$store.state.not_closer_app) {
+                  x.setAttribute("poster", x.dataset.bg);
+                } else {
+                  x.style.backgroundImage = `url('${x.dataset.bg}')`;
+                }
+              }, 300);
+            }
+          });
+        }
+      }
       // 获取阅读量
       self.incrView();
       if (self.$store.state.not_closer_app) {
@@ -849,54 +866,6 @@ export default {
             pic ||
             "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
         });
-        // 在浏览器可以点击图片预览
-        let preimg;
-        if (document.querySelector(".feed-1")) {
-          preimg = document
-            .querySelector(".feed-1")
-            .querySelectorAll("img[data-index]");
-        } else {
-          return;
-        }
-        if (preimg) {
-          var imgList = [];
-          // 遍历查找出来的元素type HTMLCOLLECTION
-          Array.prototype.forEach.call(preimg, (x, i) => {
-            if (x.dataset.index && x.dataset.src) {
-              imgList.push({
-                current: {
-                  src: x.dataset.src
-                },
-                index: i
-              });
-              // 监听点击图片事件 闭包
-              preimg[i].onclick = (function() {
-                return function() {
-                  self.preIndex = i;
-                  self.preShow = true;
-                };
-              })(i);
-            }
-          });
-          self.imgList = imgList;
-        }
-      }
-      if (typeof window != "undefined") {
-        // 视频封面异步加载
-        let videobg = document.querySelectorAll(".feed-video-bg");
-        if (videobg) {
-          Array.prototype.forEach.call(videobg, function(x, i) {
-            if (x.dataset.bg) {
-              setTimeout(() => {
-                if (self.$store.state.not_closer_app) {
-                  x.setAttribute("poster", x.dataset.bg);
-                } else {
-                  x.style.backgroundImage = `url('${x.dataset.bg}')`;
-                }
-              }, 300);
-            }
-          });
-        }
       }
     });
     // 懒加载监听
