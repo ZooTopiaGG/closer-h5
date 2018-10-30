@@ -248,12 +248,18 @@ export default {
                 index: i
               });
               // 监听点击图片事件 闭包
-              preimg[i].onclick = (function() {
-                return function() {
+              preimg[i].addEventListener("click", function() {
+                return (function() {
                   self.preIndex = i;
                   self.preShow = true;
-                };
-              })(i);
+                })(i);
+              });
+              // preimg[i].onclick = (function() {
+              //   return function() {
+              //     self.preIndex = i;
+              //     self.preShow = true;
+              //   };
+              // })(i);
             }
           });
           self.imgList = imgList;
