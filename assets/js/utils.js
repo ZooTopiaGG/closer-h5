@@ -142,7 +142,7 @@ export default {
         });
       }
       const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
-      const regexVideo2 = /<video.*?(?:>|\/>)/gi;
+      // const regexVideo2 = /<video.*?(?:>|\/>)/gi;
       let pVideo = await html.match(regexVideo);
       if (pVideo) {
         // 正则替换富文本内 img标签 待发布（npm）
@@ -171,7 +171,7 @@ export default {
           u = urlArray ? urlArray[1] : '';
           d = durationArray ? durationArray[1] : '';
           if (widthArray && heightArray) {
-            if (pa(widthArray[1]) >= pa(heightArray[1])) {
+            if (pa(widthArray[1]) > pa(heightArray[1])) {
               w = '100%';
             } else {
               w = '60%';
