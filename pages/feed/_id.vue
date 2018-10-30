@@ -765,6 +765,122 @@ export default {
           ).offsetTop;
         }
       }
+      // 分享
+      if (self.$store.state.not_closer_app) {
+        let title, pic, desc, author;
+        let content = self.$store.state.content;
+        // 分享长图文
+        if (self.$store.state.res.int_type === 0) {
+          // 图集
+          if (content.text) {
+            title = content.text;
+          } else {
+            title = "分享图片";
+          }
+          if (content.images && content.images.length > 0) {
+            let d = content.images.map(x => {
+              x = "[图片]";
+              return x;
+            });
+            desc = d.join(" ");
+            pic = self.$com.makeFileUrl(content.images[0].link);
+          } else {
+            desc = "[图片]";
+            pic = "";
+          }
+        } else if (self.$store.state.res.int_type === 1) {
+          // 视频
+          if (content.text) {
+            title = content.text;
+          } else {
+            title = "分享视频";
+          }
+          if (content.videos && content.videos.length > 0) {
+            let d = content.videos.map(x => {
+              x = "[视频]";
+              return x;
+            });
+            desc = d.join(" ");
+            pic = self.$com.makeFileUrl(content.videos[0].imageUrl);
+          } else {
+            desc = "[视频]";
+            pic = "";
+          }
+        } else {
+          // 长图文
+          if (self.$store.state.res.title) {
+            title = self.$store.state.res.title;
+          } else if (content.text) {
+            title = content.text;
+          } else {
+            title = content.summary;
+          }
+          pic = self.$com.makeFileUrl(self.$store.state.res.cover)
+            ? self.$com.makeFileUrl(self.$store.state.res.cover)
+            : self.$com.makeFileUrl(self.$store.state.res.bigcover);
+          // 征稿
+          if (self.$store.state.res.int_category === 1) {
+            desc =
+              self.$store.state.res.collectionTotalCount > 0
+                ? `贴近号：${self.$store.state.res.communityName.substring(
+                    0,
+                    10
+                  )}\n${self.$store.state.res.collectionTotalCount} 参与`
+                : `贴近号：${self.$store.state.res.communityName.substring(
+                    0,
+                    10
+                  )}\n`;
+          } else {
+            desc = content.summary
+              ? content.summary.substring(0, 24)
+              : "分享文章";
+          }
+        }
+        let _name =
+          self.$store.state.res.user.attributes.roster.name ||
+          self.$store.state.res.user.fullname;
+        author = `贴近 @${_name.substring(0, 6)} 出品`;
+        desc = `${desc}\n${author}`;
+        // 微信二次分享
+        self.$store.dispatch("wx_share", {
+          title: title,
+          desc: desc,
+          pic:
+            pic ||
+            "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
+        });
+        // 在浏览器可以点击图片预览
+        let preimg;
+        if (document.querySelector(".feed-1")) {
+          preimg = document
+            .querySelector(".feed-1")
+            .querySelectorAll("img[data-index]");
+        } else {
+          return;
+        }
+        if (preimg) {
+          var imgList = [];
+          // 遍历查找出来的元素type HTMLCOLLECTION
+          Array.prototype.forEach.call(preimg, (x, i) => {
+            if (x.dataset.index && x.dataset.src) {
+              imgList.push({
+                current: {
+                  src: x.dataset.src
+                },
+                index: i
+              });
+              // 监听点击图片事件 闭包
+              preimg[i].onclick = (function() {
+                return function() {
+                  self.preIndex = i;
+                  self.preShow = true;
+                };
+              })(i);
+            }
+          });
+          self.imgList = imgList;
+        }
+      }
       if (typeof window != "undefined") {
         // 视频封面异步加载
         let videobg = document.querySelectorAll(".feed-video-bg");
