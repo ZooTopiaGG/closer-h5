@@ -232,7 +232,11 @@ export const mutations = {
   // get video duration
   GET_VIDEO_DURATION(state, para) {
     state.duration_time = para
-  }
+  },
+  // 当前页面的地址
+  // GET_CURRENT_URL(state, para) {
+  //   state.current_url = para
+  // }
 }
 
 export const actions = {
@@ -618,7 +622,8 @@ export const actions = {
   },
   // 微信二次分享
   async wx_share({
-    commit
+    commit,
+    state
   }, {
     title,
     desc,

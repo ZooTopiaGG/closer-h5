@@ -226,6 +226,59 @@ export default {
     self.communityDetails();
     self.getFeedList();
     self.getGroupList();
+  },
+  mounted() {
+    if (self.$store.state.not_closer_app) {
+      let title, pic, desc;
+      // 分享栏目主页
+      title = self.$store.state.res.name
+        ? self.$store.state.res.name
+        : "栏目主页";
+      desc = self.$store.state.res.description
+        ? self.$store.state.res.description
+        : "贴近一点 看身边";
+      pic = self.$store.state.res.slogo
+        ? self.$store.state.res.slogo
+        : self.$store.state.res.blogo;
+      // 微信二次分享
+      self.$store.dispatch("wx_share", {
+        title: title,
+        desc: desc,
+        pic:
+          pic || "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
+      });
+      // 在浏览器可以点击图片预览
+      let preimg;
+      if (document.querySelector(".feed-1")) {
+        preimg = document
+          .querySelector(".feed-1")
+          .querySelectorAll("img[data-index]");
+      } else {
+        return;
+      }
+      if (preimg) {
+        var imgList = [];
+        // 遍历查找出来的元素type HTMLCOLLECTION
+        Array.prototype.forEach.call(preimg, (x, i) => {
+          if (x.dataset.index && x.dataset.src) {
+            imgList.push({
+              current: {
+                src: x.dataset.src
+              },
+              index: i
+            });
+            // 监听点击图片事件 闭包
+            preimg[i].onclick = (function() {
+              return function() {
+                self.preIndex = i;
+                self.preShow = true;
+              };
+            })(i);
+          }
+        });
+        self.imgList = imgList;
+      }
+    }
   }
 };
 </script>
