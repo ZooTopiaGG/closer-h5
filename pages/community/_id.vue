@@ -5,7 +5,7 @@
     <section class="community-top flex flex-v flex-align-center flex-pack-justify">
       <section class="commuinty-logo">
         <dp-logo></dp-logo>    
-        <section>{{ $store.state.res.name }}</section>
+        <section refs="name">{{ $store.state.res.name }}</section>
       </section>
       <section class="community-desc" v-if="!res.community.description">
         <section>用心写出有态度，有深度，有高度的文章</section>
@@ -125,6 +125,23 @@ export default {
         }
         community.result.communityid = params.id;
         app.res.community = community.result;
+        if (app.$store.state.not_closer_app) {
+          let pic;
+          // 分享栏目主页
+          pic = app.$store.state.res.slogo
+            ? app.$store.state.res.slogo
+            : app.$store.state.res.blogo;
+          // 微信二次分享
+          app.$store.dispatch("wx_share", {
+            title: app.$store.state.res.name,
+            desc:
+              app.$store.state.res.description ||
+              "用心写出有态度，有深度，有高度的文章\n请关注我们吧～",
+            pic:
+              pic ||
+              "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
+          });
+        }
       }
     },
     // 获取贴子列表
@@ -226,59 +243,6 @@ export default {
     self.communityDetails();
     self.getFeedList();
     self.getGroupList();
-  },
-  mounted() {
-    if (self.$store.state.not_closer_app) {
-      let title, pic, desc;
-      // 分享栏目主页
-      title = self.$store.state.res.name
-        ? self.$store.state.res.name
-        : "栏目主页";
-      desc = self.$store.state.res.description
-        ? self.$store.state.res.description
-        : "贴近一点 看身边";
-      pic = self.$store.state.res.slogo
-        ? self.$store.state.res.slogo
-        : self.$store.state.res.blogo;
-      // 微信二次分享
-      self.$store.dispatch("wx_share", {
-        title: title,
-        desc: desc,
-        pic:
-          pic || "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
-      });
-      // 在浏览器可以点击图片预览
-      let preimg;
-      if (document.querySelector(".feed-1")) {
-        preimg = document
-          .querySelector(".feed-1")
-          .querySelectorAll("img[data-index]");
-      } else {
-        return;
-      }
-      if (preimg) {
-        var imgList = [];
-        // 遍历查找出来的元素type HTMLCOLLECTION
-        Array.prototype.forEach.call(preimg, (x, i) => {
-          if (x.dataset.index && x.dataset.src) {
-            imgList.push({
-              current: {
-                src: x.dataset.src
-              },
-              index: i
-            });
-            // 监听点击图片事件 闭包
-            preimg[i].onclick = (function() {
-              return function() {
-                self.preIndex = i;
-                self.preShow = true;
-              };
-            })(i);
-          }
-        });
-        self.imgList = imgList;
-      }
-    }
   }
 };
 </script>

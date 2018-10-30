@@ -227,15 +227,6 @@ export default {
     });
     self.$nextTick(() => {
       if (self.$store.state.not_closer_app) {
-        let title, pic, desc;
-        // 微信二次分享
-        self.$store.dispatch("wx_share", {
-          title: title || "贴近一点 看身边",
-          desc: desc || `能赚稿费的本地内容社区\n打开贴近看资讯 领10元红包`,
-          pic:
-            pic ||
-            "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
-        });
         // 在浏览器可以点击图片预览
         let preimg;
         if (document.querySelector(".feed-1")) {

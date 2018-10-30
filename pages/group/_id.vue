@@ -231,71 +231,44 @@ export default {
     this.getGroupFeedList();
   },
   mounted() {
-    if (self.$store.state.not_closer_app) {
-      let title, pic, desc;
-      // 分享群组
-      if (
-        self.$store.state.group_info.group_info &&
-        self.$store.state.group_info.group_info.group
-      ) {
-        let group = self.$store.state.group_info.group_info.group;
-        title = group.name ? group.name : "贴近群组";
-        if (group.description) {
-          let description;
-          try {
-            description = JSON.parse(
-              self.$store.state.group_info.group_info.group.description
-            );
-            desc = description[0].content
-              ? description[0].content
-              : "贴近一点 看身边";
-          } catch (e) {
-            desc = self.$store.state.group_info.group_info.group.description;
+    let self = this;
+    self.$nextTick(() => {
+      if (self.$store.state.not_closer_app) {
+        let title, pic, desc;
+        // 分享群组
+        if (
+          self.$store.state.group_info.group_info &&
+          self.$store.state.group_info.group_info.group
+        ) {
+          let group = self.$store.state.group_info.group_info.group;
+          title = group.name ? group.name : "贴近群组";
+          if (group.description) {
+            let description;
+            try {
+              description = JSON.parse(
+                self.$store.state.group_info.group_info.group.description
+              );
+              desc = description[0].content
+                ? description[0].content
+                : "贴近一点 看身边";
+            } catch (e) {
+              desc = self.$store.state.group_info.group_info.group.description;
+            }
+          } else {
+            desc = "贴近一点 看身边";
           }
-        } else {
-          desc = "贴近一点 看身边";
+          pic = self.$com.makeFileUrl(group.avatar);
         }
-        pic = self.$com.makeFileUrl(group.avatar);
-      }
-      // 微信二次分享
-      self.$store.dispatch("wx_share", {
-        title: title,
-        desc: desc,
-        pic:
-          pic || "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
-      });
-      // 在浏览器可以点击图片预览
-      let preimg;
-      if (document.querySelector(".feed-1")) {
-        preimg = document
-          .querySelector(".feed-1")
-          .querySelectorAll("img[data-index]");
-      } else {
-        return;
-      }
-      if (preimg) {
-        var imgList = [];
-        // 遍历查找出来的元素type HTMLCOLLECTION
-        Array.prototype.forEach.call(preimg, (x, i) => {
-          if (x.dataset.index && x.dataset.src) {
-            imgList.push({
-              current: {
-                src: x.dataset.src
-              },
-              index: i
-            });
-            // 监听点击图片事件 闭包
-            preimg[i].onclick = (function() {
-              return function() {
-                self.preIndex = i;
-                self.preShow = true;
-              };
-            })(i);
-          }
+        // 微信二次分享
+        self.$store.dispatch("wx_share", {
+          title: title,
+          desc: desc,
+          pic:
+            pic ||
+            "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
         });
-        self.imgList = imgList;
       }
-    }
+    });
   }
 };
 </script>
