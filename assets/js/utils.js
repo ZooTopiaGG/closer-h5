@@ -93,7 +93,8 @@ export default {
     try {
       let _html,
         isV5 = html.indexOf(`class="V5"`);
-      const regexImg = /<img.*?(?:>|\/>)/gi;
+      // const regexImg = /<img\b.*?([\s\S]*)(?:\>|\/>)/gi;
+      const regexImg = /<img.*?([\s\S]*)(?:>|\/>)/gi;
       let pImg = await html.match(regexImg);
       if (pImg) {
         const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -106,12 +107,10 @@ export default {
             widthArray = x.match(regexWidth),
             heightArray = x.match(regexHeight),
             nW,
-            // _src,
             newM,
             nH,
             minH;
           if (srcArray) {
-            // _src = srcArray[1].replace(/\+/g, "%2b");
             if (isV5 === -1) {
               if (widthArray && heightArray) {
                 if (widthArray[1] < 200) {
@@ -133,7 +132,6 @@ export default {
               newM = x.replace(/src=/g, `style="width: 100%; height: auto; background: #e7e7e7; max-width: 100%; border-radius: 5px;" data-feedlazy="feedlazy2" data-index="${i+1}" data-src=`);
             }
           } else {
-            // _src = '';
             newM = '';
           }
           // 正则替换富文本内的img标签
@@ -141,7 +139,7 @@ export default {
           html = html.replace(x, newM);
         });
       }
-      const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
+      const regexVideo = /<video.*?([\s\S]*)(?:>|\/>|<\/video>)/gi;
       // const regexVideo2 = /<video.*?(?:>|\/>)/gi;
       let pVideo = await html.match(regexVideo);
       if (pVideo) {
@@ -233,7 +231,7 @@ export default {
           html = html.replace(x, flg);
         });
       }
-      const regexIframe = /<iframe.*?(?:>|\/>|<\/iframe>)/gi;
+      const regexIframe = /<iframe.*?([\s\S]*)(?:>|\/>|<\/iframe>)/gi;
       let piFrame = await html.match(regexIframe);
       if (piFrame) {
         const regexWidth = /width=[\'\"]?([^\'\"]*)[\'\"]?/i;
