@@ -350,7 +350,9 @@ export default {
       };
       // 获取贴子详情
       let res = await app.$axios.$get(
-        `${api.command.show}?subjectid=${params.id}`
+        `${api.command.show}?subjectid=${params.id}&udid=${query.udid}&sto=${
+          query.sto
+        }`
       );
       if (res.code != 0) {
         // 贴子被删除状态
