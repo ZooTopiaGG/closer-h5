@@ -366,6 +366,29 @@ export default {
     }
     return paramValue;
   },
+  urlArgs() {
+    var args = {};
+    var query = location.search.substring(1);
+    var pairs = query.split("&");
+    for (var i = 0; i < pairs.length; i++) {
+      var pos = pairs[i].indexOf("=");
+      if (pos == -1) continue;
+      var name = pairs[i].substring(0, pos);
+      var value = pairs[i].substring(pos + 1);
+      value = decodeURIComponent(value);
+      args[name] = value;
+    }
+    return args;
+  },
+  async args2Url(ujson) {
+    var arr = [],
+      str;
+    for (var obj in ujson) {
+      await arr.push(`${obj}=${ujson[obj]}`);
+    }
+    str = await arr.join('&');
+    return str
+  },
   async downApp(url) {
     if (url) {
       if (!this.isJumpOut()) {
