@@ -93,8 +93,8 @@ export default {
     try {
       let _html,
         isV5 = html.indexOf(`class="V5"`);
-      // const regexImg = /<img\b.*?([\s\S]*)(?:\>|\/>)/gi;
-      const regexImg = /<img.*?([\s\S]*)(?:>|\/>)/gi;
+      html = await html.replace(/\n/g, "");
+      const regexImg = /<img.*?(?:>|\/>)/gi;
       let pImg = await html.match(regexImg);
       if (pImg) {
         const regexSrc = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -139,8 +139,7 @@ export default {
           html = html.replace(x, newM);
         });
       }
-      const regexVideo = /<video.*?([\s\S]*)(?:>|\/>|<\/video>)/gi;
-      // const regexVideo2 = /<video.*?(?:>|\/>)/gi;
+      const regexVideo = /<video.*?(?:>|\/>|<\/video>)/gi;
       let pVideo = await html.match(regexVideo);
       if (pVideo) {
         // 正则替换富文本内 img标签 待发布（npm）
@@ -386,6 +385,16 @@ export default {
     }
     str = await arr.join('&');
     return str
+  },
+  async fixUrl(url) {
+    let ujson = await this.urlArgs();
+    // ujson['udid'] = state.h5Cookies;
+    ujson['udid'] = Cookie.get('h5Cookies');
+    ujson['sto'] = 'weixin2share';
+    let str = await this.args2Url(ujson);
+    let _url = `${location.protocol}//${location.host}${location.pathname}?${str}`;
+    console.log('url===', _url)
+    return _url
   },
   async downApp(url) {
     if (url) {
