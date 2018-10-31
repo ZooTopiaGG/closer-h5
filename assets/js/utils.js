@@ -387,6 +387,15 @@ export default {
     str = await arr.join('&');
     return str
   },
+  async fixUrl(url) {
+    let ujson = await this.urlArgs();
+    ujson['udid'] = state.h5Cookies;
+    ujson['sto'] = 'weixin2share';
+    let str = await this.args2Url(ujson);
+    let _url = `${location.protocol}//${location.host}${location.pathname}?${str}`;
+    console.log('url===', _url)
+    return _url
+  },
   async downApp(url) {
     if (url) {
       if (!this.isJumpOut()) {

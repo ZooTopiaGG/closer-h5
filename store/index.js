@@ -630,19 +630,13 @@ export const actions = {
     pic
   }) {
     let self = this,
-      url = location.href.split('#')[0],
-      ujson = await Coms.urlArgs();
+      _url = location.href.split('#')[0],
+      url = await Coms.fixUrl();
     try {
-      // ujson['udid'] = state.h5Cookies;
-      // ujson['sto'] = 'weixin2share';
-      // let str = await Coms.args2Url(ujson);
-      // let _url = `${location.protocol}//${location.host}${location.pathname}?${str}`;
-      // console.log('url===', _url)
       let para = {
-        url: url
+        url: _url
       }
       let res = await self.$axios.$post(`${api.share.wechat_config}`, para)
-      console.log('res====', res)
       if (res.code === 0) {
         let data = res.result;
         wx.config({
