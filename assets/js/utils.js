@@ -392,8 +392,7 @@ export default {
     ujson['udid'] = Cookie.get('h5Cookies');
     ujson['sto'] = 'weixin2share';
     let str = await this.args2Url(ujson);
-    let _url = `${location.protocol}//${location.host}${location.pathname}?${str}`;
-    console.log('url===', _url)
+    let _url = `${location.origin}?${str}`;
     return _url
   },
   async downApp(url) {
