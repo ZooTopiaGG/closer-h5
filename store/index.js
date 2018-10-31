@@ -630,10 +630,14 @@ export const actions = {
     pic
   }) {
     let self = this,
-      url = location.href.split('#')[0],
-      para = {
-        url: url
-      }
+      url = location.href.split('#')[0];
+    try {
+      let surl1 = url.split('&udid='),
+        url = `${surl1[0]}&udid=${state.h5Cookies}&sto=${surl1[1].split('&sto=')[1]}`
+    } catch (e) {}
+    let para = {
+      url
+    }
     try {
       let res = await self.$axios.$post(`${api.share.wechat_config}`, para)
       if (res.code === 0) {
