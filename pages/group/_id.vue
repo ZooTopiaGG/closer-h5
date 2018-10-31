@@ -5,7 +5,7 @@
         commonbox: true,
         'flex-v':true }">
     <section class="member">
-      <section class="title">群组成员 {{ $store.state.group_info.group_user_count }}</section>
+      <section class="group-title">群组成员 {{ $store.state.group_info.group_user_count }}</section>
       <ul :class="{
                 group: true, 
                 flex: true, 
@@ -26,7 +26,7 @@
       <section class="more-member" v-if="$store.state.group_info.group_user_count > 5" @click="firstLogin">查看更多群成员 <i class="down-arrow"></i></section>
     </section>
     <section class="intro" v-if="$store.state.group_info.group_info && description">
-      <section class="title flex flex-align-center flex-pack-justify">
+      <section class="group-title flex flex-align-center flex-pack-justify">
         <span>群简介</span>
         <i class="right-arrow"></i>
       </section>
@@ -35,7 +35,7 @@
       </section>
     </section>
     <section class="intro" v-if="$store.state.group_info.group_info && announcement">
-      <section class="title flex flex-align-center flex-pack-justify">
+      <section class="group-title flex flex-align-center flex-pack-justify">
         <span>当前话题</span>
         <i class="right-arrow"></i>
       </section>
@@ -44,7 +44,7 @@
       </section>
     </section>
     <section class="split-box"></section>
-    <section class="title group-community flex flex-pack-justify flex-align-center" v-if="$store.state.feed_list.length > 0 && $store.state.feed_list[0].blogo && $store.state.feed_list[0].communityName">
+    <section class="group-title group-community flex flex-pack-justify flex-align-center" v-if="$store.state.feed_list.length > 0 && $store.state.feed_list[0].blogo && $store.state.feed_list[0].communityName">
       <span>所属贴近号</span>
       <section class="group-logo flex flex-align-center" @click="toCommunity">
         <img v-lazy="$store.state.feed_list[0].blogo">
@@ -282,7 +282,7 @@ export default {
     padding: 0 @m20 @m20;
     padding-top: @m20 * 2;
   }
-  .title {
+  .group-title {
     margin-bottom: @m20;
     font-size: 16px;
     margin-left: @m15;
@@ -376,7 +376,7 @@ export default {
   .group-community {
     height: 18.67vw;
     margin: 0;
-    padding: 0 @m20 * 2;
+    padding: 0 @m20;
     box-sizing: border-box;
     > span {
       width: 30vw;

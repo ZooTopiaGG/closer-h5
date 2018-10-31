@@ -65,7 +65,7 @@ export default {
   height: @h100;
   background: #fff;
   color: @textcolor;
-  box-shadow: 0 1px 5px #efefef;
+  // box-shadow: 0 1px 5px #efefef;
   .topnav {
     height: @h100;
     .topnav-left {
