@@ -855,6 +855,10 @@ export default {
               ? content.summary.substring(0, 24)
               : "分享文章";
           }
+          if (self.$store.state.res.int_category === 2) {
+            title = self.$store.state.res.releaseSubjectTitle;
+            desc = content.summary || self.$store.state.res.title;
+          }
         }
         let _name =
           self.$store.state.res.user.attributes.roster.name ||
@@ -863,8 +867,8 @@ export default {
         desc = `${desc}\n${author}`;
         // 微信二次分享
         self.$store.dispatch("wx_share", {
-          title: title,
-          desc: desc,
+          title,
+          desc,
           pic:
             pic ||
             "https://file.tiejin.cn/public/aoBcuPCJ98/login_logo%402x.png"
