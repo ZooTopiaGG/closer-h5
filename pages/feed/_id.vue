@@ -835,9 +835,9 @@ export default {
           } else {
             title = content.summary;
           }
-          pic = self.$com.makeFileUrl(self.$store.state.res.cover)
-            ? self.$com.makeFileUrl(self.$store.state.res.cover)
-            : self.$com.makeFileUrl(self.$store.state.res.bigcover);
+          pic = self.$com.makeFileUrl(self.$store.state.res.bigcover)
+            ? self.$com.makeFileUrl(self.$store.state.res.bigcover)
+            : self.$com.makeFileUrl(self.$store.state.res.cover);
           // 征稿
           if (self.$store.state.res.int_category === 1) {
             desc =
